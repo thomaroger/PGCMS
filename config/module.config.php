@@ -17,6 +17,17 @@ return array(
     ),
     'router' => array(
         'routes' => array(
+            'frontend' => array(
+            'type' => 'Zend\Mvc\Router\Http\Literal',
+            'options' => array(
+              'route' => '/',
+              'defaults' => array(
+                'controller' => 'PlaygroundCMS\Controller\Index',
+                'action'     => 'index',
+              ),
+            ),
+            'may_terminate' => true,
+          ),
         ),
     ),
     'service_manager' => array(
@@ -27,6 +38,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
+            'PlaygroundCMS\Controller\Index' => 'PlaygroundCMS\Controller\IndexController'
         ),
     ),
     'navigation' => array(
