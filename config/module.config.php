@@ -1,16 +1,29 @@
 <?php
 return array(
     'doctrine' => array(
+        'eventmanager' => array(
+            'orm_default' => array(
+                'subscribers' => array(
+                    'Gedmo\Translatable\TranslatableListener',
+                ),
+            ),
+        ),
         'driver' => array(
             'playgroundcms_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => __DIR__ . '/../src/PlaygroundCMS/Entity'
             ),
+            'translatable_entities' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/PlaygroundCMS/Entity/Translation')
+            ),
             
             'orm_default' => array(
                 'drivers' => array(
-                    'PlaygroundCMS\Entity'  => 'playgroundcms_entity'
+                    'PlaygroundCMS\Entity'  => 'playgroundcms_entity',
+                    'Gedmo\Translatable\Entity' => 'translatable_entities'
                 )
             )
         )

@@ -27,6 +27,21 @@ class LayoutZone implements InputFilterAwareInterface
     protected $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundCMS\Entity\Layout", inversedBy="LayoutZone")
+     */
+    protected $layout;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundCMS\Entity\Zone", inversedBy="LayoutZone")
+     */
+    protected $zone;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PlaygroundCMS\Entity\BlockLayoutZone", mappedBy="LayoutZone")
+     */
+    protected $blockLayoutZones;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -57,6 +72,75 @@ class LayoutZone implements InputFilterAwareInterface
     {
         $this->id = $id;
         return $this;
+    }
+
+    /**
+     * @param Layout $layout
+     * @return self
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * @return self $layout
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+
+    /**
+     * @param Zone $zone
+     * @return self
+     */
+    public function setZone($zone)
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * @return self $zone
+     */
+    public function getZone()
+    {
+        return $this->zone;
+    }
+
+    /**
+     * @param array $blockLayoutZones
+     * @return self
+     */
+    public function setblockLayoutZones($blockLayoutZones)
+    {
+        $this->blockLayoutZones = $blockLayoutZones;
+
+        return $this;
+    }
+
+    /**
+     * @param BlockLayoutZones $blockLayoutZones
+     * @return self
+     */
+    public function addblockLayoutZone($blockLayoutZone)
+    {
+        $this->blockLayoutZones[] = $blockLayoutZone;
+
+        return $this;
+    }
+
+    /**
+     * @return Array $blockLayoutZones
+     */
+    public function getblockLayoutZones()
+    {
+        return $this->blockLayoutZones;
     }
 
 

@@ -18,6 +18,7 @@ use Gedmo\Translatable\Translatable;
  * @ORM\Table(name="cms_page")
  * @Gedmo\TranslationEntity(class="PlaygroundCMS\Entity\PageTranslation")
  */
+
 class Page implements InputFilterAwareInterface
 {
     protected $inputFilter;

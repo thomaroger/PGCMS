@@ -33,6 +33,16 @@ class BlockLayoutZone implements InputFilterAwareInterface
     protected $order = 0;
 
     /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundCMS\Entity\Block", inversedBy="BlockLayoutZone")
+     */
+    protected $block;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundCMS\Entity\LayoutZone", inversedBy="BlockLayoutZone")
+     */
+    protected $layoutZone;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -85,6 +95,46 @@ class BlockLayoutZone implements InputFilterAwareInterface
     {
         $this->order = $order;
         return $this;
+    }
+
+
+    /**
+     * @param layoutZone $layoutZone
+     * @return self
+     */
+    public function setLayoutZone($layoutZone)
+    {
+        $this->layoutZone = $layoutZone;
+
+        return $this;
+    }
+
+    /**
+     * @return self $layoutZone
+     */
+    public function getLayoutZone()
+    {
+        return $this->layoutZone;
+    }
+
+
+    /**
+     * @param Block $block
+     * @return self
+     */
+    public function setBlock($block)
+    {
+        $this->block = $block;
+
+        return $this;
+    }
+
+    /**
+     * @return self $block
+     */
+    public function getBlock()
+    {
+        return $this->block;
     }
 
     /**

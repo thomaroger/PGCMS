@@ -31,6 +31,11 @@ class Zone implements InputFilterAwareInterface
      */
     protected $name;
 
+     /**
+     * @ORM\OneToMany(targetEntity="PlaygroundCMS\Entity\LayoutZone", mappedBy="Zone")
+     */
+    protected $layoutzones;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -81,6 +86,36 @@ class Zone implements InputFilterAwareInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    /** 
+     * @param array $layoutzones
+     * @return self
+     */
+    public function setLayoutzones($layoutzones)
+    {
+        $this->layoutzones = $layoutzones;
+
+        return $this;
+    }
+
+    /** 
+     * @param Layoutzone $layoutzones
+     * @return self
+     */
+    public function addLayoutzone($layoutzone)
+    {
+        $this->layoutzones[] = $layoutzone;
+
+        return $this;
+    }
+
+    /**
+     * @return array $layoutzones
+     */
+    public function getLayoutzones()
+    {
+        return $this->layoutzones;
     }
 
     /**

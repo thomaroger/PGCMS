@@ -47,6 +47,12 @@ class Layout implements InputFilterAwareInterface
     protected $image;
 
     /**
+     * @ORM\OneToMany(targetEntity="PlaygroundCMS\Entity\LayoutZone", mappedBy="Layout")
+     */
+    protected $layoutzones;
+
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -155,6 +161,36 @@ class Layout implements InputFilterAwareInterface
     public function getImage()
     {
         return $this->image;
+    }
+
+    /** 
+     * @param array $layoutzones
+     * @return self
+     */
+    public function setLayoutzones($layoutzones)
+    {
+        $this->layoutzones = $layoutzones;
+
+        return $this;
+    }
+
+    /** 
+     * @param Layoutzone $layoutzones
+     * @return self
+     */
+    public function addLayoutzone($layoutzone)
+    {
+        $this->layoutzones[] = $layoutzone;
+
+        return $this;
+    }
+
+    /**
+     * @return array $layoutzones
+     */
+    public function getLayoutzones()
+    {
+        return $this->layoutzones;
     }
 
     /**
