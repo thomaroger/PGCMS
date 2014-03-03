@@ -55,10 +55,36 @@ class Module
         return array(
             'aliases' => array(
                 'playgroundcms_doctrine_em' => 'doctrine.entitymanager.orm_default',
-            ),
+            ),    
             'factories' => array(
+                'playgroundcms_module_options' => function  ($sm) {
+                    $config = $sm->get('Configuration');
+
+                    return new Options\ModuleOptions(isset($config['playgroundcms']) ? $config['playgroundcms'] : array());
+                },
+                
+                'playgroundcms_block_mapper' => function  ($sm) {
+                    return new Mapper\Block($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
+                },
             ),
             'invokables' => array(
+                'playgroundcms_block_service' => 'PlaygroundCMS\Service\Block',
+                'playgroundcms_block_renderer_service' => 'PlaygroundCMS\Service\BlockRenderer',
+                'playgroundcms_blockgenerator_service' => 'PlaygroundCMS\Service\BlockGenerator',
+            ),
+        );
+    }
+
+    public function getViewHelperConfig()
+    {
+        return array(
+            'factories' => array(
+                'getBlock' => function ($sm) {
+                    $viewHelper = new View\Helper\GetBlock();
+                    $viewHelper->setBlockService($sm->getServiceLocator()->get('playgroundcms_block_service'));
+                    $viewHelper->setBlockRendererService($sm->getServiceLocator()->get('playgroundcms_block_renderer_service'));
+                    return $viewHelper;
+                },
             ),
         );
     }

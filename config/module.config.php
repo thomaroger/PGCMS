@@ -28,6 +28,9 @@ return array(
             )
         )
     ),
+    'data-fixture' => array(
+        'pgcms_fixtures' => __DIR__ . '/../src/PlaygroundCMS/DataFixtures/ORM',
+    ),
     'router' => array(
         'routes' => array(
             'frontend' => array(
@@ -35,7 +38,7 @@ return array(
             'options' => array(
               'route' => '/',
               'defaults' => array(
-                'controller' => 'PlaygroundCMS\Controller\Index',
+                'controller' => 'PlaygroundCMS\Controller\Front\Page',
                 'action'     => 'index',
               ),
             ),
@@ -51,7 +54,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'PlaygroundCMS\Controller\Index' => 'PlaygroundCMS\Controller\IndexController'
+            'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController'
         ),
     ),
     'navigation' => array(

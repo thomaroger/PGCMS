@@ -157,6 +157,17 @@ class Block implements InputFilterAwareInterface
         return $this->configuration;
     }
 
+    public function getParam($name)
+    {
+        $configuration = json_decode($this->getConfiguration(), true);
+        
+        if(!empty($configuration[$name])){
+            return $configuration[$name];
+        }
+
+        return '';
+    }
+
 
     /**
      * @param $isExportable
@@ -214,6 +225,26 @@ class Block implements InputFilterAwareInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+     /**
+     * @return mixed
+     */
+    public function getTemplateContext()
+    {
+        return $this->templateContext;
+    }
+
+
+    /**
+     * @param $templateContext
+     * @return self
+     */
+    public function setTemplateContext($templateContext)
+    {
+        $this->templateContext = $templateContext;
+
+        return $this;
     }
 
     /**
@@ -316,5 +347,18 @@ class Block implements InputFilterAwareInterface
         }
 
         return $this->inputFilter;
+    }
+
+    /** @PrePersist */
+    public function createChrono()
+    {
+        $this->created_at = new \DateTime("now");
+        $this->updated_at = new \DateTime("now");
+    }
+
+    /** @PreUpdate */
+    public function updateChrono()
+    {
+        $this->updated_at = new \DateTime("now");
     }
 }

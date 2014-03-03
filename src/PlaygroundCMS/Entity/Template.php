@@ -276,4 +276,17 @@ class Template implements InputFilterAwareInterface
 
         return $this->inputFilter;
     }
+
+    /** @PrePersist */
+    public function createChrono()
+    {
+        $this->created_at = new \DateTime("now");
+        $this->updated_at = new \DateTime("now");
+    }
+
+    /** @PreUpdate */
+    public function updateChrono()
+    {
+        $this->updated_at = new \DateTime("now");
+    }
 }
