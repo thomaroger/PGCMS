@@ -5,7 +5,7 @@ namespace PlaygroundCms\Service;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
-use PlaygroundCMS\Entity\Block;
+use PlaygroundCMS\Entity\Block as BlockEntity;
 
 class BlockRenderer extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -13,7 +13,7 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
 
 
 
-    public function setBlock(Block $block)
+    public function setBlock(BlockEntity $block)
     {
         $this->block = $block;
 

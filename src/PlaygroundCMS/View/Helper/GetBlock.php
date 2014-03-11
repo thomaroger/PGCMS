@@ -25,12 +25,12 @@ class GetBlock extends AbstractHelper
         $block = $this->getBlockService()->getBlockMapper()->findBySlug($slug);
 
          if ($block instanceof Block) {
-            return $this->getBlockRendererService()
+            echo $this->getBlockRendererService()
                         ->setBlock($block)
                         ->render();
         }
 
-        return '';
+        echo '';
     }
 
 
