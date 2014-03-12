@@ -157,15 +157,18 @@ class Block implements InputFilterAwareInterface
         return $this->configuration;
     }
 
-    public function getParam($name)
+    public function getParam($name, $default = '')
     {
-        $configuration = json_decode($this->getConfiguration(), true);
-        
-        if(!empty($configuration[$name])){
-            return $configuration[$name];
-        }
+       $params = json_decode($this->getConfiguration(), true);
 
-        return '';
+       return $this->hasParam($name) ? $params[$name] : $default;
+    }
+
+    public function hasParam($name)
+    {
+        $params = json_decode($this->getConfiguration(), true);
+
+        return isset($params[$name]);
     }
 
 

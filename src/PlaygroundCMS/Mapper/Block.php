@@ -129,6 +129,11 @@ class Block
         $this->em->flush();
     }
 
+    public function getEntityManager(){
+
+        return $this->em;
+    }
+
     /**
     * getEntityRepository : recupere l'entite block
     *
@@ -140,6 +145,25 @@ class Block
             $this->er = $this->em->getRepository('PlaygroundCMS\Entity\Block');
         }
 
+
         return $this->er;
+    }
+
+    public function getSupportedSorts()
+    {
+        return array('name' => 'name');
+    }
+
+    public function getSupportedFilters()
+    {
+        return array(
+            'season' => 'filterOnTitle',
+        );
+    }
+
+    public function filterOnTitle($query, $name)
+    {
+        $query->where("name like '%".$name."%'");
+        return $query;
     }
 }
