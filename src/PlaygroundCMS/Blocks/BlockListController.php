@@ -4,8 +4,10 @@ namespace PlaygroundCMS\Blocks;
 
 use PlaygroundCMS\Entity\Block;
 use Zend\View\Model\ViewModel;
+use Zend\View\Renderer\PhpRenderer;
+use Zend\View\Resolver;
 
-class FreeHTMLController extends AbstractBlockController
+class BlockListController extends AbstractBlockController
 {
    
     public function renderBlock(Block $block)
@@ -28,6 +30,6 @@ class FreeHTMLController extends AbstractBlockController
     
     public function __toString()
     {
-        return 'Block HTML';
+        return 'Block list';
     }
 }

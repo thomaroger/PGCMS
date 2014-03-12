@@ -85,6 +85,20 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         
         $manager->persist($block);
         $manager->flush();
+
+        $block = new Block();
+        
+        $block->setName("Block list block");
+        $block->setType('PlaygroundCMS\Blocks\BlockListController');
+
+        $configuration = array('collection_content' => '', 'collection_limit' => '', 'collection_filter' => '');
+        $block->setConfiguration(json_encode($configuration));
+        $block->setSlug("block-list-block");
+        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $block->setTemplateContext(json_encode($template));
+        
+        $manager->persist($block);
+        $manager->flush();
     }
 
     public function getOrder()
