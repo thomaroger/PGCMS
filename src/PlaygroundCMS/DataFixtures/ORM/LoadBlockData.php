@@ -91,9 +91,65 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $block->setName("Block list block");
         $block->setType('PlaygroundCMS\Blocks\BlockListController');
 
-        $configuration = array('collection_content' => '', 'collection_limit' => '', 'collection_filter' => '');
+        $configuration = array();
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-list-block");
+        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $block->setTemplateContext(json_encode($template));
+        
+        $manager->persist($block);
+        $manager->flush();
+
+        $block = new Block();
+        
+        $block->setName("Block list block with Filters");
+        $block->setType('PlaygroundCMS\Blocks\BlockListController');
+
+        $configuration = array();
+        $block->setConfiguration(json_encode($configuration));
+        $block->setSlug("block-list-block-filters");
+        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $block->setTemplateContext(json_encode($template));
+        
+        $manager->persist($block);
+        $manager->flush();
+
+        $block = new Block();
+        
+        $block->setName("Block list block with Sort");
+        $block->setType('PlaygroundCMS\Blocks\BlockListController');
+
+        $configuration = array();
+        $block->setConfiguration(json_encode($configuration));
+        $block->setSlug("block-list-block-sort");
+        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $block->setTemplateContext(json_encode($template));
+        
+        $manager->persist($block);
+        $manager->flush();
+
+        $block = new Block();
+        
+        $block->setName("Block list block with Pager");
+        $block->setType('PlaygroundCMS\Blocks\BlockListController');
+
+        $configuration = array();
+        $block->setConfiguration(json_encode($configuration));
+        $block->setSlug("block-list-block-pager");
+        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $block->setTemplateContext(json_encode($template));
+        
+        $manager->persist($block);
+        $manager->flush();
+
+        $block = new Block();
+        
+        $block->setName("Block list block with Filters, Sort and Pager");
+        $block->setType('PlaygroundCMS\Blocks\BlockListController');
+
+        $configuration = array();
+        $block->setConfiguration(json_encode($configuration));
+        $block->setSlug("block-list-block-filters-sorts-pagers");
         $template = array('web' => "playground-cms/blocks/list.phtml");
         $block->setTemplateContext(json_encode($template));
         

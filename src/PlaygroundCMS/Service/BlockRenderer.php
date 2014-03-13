@@ -34,7 +34,7 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
     protected function getRenderAction()
     {
         $block = $this->getBlock();
-        $blockResponse = $this->getServiceManager()->get('playgroundcms_blockgenerator_service')->generate($block);
+        $blockResponse = $this->getServiceManager()->get('playgroundcms_blockgenerator_service')->generate($this->getServiceManager(), $block);
         
         return sprintf('
     <!-- Render block -> %s : %s -->

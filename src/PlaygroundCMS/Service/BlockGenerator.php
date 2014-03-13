@@ -10,10 +10,10 @@ class BlockGenerator extends EventProvider implements ServiceManagerAwareInterfa
 {
    
 
-    public function generate($block, $format = 'html', $parameters = array())
+    public function generate($serviceManager, $block, $format = 'html', $parameters = array())
     {
         $controllerType = $block->getType();
-        $controller = new $controllerType($block);
+        $controller = new $controllerType($serviceManager, $block);
 
         return $controller->renderAction($block, $format, $parameters);
     }

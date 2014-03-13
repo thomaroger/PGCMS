@@ -6,16 +6,19 @@ use PlaygroundCMS\Entity\Block;
 use Zend\View\Resolver;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Model\ViewModel;
+use Zend\ServiceManager\ServiceManager;
 
 abstract class AbstractBlockController
 {
     protected $block;
+    protected $serviceManager;
 
     abstract public function renderBlock(Block $block);
 
-    public function __construct(Block $block)
+    public function __construct(ServiceManager $serviceManager, Block $block)
     {
         $this->setBlock($block);
+        $this->setServiceManager($serviceManager);
     }
 
     public function renderAction($block, $format, $parameters)
@@ -84,5 +87,28 @@ abstract class AbstractBlockController
                                ->addHeaderLine('User-Cache-Control', 'max-age='.'300')
                                ->addHeaderLine('Expires', gmdate("D, d M Y H:i:s", time() + 300))
                                ->addHeaderLine('Pragma', 'cache');*/
+    }
+
+     /**
+     * Retrieve service manager instance
+     *
+     * @return ServiceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+
+    /**
+     * Set service manager instance
+     *
+     * @param  ServiceManager $serviceManager
+     * @return User
+     */
+    public function setServiceManager(ServiceManager $serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+
+        return $this;
     }
 }

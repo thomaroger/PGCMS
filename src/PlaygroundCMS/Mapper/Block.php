@@ -134,6 +134,11 @@ class Block
         return $this->em;
     }
 
+    public function getQueryBuilder()
+    {
+        return $this->em->createQueryBuilder();
+    }
+
     /**
     * getEntityRepository : recupere l'entite block
     *

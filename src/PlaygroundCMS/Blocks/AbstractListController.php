@@ -2,6 +2,8 @@
 
 namespace PlaygroundCMS\Blocks;
 
+use \Zend\Paginator\Paginator;
+use Zend\Paginator\Adapter\ArrayAdapter;
 
 abstract class BaseListController extends AbstractBlockController
 {
@@ -65,16 +67,16 @@ abstract class BaseListController extends AbstractBlockController
         $pagerBlockParam = $block->getParam('pagination', array());
         
         if (empty($pagerBlockParam)) {
-           return query;
+           return $query;
         }
 
-        $optionsPager = $this->buildParamsPager($pagerBlockParam);
+        $pagerOptions = $this->buildParamsPager($pagerBlockParam);
 
-        /*
-        ->setMaxPerPage($pagerOptions['max_per_page'])
-            ->setMaxResults($pagerOptions['limit'])
-            ->setCurrentPage($pagerOptions['page']);
-            */
+        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($query));
+        $paginator->setItemCountPerPage($pagerOptions['max_per_page']);
+        $paginator->setCurrentPageNumber($pagerOptions['page']);
+
+        return $paginator;
     }
 
     protected function buildParamsPager($paginationParam)
