@@ -2,27 +2,33 @@
 
 namespace PlaygroundCMS\Blocks;
 
-use \Zend\Paginator\Paginator;
+use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
+use PlaygroundCMS\Pager\CMSPager;
 
-abstract class BaseListController extends AbstractBlockController
+abstract class AbstractListController extends AbstractBlockController
 {
-    // https://doctrine-orm.readthedocs.org/en/latest/reference/query-builder.html?highlight=orderBy
-    protected function addSort($entity, $query, $block)
+    protected function getResults($query)
     {
+        return $query->getQuery()->getResult();
+    }
+    // https://doctrine-orm.readthedocs.org/en/latest/reference/query-builder.html?highlight=orderBy
+    protected function addSort($mapper, $query)
+    {
+        $block = $this->getBlock();
         $sortBlockParam = $block->getParam('sort', array());
 
-        if (empty($sortBlockParam['field'])) {
+        if (empty($sortBlockParam)) {
             return $query;
         }
 
-        $supportedSorts = $entity->getSupportedSorts();
+        $supportedSorts = $mapper->getSupportedSorts();
 
         if (empty($supportedSorts[$sortBlockParam['field']])) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown sort "%s" for query, it has to be defined in method %s::getSupportedSorts().',
                 $sortAlias,
-                get_class($query)
+                get_class($mapper)
             ));
         }
 
@@ -34,36 +40,40 @@ abstract class BaseListController extends AbstractBlockController
         return $query->orderBy($modelSortedField, $sortDirection);
     }
 
-    protected function addFilters($entity, $query, $block)
+    protected function addFilters($mapper, $query)
     {
         $filtersCount = 0;
-        $sortBlockParam = $block->getParam('filters', array());   
+        $block = $this->getBlock();
 
-        if (empty($sortBlockParam['filters'])) {
+        $filtersBlockParam = $block->getParam('filters', array());   
+        
+        if (empty($filtersBlockParam)) {
             return $query;
         }
 
-        $supportedfilters = $entity->getSupportedFilters();
+        $supportedFilters = $mapper->getSupportedFilters();
 
-        foreach ($supportedfilters as $filter => $value) {
-            $filterMethod = $supportedFilters[$filter];
-            if (!method_exists($entity, $filterMethod)) {
-                throw new \RuntimeException(sprintf(
-                    'Every filters\' methods have to be defined in query class, %s::%s() is missing.',
-                    get_class($entity),
-                    $filterMethod
-                ));
+        foreach ($filtersBlockParam as $filter => $value) {
+            if(!empty($supportedFilters[$filter])){
+                $filterMethod = $supportedFilters[$filter];
+                if (!method_exists($mapper, $filterMethod)) {
+                    throw new \RuntimeException(sprintf(
+                        'Every filters\' methods have to be defined in query class, %s::%s() is missing.',
+                        get_class($mapper),
+                        $filterMethod
+                    ));   
+                }
+                $query = $mapper->$filterMethod($query, $value);
+                $filtersCount ++;
             }
-
-            $query = $entity->$filterMethod($query, $value);
-            $filtersCount ++;
         }
 
         return $query;
     }
 
-    protected function addPagers($entity, $query, $block)
+    protected function addPager($query)
     {
+        $block = $this->getBlock();
         $pagerBlockParam = $block->getParam('pagination', array());
         
         if (empty($pagerBlockParam)) {
@@ -72,7 +82,7 @@ abstract class BaseListController extends AbstractBlockController
 
         $pagerOptions = $this->buildParamsPager($pagerBlockParam);
 
-        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($query));
+        $paginator = new Paginator(new ArrayAdapter($query));
         $paginator->setItemCountPerPage($pagerOptions['max_per_page']);
         $paginator->setCurrentPageNumber($pagerOptions['page']);
 
@@ -109,7 +119,7 @@ abstract class BaseListController extends AbstractBlockController
         }
 
         if (null === $limit) {
-            $limit = self::INFINITE_RESULT;
+            $limit = CmsPager::INFINITE_RESULT;
         }
 
         return array($limit, min($maxPerPage, CmsPager::DEFAULT_MAX_PER_PAGE));

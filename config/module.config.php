@@ -1,4 +1,5 @@
 <?php
+
 return array(
     'doctrine' => array(
         'eventmanager' => array(

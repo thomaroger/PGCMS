@@ -69,8 +69,8 @@ class Module
             ),
             'invokables' => array(
                 'playgroundcms_block_service' => 'PlaygroundCMS\Service\Block',
-                'playgroundcms_block_renderer_service' => 'PlaygroundCMS\Service\BlockRenderer',
-                'playgroundcms_blockgenerator_service' => 'PlaygroundCMS\Service\BlockGenerator',
+                'playgroundcms_block_renderer' => 'PlaygroundCMS\Renderer\BlockRenderer',
+                'playgroundcms_block_generator' => 'PlaygroundCMS\Renderer\BlockGenerator',
             ),
         );
     }
@@ -82,7 +82,7 @@ class Module
                 'getBlock' => function ($sm) {
                     $viewHelper = new View\Helper\GetBlock();
                     $viewHelper->setBlockService($sm->getServiceLocator()->get('playgroundcms_block_service'));
-                    $viewHelper->setBlockRendererService($sm->getServiceLocator()->get('playgroundcms_block_renderer_service'));
+                    $viewHelper->setBlockRendererService($sm->getServiceLocator()->get('playgroundcms_block_renderer'));
                     return $viewHelper;
                 },
             ),

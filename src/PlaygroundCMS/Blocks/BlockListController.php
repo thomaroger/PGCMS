@@ -8,24 +8,28 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Resolver;
 
-class BlockListController extends AbstractBlockController
+class BlockListController extends AbstractListController
 {
     protected $blockMapper;
 
-    public function renderBlock(Block $block)
+    public function renderBlock()
     {
+        $block = $this->getBlock();
+        
         $query = $this->getBlockMapper()->getQueryBuilder();
         $query = $query->select('b')->from('PlaygroundCMS\Entity\Block', 'b');
 
-        // addFilters
-        // addSort
-        // addPager
-
-        $query = $query->getQuery();
-        $results = $query->getResult();
+        $this->addFilters($this->getBlockMapper(), $query);
+        $this->addSort($this->getBlockMapper(), $query);
+    
+        $results = $this->getResults($query);
+        
+        $countResults = count($results);
+        $results = $this->addPager($results);
 
         $params = array('block' => $block,
-                        'results' => $results);
+                        'results' => $results,
+                        'countResults' => $countResults);
 
         $model = new ViewModel($params);
         return $this->render($model);

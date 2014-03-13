@@ -13,7 +13,7 @@ abstract class AbstractBlockController
     protected $block;
     protected $serviceManager;
 
-    abstract public function renderBlock(Block $block);
+    abstract public function renderBlock();
 
     public function __construct(ServiceManager $serviceManager, Block $block)
     {
@@ -21,11 +21,11 @@ abstract class AbstractBlockController
         $this->setServiceManager($serviceManager);
     }
 
-    public function renderAction($block, $format, $parameters)
+    public function renderAction($format, $parameters)
     {
         $this->setHeaders();
 
-        return $this->renderBlock($block);
+        return $this->renderBlock();
     }
 
     public function getRenderer($model)

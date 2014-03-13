@@ -8,9 +8,9 @@ use Zend\View\Model\ViewModel;
 class FreeHTMLController extends AbstractBlockController
 {
    
-    public function renderBlock(Block $block)
+    public function renderBlock()
     {
-
+        $block = $this->getBlock();
         $params = array('block' => $block);
 
         $model = new ViewModel($params);

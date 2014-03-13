@@ -156,19 +156,23 @@ class Block
 
     public function getSupportedSorts()
     {
-        return array('name' => 'name');
+        return array(
+            'name' => 'b.name'
+        );
     }
 
     public function getSupportedFilters()
     {
         return array(
-            'season' => 'filterOnTitle',
+            'name' => 'filterOnName',
         );
     }
 
-    public function filterOnTitle($query, $name)
+    public function filterOnName($query, $name)
     {
-        $query->where("name like '%".$name."%'");
+        $query->where("b.name LIKE :name");
+        $query->setParameter('name', $name);
+
         return $query;
     }
 }
