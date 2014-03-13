@@ -15,7 +15,7 @@ class BlockListController extends AbstractBlockController
     public function renderBlock(Block $block)
     {
         $query = $this->getBlockMapper()->getQueryBuilder();
-        $query = $query->select('/** PlaygroundCMS\Blocks\BlockListController :: renderBlock **/ b')->from('PlaygroundCMS\Entity\Block', 'b');
+        $query = $query->select('b')->from('PlaygroundCMS\Entity\Block', 'b');
 
         // addFilters
         // addSort
