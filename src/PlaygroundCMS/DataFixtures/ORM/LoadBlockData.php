@@ -20,7 +20,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
 
-        $block->setName("Block HTML Hello World");
+        $block->setName("HTML Hello World");
         $block->setType('PlaygroundCMS\Blocks\FreeHTMLController');
 
         $configuration = array('html' => 'Hello World');
@@ -34,7 +34,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
 
-        $block->setName("Block HTML Form");
+        $block->setName("HTML Form");
         $block->setType('PlaygroundCMS\Blocks\FreeHTMLController');
 
         $configuration = array('html' => '<div class="navbar-collapse collapse">
@@ -58,7 +58,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
 
-        $block->setName("Block HTML Content 1");
+        $block->setName("HTML Content 1");
         $block->setType('PlaygroundCMS\Blocks\FreeHTMLController');
 
         $configuration = array('html' => '<p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
@@ -73,7 +73,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
 
-        $block->setName("Block HTML Content 2");
+        $block->setName("HTML Content 2");
         $block->setType('PlaygroundCMS\Blocks\FreeHTMLController');
 
         $configuration = array('html' => '<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -88,7 +88,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
         
-        $block->setName("Block list block");
+        $block->setName("List block");
         $block->setType('PlaygroundCMS\Blocks\BlockListController');
 
         $configuration = array();
@@ -102,7 +102,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
         
-        $block->setName("Block list block with Filters (Name like '%HTML%')");
+        $block->setName("List block with Filters (Name like '%HTML%')");
         $block->setType('PlaygroundCMS\Blocks\BlockListController');
 
         $configuration = array('filters' => array('name' => '%HTML%'));
@@ -116,7 +116,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
         
-        $block->setName("Block list block with Sort (Name DESC)");
+        $block->setName("List block with Sort (Name DESC)");
         $block->setType('PlaygroundCMS\Blocks\BlockListController');
 
         $configuration = array('sort' => array('field'=> 'name', 'direction' => 'DESC'));
@@ -130,7 +130,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
         
-        $block->setName("Block list block with Filter, Sort and Pager (Name like '%HTML%') (Name DESC) (3 blocks per page, limit result to 5 blocks)");
+        $block->setName("List block with Filter, Sort and Pager (Name like '%HTML%') (Name DESC) (3 blocks per page, limit result to 5 blocks)");
         $block->setType('PlaygroundCMS\Blocks\BlockListController');
 
         $configuration = array('filters' => array('name' => '%HTML%'), 'sort' => array('field'=> 'name', 'direction' => 'DESC'), 'pagination' => array('max_per_page' => 3, 'limit' => 5));

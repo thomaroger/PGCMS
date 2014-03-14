@@ -42,17 +42,17 @@ class Template implements InputFilterAwareInterface
     protected $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $image;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $entity;
 
     /**
-     * @ORM\Column(name="block_type", type="string", length=255, nullable=false)
+     * @ORM\Column(name="block_type", type="string", length=255, nullable=true)
      */
     protected $blockType;
 

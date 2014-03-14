@@ -30,23 +30,13 @@ abstract class AbstractBlockController
 
     public function getRenderer($model)
     {
-        $blockType = $this->getBlock()->getType();
         $template = $this->getTemplate();
 
-        if (!file_exists($template)) {
-             throw new \RuntimeException(sprintf('Template not found for "%s" : "%s"',
-                $blockType, $template
-            ));
-        }
-
-        $resolver = new Resolver\TemplateMapResolver(array(
-            $blockType => $template
-        ));
-
         $renderer = new PhpRenderer();
+        $resolver = $this->getServiceManager()->get('playgroundcms_module_options')->getTemplateMapResolver();
         $renderer->setResolver($resolver);
         
-        $model->setTemplate($blockType);
+        $model->setTemplate($template);
 
         return $renderer;
     }
@@ -61,9 +51,9 @@ abstract class AbstractBlockController
         $block = $this->getBlock();
         $templates = json_decode($block->getTemplateContext(), true);
 
-        /** @todo : à refactorer **/
         
-        $template = __DIR__ .'/../../../../../../design/frontend/default/base/'.$templates['web'];
+        $template = $templates['web'];
+        
 
         return $template;
     } 

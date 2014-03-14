@@ -4,10 +4,31 @@ namespace PlaygroundCMS;
 
 use Zend\Mvc\MvcEvent;
 use Zend\Validator\AbstractValidator;
+use Zend\View\Resolver\TemplateMapResolver;
 
 class Module
 {
-    protected $eventsArray = array();
+
+    const DIR_TEMPLATE = '/../../../../../design';
+
+    public function getTemplateFolder()
+    {
+        /**
+            @todo : Default/base since local.php config
+                'design' => array(
+                    'admin' => array(
+                        'package' => 'default',
+                        'theme' => 'base',
+                    ),
+                    'frontend' => array(
+                        'package' => 'default',
+                        'theme' => 'base',
+                    ),
+                ),
+        **/
+        return __DIR__.self::DIR_TEMPLATE.'/frontend/default/base/';
+    }
+
     
     public function onBootstrap(MvcEvent $e)
     {
@@ -30,8 +51,22 @@ class Module
             $translate = $serviceManager->get('viewhelpermanager')->get('translate');
             $translate->getTranslator()->setLocale($locale);  
         }
-        
+
         AbstractValidator::setDefaultTranslator($translator,'playgroundcms');
+
+        $templates = array();
+        $templates = $serviceManager->get('playgroundcms_template_mapper')->findAll();
+        foreach ($templates as $template) {
+            $templatePath = $this->getTemplateFolder().$template->getFile();
+            if (!file_exists($templatePath)) {
+                throw new \RuntimeException(sprintf('Template not found : "%s"', $template->getName()));
+            }
+
+            $templates[$template->getFile()] = $templatePath;
+        }
+        $resolver = new TemplateMapResolver($templates);
+        $serviceManager->get('playgroundcms_module_options')->setTemplateMapResolver($resolver);
+
     }
 
     public function getConfig()
@@ -65,6 +100,10 @@ class Module
                 
                 'playgroundcms_block_mapper' => function  ($sm) {
                     return new Mapper\Block($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
+                },
+
+                'playgroundcms_template_mapper' => function  ($sm) {
+                    return new Mapper\Template($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
                 },
             ),
             'invokables' => array(
