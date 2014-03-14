@@ -7,6 +7,7 @@ use Zend\View\Resolver;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Model\ViewModel;
 use Zend\ServiceManager\ServiceManager;
+use PlaygroundCMS\View\HelperPluginManager;
 
 abstract class AbstractBlockController
 {
@@ -33,6 +34,7 @@ abstract class AbstractBlockController
         $template = $this->getTemplate();
 
         $renderer = new PhpRenderer();
+        $renderer->setHelperPluginManager(new HelperPluginManager());
         $resolver = $this->getServiceManager()->get('playgroundcms_module_options')->getTemplateMapResolver();
         $renderer->setResolver($resolver);
         

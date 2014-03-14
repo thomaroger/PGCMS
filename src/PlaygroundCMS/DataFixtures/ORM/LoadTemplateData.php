@@ -39,6 +39,15 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($template);
         $manager->flush();
 
+        $template = new Template();
+
+        $template->setName('Partial Pagination');
+        $template->setFile('playground-cms/partial/pagination.phtml');
+        $template->setDescription('Partial Pagination for block list');
+        
+        $manager->persist($template);
+        $manager->flush();
+
        
     }
 

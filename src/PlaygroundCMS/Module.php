@@ -50,23 +50,24 @@ class Module
             // plugins
             $translate = $serviceManager->get('viewhelpermanager')->get('translate');
             $translate->getTranslator()->setLocale($locale);  
+            $serviceManager->get('playgroundcms_module_options')->setTranslator($translate->getTranslator());
+
+            // Gestion des templates via TemplateMapResolver
+            $templates = array();
+            $templates = $serviceManager->get('playgroundcms_template_mapper')->findAll();
+            foreach ($templates as $template) {
+                $templatePath = $this->getTemplateFolder().$template->getFile();
+                if (!file_exists($templatePath)) {
+                    throw new \RuntimeException(sprintf('Template not found : "%s"', $template->getName()));
+                }
+
+                $templates[$template->getFile()] = $templatePath;
+            }
+            $resolver = new TemplateMapResolver($templates);
+            $serviceManager->get('playgroundcms_module_options')->setTemplateMapResolver($resolver);
         }
 
         AbstractValidator::setDefaultTranslator($translator,'playgroundcms');
-
-        $templates = array();
-        $templates = $serviceManager->get('playgroundcms_template_mapper')->findAll();
-        foreach ($templates as $template) {
-            $templatePath = $this->getTemplateFolder().$template->getFile();
-            if (!file_exists($templatePath)) {
-                throw new \RuntimeException(sprintf('Template not found : "%s"', $template->getName()));
-            }
-
-            $templates[$template->getFile()] = $templatePath;
-        }
-        $resolver = new TemplateMapResolver($templates);
-        $serviceManager->get('playgroundcms_module_options')->setTemplateMapResolver($resolver);
-
     }
 
     public function getConfig()
@@ -124,6 +125,12 @@ class Module
                     $viewHelper->setBlockRendererService($sm->getServiceLocator()->get('playgroundcms_block_renderer'));
                     return $viewHelper;
                 },
+
+                'cmsTranslate' => function($sm){
+                    $viewHelper = new View\Helper\CMSTranslate();
+                    $viewHelper->setServiceLocator($sm->getServiceLocator());
+                    return $viewHelper;
+                }
             ),
         );
     }
