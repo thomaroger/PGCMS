@@ -12,7 +12,7 @@ abstract class AbstractListController extends AbstractBlockController
     {
         return $query->getQuery()->getResult();
     }
-    // https://doctrine-orm.readthedocs.org/en/latest/reference/query-builder.html?highlight=orderBy
+    
     protected function addSort($mapper, $query)
     {
         $block = $this->getBlock();
@@ -77,21 +77,27 @@ abstract class AbstractListController extends AbstractBlockController
         $pagerBlockParam = $block->getParam('pagination', array());
         
         if (empty($pagerBlockParam)) {
-           return $query;
+            $results = $this->getResults($query);
+            return array($results, count($results));
         }
 
         $pagerOptions = $this->buildParamsPager($pagerBlockParam);
+
+        $query->setMaxResults($pagerOptions['limit']);
+
+        $query = $this->getResults($query);
 
         $paginator = new Paginator(new ArrayAdapter($query));
         $paginator->setItemCountPerPage($pagerOptions['max_per_page']);
         $paginator->setCurrentPageNumber($pagerOptions['page']);
 
-        return $paginator;
+        return array($paginator, $paginator->getTotalItemCount());
     }
 
     protected function buildParamsPager($paginationParam)
     {
         $pagerOptions = array();
+        $page = 1;
 
         $limit      = !empty($paginationParam['limit'])        ? $paginationParam['limit']        : null;
         $maxPerPage = !empty($paginationParam['max_per_page']) ? $paginationParam['max_per_page'] : null;
@@ -102,8 +108,10 @@ abstract class AbstractListController extends AbstractBlockController
             $maxPerPage = $limit;
         }
 
+        $page = $this->getRequest()->getQuery('page', $page);
+
         return array(
-            'page'         => 0,
+            'page'         => $page,
             'max_per_page' => $maxPerPage,
             'limit'        => $limit
         );

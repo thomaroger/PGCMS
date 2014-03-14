@@ -56,7 +56,12 @@ abstract class AbstractBlockController
         
 
         return $template;
-    } 
+    }
+
+    public function getRequest()
+    {
+        return $this->getServiceManager()->get('request');
+    }
 
     public function setBlock(Block $block)
     {

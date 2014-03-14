@@ -14,22 +14,21 @@ class BlockListController extends AbstractListController
 
     public function renderBlock()
     {
+        $request = $this->getRequest();
+
         $block = $this->getBlock();
-        
         $query = $this->getBlockMapper()->getQueryBuilder();
         $query = $query->select('b')->from('PlaygroundCMS\Entity\Block', 'b');
 
         $this->addFilters($this->getBlockMapper(), $query);
-        $this->addSort($this->getBlockMapper(), $query);
-    
-        $results = $this->getResults($query);
-        
-        $countResults = count($results);
-        $results = $this->addPager($results);
+        $this->addSort($this->getBlockMapper(), $query);        
+
+        list($results, $countResults) = $this->addPager($query);
 
         $params = array('block' => $block,
                         'results' => $results,
-                        'countResults' => $countResults);
+                        'countResults' => $countResults,
+                        'uri' => $request->getUri()->getPath());
 
         $model = new ViewModel($params);
         return $this->render($model);
