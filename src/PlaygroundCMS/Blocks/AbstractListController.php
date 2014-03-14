@@ -112,16 +112,16 @@ abstract class AbstractListController extends AbstractBlockController
     private function initPagerVars($limit, $maxPerPage)
     {
         if (null === $maxPerPage) {
-            $limit = null !== $limit ? min($limit, CmsPager::DEFAULT_LIMIT) : CmsPager::DEFAULT_LIMIT;
+            $limit = null !== $limit ? min($limit, CMSPager::DEFAULT_LIMIT) : CMSPager::DEFAULT_LIMIT;
             $maxPerPage = $limit;
 
             return array($limit, $maxPerPage);
         }
 
         if (null === $limit) {
-            $limit = CmsPager::INFINITE_RESULT;
+            $limit = CMSPager::INFINITE_RESULT;
         }
 
-        return array($limit, min($maxPerPage, CmsPager::DEFAULT_MAX_PER_PAGE));
+        return array($limit, min($maxPerPage, CMSPager::DEFAULT_MAX_PER_PAGE));
     }
 }

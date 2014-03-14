@@ -2,7 +2,7 @@
 
 namespace PlaygroundCMS\Pager;
 
-class CmsPager
+class CMSPager
 {
     const DEFAULT_PAGE         = 1;
     const DEFAULT_MAX_PER_PAGE = 100;
