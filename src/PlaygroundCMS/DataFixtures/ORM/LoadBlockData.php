@@ -130,10 +130,10 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 
         $block = new Block();
         
-        $block->setName("List block with Filter, Sort and Pager (Name like '%HTML%') (Name DESC) (3 blocks per page, limit result to 5 blocks)");
+        $block->setName("List block with Filter, Sort and Pager (Name like '%HTML%') (Name DESC) (2 blocks per page, limit result to 5 blocks)");
         $block->setType('PlaygroundCMS\Blocks\BlockListController');
 
-        $configuration = array('filters' => array('name' => '%HTML%'), 'sort' => array('field'=> 'name', 'direction' => 'DESC'), 'pagination' => array('max_per_page' => 3, 'limit' => 5));
+        $configuration = array('filters' => array('name' => '%HTML%'), 'sort' => array('field'=> 'name', 'direction' => 'DESC'), 'pagination' => array('max_per_page' => 2, 'limit' => 5));
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-list-block-filters-sorts-pagers");
         $template = array('web' => "playground-cms/blocks/list.phtml");

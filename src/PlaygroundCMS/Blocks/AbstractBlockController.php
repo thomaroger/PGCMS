@@ -13,6 +13,8 @@ abstract class AbstractBlockController
 {
     protected $block;
     protected $serviceManager;
+    protected $renderer;
+
 
     abstract public function renderBlock();
 
@@ -29,18 +31,31 @@ abstract class AbstractBlockController
         return $this->renderBlock();
     }
 
-    public function getRenderer($model)
+    public function setRenderer()
     {
-        $template = $this->getTemplate();
-
         $renderer = new PhpRenderer();
-        $renderer->setHelperPluginManager(new HelperPluginManager());
+
+        $helperPluginManager = new HelperPluginManager();
+        $helperPluginManager->setServiceManager($this->getServiceManager());
+        $renderer->setHelperPluginManager($helperPluginManager);
         $resolver = $this->getServiceManager()->get('playgroundcms_module_options')->getTemplateMapResolver();
         $renderer->setResolver($resolver);
-        
+
+        $this->renderer = $renderer;
+
+        return $this;
+    }
+
+    public function getRenderer($model)
+    {
+        if($this->renderer === null) {
+            $this->setRenderer();
+        }
+
+        $template = $this->getTemplate();
         $model->setTemplate($template);
 
-        return $renderer;
+        return $this->renderer;
     }
 
     public function render(ViewModel $model)

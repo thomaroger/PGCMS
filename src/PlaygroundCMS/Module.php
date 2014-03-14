@@ -11,22 +11,11 @@ class Module
 
     const DIR_TEMPLATE = '/../../../../../design';
 
-    public function getTemplateFolder()
+    public function getTemplateFolder($serviceManager)
     {
-        /**
-            @todo : Default/base since local.php config
-                'design' => array(
-                    'admin' => array(
-                        'package' => 'default',
-                        'theme' => 'base',
-                    ),
-                    'frontend' => array(
-                        'package' => 'default',
-                        'theme' => 'base',
-                    ),
-                ),
-        **/
-        return __DIR__.self::DIR_TEMPLATE.'/frontend/default/base/';
+        $config = $serviceManager->get('Config');
+        
+        return __DIR__.self::DIR_TEMPLATE.'/frontend/'.$config['design']['frontend']['package'].'/'.$config['design']['frontend']['theme'].'/';
     }
 
     
@@ -48,15 +37,15 @@ class Module
             $translator->setLocale($locale);
 
             // plugins
-            $translate = $serviceManager->get('viewhelpermanager')->get('translate');
-            $translate->getTranslator()->setLocale($locale);  
-            $serviceManager->get('playgroundcms_module_options')->setTranslator($translate->getTranslator());
+            $pluginTranslator = $serviceManager->get('viewhelpermanager')->get('translate')->getTranslator();
+            $pluginTranslator->setLocale($locale);  
+            $serviceManager->get('playgroundcms_module_options')->setTranslator($pluginTranslator);
 
             // Gestion des templates via TemplateMapResolver
             $templates = array();
             $templates = $serviceManager->get('playgroundcms_template_mapper')->findAll();
             foreach ($templates as $template) {
-                $templatePath = $this->getTemplateFolder().$template->getFile();
+                $templatePath = $this->getTemplateFolder($serviceManager).$template->getFile();
                 if (!file_exists($templatePath)) {
                     throw new \RuntimeException(sprintf('Template not found : "%s"', $template->getName()));
                 }

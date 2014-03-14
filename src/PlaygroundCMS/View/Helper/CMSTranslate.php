@@ -6,30 +6,40 @@ use Zend\I18n\View\Helper\AbstractTranslatorHelper;
 
 class CMSTranslate extends AbstractTranslatorHelper
 {
-    protected $serviceLocator;
+    protected $serviceManager;
+    protected $translator;
 
     public function __invoke($message, $textDomain = null, $locale = null)
     {
-        return "CMS Translate is not actif";
-        $translator = $this->getTranslator();
-        return $translator->__invoke($message, $textDomain, $locale);
+        $translator = $this->getPluginTranslator();
+        return $translator->translate($message, $textDomain, $locale);
     }
 
-    public function getTranslator()
+    public function getPluginTranslator()
     {
-        return $this->getServiceLocator()->get('playgroundcms_module_options')->getTranslator();
+        if ($this->translator === null){
+            $this->setPluginTranslator($this->getServiceManager()->get('playgroundcms_module_options')->getTranslator());
+        }
+        return $this->translator;
     }
 
-
-    public function setServiceLocator($serviceLocator)
+    public function setPluginTranslator($translator)
     {
-        $this->serviceLocator = $serviceLocator;
+        $this->translator = $translator;
 
         return $this;
     }
 
-    public function getServiceLocator()
+
+    public function setServiceManager($serviceManager)
     {
-        return $this->serviceLocator;
+        $this->serviceManager = $serviceManager;
+
+        return $this;
+    }
+
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
     }
 }

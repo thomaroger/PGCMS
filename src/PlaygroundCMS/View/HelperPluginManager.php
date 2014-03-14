@@ -7,6 +7,8 @@ use Zend\View\HelperPluginManager as HelperPluginManagerParent;
 
 class HelperPluginManager extends HelperPluginManagerParent
 {
+    protected $serviceManager;
+    
     protected $factories = array(
         'flashmessenger' => 'Zend\View\Helper\Service\FlashMessengerFactory',
         'identity'       => 'Zend\View\Helper\Service\IdentityFactory',
@@ -47,4 +49,41 @@ class HelperPluginManager extends HelperPluginManagerParent
         'viewmodel'           => 'Zend\View\Helper\ViewModel',
         'cmstranslate'        => 'PlaygroundCMS\View\Helper\CMSTranslate',
     );
+
+
+     /**
+     * Attempt to create an instance via an invokable class
+     *
+     * Overrides parent implementation by passing $creationOptions to the
+     * constructor, if non-null.
+     *
+     * @param  string $canonicalName
+     * @param  string $requestedName
+     * @return null|\stdClass
+     * @throws Exception\ServiceNotCreatedException If resolved class does not exist
+     */
+    protected function createFromInvokable($canonicalName, $requestedName)
+    {
+        $instance = parent::createFromInvokable($canonicalName, $requestedName);
+
+        if (method_exists($instance, "setServiceManager")) {
+            $instance->setServiceManager($this->getServiceManager());
+        }
+
+
+        return $instance;
+    }
+
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+
+    public function setServiceManager($serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+        return $this;
+    }
+
+
 }
