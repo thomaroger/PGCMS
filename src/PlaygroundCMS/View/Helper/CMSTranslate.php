@@ -15,6 +15,11 @@ class CMSTranslate extends AbstractTranslatorHelper
         return $translator->translate($message, $textDomain, $locale);
     }
 
+    public function setTranslatorTextDomain($textDomain = 'default')
+    {
+        //parent::setTranslatorTextDomain($textDomain);
+    }
+
     public function getPluginTranslator()
     {
         if ($this->translator === null){
