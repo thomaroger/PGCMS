@@ -9,17 +9,12 @@ class CMSTranslate extends AbstractTranslatorHelper
     protected $serviceManager;
     protected $translator;
 
-    public function __invoke($message, $textDomain = null, $locale = null)
+    public function __invoke($message, $textDomain = 'playgroundcms', $locale = null)
     {
         $translator = $this->getPluginTranslator();
         return $translator->translate($message, $textDomain, $locale);
     }
-
-    public function setTranslatorTextDomain($textDomain = 'default')
-    {
-        //parent::setTranslatorTextDomain($textDomain);
-    }
-
+    
     public function getPluginTranslator()
     {
         if ($this->translator === null){
