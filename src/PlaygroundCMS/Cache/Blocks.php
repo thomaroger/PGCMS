@@ -2,13 +2,15 @@
 
 namespace PlaygroundCMS\Cache;
 
-class Blocks extends CacheCollection
+class Blocks extends CachedCollection
 {
     protected $blockService;
 
     public function getCachedBlocks()
     {
-        return $this->getCachedCollections('blocks');
+        $this->setType('blocks');
+        
+        return $this->getCachedCollection();
     }
 
     public function findBlockBySlug($slug)
@@ -22,7 +24,7 @@ class Blocks extends CacheCollection
         return $blocks[$slug];
     }
 
-    public function getCollections()
+    public function getCollection()
     {
         $collections = array();
         $blocks = $this->getBlockService()->getBlockMapper()->findAll();

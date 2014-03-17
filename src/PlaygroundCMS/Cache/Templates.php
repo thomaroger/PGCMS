@@ -2,17 +2,19 @@
 
 namespace PlaygroundCMS\Cache;
 
-class Templates extends CacheCollection
+class Templates extends CachedCollection
 {
     protected $templateService;
 
     public function getCachedTemplates()
     {
-        return $this->getCachedCollections('templates');
+        $this->setType('templates');
+
+        return $this->getCachedCollection();
     }
 
 
-    public function getCollections()
+    public function getCollection()
     {
         $collections = array();
         $templates = $this->getTemplateService()->getTemplateMapper()->findAll();

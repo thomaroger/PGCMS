@@ -6,13 +6,15 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 
-class CacheCollection extends EventProvider implements ServiceManagerAwareInterface
+class CachedCollection extends EventProvider implements ServiceManagerAwareInterface
 {
     protected $serviceManager;
 
+    protected $type;
+
     public function getFolderCache()
     {
-        $folder = __DIR__.'/../../../../../../cache/playgroundcms/';
+        $folder = __DIR__.'/../../../../../../data/cache/playgroundcms/';
         
         if (!file_exists($folder)) {
            mkdir($folder, 0777, true);
@@ -21,27 +23,39 @@ class CacheCollection extends EventProvider implements ServiceManagerAwareInterf
         return $folder;
     }
 
-    public function clearCacheCollections($type)
+    public function clearCacheCollection()
     {
-        unlink($this->getFolderCache().$type);
+        unlink($this->getFolderCache().$this->getType());
     }
 
-    public function getCachedCollections($type)
+    public function getCachedCollection()
     {
-        $filename = $this->getFolderCache().$type;
+        $filename = $this->getFolderCache().$this->getType();
 
         if (!file_exists($filename)) {
-            $this->setCachedCollections($type, serialize($this->getCollections()));
+            $this->setCachedCollection(serialize($this->getCollection()));
         }
 
         return unserialize(file_get_contents($filename));
     }
 
-    public function setCachedCollections($type, $collection)
+    public function setCachedCollection($collection)
     {
-        $filename = $this->getFolderCache().$type;
+        $filename = $this->getFolderCache().$this->getType();
 
         file_put_contents($filename, $collection);
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $type;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
    
     /**
