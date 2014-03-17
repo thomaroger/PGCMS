@@ -22,9 +22,9 @@ class GetBlock extends AbstractHelper
     public function __invoke($slug)
     {
 
-        $block = $this->getBlockService()->getBlockMapper()->findBySlug($slug);
-
-         if ($block instanceof Block) {
+        $block = $this->getBlockFromCache($slug);
+        
+        if ($block instanceof Block) {
             echo $this->getBlockRendererService()
                         ->setBlock($block)
                         ->render();
@@ -33,11 +33,18 @@ class GetBlock extends AbstractHelper
         echo '';
     }
 
+    public function getBlockFromCache($slug)
+    {
+        $block = $this->getBlockService()->findBlockBySlug($slug);
+
+        return $block;
+    }
+
 
     public function getBlockService()
     {
         if (null === $this->blockService) {
-            $this->blockService = $this->getServiceManager()->get('playgroundcms_block_service');
+            $this->blockService = $this->getServiceManager()->get('playgroundcms_cached_blocks');
         }
 
         return $this->blockService;

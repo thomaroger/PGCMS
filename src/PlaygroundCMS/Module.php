@@ -8,7 +8,6 @@ use Zend\View\Resolver\TemplateMapResolver;
 
 class Module
 {
-
     const DIR_TEMPLATE = '/../../../../../design';
 
     public function getTemplateFolder($serviceManager)
@@ -43,7 +42,7 @@ class Module
 
             // Gestion des templates via TemplateMapResolver
             $templates = array();
-            $templates = $serviceManager->get('playgroundcms_template_mapper')->findAll();
+            $templates = $serviceManager->get('playgroundcms_cached_templates')->getCachedTemplates();
             foreach ($templates as $template) {
                 $templatePath = $this->getTemplateFolder($serviceManager).$template->getFile();
                 if (!file_exists($templatePath)) {
@@ -98,8 +97,13 @@ class Module
             ),
             'invokables' => array(
                 'playgroundcms_block_service' => 'PlaygroundCMS\Service\Block',
+                'playgroundcms_template_service' => 'PlaygroundCMS\Service\Template',
+
                 'playgroundcms_block_renderer' => 'PlaygroundCMS\Renderer\BlockRenderer',
                 'playgroundcms_block_generator' => 'PlaygroundCMS\Renderer\BlockGenerator',
+
+                'playgroundcms_cached_blocks' => 'PlaygroundCMS\Cache\Blocks',
+                'playgroundcms_cached_templates' => 'PlaygroundCMS\Cache\Templates',
             ),
         );
     }
@@ -110,7 +114,7 @@ class Module
             'factories' => array(
                 'getBlock' => function ($sm) {
                     $viewHelper = new View\Helper\GetBlock();
-                    $viewHelper->setBlockService($sm->getServiceLocator()->get('playgroundcms_block_service'));
+                    $viewHelper->setBlockService($sm->getServiceLocator()->get('playgroundcms_cached_blocks'));
                     $viewHelper->setBlockRendererService($sm->getServiceLocator()->get('playgroundcms_block_renderer'));
                     return $viewHelper;
                 },

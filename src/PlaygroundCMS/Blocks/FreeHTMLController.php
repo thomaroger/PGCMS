@@ -2,7 +2,6 @@
 
 namespace PlaygroundCMS\Blocks;
 
-use PlaygroundCMS\Entity\Block;
 use Zend\View\Model\ViewModel;
 
 class FreeHTMLController extends AbstractBlockController

@@ -1,6 +1,6 @@
 <?php
 
-namespace PlaygroundCms\Renderer;
+namespace PlaygroundCMS\Renderer;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;

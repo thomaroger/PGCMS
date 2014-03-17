@@ -6,14 +6,14 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 
-class Block extends EventProvider implements ServiceManagerAwareInterface
+class Template extends EventProvider implements ServiceManagerAwareInterface
 {
 
 
     /**
      * @var contactMapper
      */
-    protected $blockMapper;
+    protected $templateMapper;
 
     /**
      * @var ServiceManager
@@ -22,23 +22,21 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
 
   
    
-    public function getBlockMapper()
+    public function getTemplateMapper()
     {
-        if (null === $this->blockMapper) {
-            $this->blockMapper = $this->getServiceManager()->get('playgroundcms_block_mapper');
+        if (null === $this->templateMapper) {
+            $this->templateMapper = $this->getServiceManager()->get('playgroundcms_template_mapper');
         }
 
-        return $this->blockMapper;
+        return $this->templateMapper;
     }
 
-    public function setBlockMapper($blockMapper)
+    public function setTemplateMapper($templateMapper)
     {
-        $this->blockMapper = $blockMapper;
+        $this->templateMapper = $templateMapper;
 
         return $this;
     }
-
-   
 
     /**
      * Retrieve service manager instance
