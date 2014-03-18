@@ -1,18 +1,41 @@
 <?php
 
+/**
+* @package : PlaygroundCMS\Blocks
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de gérer l'affichage de base d'un block de liste
+**/
+
 namespace PlaygroundCMS\Blocks;
 
 use Zend\Paginator\Paginator;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use PlaygroundCMS\Pager\CMSPager;
+use Doctrine\ORM\QueryBuilder;
 
 abstract class AbstractListController extends AbstractBlockController
 {
-    protected function getResults($query)
+    /**
+    * getResults : Recuperation des resultats à partir du query
+    * @param QueryBuilder $query : query
+    *
+    * @return array $results : Resultats 
+    */
+    protected function getResults(QueryBuilder $query)
     {
+
         return $query->getQuery()->getResult();
     }
     
+    /**
+    * addSort : Ajout de sort pour la query
+    * @param PlaygroundCMS\Mapper\* : Classe de Mapper relié à l'entité qui est requetée
+    * @param QueryBuilder $query : query
+    *
+    * @return QueryBuilder $query : query avec le sort
+    */
     protected function addSort($mapper, $query)
     {
         $block = $this->getBlock();
@@ -37,9 +60,18 @@ abstract class AbstractListController extends AbstractBlockController
 
         $modelSortedField = $supportedSorts[$sortAlias];
 
-        return $query->orderBy($modelSortedField, $sortDirection);
+        $query = $query->orderBy($modelSortedField, $sortDirection);
+
+        return $query;
     }
 
+    /**
+    * addSort : Ajout de filters pour la query
+    * @param PlaygroundCMS\Mapper\* : Classe de Mapper relié à l'entité qui est requetée
+    * @param QueryBuilder $query : query
+    *
+    * @return QueryBuilder $query : query avec le sort
+    */
     protected function addFilters($mapper, $query)
     {
         $filtersCount = 0;
@@ -71,6 +103,12 @@ abstract class AbstractListController extends AbstractBlockController
         return $query;
     }
 
+    /**
+    * addPager : Ajout d'une pagination pour la query
+    * @param QueryBuilder $query : query
+    *
+    * @return array $result with Zend\Paginator\Paginator $paginator and int $totalItemCount
+    */
     protected function addPager($query)
     {
         $block = $this->getBlock();
@@ -90,11 +128,16 @@ abstract class AbstractListController extends AbstractBlockController
         $paginator = new Paginator(new ArrayAdapter($query));
         $paginator->setItemCountPerPage($pagerOptions['max_per_page']);
         $paginator->setCurrentPageNumber($pagerOptions['page']);
-
         return array($paginator, $paginator->getTotalItemCount());
     }
 
-    protected function buildParamsPager($paginationParam)
+    /**
+    * buildParamsPager : Permet d'initialiser les variables lié à la pagination
+    * @param array $paginationParam : Tableau concernant les variables de pagination
+    *
+    * @return array $paginationParam : page correspond à la page en cours, max_per_page correspond au nombre d'item par page, limit correspond au nombre d'item
+    */
+    private function buildParamsPager($paginationParam)
     {
         $pagerOptions = array();
         $page = 1;
@@ -117,6 +160,13 @@ abstract class AbstractListController extends AbstractBlockController
         );
     }
 
+    /**
+    * initPagerVars : Permet d'initialiser les variables lié à la pagination en fonction des valeurs par défaut
+    * @param int $limit : Correspond au nombre d'item
+    * @param int $maxPerPage : Nombre d'item par page
+    *
+    * @return array $paginationParam : limit correspond au nombre d'item, max_per_page correspond au nombre d'item par page
+    */
     private function initPagerVars($limit, $maxPerPage)
     {
         if (null === $maxPerPage) {

@@ -1,5 +1,13 @@
 <?php
 
+/**
+@namespace : PlaygroundCMS\Blocks
+@author : troger
+@date : 18/03/2013
+
+Classe qui permet de gérer l'affichage d'un bloc de list de blocs
+**/
+
 namespace PlaygroundCMS\Blocks;
 
 use PlaygroundCMS\Entity\Block;

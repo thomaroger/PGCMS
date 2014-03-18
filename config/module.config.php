@@ -1,5 +1,13 @@
 <?php
 
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Configuration pour PlaygroundCMS
+**/
+
 return array(
     'doctrine' => array(
         'eventmanager' => array(

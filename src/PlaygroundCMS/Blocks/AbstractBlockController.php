@@ -1,5 +1,13 @@
 <?php
 
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de gérer l'affichage de base d'un bloc
+**/
+
 namespace PlaygroundCMS\Blocks;
 
 use PlaygroundCMS\Entity\Block;
@@ -15,23 +23,42 @@ abstract class AbstractBlockController
     protected $serviceManager;
     protected $renderer;
 
+    /**
+    * Methode qui permet d'afficher le bloc
+    */
+    abstract protected function renderBlock();
 
-    abstract public function renderBlock();
-
+    /**
+    * __construct 
+    * @param ServiceManager $serviceManager
+    * @param Block $block Block à rendre
+    */
     public function __construct(ServiceManager $serviceManager, Block $block)
     {
         $this->setBlock($block);
         $this->setServiceManager($serviceManager);
     }
 
-    public function renderAction($format, $parameters)
+    /**
+    * renderAction : Rendre le block au format attendu
+    * @param string $format Format dans lequel le block va être servi
+    * @param array $parameters 
+    * 
+    * @return string $renderBlock Code HTML du block
+    */
+    public function renderAction($format, array $parameters)
     {
         $this->setHeaders();
 
         return $this->renderBlock();
     }
 
-    public function setRenderer()
+    /**
+    * setRenderer : Setter pour le phpRenderer en prenant en compte les templates de block
+    * 
+    * @return AbstractBlockController 
+    */
+    private function setRenderer()
     {
         $renderer = new PhpRenderer();
 
@@ -46,24 +73,40 @@ abstract class AbstractBlockController
         return $this;
     }
 
-    public function getRenderer($model)
+    /**
+    * getRenderer : Getter pour le phpRenderer avec le template du block concerné
+    *
+    * @return PhpRenderer $renderer 
+    */
+    private function getRenderer()
     {
         if($this->renderer === null) {
             $this->setRenderer();
         }
 
-        $template = $this->getTemplate();
-        $model->setTemplate($template);
-
         return $this->renderer;
     }
 
-    public function render(ViewModel $model)
+    /**
+    * render : Rendu du block
+    * @param ViewModel $model ViewModel pour setter le template du block   
+    *
+    * @return string $render Code HTML du block
+    */
+    protected function render(ViewModel $model)
     {
+        $template = $this->getTemplate();
+        $model->setTemplate($template);
+
         return $this->getRenderer($model)->render($model);
     }
 
-    public function getTemplate()
+    /**
+    * getTemplate : Template du bloc 
+    *
+    * @return Template du type "WEB" du bloc 
+    */
+    private function getTemplate()
     {
         $block = $this->getBlock();
         $templates = json_decode($block->getTemplateContext(), true);
@@ -73,25 +116,45 @@ abstract class AbstractBlockController
         
 
         return $template;
-    }
+    }  
 
-    public function getRequest()
+    /**
+    * getRequest : Recuperation de la request
+    *
+    * @return Request $request
+    */
+    protected function getRequest()
     {
         return $this->getServiceManager()->get('request');
     }
 
-    public function setBlock(Block $block)
+    /**
+    * setBlock : Setter pour le block
+    * @param Block block : Block
+    *
+    * @return AbstractBlockController $AbstractBlockController 
+    */
+    private function setBlock(Block $block)
     {
         $this->block = $block;
 
         return $block;
     }  
 
-    public function getBlock()
+    /**
+    * getBlock : Getter pour le block
+    *
+    * @return Block block : Block 
+    */
+    protected function getBlock()
     {
         return $this->block;
     }
 
+    /**
+    * setHeaders : Creation de header pour le code généré par le block
+    * 
+    */
     protected function setHeaders()
     {
         /*$response = $this->getResponse();
@@ -102,22 +165,22 @@ abstract class AbstractBlockController
     }
 
      /**
-     * Retrieve service manager instance
+     * getServiceManager : Getter pour le serviceManager
      *
      * @return ServiceManager
      */
-    public function getServiceManager()
+    protected function getServiceManager()
     {
         return $this->serviceManager;
     }
 
     /**
-     * Set service manager instance
+     * setServiceManager : Setter pour le serviceManager
      *
      * @param  ServiceManager $serviceManager
-     * @return User
+     * @return AbstractBlockController
      */
-    public function setServiceManager(ServiceManager $serviceManager)
+    private function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 
