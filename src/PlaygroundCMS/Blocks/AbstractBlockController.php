@@ -19,8 +19,17 @@ use PlaygroundCMS\View\HelperPluginManager;
 
 abstract class AbstractBlockController
 {
+    /**
+    * @var Block $block bloc en cours de rendu
+    */ 
     protected $block;
+    /**
+    * @var ServiceManager $serviceManager Instance du serviceManager
+    */
     protected $serviceManager;
+    /**
+    * @var PhpRenderer $renderer Instance d'un phpRenderer qui va servir à rendre le bloc
+    */
     protected $renderer;
 
     /**
@@ -31,7 +40,7 @@ abstract class AbstractBlockController
     /**
     * __construct 
     * @param ServiceManager $serviceManager
-    * @param Block $block Block à rendre
+    * @param Block $block Bloc à rendre
     */
     public function __construct(ServiceManager $serviceManager, Block $block)
     {
@@ -40,11 +49,11 @@ abstract class AbstractBlockController
     }
 
     /**
-    * renderAction : Rendre le block au format attendu
-    * @param string $format Format dans lequel le block va être servi
+    * renderAction : Rendre le bloc au format attendu
+    * @param string $format Format dans lequel le bloc va être servi
     * @param array $parameters 
     * 
-    * @return string $renderBlock Code HTML du block
+    * @return string $renderBlock Code HTML du bloc
     */
     public function renderAction($format, array $parameters)
     {
@@ -54,7 +63,7 @@ abstract class AbstractBlockController
     }
 
     /**
-    * setRenderer : Setter pour le phpRenderer en prenant en compte les templates de block
+    * setRenderer : Setter pour le phpRenderer en prenant en compte les templates de blocs
     * 
     * @return AbstractBlockController 
     */
@@ -74,7 +83,7 @@ abstract class AbstractBlockController
     }
 
     /**
-    * getRenderer : Getter pour le phpRenderer avec le template du block concerné
+    * getRenderer : Getter pour le phpRenderer avec le template du bloc concerné
     *
     * @return PhpRenderer $renderer 
     */
@@ -88,10 +97,10 @@ abstract class AbstractBlockController
     }
 
     /**
-    * render : Rendu du block
-    * @param ViewModel $model ViewModel pour setter le template du block   
+    * render : Rendu du bloc
+    * @param ViewModel $model ViewModel pour setter le template du bloc 
     *
-    * @return string $render Code HTML du block
+    * @return string $render Code HTML du bloc
     */
     protected function render(ViewModel $model)
     {
@@ -129,8 +138,8 @@ abstract class AbstractBlockController
     }
 
     /**
-    * setBlock : Setter pour le block
-    * @param Block block : Block
+    * setBlock : Setter pour le bloc
+    * @param Block block : Bloc
     *
     * @return AbstractBlockController $AbstractBlockController 
     */
@@ -142,9 +151,9 @@ abstract class AbstractBlockController
     }  
 
     /**
-    * getBlock : Getter pour le block
+    * getBlock : Getter pour le bloc en cours de rendu
     *
-    * @return Block block : Block 
+    * @return Block $block: Bloc
     */
     protected function getBlock()
     {
@@ -152,7 +161,7 @@ abstract class AbstractBlockController
     }
 
     /**
-    * setHeaders : Creation de header pour le code généré par le block
+    * setHeaders : Creation de header pour le code généré par le bloc
     * 
     */
     protected function setHeaders()

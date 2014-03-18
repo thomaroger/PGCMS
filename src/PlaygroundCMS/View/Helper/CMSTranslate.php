@@ -8,11 +8,37 @@ class CMSTranslate extends AbstractTranslatorHelper
 {
     protected $serviceManager;
     protected $translator;
+    protected $textDomain = "default";
 
-    public function __invoke($message, $textDomain = 'playgroundcms', $locale = null)
+    public function __invoke($message, $textDomain = 'default', $locale = null)
     {
         $translator = $this->getPluginTranslator();
+        if ($textDomain == 'default') {
+            $textDomain = $this->getTranslatorTextDomain();
+        }
         return $translator->translate($message, $textDomain, $locale);
+    }
+
+    /**
+     * Set translation text domain
+     *
+     * @param  string $textDomain
+     * @return AbstractTranslatorHelper
+     */
+    public function setTranslatorTextDomain($textDomain = 'default')
+    {
+        $this->translatorTextDomain = $textDomain;
+        return $this;
+    }
+
+    /**
+     * Return the translation text domain
+     *
+     * @return string
+     */
+    public function getTranslatorTextDomain()
+    {
+        return $this->translatorTextDomain;
     }
     
     public function getPluginTranslator()
@@ -22,6 +48,7 @@ class CMSTranslate extends AbstractTranslatorHelper
         }
         return $this->translator;
     }
+
 
     public function setPluginTranslator($translator)
     {

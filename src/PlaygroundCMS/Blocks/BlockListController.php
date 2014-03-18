@@ -1,11 +1,11 @@
 <?php
 
 /**
-@namespace : PlaygroundCMS\Blocks
-@author : troger
-@date : 18/03/2013
-
-Classe qui permet de gérer l'affichage d'un bloc de list de blocs
+* @package : PlaygroundCMS\Blocks
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de gérer l'affichage d'un bloc de liste de l'entité block
 **/
 
 namespace PlaygroundCMS\Blocks;
@@ -18,9 +18,16 @@ use Zend\View\Resolver;
 
 class BlockListController extends AbstractListController
 {
+    /**
+    * @var PlaygroundCMS\Mapper\* $blockMapper: Classe de Mapper relié à l'entité Block
+    */
     protected $blockMapper;
 
-    public function renderBlock()
+    /**
+    * {@inheritdoc}
+    * renderBlock : Rendu du bloc de liste de l'entité block avec filtres, tris et pagination
+    */
+    protected function renderBlock()
     {
         $request = $this->getRequest();
 
@@ -28,8 +35,8 @@ class BlockListController extends AbstractListController
         $query = $this->getBlockMapper()->getQueryBuilder();
         $query = $query->select('b')->from('PlaygroundCMS\Entity\Block', 'b');
 
-        $this->addFilters($this->getBlockMapper(), $query);
-        $this->addSort($this->getBlockMapper(), $query);        
+        $this->addFilters($query);
+        $this->addSort($query);        
 
         list($results, $countResults) = $this->addPager($query);
 
@@ -42,28 +49,22 @@ class BlockListController extends AbstractListController
         return $this->render($model);
     }
 
-   
-    /*protected function setHeaders(Response $response)
-    {
-        $response->setMaxAge(300);
-        $response->setSharedMaxAge(300);
-        $response->setPublic();
-    }*/
-
-    
+    /**
+    * __toString : Permet de decrire le bloc
+    *
+    * @return string $return : Block list block
+    */
     public function __toString()
     {
-        return 'Block list';
-    }
-    
-    public function setBlockMapper(BlockMapper $blockMapper)
-    {
-        $this->blockMapper = $blockMapper;
-
-        return $this;
+        return 'Block list Block';
     }
 
-    public function getBlockMapper()
+    /**
+    * getBlockMapper : Getter pour le blockMapper
+    *
+    * @return PlaygroundCMS\Mapper\Block $blockMapper : Classe de Mapper relié à l'entité Block
+    */
+    protected function getBlockMapper()
     {
         if (empty($this->blockMapper)) {
             $this->setBlockMapper($this->getServiceManager()->get('playgroundcms_block_mapper'));

@@ -5,7 +5,7 @@
 * @author : troger
 * @since : 18/03/2013
 *
-* Classe qui permet de gérer l'affichage de base d'un block de liste
+* Classe qui permet de gérer l'affichage de base d'un bloc de liste
 **/
 
 namespace PlaygroundCMS\Blocks;
@@ -31,18 +31,28 @@ abstract class AbstractListController extends AbstractBlockController
     
     /**
     * addSort : Ajout de sort pour la query
-    * @param PlaygroundCMS\Mapper\* : Classe de Mapper relié à l'entité qui est requetée
     * @param QueryBuilder $query : query
     *
     * @return QueryBuilder $query : query avec le sort
     */
-    protected function addSort($mapper, $query)
+    protected function addSort(QueryBuilder $query)
     {
         $block = $this->getBlock();
         $sortBlockParam = $block->getParam('sort', array());
 
         if (empty($sortBlockParam)) {
             return $query;
+        }
+
+
+        $mapper = $this->getBlockMapper();
+
+        if (!method_exists($mapper, "getSupportedSorts")) {
+            throw new \RuntimeException(sprintf(
+                'getSupportedFilters have to be defined in mapper class, %s::%s() is missing.',
+                get_class($mapper),
+                "getSupportedSorts"
+            ));   
         }
 
         $supportedSorts = $mapper->getSupportedSorts();
@@ -67,12 +77,11 @@ abstract class AbstractListController extends AbstractBlockController
 
     /**
     * addSort : Ajout de filters pour la query
-    * @param PlaygroundCMS\Mapper\* : Classe de Mapper relié à l'entité qui est requetée
     * @param QueryBuilder $query : query
     *
     * @return QueryBuilder $query : query avec le sort
     */
-    protected function addFilters($mapper, $query)
+    protected function addFilters(QueryBuilder $query)
     {
         $filtersCount = 0;
         $block = $this->getBlock();
@@ -83,6 +92,16 @@ abstract class AbstractListController extends AbstractBlockController
             return $query;
         }
 
+        $mapper = $this->getBlockMapper();
+
+        if (!method_exists($mapper, "getSupportedFilters")) {
+            throw new \RuntimeException(sprintf(
+                'getSupportedFilters have to be defined in mapper class, %s::%s() is missing.',
+                get_class($mapper),
+                "getSupportedFilters"
+            ));   
+        }
+
         $supportedFilters = $mapper->getSupportedFilters();
 
         foreach ($filtersBlockParam as $filter => $value) {
@@ -90,7 +109,7 @@ abstract class AbstractListController extends AbstractBlockController
                 $filterMethod = $supportedFilters[$filter];
                 if (!method_exists($mapper, $filterMethod)) {
                     throw new \RuntimeException(sprintf(
-                        'Every filters\' methods have to be defined in query class, %s::%s() is missing.',
+                        'Every filters\' methods have to be defined in mapper class, %s::%s() is missing.',
                         get_class($mapper),
                         $filterMethod
                     ));   
@@ -109,7 +128,7 @@ abstract class AbstractListController extends AbstractBlockController
     *
     * @return array $result with Zend\Paginator\Paginator $paginator and int $totalItemCount
     */
-    protected function addPager($query)
+    protected function addPager(QueryBuilder $query)
     {
         $block = $this->getBlock();
         $pagerBlockParam = $block->getParam('pagination', array());
@@ -137,7 +156,7 @@ abstract class AbstractListController extends AbstractBlockController
     *
     * @return array $paginationParam : page correspond à la page en cours, max_per_page correspond au nombre d'item par page, limit correspond au nombre d'item
     */
-    private function buildParamsPager($paginationParam)
+    private function buildParamsPager(array $paginationParam)
     {
         $pagerOptions = array();
         $page = 1;
@@ -145,7 +164,7 @@ abstract class AbstractListController extends AbstractBlockController
         $limit      = !empty($paginationParam['limit'])        ? $paginationParam['limit']        : null;
         $maxPerPage = !empty($paginationParam['max_per_page']) ? $paginationParam['max_per_page'] : null;
 
-        list($limit, $maxPerPage) = $this->initPagerVars($limit, $maxPerPage);
+        list($limit, $maxPerPage) = $this->initPagerVars((int) $limit, (int) $maxPerPage);
 
         if ($maxPerPage > $limit) {
             $maxPerPage = $limit;
@@ -181,5 +200,18 @@ abstract class AbstractListController extends AbstractBlockController
         }
 
         return array($limit, min($maxPerPage, CMSPager::DEFAULT_MAX_PER_PAGE));
+    }
+
+    /**
+    * setBlockMapper : Setter pour le blokcMapper
+    * @var PlaygroundCMS\Mapper\* $mapper : Classe de Mapper relié à l'entité qui est requetée
+    *
+    * @return AbstractListController $abstractListController
+    */
+    protected function setBlockMapper($blockMapper)
+    {
+        $this->blockMapper = $blockMapper;
+
+        return $this;
     }
 }

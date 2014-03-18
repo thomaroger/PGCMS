@@ -14,8 +14,11 @@ use Zend\View\Model\ViewModel;
 
 class FreeHTMLController extends AbstractBlockController
 {
-   
-    public function renderBlock()
+    /**
+    * {@inheritdoc}
+    * renderBlock : Rendu du bloc d'un bloc HTML
+    */
+    protected function renderBlock()
     {
         $block = $this->getBlock();
         $params = array('block' => $block);
@@ -32,7 +35,11 @@ class FreeHTMLController extends AbstractBlockController
         $response->setPublic();
     }*/
 
-    
+    /**
+    * __toString : Permet de decrire le bloc
+    *
+    * @return string $return : Block HTML
+    */
     public function __toString()
     {
         return 'Block HTML';
