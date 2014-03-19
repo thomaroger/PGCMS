@@ -4,7 +4,6 @@ namespace PlaygroundCMS\Mapper;
 
 use Doctrine\ORM\EntityManager;
 use ZfcBase\Mapper\AbstractDbMapper;
-
 use PlaygroundCMS\Options\ModuleOptions;
 
 class Block
@@ -20,7 +19,7 @@ class Block
     protected $er;
 
     /**
-     * @var \Citroen\Options\ModuleOptions
+     * @var PlaygroundCMS\Options\ModuleOptions
      */
     protected $options;
 
@@ -39,7 +38,7 @@ class Block
 
     /**
     * findById : recupere l'entite en fonction de son id
-    * @param int $id id de la company
+    * @param int $id id du bloc
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
@@ -60,12 +59,25 @@ class Block
         return $this->getEntityRepository()->findBy($array);
     }
 
+    /**
+    * findBySlug : recupere des entites en fonction de filtre
+    * @param string $slug slug d'un block à rechercher
+    *
+    * @return collection $blocks collection de PlaygroundCMS\Entity\Block
+    */
     public function findBySlug($slug)
     {
 
        return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
     }
 
+    /**
+    * findByAndOrderBy : recupere des entites en fonction de filtre
+    * @param array $by tableau de filtre
+    * @param array $sortArray tableau de fsort
+    *
+    * @return collection $blocks collection de PlaygroundCMS\Entity\Block
+    */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
         return $this->getEntityRepository()->findBy($by, $sortArray);
@@ -118,7 +130,7 @@ class Block
         return $this->getEntityRepository()->findAll();
     }
 
-     /**
+    /**
     * remove : supprimer une entite block
     * @param PlaygroundCMS\Entity\Block $block Block
     *
@@ -129,13 +141,25 @@ class Block
         $this->em->flush();
     }
 
-    public function getEntityManager(){
+    /**
+    * getEntityManager : Getter pour l'entity Manager
+    *
+    * @return Doctrine\ORM\EntityManager $em
+    */
+    public function getEntityManager()
+    {
 
         return $this->em;
     }
 
+    /**
+    * getQueryBuilder : Getter pour l'entity Manager
+    *
+    * @return Doctrine\ORM\QueryBuilder $query
+    */
     public function getQueryBuilder()
     {
+
         return $this->em->createQueryBuilder();
     }
 

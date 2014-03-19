@@ -1,5 +1,11 @@
 <?php
-
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de gérer l'entity Layout
+**/
 namespace PlaygroundCMS\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
