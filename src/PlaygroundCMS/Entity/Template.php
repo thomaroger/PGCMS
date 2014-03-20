@@ -22,8 +22,10 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class Template implements InputFilterAwareInterface
 {
+    /** 
+    * @var InputFilter $inputFilter
+    */
     protected $inputFilter;
-
 
     /**
      * @ORM\Id
@@ -72,11 +74,10 @@ class Template implements InputFilterAwareInterface
      */
     protected $updated_at;
 
-
     /**
-     * Getter for id
+     * getId : Getter pour id
      *
-     * @return mixed
+     * @return int $id
      */
     public function getId()
     {
@@ -84,108 +85,126 @@ class Template implements InputFilterAwareInterface
     }
     
     /**
-     * Setter for id
+     * setId : Setter pour id
+     * @param integer $id 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return Template $template
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
         return $this;
     }
 
     /**
-     * @param $url
-     * @return self
+     * setName : Setter pour name
+     * @param string $name 
+     *
+     * @return Template $template
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getName : Getter pour name
+     *
+     * @return string $name
      */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @param $model
-     * @return self
+     /**
+     * setFile : Setter pour file
+     * @param string $file 
+     *
+     * @return Template $template
      */
     public function setFile($file)
     {
-        $this->file = $file;
+        $this->file = (string) $file;
 
         return $this;
     }
 
-    /**
-     * @return mixed
+   /**
+     * getFile : Getter pour file
+     *
+     * @return string $file
      */
     public function getFile()
     {
         return $this->file;
     }
 
-
-    /**
-     * @param $recordId
-     * @return self
+     /**
+     * setDescription : Setter pour description
+     * @param string $description 
+     *
+     * @return Template $template
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = (string) $description;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getDescription : Getter pour description
+     *
+     * @return string $description
      */
     public function getDescription()
     {
         return $this->description;
     }
 
-
-    /**
-     * @param $locale
-     * @return self
+     /**
+     * setImage : Setter pour image
+     * @param string $image 
+     *
+     * @return Template $template
      */
     public function setImage($image)
     {
-        $this->image = $image;
+        $this->image = (string) $image;
 
         return $this;
     }
 
-    /**
-     * @return mixed
+     /**
+     * getImage : Getter pour image
+     *
+     * @return string $image
      */
     public function getImage()
     {
         return $this->image;
     }
 
-    /**
-     * @param $entity
-     * @return self
+     /**
+     * setEntity : Setter pour entity
+     * @param string $entity 
+     *
+     * @return Template $template
      */
     public function setEntity($entity)
     {
-        $this->entity = $entity;
+        $this->entity = (string) $entity;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getEntity : Getter pour entity
+     *
+     * @return string $entity
      */
     public function getEntity()
     {
@@ -193,18 +212,22 @@ class Template implements InputFilterAwareInterface
     }
 
     /**
-     * @param $model
-     * @return self
+     * setBlockType : Setter pour blockType
+     * @param string $blockType 
+     *
+     * @return Template $template
      */
     public function setBlockType($blockType)
     {
-        $this->blockType = $blockType;
+        $this->blockType = (string) $blockType;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getBlockType : Getter pour blockType
+     *
+     * @return string $blockType
      */
     public function getBlockType()
     {
@@ -212,8 +235,10 @@ class Template implements InputFilterAwareInterface
     }
 
     /**
-     * @param $createdAt
-     * @return self
+     * setCreatedAt : Setter pour createdAt 
+     * @param datetime $createdAt 
+     *
+     * @return Template $template
      */
     public function setCreatedAt($createdAt)
     {
@@ -222,17 +247,21 @@ class Template implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+     /**
+     * getCreatedAt : Getter pour created_at 
+     *
+     * @return datetime $created_at 
      */
     public function getCreatedAt()
     {
         return $this->created_at;
     }
 
-    /**
-     * @param $updatedAt
-     * @return self
+     /**
+     * setUpdatedAt : Setter pour updated_at 
+     * @param datetime $updated_at 
+     *
+     * @return Template $template
      */
     public function setUpdatedAt($updated_at)
     {
@@ -242,17 +271,19 @@ class Template implements InputFilterAwareInterface
     }
 
     /**
-     * @return mixed
+     * getUpdatedAt : Getter pour updated_at 
+     *
+     * @return datetime $updated_at 
      */
     public function getUpdatedAt()
     {
         return $this->updated_at;
     }
 
-    /**
-     * Convert the object to an array.
+     /**
+     * getArrayCopy : Convertit l'objet en tableau.
      *
-     * @return array
+     * @return array $array
      */
     public function getArrayCopy()
     {
@@ -260,19 +291,30 @@ class Template implements InputFilterAwareInterface
     }
 
     /**
-     * Populate from an array.
-     *
+     * populate : Populate l'object à partir d'un array
      * @param array $data
+     *
      */
     public function populate($data = array())
     {
+
     }
 
+     /**
+     * setInputFilter : Rajoute des Filtres
+     * @param InputFilterInterface $inputFilter
+     *
+     */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
+    /**
+     * getInputFilter : Rajoute des Filtres
+     *
+     * @return InputFilter $inputFilter
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {

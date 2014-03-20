@@ -22,8 +22,10 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class BlockLayoutZone implements InputFilterAwareInterface
 {
+    /**
+    * @var InputFilter $inputFilter
+    */
     protected $inputFilter;
-
 
     /**
      * @ORM\Id
@@ -31,7 +33,6 @@ class BlockLayoutZone implements InputFilterAwareInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
 
     /**
      * @ORM\Column(type="integer", nullable=false)
@@ -60,31 +61,32 @@ class BlockLayoutZone implements InputFilterAwareInterface
 
 
     /**
-     * Getter for id
+     * getId : Getter pour id
      *
-     * @return mixed
+     * @return int $id
      */
     public function getId()
     {
         return $this->id;
     }
     
-    /**
-     * Setter for id
+     /**
+     * setId : Setter pour id
+     * @param integer $id 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return BlockLayoutZone $blockLayoutZone
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
+
         return $this;
     }
 
-    /**
-     * Getter for id
+     /**
+     * getOrder : Getter pour order
      *
-     * @return mixed
+     * @return order $order
      */
     public function getOrder()
     {
@@ -92,23 +94,25 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
     
     /**
-     * Setter for id
+     * setOrder : Setter pour order
+     * @param integer $order 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return BlockLayoutZone $blockLayoutZone
      */
     public function setOrder($order)
     {
-        $this->order = $order;
+        $this->order = (int) $order;
+
         return $this;
     }
 
-
     /**
-     * @param layoutZone $layoutZone
-     * @return self
+     * setLayoutZone : Setter pour layoutZone
+     * @param LayoutZone $layoutZone 
+     *
+     * @return BlockLayoutZone $blockLayoutZone
      */
-    public function setLayoutZone($layoutZone)
+    public function setLayoutZone(layoutZone $layoutZone)
     {
         $this->layoutZone = $layoutZone;
 
@@ -116,19 +120,22 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
 
     /**
-     * @return self $layoutZone
+     * getLayoutZone : Getter pour layoutZone
+     *
+     * @return LayoutZone $layoutZone
      */
     public function getLayoutZone()
     {
         return $this->layoutZone;
     }
 
-
-    /**
-     * @param Block $block
-     * @return self
+     /**
+     * setBlock : Setter pour block
+     * @param Block $block 
+     *
+     * @return BlockLayoutZone $blockLayoutZone
      */
-    public function setBlock($block)
+    public function setBlock(Block $block)
     {
         $this->block = $block;
 
@@ -136,7 +143,9 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
 
     /**
-     * @return self $block
+     * getBlock : Getter pour block
+     *
+     * @return Block $block
      */
     public function getBlock()
     {
@@ -144,8 +153,10 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
 
     /**
-     * @param $createdAt
-     * @return self
+     * setCreatedAt : Setter pour createdAt 
+     * @param datetime $createdAt 
+     *
+     * @return BlockLayoutZone $blockLayoutZone
      */
     public function setCreatedAt($createdAt)
     {
@@ -155,7 +166,9 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
 
     /**
-     * @return mixed
+     * getCreatedAt : Getter pour created_at 
+     *
+     * @return datetime $created_at 
      */
     public function getCreatedAt()
     {
@@ -163,8 +176,10 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
 
     /**
-     * @param $updatedAt
-     * @return self
+     * setUpdatedAt : Setter pour createdAt 
+     * @param datetime $updated_at 
+     *
+     * @return BlockLayoutZone $blockLayoutZone
      */
     public function setUpdatedAt($updated_at)
     {
@@ -174,17 +189,19 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
 
     /**
-     * @return mixed
+     * getUpdatedAt : Getter pour updated_at 
+     *
+     * @return datetime $updated_at 
      */
     public function getUpdatedAt()
     {
         return $this->updated_at;
     }
 
-    /**
-     * Convert the object to an array.
+     /**
+     * getArrayCopy : Convertit l'objet en tableau.
      *
-     * @return array
+     * @return array $array
      */
     public function getArrayCopy()
     {
@@ -192,19 +209,30 @@ class BlockLayoutZone implements InputFilterAwareInterface
     }
 
     /**
-     * Populate from an array.
-     *
+     * populate : Populate l'object à partir d'un array
      * @param array $data
+     *
      */
     public function populate($data = array())
     {
+
     }
 
+     /**
+     * setInputFilter : Rajoute des Filtres
+     * @param InputFilterInterface $inputFilter
+     *
+     */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
+     /**
+     * getInputFilter : Rajoute des Filtres
+     *
+     * @return InputFilter $inputFilter
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {

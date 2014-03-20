@@ -1,10 +1,19 @@
 <?php
 
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de gérer le mapper de block
+**/
+
 namespace PlaygroundCMS\Mapper;
 
 use Doctrine\ORM\EntityManager;
 use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundCMS\Options\ModuleOptions;
+use Doctrine\ORM\QueryBuilder;
 
 class Block
 {
@@ -47,7 +56,6 @@ class Block
         return $this->getEntityRepository()->find($id);
     }
 
-     
     /**
     * findBy : recupere des entites en fonction de filtre
     * @param array $array tableau de filtre
@@ -61,20 +69,19 @@ class Block
 
     /**
     * findBySlug : recupere des entites en fonction de filtre
-    * @param string $slug slug d'un block à rechercher
+    * @param string $slug slug d'un bloc à rechercher
     *
     * @return collection $blocks collection de PlaygroundCMS\Entity\Block
     */
     public function findBySlug($slug)
     {
-
        return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
     }
 
     /**
     * findByAndOrderBy : recupere des entites en fonction de filtre
     * @param array $by tableau de filtre
-    * @param array $sortArray tableau de fsort
+    * @param array $sortArray tableau de sort
     *
     * @return collection $blocks collection de PlaygroundCMS\Entity\Block
     */
@@ -83,14 +90,13 @@ class Block
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
-
     /**
     * insert : insert en base une entité block
     * @param PlaygroundCMS\Entity\Block $block block
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    public function insert($entity)
+    public function insert(Block $entity)
     {
         return $this->persist($entity);
     }
@@ -101,18 +107,18 @@ class Block
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    public function update($entity)
+    public function update(Block $entity)
     {
         return $this->persist($entity);
     }
 
     /**
-    * insert 
+    * persist 
     * @param PlaygroundCMS\Entity\Block $entity block
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    protected function persist($entity)
+    protected function persist(Block $entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
@@ -174,10 +180,14 @@ class Block
             $this->er = $this->em->getRepository('PlaygroundCMS\Entity\Block');
         }
 
-
         return $this->er;
     }
 
+    /**
+    * getSupportedSorts : déclaration des tris supportés par l'entity Block
+    *
+    * @return array $sort
+    */
     public function getSupportedSorts()
     {
         return array(
@@ -185,6 +195,11 @@ class Block
         );
     }
 
+    /**
+    * getSupportedFilters : déclaration des filtres supportés par l'entity Block
+    *
+    * @return array $filters
+    */
     public function getSupportedFilters()
     {
         return array(
@@ -192,10 +207,17 @@ class Block
         );
     }
 
-    public function filterOnName($query, $name)
+    /**
+    * filterOnName : Permet de filtrer sur 
+    * @param QueryBuilder $query
+    * @param string $name
+    *
+    * @return QueryBuilder $query
+    */
+    public function filterOnName(QueryBuilder $query, $name)
     {
         $query->where("b.name LIKE :name");
-        $query->setParameter('name', $name);
+        $query->setParameter('name', (string) $name);
 
         return $query;
     }

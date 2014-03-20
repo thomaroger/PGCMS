@@ -1,5 +1,13 @@
 <?php
 
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de générer les blocks
+**/
+
 namespace PlaygroundCMS\Renderer;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
@@ -9,7 +17,6 @@ use ZfcBase\EventManager\EventProvider;
 class BlockGenerator extends EventProvider implements ServiceManagerAwareInterface
 {
    
-
     public function generate($serviceManager, $block, $format = 'html', $parameters = array())
     {
         $controllerType = $block->getType();

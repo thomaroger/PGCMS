@@ -24,8 +24,10 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class Block implements InputFilterAwareInterface
 {
+    /**
+    * @var InputFilter $inputFilter
+    */
     protected $inputFilter;
-
 
     /**
      * @ORM\Id
@@ -84,11 +86,10 @@ class Block implements InputFilterAwareInterface
      */
     protected $updated_at;
 
-
     /**
-     * Getter for id
+     * getId : Getter pour id
      *
-     * @return mixed
+     * @return Block $block
      */
     public function getId()
     {
@@ -96,103 +97,104 @@ class Block implements InputFilterAwareInterface
     }
     
     /**
-     * Setter for id
+     * setId : Setter pour id
+     * @param integer $id 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return Block $block
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
+
         return $this;
     }
 
     /**
-     * @param $url
-     * @return self
+     * setName : Setter pour name 
+     * @param string $name 
+     *
+     * @return Block $block
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getName : Getter pour name
+     * 
+     * @return  string $name 
      */
     public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @param $model
-     * @return self
+   /**
+     * setType : Setter pour type 
+     * @param string $type 
+     *
+     * @return Block $block
      */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->type = (string) $type;
 
         return $this;
     }
 
-    /**
-     * @return mixed
+   /**
+     * getType : Getter pour type
+     * 
+     * @return  string $name 
      */
     public function getType()
     {
         return $this->type;
     }
 
-
     /**
-     * @param $configuration
-     * @return self
+     * setConfiguration : Setter pour configuration 
+     * @param string $configuration 
+     *
+     * @return Block $block
      */
     public function setConfiguration($configuration)
     {
-        $this->configuration = $configuration;
+        $this->configuration = (string) $configuration;
 
         return $this;
     }
 
-    /**
-     * @return mixed
+     /**
+     * getConfiguration : Getter pour configuration
+     * 
+     * @return  string $configuration 
      */
     public function getConfiguration()
     {
         return $this->configuration;
     }
 
-    public function getParam($name, $default = '')
-    {
-       $params = json_decode($this->getConfiguration(), true);
-
-       return $this->hasParam($name) ? $params[$name] : $default;
-    }
-
-    public function hasParam($name)
-    {
-        $params = json_decode($this->getConfiguration(), true);
-
-        return isset($params[$name]);
-    }
-
-
-    /**
-     * @param $isExportable
-     * @return self
+     /**
+     * setIsExportable : Setter pour isExportable 
+     * @param boolean $isExportable 
+     *
+     * @return Block $block
      */
     public function setIsExportable($isExportable)
     {
-        $this->isExportable = $isExportable;
+        $this->isExportable = (boolean) $isExportable;
 
         return $this;
     }
 
-    /**
-     * @return mixed
+   /**
+     * getIsExportable : Getter pour isExportable
+     * 
+     * @return boolean $isExportable 
      */
     public function getIsExportable()
     {
@@ -200,67 +202,79 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * @param $isExportable
-     * @return self
+     * setIsGallery : Setter pour isGallery 
+     * @param boolean $isGallery 
+     *
+     * @return Block $block
      */
     public function setIsGallery($isGallery)
     {
-        $this->isGallery = $isGallery;
+        $this->isGallery = (boolean) $isGallery;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getIsGallery : Getter pour isGallery
+     * 
+     * @return boolean $isGallery 
      */
     public function getIsGallery()
     {
         return $this->isGallery;
     }
 
-
     /**
-     * @param $slug
-     * @return self
+     * setSlug : Setter pour slug 
+     * @param string $slug 
+     *
+     * @return Block $block
      */
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $this->slug = (string) $slug;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getSlug : Getter pour slug
+     * 
+     * @return string $slug 
      */
     public function getSlug()
     {
         return $this->slug;
     }
 
-     /**
-     * @return mixed
+    /**
+     * getTemplateContext : Getter pour templateContext
+     * 
+     * @return string $templateContext 
      */
     public function getTemplateContext()
     {
         return $this->templateContext;
     }
 
-
     /**
-     * @param $templateContext
-     * @return self
+     * setTemplateContext : Setter pour templateContext 
+     * @param string $templateContext 
+     *
+     * @return Block $block
      */
     public function setTemplateContext($templateContext)
     {
-        $this->templateContext = $templateContext;
+        $this->templateContext = (string) $templateContext;
 
         return $this;
     }
 
-    /**
-     * @param array $blockLayoutZones
-     * @return self
+     /**
+     * setblockLayoutZones : Setter pour blockLayoutZones 
+     * @param array $blockLayoutZones 
+     *
+     * @return Block $block
      */
     public function setblockLayoutZones($blockLayoutZones)
     {
@@ -270,10 +284,12 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * @param BlockLayoutZones $blockLayoutZones
-     * @return self
+     * addblockLayoutZone : ajout d'un  blockLayoutZone
+     * @param BlockLayoutZone $blockLayoutZone 
+     *
+     * @return Block $block
      */
-    public function addblockLayoutZone($blockLayoutZone)
+    public function addblockLayoutZone(BlockLayoutZone $blockLayoutZone)
     {
         $this->blockLayoutZones[] = $blockLayoutZone;
 
@@ -281,7 +297,9 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * @return Array $blockLayoutZones
+     * getblockLayoutZones : Getter pour blockLayoutZones 
+     *
+     * @return array $blockLayoutZones 
      */
     public function getblockLayoutZones()
     {
@@ -289,8 +307,10 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * @param $createdAt
-     * @return self
+     * setCreatedAt : Setter pour createdAt 
+     * @param datetime $createdAt 
+     *
+     * @return Block $block
      */
     public function setCreatedAt($createdAt)
     {
@@ -300,7 +320,9 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * @return mixed
+     * getCreatedAt : Getter pour created_at 
+     *
+     * @return datetime $created_at 
      */
     public function getCreatedAt()
     {
@@ -308,8 +330,10 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * @param $updatedAt
-     * @return self
+     * setUpdatedAt : Setter pour createdAt 
+     * @param datetime $updated_at 
+     *
+     * @return Block $block
      */
     public function setUpdatedAt($updated_at)
     {
@@ -318,8 +342,10 @@ class Block implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+     /**
+     * getUpdatedAt : Getter pour updated_at 
+     *
+     * @return datetime $updated_at 
      */
     public function getUpdatedAt()
     {
@@ -327,9 +353,9 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * Convert the object to an array.
+     * getArrayCopy : Convertit l'objet en tableau.
      *
-     * @return array
+     * @return array $array
      */
     public function getArrayCopy()
     {
@@ -337,19 +363,30 @@ class Block implements InputFilterAwareInterface
     }
 
     /**
-     * Populate from an array.
-     *
+     * populate : Populate l'object à partir d'un array
      * @param array $data
+     *
      */
     public function populate($data = array())
     {
+        
     }
 
+     /**
+     * setInputFilter : Rajoute des Filtres
+     * @param InputFilterInterface $inputFilter
+     *
+     */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
+     /**
+     * getInputFilter : Rajoute des Filtres
+     *
+     * @return InputFilter $inputFilter
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {
@@ -371,5 +408,32 @@ class Block implements InputFilterAwareInterface
     public function updateChrono()
     {
         $this->updated_at = new \DateTime("now");
+    }
+
+    /**
+    * getParam : Peremet de retourner un param depuis la configuration du block
+    * @param string $name : Nom du param à trouver
+    * @param string $default : Texte par défaut si pas de param
+    *
+    * @return mixed $param
+    */
+    public function getParam($name, $default = '')
+    {
+       $params = json_decode($this->getConfiguration(), true);
+
+       return $this->hasParam($name) ? $params[$name] : $default;
+    }
+    
+    /**
+    * hasParam : Peremet de savoir si le param existe
+    * @param string $name : Nom du param à trouver
+    *
+    * @return boolean $boolean : Savoir si le param existe
+    */
+    public function hasParam($name)
+    {
+        $params = json_decode($this->getConfiguration(), true);
+
+        return isset($params[$name]);
     }
 }

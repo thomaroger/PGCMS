@@ -22,8 +22,10 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class Zone implements InputFilterAwareInterface
 {
+    /** 
+    * @var InputFilter $inputFilter
+    */
     protected $inputFilter;
-
 
     /**
      * @ORM\Id
@@ -52,51 +54,56 @@ class Zone implements InputFilterAwareInterface
      */
     protected $updated_at;
 
-
     /**
-     * Getter for id
+     * getId : Getter pour id
      *
-     * @return mixed
+     * @return int $id
      */
     public function getId()
     {
         return $this->id;
     }
     
-    /**
-     * Setter for id
+     /**
+     * setId : Setter pour id
+     * @param integer $id 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return Zone $zone
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
         return $this;
     }
 
-    /**
-     * @param $url
-     * @return self
+   /**
+     * setName : Setter pour name
+     * @param string $name 
+     *
+     * @return Zone $zone
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getName : Getter pour name
+     *
+     * @return string $name
      */
     public function getName()
     {
         return $this->name;
     }
 
-    /** 
-     * @param array $layoutzones
-     * @return self
+   /**
+     * setLayoutzones : Setter pour layoutzones
+     * @param array $layoutzones 
+     *
+     * @return Zone $zone
      */
     public function setLayoutzones($layoutzones)
     {
@@ -105,11 +112,13 @@ class Zone implements InputFilterAwareInterface
         return $this;
     }
 
-    /** 
-     * @param Layoutzone $layoutzones
-     * @return self
+    /**
+     * addLayoutzone : Setter pour layoutzone
+     * @param LayoutZone $layoutzone 
+     *
+     * @return Zone $zone
      */
-    public function addLayoutzone($layoutzone)
+    public function addLayoutzone(LayoutZone $layoutzone)
     {
         $this->layoutzones[] = $layoutzone;
 
@@ -117,6 +126,8 @@ class Zone implements InputFilterAwareInterface
     }
 
     /**
+     * getLayoutzones : Getter pour layoutzones
+     *
      * @return array $layoutzones
      */
     public function getLayoutzones()
@@ -162,10 +173,10 @@ class Zone implements InputFilterAwareInterface
         return $this->updated_at;
     }
 
-    /**
-     * Convert the object to an array.
+     /**
+     * getArrayCopy : Convertit l'objet en tableau.
      *
-     * @return array
+     * @return array $array
      */
     public function getArrayCopy()
     {
@@ -173,19 +184,30 @@ class Zone implements InputFilterAwareInterface
     }
 
     /**
-     * Populate from an array.
-     *
+     * populate : Populate l'object à partir d'un array
      * @param array $data
+     *
      */
     public function populate($data = array())
     {
+
     }
 
+     /**
+     * setInputFilter : Rajoute des Filtres
+     * @param InputFilterInterface $inputFilter
+     *
+     */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
+    /**
+     * getInputFilter : Rajoute des Filtres
+     *
+     * @return InputFilter $inputFilter
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {

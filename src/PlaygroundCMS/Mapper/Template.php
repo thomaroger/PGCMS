@@ -39,7 +39,7 @@ class Template
 
     /**
     * findById : recupere l'entite en fonction de son id
-    * @param int $id id de la company
+    * @param int $id id du template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
@@ -47,7 +47,6 @@ class Template
     {
         return $this->getEntityRepository()->find($id);
     }
-
      
     /**
     * findBy : recupere des entites en fonction de filtre
@@ -60,17 +59,29 @@ class Template
         return $this->getEntityRepository()->findBy($array);
     }
 
+    /**
+    * findBySlug : recupere une entity Template en fonction d'un slug
+    * @param string $slug slug
+    *
+    * @return PlaygroundCMS\Entity\Template $template
+    */
     public function findBySlug($slug)
     {
 
-       return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
+       return $this->getEntityRepository()->findOneBy(array('slug' => (string) $slug)); 
     }
 
+    /**
+    * findByAndOrderBy : recupere des entites en fonction de filtre et d'un sort
+    * @param array $by tableau de filtre
+    * @param array $sortArray tableau de sort
+    *
+    * @return collection $templates collection de PlaygroundCMS\Entity\Template
+    */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
-
 
     /**
     * insert : insert en base une entité template
@@ -78,18 +89,18 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    public function insert($entity)
+    public function insert(Template $entity)
     {
         return $this->persist($entity);
     }
 
     /**
-    * insert : met a jour en base une entité template
+    * update : met a jour en base une entité template
     * @param PlaygroundCMS\Entity\Template $template template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    public function update($entity)
+    public function update(Template $entity)
     {
         return $this->persist($entity);
     }
@@ -100,7 +111,7 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    protected function persist($entity)
+    protected function persist(Template $entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
@@ -123,19 +134,31 @@ class Template
     * @param PlaygroundCMS\Entity\Template $template Template
     *
     */
-    public function remove($entity)
+    public function remove(Template $entity)
     {
         $this->em->remove($entity);
         $this->em->flush();
     }
 
-    public function getEntityManager(){
+     /**
+    * getEntityManager : Getter pour l'entity Manager
+    *
+    * @return Doctrine\ORM\EntityManager $em
+    */
+    public function getEntityManager()
+    {
 
         return $this->em;
     }
 
+    /**
+    * getQueryBuilder : Getter pour l'entity Manager
+    *
+    * @return Doctrine\ORM\QueryBuilder $query
+    */
     public function getQueryBuilder()
     {
+
         return $this->em->createQueryBuilder();
     }
 

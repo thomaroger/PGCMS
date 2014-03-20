@@ -27,14 +27,15 @@ use Gedmo\Translatable\Translatable;
 
 class Page implements InputFilterAwareInterface
 {
+    /** 
+    * @var InputFilter $inputFilter
+    */
     protected $inputFilter;
 
+    /** 
+    * @var InputFilter $inputFilter
+    */
     protected $locale;
-
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
-    }
 
     /**
      * @ORM\Id
@@ -42,7 +43,6 @@ class Page implements InputFilterAwareInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
 
     /**
      * @ORM\Column(name="is_web", type="boolean", nullable=false)
@@ -109,33 +109,32 @@ class Page implements InputFilterAwareInterface
      */
     protected $keywordMeta;
 
-
-    /**
-     * Getter for id
+   /**
+     * getId : Getter pour id
      *
-     * @return mixed
+     * @return int $id
      */
     public function getId()
     {
         return $this->id;
     }
     
-    /**
-     * Setter for id
+     /**
+     * setId : Setter pour id
+     * @param integer $id 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return Page $page
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
         return $this;
     }
 
-    /**
-     * Getter for is_web
+     /**
+     * getIsWeb : Getter pour isWeb
      *
-     * @return mixed
+     * @return boolean $isWeb
      */
     public function getIsWeb()
     {
@@ -143,21 +142,21 @@ class Page implements InputFilterAwareInterface
     }
     
     /**
-     * Setter for is_web
+     * setIsWeb : Setter pour isWeb
+     * @param boolean $isWeb 
      *
-     * @param mixed $isWeb Value to set
-     * @return self
+     * @return Page $page
      */
     public function setIsWeb($isWeb)
     {
-        $this->isWeb = $isWeb;
+        $this->isWeb = (boolean) $isWeb;
         return $this;
     }
 
      /**
-     * Getter for isMobile
+     * getIsMobile : Getter pour isMobile
      *
-     * @return mixed
+     * @return boolean $isMobile
      */
     public function getIsMobile()
     {
@@ -165,21 +164,21 @@ class Page implements InputFilterAwareInterface
     }
     
     /**
-     * Setter for isMobile
+     * setIsMobile : Setter pour isMobile
+     * @param boolean $isMobile 
      *
-     * @param mixed $isMobile Value to set
-     * @return self
+     * @return Page $page
      */
     public function setIsMobile($isMobile)
     {
-        $this->isMobile = $isMobile;
+        $this->isMobile = (boolean) $isMobile;
         return $this;
     }
 
-     /**
-     * Getter for status
+      /**
+     * getStatus : Getter pour status
      *
-     * @return mixed
+     * @return int $status
      */
     public function getStatus()
     {
@@ -187,10 +186,10 @@ class Page implements InputFilterAwareInterface
     }
     
     /**
-     * Setter for status
+     * setStatus : Setter pour status
+     * @param integer $status 
      *
-     * @param mixed $status Value to set
-     * @return self
+     * @return Page $page
      */
     public function setStatus($status)
     {
@@ -199,21 +198,21 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-    * Getter for startDate
-    *
-    * @return mixed
-    */
+     * getStartDate : Getter pour startDate
+     *
+     * @return datetime $startDate
+     */
     public function getStartDate()
     {    
        return $this->startDate;
     }
    
    /**
-    * Setter for startDate
-    *
-    * @param mixed $startDate Value to set
-    * @return self
-    */
+     * setStartDate : Setter pour startDate
+     * @param dateime $startDate 
+     *
+     * @return Page $page
+     */
     public function setStartDate($startDate)
     {
        $this->startDate = $startDate;
@@ -221,30 +220,32 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-    * Getter for endDate
-    *
-    * @return mixed
-    */
+     * getEndDate : Getter pour endDate
+     *
+     * @return datetime $endDate
+     */
     public function getEndDate()
     {    
        return $this->endDate;
     }
    
    /**
-    * Setter for endDate
-    *
-    * @param mixed $endDate Value to set
-    * @return self
-    */
+     * setEndDate : Setter pour endDate
+     * @param dateime $endDate 
+     *
+     * @return Page $page
+     */
     public function setEndDate($endDate)
     {
        $this->endDate = $endDate;
        return $this;
     }
 
-    /**
-     * @param $createdAt
-     * @return self
+   /**
+     * setCreatedAt : Setter pour created_at
+     * @param dateime $created_at 
+     *
+     * @return Page $page
      */
     public function setCreatedAt($createdAt)
     {
@@ -253,8 +254,10 @@ class Page implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+   /**
+     * getCreatedAt : Getter pour created_at
+     *
+     * @return datetime $created_at
      */
     public function getCreatedAt()
     {
@@ -262,8 +265,10 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-     * @param $updatedAt
-     * @return self
+     * setUpdatedAt : Setter pour updated_at
+     * @param dateime $updated_at 
+     *
+     * @return Page $page
      */
     public function setUpdatedAt($updated_at)
     {
@@ -273,26 +278,32 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-     * @return mixed
+     * updated_at : Getter pour updated_at
+     *
+     * @return datetime $updated_at
      */
     public function getUpdatedAt()
     {
         return $this->updated_at;
     }
 
-     /**
-     * @param $title
-     * @return self
+    /**
+     * setTitle : Setter pour title
+     * @param string $title 
+     *
+     * @return Page $page
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = (string) $title;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getTitle : Getter pour title
+     *
+     * @return strign $title
      */
     public function getTitle()
     {
@@ -300,18 +311,22 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-     * @param $slug
-     * @return self
+     * setSlug : Setter pour slug
+     * @param string $slug 
+     *
+     * @return Page $page
      */
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $this->slug = (string) $slug;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getSlug : Getter pour slug
+     *
+     * @return strign $slug
      */
     public function getSlug()
     {
@@ -319,38 +334,45 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-     * @param $titleMeta
-     * @return self
+     * setTitleMeta : Setter pour titleMeta
+     * @param string $titleMeta 
+     *
+     * @return Page $page
      */
-    public function setTitleMeta($slug)
+    public function setTitleMeta($titleMeta)
     {
-        $this->titleMeta = $titleMeta;
+        $this->titleMeta = (string) $titleMeta;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getTitleMeta : Getter pour titleMeta
+     *
+     * @return strign $titleMeta
      */
     public function getTitleMeta()
     {
         return $this->titleMeta;
     }
 
-
     /**
-     * @param $keywordMeta
-     * @return self
+     * setKeywordMeta : Setter pour keywordMeta
+     * @param string $keywordMeta 
+     *
+     * @return Page $page
      */
     public function setKeywordMeta($keywordMeta)
     {
-        $this->keywordMeta = $keywordMeta;
+        $this->keywordMeta = (string) $keywordMeta;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getKeywordMeta : Getter pour keywordMeta
+     *
+     * @return strign $keywordMeta
      */
     public function getKeywordMeta()
     {
@@ -358,29 +380,32 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-     * @param $descriptionMeta
-     * @return self
+     * setDescriptionMeta : Setter pour descriptionMeta
+     * @param string $descriptionMeta 
+     *
+     * @return Page $page
      */
     public function setDescriptionMeta($descriptionMeta)
     {
-        $this->descriptionMeta = $descriptionMeta;
+        $this->descriptionMeta = (string) $descriptionMeta;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getDescriptionMeta : Getter pour descriptionMeta
+     *
+     * @return string $descriptionMeta
      */
     public function getDescriptionMeta()
     {
         return $this->descriptionMeta;
     }
 
-
-    /**
-     * Convert the object to an array.
+     /**
+     * getArrayCopy : Convertit l'objet en tableau.
      *
-     * @return array
+     * @return array $array
      */
     public function getArrayCopy()
     {
@@ -388,19 +413,30 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-     * Populate from an array.
-     *
+     * populate : Populate l'object à partir d'un array
      * @param array $data
+     *
      */
     public function populate($data = array())
     {
+
     }
 
+    /**
+     * setInputFilter : Rajoute des Filtres
+     * @param InputFilterInterface $inputFilter
+     *
+     */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
+    /**
+     * getInputFilter : Rajoute des Filtres
+     *
+     * @return InputFilter $inputFilter
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {
@@ -423,4 +459,14 @@ class Page implements InputFilterAwareInterface
     {
         $this->updated_at = new \DateTime("now");
     }
+
+    /**
+    * setTranslatableLocale : Setter for locale
+    * @param string $locale
+    */
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
 }

@@ -25,8 +25,10 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class Ressource implements InputFilterAwareInterface
 {
+    /** 
+    * @var InputFilter $inputFilter
+    */
     protected $inputFilter;
-
 
     /**
      * @ORM\Id
@@ -75,21 +77,21 @@ class Ressource implements InputFilterAwareInterface
      */
     protected $updated_at;
 
-    /**
-     * Getter for id
+   /**
+     * getId : Getter pour id
      *
-     * @return mixed
+     * @return int $id
      */
     public function getId()
     {
         return $this->id;
     }
     
-    /**
-     * Setter for id
+   /**
+     * setId : Setter pour id
+     * @param integer $id 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return Ressource $ressource
      */
     public function setId($id)
     {
@@ -97,38 +99,46 @@ class Ressource implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @param $url
-     * @return self
+   /**
+     * setUrl : Setter pour url
+     * @param string $url 
+     *
+     * @return Ressource $ressource
      */
     public function setUrl($url)
     {
-        $this->url = $url;
+        $this->url = (string) $url;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getUrl : Getter pour url
+     *
+     * @return string $url
      */
     public function getUrl()
     {
         return $this->url;
     }
 
-    /**
-     * @param $model
-     * @return self
+     /**
+     * setModel : Setter pour model
+     * @param string $model 
+     *
+     * @return Ressource $ressource
      */
     public function setModel($model)
     {
-        $this->model = $model;
+        $this->model = (string) $model;
 
         return $this;
     }
 
-    /**
-     * @return mixed
+     /**
+     * getModel : Getter pour model
+     *
+     * @return string $model
      */
     public function getModel()
     {
@@ -136,19 +146,23 @@ class Ressource implements InputFilterAwareInterface
     }
 
 
-    /**
-     * @param $recordId
-     * @return self
+   /**
+     * setRecordId : Setter pour recordId
+     * @param integer $recordId 
+     *
+     * @return Ressource $ressource
      */
     public function setRecordId($recordId)
     {
-        $this->recordId = $recordId;
+        $this->recordId = (integer) $recordId;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getRecordId : Getter pour recordId
+     *
+     * @return integer $recordId
      */
     public function getRecordId()
     {
@@ -156,19 +170,23 @@ class Ressource implements InputFilterAwareInterface
     }
 
 
-    /**
-     * @param $locale
-     * @return self
+   /**
+     * setLocale : Setter pour locale
+     * @param string $locale 
+     *
+     * @return Ressource $ressource
      */
     public function setLocale($locale)
     {
-        $this->locale = $locale;
+        $this->locale = (string) $locale;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getLocale : Getter pour locale
+     *
+     * @return string $locale
      */
     public function getLocale()
     {
@@ -176,27 +194,33 @@ class Ressource implements InputFilterAwareInterface
     }
 
     /**
-     * @param $securityContext
-     * @return self
+     * setSecurityContext : Setter pour securityContext
+     * @param string $securityContext 
+     *
+     * @return Ressource $ressource
      */
     public function setSecurityContext($securityContext)
     {
-        $this->securityContext = $securityContext;
+        $this->securityContext = (string) $securityContext;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getSecurityContext : Getter pour securityContext
+     *
+     * @return string $securityContext
      */
     public function getSecurityContext()
     {
         return $this->securityContext;
     }
 
-    /**
-     * @param $layoutContext
-     * @return self
+     /**
+     * setLayoutContext : Setter pour layoutContext
+     * @param string $layoutContext 
+     *
+     * @return Ressource $ressource
      */
     public function setLayoutContext($layoutContext)
     {
@@ -205,8 +229,10 @@ class Ressource implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+     /**
+     * getLayoutContext : Getter pour layoutContext
+     *
+     * @return string $layoutContext
      */
     public function getLayoutContext()
     {
@@ -214,8 +240,10 @@ class Ressource implements InputFilterAwareInterface
     }
 
     /**
-     * @param $createdAt
-     * @return self
+     * setCreatedAt : Setter pour createdAt 
+     * @param datetime $createdAt 
+     *
+     * @return Ressource $ressource
      */
     public function setCreatedAt($createdAt)
     {
@@ -224,8 +252,10 @@ class Ressource implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+   /**
+     * getCreatedAt : Getter pour created_at 
+     *
+     * @return datetime $created_at 
      */
     public function getCreatedAt()
     {
@@ -233,8 +263,10 @@ class Ressource implements InputFilterAwareInterface
     }
 
     /**
-     * @param $updatedAt
-     * @return self
+     * setUpdatedAt : Setter pour updated_at 
+     * @param datetime $updated_at 
+     *
+     * @return Ressource $ressource
      */
     public function setUpdatedAt($updated_at)
     {
@@ -243,8 +275,10 @@ class Ressource implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+   /**
+     * getUpdatedAt : Getter pour updated_at 
+     *
+     * @return datetime $updated_at 
      */
     public function getUpdatedAt()
     {
@@ -252,29 +286,40 @@ class Ressource implements InputFilterAwareInterface
     }
 
     /**
-     * Convert the object to an array.
+     * getArrayCopy : Convertit l'objet en tableau.
      *
-     * @return array
+     * @return array $array
      */
     public function getArrayCopy()
     {
         return get_object_vars($this);
     }
 
-    /**
-     * Populate from an array.
-     *
+     /**
+     * populate : Populate l'object à partir d'un array
      * @param array $data
+     *
      */
     public function populate($data = array())
     {
+
     }
 
+    /**
+     * setInputFilter : Rajoute des Filtres
+     * @param InputFilterInterface $inputFilter
+     *
+     */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
+    /**
+     * getInputFilter : Rajoute des Filtres
+     *
+     * @return InputFilter $inputFilter
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {

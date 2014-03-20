@@ -22,8 +22,10 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class Layout implements InputFilterAwareInterface
 {
+    /**
+    * @var InputFilter $inputFilter
+    */
     protected $inputFilter;
-
 
     /**
      * @ORM\Id
@@ -68,11 +70,10 @@ class Layout implements InputFilterAwareInterface
      */
     protected $updated_at;
 
-
     /**
-     * Getter for id
+     * getId : Getter pour id
      *
-     * @return mixed
+     * @return int $id
      */
     public function getId()
     {
@@ -80,30 +81,34 @@ class Layout implements InputFilterAwareInterface
     }
     
     /**
-     * Setter for id
+     * setId : Setter pour id
+     * @param integer $id 
      *
-     * @param mixed $id Value to set
-     * @return self
+     * @return Layout $layout
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int) $id;
         return $this;
     }
 
     /**
-     * @param $url
-     * @return self
+     * setName : Setter pour name
+     * @param string $name 
+     *
+     * @return Layout $layout
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getName : Getter pour name
+     *
+     * @return string $name
      */
     public function getName()
     {
@@ -111,48 +116,56 @@ class Layout implements InputFilterAwareInterface
     }
 
     /**
-     * @param $model
-     * @return self
+     * setFile : Setter pour file
+     * @param string $file 
+     *
+     * @return Layout $layout
      */
     public function setFile($file)
     {
-        $this->file = $file;
+        $this->file = (string) $file;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getFile : Getter pour file
+     *
+     * @return string $file
      */
     public function getFile()
     {
         return $this->file;
     }
 
-
-    /**
-     * @param $recordId
-     * @return self
+     /**
+     * setDescription : Setter pour description
+     * @param string $description 
+     *
+     * @return Layout $layout
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = (string) $description;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * getDescription : Getter pour description
+     *
+     * @return string $description
      */
     public function getDescription()
     {
         return $this->description;
     }
 
-
-    /**
-     * @param $locale
-     * @return self
+     /**
+     * setImage : Setter pour image
+     * @param string $image 
+     *
+     * @return Layout $layout
      */
     public function setImage($image)
     {
@@ -161,17 +174,21 @@ class Layout implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+     /**
+     * getImage : Getter pour image
+     *
+     * @return string $image
      */
     public function getImage()
     {
         return $this->image;
     }
 
-    /** 
-     * @param array $layoutzones
-     * @return self
+    /**
+     * setLayoutzones : Setter pour layoutzones
+     * @param array $layoutzones 
+     *
+     * @return Layout $layout
      */
     public function setLayoutzones($layoutzones)
     {
@@ -180,11 +197,13 @@ class Layout implements InputFilterAwareInterface
         return $this;
     }
 
-    /** 
-     * @param Layoutzone $layoutzones
-     * @return self
+     /**
+     * addLayoutzone : Ajout d'un layoutzone
+     * @param LayoutZone $layoutzone 
+     *
+     * @return Layout $layout
      */
-    public function addLayoutzone($layoutzone)
+    public function addLayoutzone(LayoutZone $layoutzone)
     {
         $this->layoutzones[] = $layoutzone;
 
@@ -192,6 +211,8 @@ class Layout implements InputFilterAwareInterface
     }
 
     /**
+     * getLayoutzones : Getter pour layoutzones
+     *
      * @return array $layoutzones
      */
     public function getLayoutzones()
@@ -200,8 +221,10 @@ class Layout implements InputFilterAwareInterface
     }
 
     /**
-     * @param $createdAt
-     * @return self
+     * setCreatedAt : Setter pour createdAt 
+     * @param datetime $createdAt 
+     *
+     * @return Layout $layout
      */
     public function setCreatedAt($createdAt)
     {
@@ -211,16 +234,20 @@ class Layout implements InputFilterAwareInterface
     }
 
     /**
-     * @return mixed
+     * getCreatedAt : Getter pour created_at 
+     *
+     * @return datetime $created_at 
      */
     public function getCreatedAt()
     {
         return $this->created_at;
     }
 
-    /**
-     * @param $updatedAt
-     * @return self
+     /**
+     * setUpdatedAt : Setter pour createdAt 
+     * @param datetime $updated_at 
+     *
+     * @return Layout $layout
      */
     public function setUpdatedAt($updated_at)
     {
@@ -229,8 +256,10 @@ class Layout implements InputFilterAwareInterface
         return $this;
     }
 
-    /**
-     * @return mixed
+   /**
+     * getUpdatedAt : Getter pour updated_at 
+     *
+     * @return datetime $updated_at 
      */
     public function getUpdatedAt()
     {
@@ -238,9 +267,9 @@ class Layout implements InputFilterAwareInterface
     }
 
     /**
-     * Convert the object to an array.
+     * getArrayCopy : Convertit l'objet en tableau.
      *
-     * @return array
+     * @return array $array
      */
     public function getArrayCopy()
     {
@@ -248,19 +277,30 @@ class Layout implements InputFilterAwareInterface
     }
 
     /**
-     * Populate from an array.
-     *
+     * populate : Populate l'object à partir d'un array
      * @param array $data
+     *
      */
     public function populate($data = array())
     {
+        
     }
 
+     /**
+     * setInputFilter : Rajoute des Filtres
+     * @param InputFilterInterface $inputFilter
+     *
+     */
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
 
+    /**
+     * getInputFilter : Rajoute des Filtres
+     *
+     * @return InputFilter $inputFilter
+     */
     public function getInputFilter()
     {
         if (!$this->inputFilter) {
