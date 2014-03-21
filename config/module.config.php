@@ -47,7 +47,7 @@ return array(
             /*'article' => array(
                 'type' => 'PlaygroundCMS\Router\RegexSlash',
                 'options' => array(
-                  'regex'    => '\/(?<locale>([a-z]+))\/article\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
+                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/article\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
                   'defaults' => array(
                     'controller' => 'PlaygroundCMS\Controller\Front\Article',
                     'action'     => 'index',
@@ -65,7 +65,7 @@ return array(
             'frontend' => array(
                 'type' => 'PlaygroundCMS\Router\RegexSlash',
                 'options' => array(
-                  'regex'    => '\/(?<locale>([a-z]+))\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
+                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
                   'defaults' => array(
                     'controller' => 'PlaygroundCMS\Controller\Front\Page',
                     'action'     => 'index',
