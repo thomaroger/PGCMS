@@ -4,16 +4,30 @@
 namespace PlaygroundCMS\View;
 
 use Zend\View\HelperPluginManager as HelperPluginManagerParent;
+use Zend\ServiceManager\ServiceManager;
 
 class HelperPluginManager extends HelperPluginManagerParent
 {
+     /**
+     * @var Zend\ServiceManager\ServiceManage $serviceManager
+     */
     protected $serviceManager;
     
+    /**
+     * Default set of helpers factories
+     *
+     * @var array
+     */
     protected $factories = array(
         'flashmessenger' => 'Zend\View\Helper\Service\FlashMessengerFactory',
         'identity'       => 'Zend\View\Helper\Service\IdentityFactory',
     );
-   
+    
+    /**
+     * Default set of helpers
+     *
+     * @var array
+     */
     protected $invokableClasses = array(
         'basepath'            => 'Zend\View\Helper\BasePath',
         'cycle'               => 'Zend\View\Helper\Cycle',
@@ -50,16 +64,19 @@ class HelperPluginManager extends HelperPluginManagerParent
         'cmstranslate'        => 'PlaygroundCMS\View\Helper\CMSTranslate',
     );
 
-
      /**
      * Attempt to create an instance via an invokable class
      *
      * Overrides parent implementation by passing $creationOptions to the
      * constructor, if non-null.
      *
+     * WARNING : ADD PlaygroundCMS
+     * Add call to setServiceManager to acces to ServiceManager if helper add a method setServiceManager
+     *
      * @param  string $canonicalName
      * @param  string $requestedName
      * @return null|\stdClass
+     *
      * @throws Exception\ServiceNotCreatedException If resolved class does not exist
      */
     protected function createFromInvokable($canonicalName, $requestedName)
@@ -74,12 +91,23 @@ class HelperPluginManager extends HelperPluginManagerParent
         return $instance;
     }
 
+     /**
+     * getServiceManager : Getter pour serviceManager
+     *
+     * @return ServiceManager
+     */
     public function getServiceManager()
     {
         return $this->serviceManager;
     }
 
-    public function setServiceManager($serviceManager)
+    /**
+     * setServiceManager : Setter pour le serviceManager
+     * @param  ServiceManager $serviceManager
+     *
+     * @return HelperPluginManager
+     */
+    public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
         return $this;

@@ -1,9 +1,17 @@
 <?php
-
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Helper pour render un bloc
+**/
 namespace PlaygroundCMS\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use PlaygroundCMS\Entity\Block;
+use PlaygroundCMS\Cache\Blocks;
+use PlaygroundCMS\Renderer\BlockRenderer;
 
 class GetBlock extends AbstractHelper
 {
@@ -13,16 +21,15 @@ class GetBlock extends AbstractHelper
     protected $blockService;
 
     /**
-     * __invoke
+     * __invoke : permet de rendre un bloc
+     * @param  string $slug slug
      *
-     * @access public
-     * @param  array  $options array of options
-     * @return string
+     * @return string $return 
      */
     public function __invoke($slug)
     {
 
-        $block = $this->getBlockFromCache($slug);
+        $block = $this->getBlockFromCache((string) $slug);
         
         if ($block instanceof Block) {
             echo $this->getBlockRendererService()
@@ -33,15 +40,25 @@ class GetBlock extends AbstractHelper
         echo '';
     }
 
-    public function getBlockFromCache($slug)
+    /**
+     * getBlockFromCache : permet de recuperer un bloc du cache
+     * @param  string $slug slug
+     *
+     * @return Block $block 
+     */
+    private function getBlockFromCache($slug)
     {
         $block = $this->getBlockService()->findBlockBySlug($slug);
 
         return $block;
     }
 
-
-    public function getBlockService()
+    /**
+    * getBlockService : Getter pour blockService
+    *
+    * @return PlaygroundCMS\Cache\Blocks $blockService
+    */
+    private function getBlockService()
     {
         if (null === $this->blockService) {
             $this->blockService = $this->getServiceManager()->get('playgroundcms_cached_blocks');
@@ -50,14 +67,25 @@ class GetBlock extends AbstractHelper
         return $this->blockService;
     }
 
-    public function setBlockService($blockService)
+    /**
+    * setBlockService : Setter pour blockService
+    * @param PlaygroundCMS\Cache\Blocks $blockService
+    *
+    * @return GetBlock 
+    */
+    public function setBlockService(Blocks $blockService)
     {
         $this->blockService = $blockService;
 
         return $this;
     }
 
-    public function getBlockRendererService()
+    /**
+    * getBlockRendererService : Getter pour blockRenderer
+    *
+    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    */
+    private function getBlockRendererService()
     {
         if (null === $this->blockRenderer) {
             $this->blockRenderer = $this->getServiceManager()->get('playgroundcms_blockrenderer_service');
@@ -66,7 +94,13 @@ class GetBlock extends AbstractHelper
         return $this->blockRenderer;
     }
 
-    public function setBlockRendererService($blockRenderer)
+    /**
+    * setBlockRendererService : Setter pour blockRenderer
+    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    *
+    * @return GetBlock 
+    */
+    public function setBlockRendererService(BlockRenderer $blockRenderer)
     {
         $this->blockRenderer = $blockRenderer;
 

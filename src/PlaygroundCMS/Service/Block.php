@@ -1,27 +1,36 @@
 <?php
-
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe de service pour l'entite Block
+**/
 namespace PlaygroundCMS\Service;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
+use PlaygroundCMS\Mapper\Block as BlockMapper;
 
 class Block extends EventProvider implements ServiceManagerAwareInterface
 {
 
-
     /**
-     * @var contactMapper
+     * @var PlaygroundCMS\Mapper\Block blockMapper
      */
     protected $blockMapper;
 
     /**
-     * @var ServiceManager
+     * @var Zend\ServiceManager\ServiceManage ServiceManager
      */
     protected $serviceManager;
-
-  
-   
+    
+    /**
+     * getBlockMapper : Getter pour blockMapper
+     *
+     * @return PlaygroundCMS\Mapper\Block $blockMapper
+     */
     public function getBlockMapper()
     {
         if (null === $this->blockMapper) {
@@ -31,17 +40,21 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         return $this->blockMapper;
     }
 
-    public function setBlockMapper($blockMapper)
+     /**
+     * setBlockMapper : Setter pour le blockMapper
+     * @param  PlaygroundCMS\Mapper\Block $blockMapper
+     *
+     * @return Block
+     */
+    private function setBlockMapper(BlockMapper $blockMapper)
     {
         $this->blockMapper = $blockMapper;
 
         return $this;
     }
 
-   
-
     /**
-     * Retrieve service manager instance
+     * getServiceManager : Getter pour serviceManager
      *
      * @return ServiceManager
      */
@@ -50,11 +63,11 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         return $this->serviceManager;
     }
 
-    /**
-     * Set service manager instance
-     *
+     /**
+     * setServiceManager : Setter pour le serviceManager
      * @param  ServiceManager $serviceManager
-     * @return User
+     *
+     * @return Block
      */
     public function setServiceManager(ServiceManager $serviceManager)
     {

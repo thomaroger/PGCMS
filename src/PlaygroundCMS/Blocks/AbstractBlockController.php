@@ -39,10 +39,10 @@ abstract class AbstractBlockController
 
     /**
     * __construct 
-    * @param ServiceManager $serviceManager
     * @param Block $block Bloc à rendre
+    * @param ServiceManager $serviceManager
     */
-    public function __construct(ServiceManager $serviceManager, Block $block)
+    public function __construct(Block $block, ServiceManager $serviceManager)
     {
         $this->setBlock($block);
         $this->setServiceManager($serviceManager);

@@ -1,40 +1,67 @@
 <?php
-
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de rendre un bloc
+**/
 namespace PlaygroundCMS\Renderer;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
-use PlaygroundCMS\Entity\Block as BlockEntity;
+use PlaygroundCMS\Entity\Block;
 
 class BlockRenderer extends EventProvider implements ServiceManagerAwareInterface
 {
+    /**
+    * @var Block $block : Bloc à rendre
+    */
     protected $block;
 
-
-
-    public function setBlock(BlockEntity $block)
+    /**
+    * setBlock : Setter pour bloc
+    * @param Block $block : bloc à rendre
+    *
+    * @return BlockRenderer
+    */
+    public function setBlock(Block $block)
     {
         $this->block = $block;
 
         return $this;
     }
 
+    /**
+    * getBlock : Getter pour bloc
+    *
+    * @return Block $block
+    */    
+    private function getBlock()
+    {
+        return $this->block;
+    }
+
+    /**
+    * render : Rend un bloc
+    * 
+    * @return string $render
+    */
     public function render()
     {
         return $this->getRenderAction();
     }
 
-
-    protected function getBlock()
-    {
-        return $this->block;
-    }
-
-    protected function getRenderAction()
+    /**
+    * getRenderAction : Genere le bloc
+    * 
+    * @return string $render
+    */
+    private function getRenderAction()
     {
         $block = $this->getBlock();
-        $blockResponse = $this->getServiceManager()->get('playgroundcms_block_generator')->generate($this->getServiceManager(), $block);
+        $blockResponse = $this->getServiceManager()->get('playgroundcms_block_generator')->generate($block);
         
         return sprintf('
     <!-- Render block -> %s : %s -->
@@ -48,21 +75,22 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
             $block->getName()
         );
     }
+   
     /**
-     * Retrieve service manager instance
+     * getServiceManager : Getter pour le serviceManager
      *
      * @return ServiceManager
      */
-    public function getServiceManager()
+    private function getServiceManager()
     {
         return $this->serviceManager;
     }
 
     /**
-     * Set service manager instance
-     *
+     * setServiceManager : Setter pour le serviceManagee
      * @param  ServiceManager $serviceManager
-     * @return User
+     *
+     * @return BlockRenderer
      */
     public function setServiceManager(ServiceManager $serviceManager)
     {
