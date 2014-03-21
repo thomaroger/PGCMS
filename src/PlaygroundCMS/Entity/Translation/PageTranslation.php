@@ -8,7 +8,7 @@
 * Classe qui permet de gérer la partie I18n de l'entity page
 **/
 
-namespace PlaygroundCMS\Entity;
+namespace PlaygroundCMS\Entity\Translation;
 
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Index;

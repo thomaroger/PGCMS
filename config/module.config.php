@@ -42,17 +42,37 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            'frontend' => array(
-            'type' => 'Zend\Mvc\Router\Http\Literal',
-            'options' => array(
-              'route' => '/',
-              'defaults' => array(
-                'controller' => 'PlaygroundCMS\Controller\Front\Page',
-                'action'     => 'index',
-              ),
-            ),
+            /**
+            // http://dev.pgcms.fr/fr/article/mon-article-1.html Page entity article
+            /*'article' => array(
+                'type' => 'PlaygroundCMS\Router\RegexSlash',
+                'options' => array(
+                  'regex'    => '\/(?<locale>([a-z]+))\/article\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
+                  'defaults' => array(
+                    'controller' => 'PlaygroundCMS\Controller\Front\Article',
+                    'action'     => 'index',
+                  ),
+                  'spec' => '',
+                ),
             'may_terminate' => true,
-          ),
+            ),
+            */
+            /**
+            *   @todo : Export de bloc
+            */
+
+            // http://dev.pgcms.fr/fr/index-1.html
+            'frontend' => array(
+                'type' => 'PlaygroundCMS\Router\RegexSlash',
+                'options' => array(
+                  'regex'    => '\/(?<locale>([a-z]+))\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
+                  'defaults' => array(
+                    'controller' => 'PlaygroundCMS\Controller\Front\Page',
+                    'action'     => 'index',
+                  ),
+                ),
+            'may_terminate' => true,
+            ),
         ),
     ),
     'service_manager' => array(

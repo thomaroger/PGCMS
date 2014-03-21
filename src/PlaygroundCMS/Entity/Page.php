@@ -12,17 +12,19 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Doctrine\ORM\Mapping\PostPersist;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
+use PlaygroundCore\Filter\Slugify;
 
 /**
  * @ORM\Entity @HasLifecycleCallbacks
  * @ORM\Table(name="cms_page")
- * @Gedmo\TranslationEntity(class="PlaygroundCMS\Entity\PageTranslation")
+ * @Gedmo\TranslationEntity(class="PlaygroundCMS\Entity\Translation\PageTranslation")
  */
 
 class Page implements InputFilterAwareInterface
@@ -33,8 +35,20 @@ class Page implements InputFilterAwareInterface
     protected $inputFilter;
 
     /** 
-    * @var InputFilter $inputFilter
+    * @var string $securityContext
     */
+    protected $securityContext;
+
+    /** 
+    * @var string $layoutContext
+    */
+    protected $layoutContext;
+
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
     protected $locale;
 
     /**
@@ -128,6 +142,7 @@ class Page implements InputFilterAwareInterface
     public function setId($id)
     {
         $this->id = (int) $id;
+
         return $this;
     }
 
@@ -150,6 +165,7 @@ class Page implements InputFilterAwareInterface
     public function setIsWeb($isWeb)
     {
         $this->isWeb = (boolean) $isWeb;
+
         return $this;
     }
 
@@ -172,6 +188,7 @@ class Page implements InputFilterAwareInterface
     public function setIsMobile($isMobile)
     {
         $this->isMobile = (boolean) $isMobile;
+
         return $this;
     }
 
@@ -194,6 +211,7 @@ class Page implements InputFilterAwareInterface
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -216,6 +234,7 @@ class Page implements InputFilterAwareInterface
     public function setStartDate($startDate)
     {
        $this->startDate = $startDate;
+
        return $this;
     }
 
@@ -238,6 +257,7 @@ class Page implements InputFilterAwareInterface
     public function setEndDate($endDate)
     {
        $this->endDate = $endDate;
+
        return $this;
     }
 
@@ -297,13 +317,17 @@ class Page implements InputFilterAwareInterface
     {
         $this->title = (string) $title;
 
+        // le slug est le titre slugifié.
+        $slugify = new Slugify;
+        $this->setSlug($slugify->filter($title));
+
         return $this;
     }
 
     /**
      * getTitle : Getter pour title
      *
-     * @return strign $title
+     * @return string $title
      */
     public function getTitle()
     {
@@ -402,6 +426,52 @@ class Page implements InputFilterAwareInterface
         return $this->descriptionMeta;
     }
 
+    /**
+     * setSecurityContext : Setter pour securityContext
+     * @param string $securityContext 
+     *
+     * @return Page $page
+     */
+    public function setSecurityContext($securityContext)
+    {
+        $this->securityContext = (string) $securityContext;
+
+        return $this;
+    }
+
+    /**
+     * getSecurityContext : Getter pour securityContext
+     *
+     * @return strign $slug
+     */
+    public function getSecurityContext()
+    {
+        return $this->securityContext;
+    }
+
+    /**
+     * setLayoutContext : Setter pour layoutContext
+     * @param string $layoutContext 
+     *
+     * @return Page $page
+     */
+    public function setLayoutContext($layoutContext)
+    {
+        $this->layoutContext = (string) $layoutContext;
+
+        return $this;
+    }
+
+    /**
+     * getLayoutContext : Getter pour layoutContext
+     *
+     * @return strign $layoutContext
+     */
+    public function getLayoutContext()
+    {
+        return $this->layoutContext;
+    }
+
      /**
      * getArrayCopy : Convertit l'objet en tableau.
      *
@@ -460,13 +530,45 @@ class Page implements InputFilterAwareInterface
         $this->updated_at = new \DateTime("now");
     }
 
+    public function createRessource($manager)
+    {
+        $locales = $manager->getRepository('PlaygroundCore\Entity\Locale')->findBy(array('active_front' => 1));
+        $repository = $manager->getRepository('PlaygroundCMS\Entity\Translation\PageTranslation');
+        $pageTranslations = $repository->findTranslations($this);
+        foreach ($locales as $locale) {
+            $ressource = new \PlaygroundCMS\Entity\Ressource();
+            $url  = strtolower($locale->getLocale()."/".$pageTranslations[$locale->getLocale()]['slug'].'-'.$this->getId().'.html');
+            $ressource->setUrl($url);
+            $ressource->setModel(__CLASS__);
+            $ressource->setRecordId($this->getId());
+            $ressource->setLocale($locale->getLocale());
+            $ressource->setSecurityContext($this->getSecurityContext());
+            $ressource->setLayoutContext($this->getLayoutContext());
+            $manager->persist($ressource);
+            $manager->flush();
+        }
+    }
+
     /**
     * setTranslatableLocale : Setter for locale
     * @param string $locale
+    *
+    * @return Page 
     */
     public function setTranslatableLocale($locale)
     {
         $this->locale = $locale;
+    }
+
+
+    /**
+    * getTranslatableLocale : Getter for locale
+    *
+    * @return  string $locale
+    */
+    public function getTranslatableLocale()
+    {
+        return $this->locale;
     }
 
 }
