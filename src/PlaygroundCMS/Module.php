@@ -53,6 +53,7 @@ class Module
             }
             $resolver = new TemplateMapResolver($templates);
             $serviceManager->get('playgroundcms_module_options')->setTemplateMapResolver($resolver);
+
         }
 
         AbstractValidator::setDefaultTranslator($translator,'playgroundcms');
@@ -93,6 +94,10 @@ class Module
 
                 'playgroundcms_template_mapper' => function  ($sm) {
                     return new Mapper\Template($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
+                },
+
+                'RoutePluginManager' => function ($sm) { 
+                    return new Router\RoutePluginManager();
                 },
             ),
             'invokables' => array(

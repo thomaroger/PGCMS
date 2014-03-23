@@ -6,15 +6,15 @@
 *
 * Classe qui permet de surcharger le router afin de posseder l'entité courante (page ou autre model)
 **/
-namespace PlaygroundCMS\Router;
+namespace PlaygroundCMS\Router\Http;
 
 use Traversable;
 use Zend\Mvc\Router\Exception;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\RequestInterface as Request;
 use Zend\Mvc\Router\Http\RouteMatch;
+use Doctrine\ORM\EntityManager;
 use PlaygroundCMS\Cache\Ressources;
-use PlaygroundCMS\Service\Ressource;
 
 /**
  * Regex route.
@@ -59,21 +59,55 @@ class RegexSlash extends \Zend\Mvc\Router\Http\Regex implements \Zend\Mvc\Router
             }
         }
 
-        $this->defaults['ressource'] = $this->getRessource($path);
+        $ressource = $this->getRessource($path);
 
+        if(empty($ressource)){
+            return null;
+        }
+
+        $this->defaults['ressource'] =  $ressource;
+        $this->defaults['matches'] =  $matches;
+        
         return new RouteMatch(array_merge($this->defaults, $matches), $matchedLength);
     }
 
 
     public function getRessource($path)
     {
-        /**
-        $ressoucesCached = new Ressources();
-        $ressoucesCached->setRessourceService(new Ressource());
-        $ressoucesCached->findRessourceByUrl($path);
-        */
+        $cachedRessources = new Ressources();
+        $cachedRessources->setEntityManager($this->getEntityManager());
+        
+        $ressource = $cachedRessources->findRessourceByUrl($path);
 
-        return "";
+        if (empty($ressource)){
+            return null;
+        }
+
+        return $ressource;
+    }
+
+    /**
+     * getEntityManager : Getter pour EntityManager
+     *
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+
+        return $this->entityManager;
+    }
+
+    /**
+     * setEntityManager : Setter pour le entityManager
+     * @param  EntityManager $entityManager
+     *
+     * @return RegexSlash
+     */
+    public function setEntityManager(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        
+        return $this;
     }
 
 }

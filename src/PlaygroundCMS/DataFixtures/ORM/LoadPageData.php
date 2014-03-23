@@ -39,20 +39,20 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $endDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/01/2029 00:00:00');
         $page->setEndDate($endDate);
         $page->setTranslatableLocale('fr_FR');
-        $page->setTitle('Bonjour le monde');
-        $page->setTitleMeta('PGCMS - Bonjour le monde');
-        $page->setKeywordMeta('PGCMS, Bonjour le monde');
-        $page->setDescriptionMeta('PGCMS - Bonjour le monde');
+        $page->setTitle('index');
+        $page->setTitleMeta('PGCMS - Index');
+        $page->setKeywordMeta('PGCMS, Index');
+        $page->setDescriptionMeta('PGCMS - Index');
 
         $manager->persist($page);
         $manager->flush();
 
         $page = $manager->find("PlaygroundCMS\Entity\Page", $page->getId());
         $page->setTranslatableLocale('en_US');
-        $page->setTitle('Hello World');
-        $page->setTitleMeta('PGCMS - Hello World');
-        $page->setKeywordMeta('PGCMS, Hello World');
-        $page->setDescriptionMeta('PGCMS - Hello World');
+        $page->setTitle('home');
+        $page->setTitleMeta('PGCMS - Home');
+        $page->setKeywordMeta('PGCMS, Home');
+        $page->setDescriptionMeta('PGCMS - Home');
 
         $manager->persist($page);
         $manager->flush();

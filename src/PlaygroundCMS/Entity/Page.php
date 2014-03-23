@@ -537,7 +537,7 @@ class Page implements InputFilterAwareInterface
         $pageTranslations = $repository->findTranslations($this);
         foreach ($locales as $locale) {
             $ressource = new \PlaygroundCMS\Entity\Ressource();
-            $url  = strtolower($locale->getLocale()."/".$pageTranslations[$locale->getLocale()]['slug'].'-'.$this->getId().'.html');
+            $url  = strtolower("/".$locale->getLocale()."/".$pageTranslations[$locale->getLocale()]['slug'].'-'.$this->getId().'.html');
             $ressource->setUrl($url);
             $ressource->setModel(__CLASS__);
             $ressource->setRecordId($this->getId());

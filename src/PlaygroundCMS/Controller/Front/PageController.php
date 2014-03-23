@@ -8,8 +8,8 @@
 **/
 namespace PlaygroundCMS\Controller\Front;
 
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use PlaygroundCMS\Controller\Front\AbstractActionController;
 
 class PageController extends AbstractActionController
 {
@@ -20,6 +20,10 @@ class PageController extends AbstractActionController
     */
     public function indexAction()
     {
-        return new ViewModel();
+        $ressource = $this->getRessource();
+        $entity = $this->getEntity();
+
+        $viewModel = new ViewModel(array('entity' => $entity));
+        return $viewModel->setTemplate($this->getTemplate());
     }
 }

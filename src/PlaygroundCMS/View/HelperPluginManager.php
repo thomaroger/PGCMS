@@ -1,5 +1,11 @@
 <?php
-
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 18/03/2013
+*
+* Classe qui permet de surcharger le helper de gestion des plugins afin de rajouter le service manager
+**/
 
 namespace PlaygroundCMS\View;
 
@@ -98,6 +104,7 @@ class HelperPluginManager extends HelperPluginManagerParent
      */
     public function getServiceManager()
     {
+        
         return $this->serviceManager;
     }
 
@@ -110,6 +117,7 @@ class HelperPluginManager extends HelperPluginManagerParent
     public function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
+
         return $this;
     }
 

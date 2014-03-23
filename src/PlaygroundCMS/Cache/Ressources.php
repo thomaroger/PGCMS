@@ -8,7 +8,7 @@
 **/
 namespace PlaygroundCMS\Cache;
 
-use PlaygroundCMS\Service\Block;
+use Doctrine\ORM\EntityManager;
 
 class Ressources extends CachedCollection
 {
@@ -16,6 +16,7 @@ class Ressources extends CachedCollection
     * @var Ressource $ressourceService : Instance du service de ressource
     */
     protected $ressourceService;
+
 
     /**
     * getCachedRessources : Recuperation des ressources cachées
@@ -31,6 +32,7 @@ class Ressources extends CachedCollection
 
     /**
     * findRessourceByUrl : Recuperation d'un ressource en fonction d'une url
+    * @param string $url : Url de la ressource
     *
     * @return Ressource $ressource: ressource
     */
@@ -54,7 +56,7 @@ class Ressources extends CachedCollection
     protected function getCollection()
     {
         $collections = array();
-        $ressources = $this->getRessourceService()->getRessourceMapper()->findAll();
+        $ressources = $this->getEntityManager()->getRepository('PlaygroundCMS\Entity\Ressource')->findAll();
         foreach ($ressources as $ressource) {
             $collections[$ressource->getUrl()] = $ressource;
         }
@@ -63,29 +65,26 @@ class Ressources extends CachedCollection
     }
 
     /**
-     * getRessourceService : Getter pour l'instance du Service Ressource
+     * getEntityManager : Getter pour EntityManager
      *
-     * @return Ressource $ressourceService
+     * @return EntityManager
      */
-    private function getRessourceService()
+    private function getEntityManager()
     {
-        if (null === $this->ressourceService) {
-            $this->ressourceService = $this->getServiceManager()->get('playgroundcms_ressource_service');
-        }
 
-        return $this->ressourceService;
+        return $this->entityManager;
     }
 
     /**
-     * setRessourceService : Setter pour l'instance du Service Block
-     * @param  Ressource $ressourceService
+     * setEntityManager : Setter pour le entityManager
+     * @param  EntityManager $entityManager
      *
-     * @return Ressource $ressourceService
+     * @return Ressources
      */
-    public function setRessourceService($ressourceService)
+    public function setEntityManager(EntityManager $entityManager)
     {
-        $this->ressourceService = $ressourceService;
-
+        $this->entityManager = $entityManager;
+        
         return $this;
     }
 
