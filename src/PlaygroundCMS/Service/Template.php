@@ -22,7 +22,7 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
     protected $templateMapper;
 
     /**
-     * @var Zend\ServiceManager\ServiceManage ServiceManager
+     * @var Zend\ServiceManager\ServiceManager ServiceManager
      */
     protected $serviceManager;
 

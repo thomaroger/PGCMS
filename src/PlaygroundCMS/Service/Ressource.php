@@ -4,22 +4,22 @@
 * @author : troger
 * @since : 18/03/2013
 *
-* Classe de service pour l'entite Block
+* Classe de service pour l'entite Ressource
 **/
 namespace PlaygroundCMS\Service;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
-use PlaygroundCMS\Mapper\Block as BlockMapper;
+use PlaygroundCMS\Mapper\Ressource as RessourceMapper;
 
-class Block extends EventProvider implements ServiceManagerAwareInterface
+class Ressource extends EventProvider implements ServiceManagerAwareInterface
 {
 
     /**
-     * @var PlaygroundCMS\Mapper\Block blockMapper
+     * @var PlaygroundCMS\Mapper\Ressource ressourceMapper
      */
-    protected $blockMapper;
+    protected $ressourceMapper;
 
     /**
      * @var Zend\ServiceManager\ServiceManager ServiceManager
@@ -27,28 +27,28 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
     protected $serviceManager;
     
     /**
-     * getBlockMapper : Getter pour blockMapper
+     * getRessourceMapper : Getter pour ressourceMapper
      *
-     * @return PlaygroundCMS\Mapper\Block $blockMapper
+     * @return PlaygroundCMS\Mapper\Ressource $ressourceMapper
      */
-    public function getBlockMapper()
+    public function getRessourceMapper()
     {
-        if (null === $this->blockMapper) {
-            $this->blockMapper = $this->getServiceManager()->get('playgroundcms_block_mapper');
+        if (null === $this->ressourceMapper) {
+            $this->ressourceMapper = $this->getServiceManager()->get('playgroundcms_ressource_mapper');
         }
 
-        return $this->blockMapper;
+        return $this->ressourceMapper;
     }
 
      /**
-     * setBlockMapper : Setter pour le blockMapper
-     * @param  PlaygroundCMS\Mapper\Block $blockMapper
+     * setRessourceMapper : Setter pour le ressourceMapper
+     * @param  PlaygroundCMS\Mapper\Ressource $ressourceMapper
      *
-     * @return Block
+     * @return Ressource
      */
-    private function setBlockMapper(BlockMapper $blockMapper)
+    private function setRessourceMapper(RessourceMapper $ressourceMapper)
     {
-        $this->blockMapper = $blockMapper;
+        $this->ressourceMapper = $ressourceMapper;
 
         return $this;
     }
@@ -67,7 +67,7 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
      * setServiceManager : Setter pour le serviceManager
      * @param  ServiceManager $serviceManager
      *
-     * @return Block
+     * @return Ressource
      */
     public function setServiceManager(ServiceManager $serviceManager)
     {

@@ -18,7 +18,7 @@ class Blocks extends CachedCollection
     protected $blockService;
 
     /**
-    * getCachedTemplates : Recuperation des templates cachés
+    * getCachedBlocks : Recuperation des blocks cachés
     *
     * @return array $blocks : Blocs qui sont cachés
     */
@@ -30,7 +30,7 @@ class Blocks extends CachedCollection
     }
 
     /**
-    * findBlockBySlug : Recuperation d'un template en fonction d'un slug
+    * findBlockBySlug : Recuperation d'un bloc en fonction d'un slug
     *
     * @return Block $block: Bloc
     */

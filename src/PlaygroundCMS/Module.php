@@ -96,14 +96,15 @@ class Module
                 },
             ),
             'invokables' => array(
-                'playgroundcms_block_service' => 'PlaygroundCMS\Service\Block',
-                'playgroundcms_template_service' => 'PlaygroundCMS\Service\Template',
+                'playgroundcms_block_service'     => 'PlaygroundCMS\Service\Block',
+                'playgroundcms_template_service'  => 'PlaygroundCMS\Service\Template',
 
-                'playgroundcms_block_renderer' => 'PlaygroundCMS\Renderer\BlockRenderer',
-                'playgroundcms_block_generator' => 'PlaygroundCMS\Renderer\BlockGenerator',
+                'playgroundcms_block_renderer'    => 'PlaygroundCMS\Renderer\BlockRenderer',
+                'playgroundcms_block_generator'   => 'PlaygroundCMS\Renderer\BlockGenerator',
 
-                'playgroundcms_cached_blocks' => 'PlaygroundCMS\Cache\Blocks',
-                'playgroundcms_cached_templates' => 'PlaygroundCMS\Cache\Templates',
+                'playgroundcms_cached_blocks'     => 'PlaygroundCMS\Cache\Blocks',
+                'playgroundcms_cached_ressources' => 'PlaygroundCMS\Cache\Ressources',
+                'playgroundcms_cached_templates'  => 'PlaygroundCMS\Cache\Templates',
             ),
         );
     }

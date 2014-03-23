@@ -13,6 +13,8 @@ use Zend\Mvc\Router\Exception;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\RequestInterface as Request;
 use Zend\Mvc\Router\Http\RouteMatch;
+use PlaygroundCMS\Cache\Ressources;
+use PlaygroundCMS\Service\Ressource;
 
 /**
  * Regex route.
@@ -57,16 +59,19 @@ class RegexSlash extends \Zend\Mvc\Router\Http\Regex implements \Zend\Mvc\Router
             }
         }
 
-        $this->defaults['ressource'] = $this->getRessource($matches);
-
-        //var_dump(array_merge($this->defaults, $matches));die;
+        $this->defaults['ressource'] = $this->getRessource($path);
 
         return new RouteMatch(array_merge($this->defaults, $matches), $matchedLength);
     }
 
 
-    public function getRessource($matches)
+    public function getRessource($path)
     {
+        /**
+        $ressoucesCached = new Ressources();
+        $ressoucesCached->setRessourceService(new Ressource());
+        $ressoucesCached->findRessourceByUrl($path);
+        */
 
         return "";
     }
