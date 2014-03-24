@@ -12,6 +12,10 @@ use Zend\Mvc\Controller\AbstractActionController as AbstractActionControllerPare
 
 class AbstractActionController extends AbstractActionControllerParent
 {
+    /**
+    * @var Ressource $ressourceService
+    */
+    protected $ressourceService;
    /**
    * getRessource : permet de récuperer une ressource
    *
@@ -28,8 +32,18 @@ class AbstractActionController extends AbstractActionControllerParent
    */
    protected function getEntity()
    {
+        $ressource = $this->getRessource();
+        $entity = $this->getRessourceService()->getRessourceMapper()->getEntityRepositoryForEntity($ressource->getModel())->findOneById($ressource->getRecordId());
 
-        return '';
+        if (empty($entity)) {
+            $this->getResponse()->setStatusCode(404); 
+        }  
+
+        /* 
+        $repository = $em->getRepository('Gedmo\Translatable\Entity\Translation');
+        $translations = $repository->findTranslations($article);
+        */
+        return $entity;
    }
 
    /**
@@ -55,4 +69,13 @@ class AbstractActionController extends AbstractActionControllerParent
 
         return $template;
     }  
+
+    protected function getRessourceService()
+    {
+        if (!$this->ressourceService) {
+            $this->ressourceService = $this->getServiceLocator()->get('playgroundcms_ressource_service');
+        }
+
+        return $this->ressourceService;
+    }
 }

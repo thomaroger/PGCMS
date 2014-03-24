@@ -181,4 +181,10 @@ class Ressource
 
         return $this->er;
     }
+
+    public function getEntityRepositoryForEntity($entity)
+    {
+        return $this->em->getRepository($entity);
+    }
+    
 }

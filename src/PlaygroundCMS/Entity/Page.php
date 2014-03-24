@@ -549,6 +549,13 @@ class Page implements InputFilterAwareInterface
         }
     }
 
+    public function getTranslations()
+    {
+        
+
+        return $pageTranslations;
+    }
+
     /**
     * setTranslatableLocale : Setter for locale
     * @param string $locale
