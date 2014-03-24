@@ -6,6 +6,7 @@
 *
 * Classe qui permet de gérer le cache fichier de collections d'objets
 **/
+
 namespace PlaygroundCMS\Cache;
 
 use Zend\ServiceManager\ServiceManagerAwareInterface;
@@ -49,6 +50,7 @@ class CachedCollection extends EventProvider implements ServiceManagerAwareInter
 
     /**
     * getCachedCollection : Permet de recuperer le contenu du cache pour une collection donnée
+    * On supprime le cache fichier si le cache est expiré
     *
     * @return array $contenu : Contenu du fichier de cache
     */
@@ -57,10 +59,19 @@ class CachedCollection extends EventProvider implements ServiceManagerAwareInter
         $filename = $this->getFolderCache().$this->getType();
 
         if (!file_exists($filename)) {
-            $this->setCachedCollection(serialize($this->getCollection()));
+            $collections = $this->getCollection();
+            $collections["cached_until"] = time() + $this->getCacheTime();
+            $this->setCachedCollection(serialize($collections));
         }
 
-        return unserialize(file_get_contents($filename));
+        $collections = unserialize(file_get_contents($filename));
+        
+        if (time() > $collections["cached_until"]) {
+            $this->clearCachedCollection();
+        }
+        unset($collections["cached_until"]);
+
+        return $collections;
     }
     /**
     * setCachedCollection : Permet de mettre en cache une collection

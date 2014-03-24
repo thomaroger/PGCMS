@@ -6,17 +6,22 @@
 *
 * Classe qui permet de gérer le cache fichier de objets de type Ressource
 **/
+
 namespace PlaygroundCMS\Cache;
 
 use Doctrine\ORM\EntityManager;
 
 class Ressources extends CachedCollection
 {
+    /**
+    * @var integer CACHE_TIME : Temps de cache fichier pour les ressources
+    */
+    const CACHE_TIME = 60;
+
      /**
     * @var Ressource $ressourceService : Instance du service de ressource
     */
     protected $ressourceService;
-
 
     /**
     * getCachedRessources : Recuperation des ressources cachées
@@ -86,6 +91,17 @@ class Ressources extends CachedCollection
         $this->entityManager = $entityManager;
         
         return $this;
+    }
+
+    /** 
+    * getCacheTime : Temps de cache du fichier
+    *
+    * @return int $time
+    */
+    protected function getCacheTime() {
+        $time = self::CACHE_TIME;
+
+        return $time; 
     }
 
 }

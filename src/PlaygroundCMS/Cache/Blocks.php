@@ -6,12 +6,17 @@
 *
 * Classe qui permet de gérer le cache fichier de objets de type Blocks
 **/
+
 namespace PlaygroundCMS\Cache;
 
 use PlaygroundCMS\Service\Block;
 
 class Blocks extends CachedCollection
 {
+    /**
+    * @var integer CACHE_TIME : Temps de cache fichier pour les blocs
+    */
+    const CACHE_TIME = 600;
      /**
     * @var Block $blockService : Instance du service de block
     */
@@ -87,6 +92,17 @@ class Blocks extends CachedCollection
         $this->blockService = $blockService;
 
         return $this;
+    }
+
+    /** 
+    * getCacheTime : Temps de cache du fichier
+    *
+    * @return int $time
+    */
+    protected function getCacheTime() {
+        $time = self::CACHE_TIME;
+
+        return $time; 
     }
 
 }

@@ -6,11 +6,18 @@
 *
 * Classe qui permet de gérer le cache fichier de objets de type Templates
 **/
+
 namespace PlaygroundCMS\Cache;
+
 use PlaygroundCMS\Service\Template;
 
 class Templates extends CachedCollection
 {   
+    /**
+    * @var integer CACHE_TIME : Temps de cache fichier pour les templates
+    */
+    const CACHE_TIME = 600;
+
     /**
     * @var Template $templateService : Instance du service de template
     */
@@ -69,5 +76,16 @@ class Templates extends CachedCollection
         $this->templateService = $templateService;
 
         return $this;
+    }
+
+    /** 
+    * getCacheTime : Temps de cache du fichier
+    *
+    * @return int $time
+    */
+    protected function getCacheTime() {
+        $time = self::CACHE_TIME;
+
+        return $time; 
     }
 }

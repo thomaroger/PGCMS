@@ -82,7 +82,7 @@ class RegexSlash extends \Zend\Mvc\Router\Http\Regex implements \Zend\Mvc\Router
         if (empty($ressource)){
             return null;
         }
-
+        
         return $ressource;
     }
 
