@@ -20,7 +20,7 @@ use Zend\InputFilter\InputFilterInterface;
  * @ORM\Entity @HasLifecycleCallbacks
  * @ORM\Table(name="cms_ressource",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="ressource_unique_idx", columns={"url"})},
- *      indexes={@ORM\index(name="ressource_index_idx", columns={"model", "record_id", "locale"})}
+ *      indexes={@ORM\Index(name="ressource_index_idx", columns={"model", "record_id", "locale"})}
  * ) 
  */
 class Ressource implements InputFilterAwareInterface
