@@ -63,7 +63,7 @@ return array(
 
             // http://dev.pgcms.fr/fr/index-1.html
             'frontend' => array(
-                'type' => 'PlaygroundCMS\Router\RegexSlash',
+                'type' => 'PlaygroundCMS\Router\Http\RegexSlash',
                 'options' => array(
                   'regex'    => '\/(?<locale>([a-z_]{5}+))\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
                   'defaults' => array(
