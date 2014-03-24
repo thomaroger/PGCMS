@@ -23,7 +23,16 @@ class PageController extends AbstractActionController
         $ressource = $this->getRessource();
         $entity = $this->getEntity();
 
+        $result = $entity->checkVisibility();
+
+        if($result === false){
+            $this->getResponse()->setStatusCode(404);
+
+            return;
+        }
+
         $viewModel = new ViewModel(array('entity' => $entity));
+        
         return $viewModel->setTemplate($this->getTemplate());
     }
 }

@@ -41,6 +41,14 @@ class AbstractActionController extends AbstractActionControllerParent
             $this->getResponse()->setStatusCode(404); 
         }  
 
+         if (!method_exists($entity, "getTranslationRepository")) {
+            throw new \RuntimeException(sprintf(
+                'getTranslationRepository have to be defined in entity class, %s::%s() is missing.',
+                get_class($entity),
+                "getTranslationRepository"
+            ));   
+        }
+
         $translations = $this->getRessourceService()->getRessourceMapper()->getEntityRepositoryForEntity($entity->getTranslationRepository())->findTranslations($entity);
         $entity->setTranslations($translations[$ressource->getLocale()]);
 

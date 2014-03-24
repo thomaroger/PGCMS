@@ -20,6 +20,7 @@ use Zend\InputFilter\InputFilterInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use PlaygroundCore\Filter\Slugify;
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * @ORM\Entity @HasLifecycleCallbacks
@@ -532,7 +533,32 @@ class Page implements InputFilterAwareInterface
         $this->updated_at = new \DateTime("now");
     }
 
-    public function createRessource($manager)
+    /**
+    * checkVisibility : Permet de savoir si une page est disponible en front
+    *
+    * @return boolean $result
+    */
+    public function checkVisibility()
+    {
+        if ($this->getStatus() != 1) {
+            return false;
+        }
+
+        $currentTime = time();
+
+        if (!($this->getStartDate()->getTimestamp() < $currentTime && $this->getEndDate()->getTimestamp() > $currentTime)) {
+            return false;
+        }
+
+
+        return true;
+    }
+
+    /**
+    * createRessource : Permet de creer une ressource à partir d'une entity page
+    * @param EntityManager $manager
+    */
+    public function createRessource(ObjectManager $manager)
     {
         $locales = $manager->getRepository('PlaygroundCore\Entity\Locale')->findBy(array('active_front' => 1));
         $repository = $manager->getRepository($this->getTranslationRepository());
