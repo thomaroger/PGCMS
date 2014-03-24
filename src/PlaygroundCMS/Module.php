@@ -100,6 +100,10 @@ class Module
                     return new Mapper\Ressource($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
                 },
 
+                 'playgroundcms_page_mapper' => function  ($sm) {
+                    return new Mapper\Page($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
+                },
+
                 'RoutePluginManager' => function ($sm) { 
                     return new Router\RoutePluginManager();
                 },

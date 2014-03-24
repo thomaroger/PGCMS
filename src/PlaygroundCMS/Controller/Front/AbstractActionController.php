@@ -29,6 +29,8 @@ class AbstractActionController extends AbstractActionControllerParent
 
    /**
    * Retourne l'entity en fonction de la langue
+   *
+   * @return PlaygroundCMS\Entity\* $entity
    */
    protected function getEntity()
    {
@@ -39,10 +41,9 @@ class AbstractActionController extends AbstractActionControllerParent
             $this->getResponse()->setStatusCode(404); 
         }  
 
-        /* 
-        $repository = $em->getRepository('Gedmo\Translatable\Entity\Translation');
-        $translations = $repository->findTranslations($article);
-        */
+        $translations = $this->getRessourceService()->getRessourceMapper()->getEntityRepositoryForEntity($entity->getTranslationRepository())->findTranslations($entity);
+        $entity->setTranslations($translations[$ressource->getLocale()]);
+
         return $entity;
    }
 

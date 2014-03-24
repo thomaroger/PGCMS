@@ -123,6 +123,8 @@ class Page implements InputFilterAwareInterface
      */
     protected $keywordMeta;
 
+    protected $translations;
+
    /**
      * getId : Getter pour id
      *
@@ -533,7 +535,7 @@ class Page implements InputFilterAwareInterface
     public function createRessource($manager)
     {
         $locales = $manager->getRepository('PlaygroundCore\Entity\Locale')->findBy(array('active_front' => 1));
-        $repository = $manager->getRepository('PlaygroundCMS\Entity\Translation\PageTranslation');
+        $repository = $manager->getRepository($this->getTranslationRepository());
         $pageTranslations = $repository->findTranslations($this);
         foreach ($locales as $locale) {
             $ressource = new \PlaygroundCMS\Entity\Ressource();
@@ -549,15 +551,19 @@ class Page implements InputFilterAwareInterface
         }
     }
 
-    public function getTranslations()
-    {
-        
 
-        return $pageTranslations;
+    /**
+    * getTranslationRepository :  Recuperation de l'entite PageTranslation
+    *
+    * @return string 
+    */
+    public function getTranslationRepository()
+    {
+        return 'PlaygroundCMS\Entity\Translation\PageTranslation';
     }
 
     /**
-    * setTranslatableLocale : Setter for locale
+    * setTranslatableLocale : Setter pour la locale
     * @param string $locale
     *
     * @return Page 
@@ -565,17 +571,42 @@ class Page implements InputFilterAwareInterface
     public function setTranslatableLocale($locale)
     {
         $this->locale = $locale;
+
+        return $this;
     }
 
 
     /**
-    * getTranslatableLocale : Getter for locale
+    * getTranslatableLocale : Getter pour la  locale
     *
     * @return  string $locale
     */
     public function getTranslatableLocale()
     {
         return $this->locale;
+    }
+
+    /**
+    * getTranslations : Getter pour les traductions
+    *
+    * @return  array $translations
+    */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+     /**
+    * getTranslations : Setter pour les traductions
+    * @param array $translation 
+    *
+    * @return Page 
+    */
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+
+        return $this;
     }
 
 }
