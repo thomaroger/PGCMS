@@ -31,6 +31,12 @@ class PageController extends AbstractActionController
             return;
         }
 
+        if(!$entity->getIsWeb()) {
+            $this->getResponse()->setStatusCode(404);
+
+            return;
+        }
+
         $viewModel = new ViewModel(array('entity' => $entity));
         
         return $viewModel->setTemplate($this->getTemplate());
