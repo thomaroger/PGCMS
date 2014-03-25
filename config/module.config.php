@@ -85,6 +85,19 @@ return array(
                                 'action' => 'index',
                             ),
                         ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'page' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/page[/:filter][/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Page',
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -100,10 +113,27 @@ return array(
         'invokables' => array(
             'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController',
 
-            'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController'
+            'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController',
+            'PlaygroundCMS\Controller\Back\Page' => 'PlaygroundCMS\Controller\Back\PageController'
         ),
     ),
     'navigation' => array(
+        'admin' => array(
+            'playgroundcms' => array(
+                'label' => 'CMS',
+                'route' => 'admin/playgroundcmsadmin',
+                'resource' => 'cms',
+                'privilege' => 'admin',
+                'pages' => array(
+                    'list' => array(
+                        'label' => 'Gestion des pages',
+                        'route' => 'admin/playgroundcmsadmin/page',
+                        'resource' => 'cms',
+                        'privilege' => 'admin',
+                    ),
+                ),
+            ),
+        ),
     ),
     'translator' => array(
         'locale' => 'fr_FR',
