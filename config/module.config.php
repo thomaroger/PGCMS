@@ -73,6 +73,21 @@ return array(
                 ),
             'may_terminate' => true,
             ),
+            'admin' => array(
+                'child_routes' => array(
+                    'playgroundcmsadmin' => array(
+                        'type' => 'Literal',
+                        'priority' => 1000,
+                        'options' => array(
+                            'route' => '/playgroundcms',
+                            'defaults' => array(
+                                'controller' => 'PlaygroundCMS\Controller\Back\Dashboard',
+                                'action' => 'index',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
     'service_manager' => array(
@@ -83,7 +98,9 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController'
+            'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController',
+
+            'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController'
         ),
     ),
     'navigation' => array(
