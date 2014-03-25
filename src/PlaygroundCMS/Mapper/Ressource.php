@@ -3,7 +3,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 23/03/2013
+* @since : 23/03/2014
 *
 * Classe qui permet de gérer le mapper de ressource
 **/

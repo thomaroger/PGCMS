@@ -2,7 +2,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 18/03/2013
+* @since : 18/03/2014
 *
 * Classe qui permet de gérer l'entity Zone
 **/

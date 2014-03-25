@@ -2,7 +2,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 25/03/2013
+* @since : 25/03/2014
 *
 * Classe de controleur  de back du dashboard du CMS
 **/

@@ -2,7 +2,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 21/03/2013
+* @since : 21/03/2014
 *
 * Classe qui permet de surcharger le router afin de posseder l'entité courante (page ou autre model)
 **/
