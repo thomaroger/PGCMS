@@ -21,7 +21,8 @@ class DashboardController extends AbstractActionController
     */
     public function indexAction()
     {
-
+        $this->layout()->setVariable('nav', "dashboard");
+        
         return new ViewModel();
     }
 }

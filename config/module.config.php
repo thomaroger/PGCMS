@@ -42,6 +42,17 @@ return array(
     ),
     'router' => array(
         'routes' => array(
+            'userLogout' => array(
+                'type' => 'Literal',
+                'options' => array(
+                  'route'    => '/mon-compte/logout',
+                  'defaults' => array(
+                        'controller' => 'playgrounduser_user',
+                        'action'     => 'logout',
+                    ),
+                ),
+            'may_terminate' => true,
+            ),
             /**
             // http://dev.pgcms.fr/fr/article/mon-article-1.html Page entity article
             /*'article' => array(

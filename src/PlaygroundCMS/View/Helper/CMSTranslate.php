@@ -119,4 +119,28 @@ class CMSTranslate extends AbstractTranslatorHelper
     {
         return $this->serviceManager;
     }
+
+
+    /**
+     * setServiceManager : Setter pour le serviceManager
+     * @param  ServiceManager $serviceManager
+     *
+     * @return CMSTranslate
+     */
+    public function setServiceLocator(ServiceManager $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+
+        return $this;
+    }
+
+     /**
+     * getServiceManager : Getter pour serviceManager
+     *
+     * @return ServiceManager
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
 }

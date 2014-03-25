@@ -39,7 +39,7 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $endDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/01/2029 00:00:00');
         $page->setEndDate($endDate);
         $page->setTranslatableLocale('fr_FR');
-        $page->setTitle('index');
+        $page->setTitle('Index');
         $page->setTitleMeta('PGCMS - Index');
         $page->setKeywordMeta('PGCMS, Index');
         $page->setDescriptionMeta('PGCMS - Index');
@@ -49,10 +49,45 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
 
         $page = $manager->find("PlaygroundCMS\Entity\Page", $page->getId());
         $page->setTranslatableLocale('en_US');
-        $page->setTitle('home');
+        $page->setTitle('Home');
         $page->setTitleMeta('PGCMS - Home');
         $page->setKeywordMeta('PGCMS, Home');
         $page->setDescriptionMeta('PGCMS - Home');
+
+        $manager->persist($page);
+        $manager->flush();
+
+        $page->createRessource($manager);
+
+
+        $page = new Page();
+        $page->setIsWeb(1);
+        $page->setIsMobile(1);
+        $page->setStatus(1);
+
+        $page->setSecurityContext(Credential::SECURITY_ANONYMOUS);
+        $template = array('web' => "playground-cms/page/index.phtml");
+        $page->setLayoutContext(json_encode($template));
+
+        $startDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/02/2014 00:00:00');
+        $page->setStartDate($startDate);
+        $endDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/01/2029 00:00:00');
+        $page->setEndDate($endDate);
+        $page->setTranslatableLocale('fr_FR');
+        $page->setTitle('Sommaire');
+        $page->setTitleMeta('PGCMS - Sommaire');
+        $page->setKeywordMeta('PGCMS, Sommaire');
+        $page->setDescriptionMeta('PGCMS - Sommaire');
+
+        $manager->persist($page);
+        $manager->flush();
+
+        $page = $manager->find("PlaygroundCMS\Entity\Page", $page->getId());
+        $page->setTranslatableLocale('en_US');
+        $page->setTitle('Summary');
+        $page->setTitleMeta('PGCMS - Summary');
+        $page->setKeywordMeta('PGCMS, Summary');
+        $page->setDescriptionMeta('PGCMS - Summary');
 
         $manager->persist($page);
         $manager->flush();

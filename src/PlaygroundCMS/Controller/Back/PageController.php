@@ -14,6 +14,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class PageController extends AbstractActionController
 {
+    const MAX_PER_PAGE = 1;
+
+    protected $pageService;
+    protected $ressourceService;
     /**
     * indexAction : Action index du controller de page
     *
@@ -21,6 +25,50 @@ class PageController extends AbstractActionController
     */
     public function listAction()
     {
-        return new ViewModel();
+        $pagesId = array();
+        $ressourcesCollection = array();
+        $this->layout()->setVariable('nav', "cms");
+        $p = $this->getRequest()->getQuery('page', 1);
+
+
+        $pages = $this->getPageService()->getPageMapper()->findAll();
+        
+        $nbPage = count($pages);
+
+        $pagesPaginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($pages));
+        $pagesPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
+        $pagesPaginator->setCurrentPageNumber($p);
+
+        foreach ($pages as $page) {
+            $pagesId[] = $page->getId();
+        }
+
+        $ressources = $this->getRessourceService()->getRessourceMapper()->findBy(array('model' => 'PlaygroundCMS\Entity\Page', 'recordId' => $pagesId));
+        foreach ($ressources as $ressource) {
+            $ressourcesCollection[$ressource->getRecordId()][$ressource->getLocale()] = $ressource;
+        }
+
+        return new ViewModel(array('pages'                => $pages,
+                                   'pagesPaginator'       => $pagesPaginator,
+                                   'nbPage'               => $nbPage, 
+                                   'ressourcesCollection' => $ressourcesCollection));
+    }
+
+    protected function getPageService()
+    {
+        if (!$this->pageService) {
+            $this->pageService = $this->getServiceLocator()->get('playgroundcms_page_service');
+        }
+
+        return $this->pageService;
+    }
+
+    protected function getRessourceService()
+    {
+        if (!$this->ressourceService) {
+            $this->ressourceService = $this->getServiceLocator()->get('playgroundcms_ressource_service');
+        }
+
+        return $this->ressourceService;
     }
 }
