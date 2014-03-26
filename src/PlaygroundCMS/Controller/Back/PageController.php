@@ -14,7 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class PageController extends AbstractActionController
 {
-    const MAX_PER_PAGE = 1;
+    const MAX_PER_PAGE = 20;
 
     protected $pageService;
     protected $ressourceService;
@@ -28,6 +28,7 @@ class PageController extends AbstractActionController
         $pagesId = array();
         $ressourcesCollection = array();
         $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "page");
         $p = $this->getRequest()->getQuery('page', 1);
 
 
