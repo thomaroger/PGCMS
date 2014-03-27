@@ -35,6 +35,8 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
 
 
+        sleep(1);
+        
         $template = new Template();
 
         $template->setName('Block HTML template');
@@ -45,6 +47,8 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($template);
         $manager->flush();
 
+        sleep(1);
+        
         $template = new Template();
 
         $template->setName('Partial Pagination');

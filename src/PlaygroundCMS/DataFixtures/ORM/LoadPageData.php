@@ -60,6 +60,8 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $page->createRessource($manager);
 
 
+        sleep(1);
+        
         $page = new Page();
         $page->setIsWeb(1);
         $page->setIsMobile(1);

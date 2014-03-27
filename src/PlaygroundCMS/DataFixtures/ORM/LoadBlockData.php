@@ -38,6 +38,8 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
+        sleep(1);
+        
         $block = new Block();
 
         $block->setName("HTML Form");
@@ -62,6 +64,8 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
+        sleep(1);
+        
         $block = new Block();
 
         $block->setName("HTML Content 1");
@@ -77,6 +81,8 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
+        sleep(1);
+        
         $block = new Block();
 
         $block->setName("HTML Content 2");
@@ -92,6 +98,8 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
+        sleep(1);
+        
         $block = new Block();
         
         $block->setName("List block");
@@ -106,6 +114,8 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
+        sleep(1);
+        
         $block = new Block();
         
         $block->setName("List block with Filters (Name like '%HTML%')");
@@ -120,6 +130,8 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
+        sleep(1);
+        
         $block = new Block();
         
         $block->setName("List block with Sort (Name DESC)");
@@ -134,6 +146,8 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
+        sleep(1);
+        
         $block = new Block();
         
         $block->setName("List block with Filter, Sort and Pager (Name like '%HTML%') (Name DESC) (2 blocks per page, limit result to 5 blocks)");
