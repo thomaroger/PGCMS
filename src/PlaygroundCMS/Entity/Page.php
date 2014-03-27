@@ -30,6 +30,16 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class Page implements InputFilterAwareInterface
 {
+
+    const PAGE_DRAFT = 0;
+    const PAGE_PUBLISHED = 1;
+    const PAGE_PENDING= 2;
+    const PAGE_REFUSED = 3;
+
+    public static $statuses = array(self::PAGE_DRAFT => "draft",
+                                    self::PAGE_PUBLISHED => "published",
+                                    self::PAGE_PENDING => "pending",
+                                    self::PAGE_REFUSED => "refused");
     /** 
     * @var InputFilter $inputFilter
     */
@@ -203,6 +213,16 @@ class Page implements InputFilterAwareInterface
     public function getStatus()
     {
         return $this->status;
+    }
+
+     /**
+     * getStatusName : Getter pour status name
+     *
+     * @return string $status
+     */
+    public function getStatusName()
+    {
+        return self::$statuses[$this->status];
     }
     
     /**
