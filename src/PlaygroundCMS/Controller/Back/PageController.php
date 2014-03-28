@@ -21,6 +21,7 @@ class PageController extends AbstractActionController
     protected $pageService;
     protected $ressourceService;
     protected $layoutService;
+    protected $localeService;
     /**
     * indexAction : Action index du controller de page
     *
@@ -64,10 +65,12 @@ class PageController extends AbstractActionController
         $credentials = Credential::$statusesForm;
         $pagesStatuses = Page::$statuses;
         $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
+        $locales = $this->getLocaleService()->getLocaleMapper()->findAll();
 
         return new ViewModel(array('credentials'   => $credentials,
                                    'pagesStatuses' => $pagesStatuses,
-                                   'layouts'       => $layouts));
+                                   'layouts'       => $layouts,
+                                   'locales'       => $locales));
     }
 
     protected function getPageService()
@@ -77,6 +80,15 @@ class PageController extends AbstractActionController
         }
 
         return $this->pageService;
+    }
+
+    protected function getLocaleService()
+    {
+        if (!$this->localeService) {
+            $this->localeService = $this->getServiceLocator()->get('playgroundcore_locale_service');
+        }
+
+        return $this->localeService;
     }
 
     protected function getLayoutService()
