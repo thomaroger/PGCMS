@@ -62,10 +62,22 @@ class PageController extends AbstractActionController
 
     public function createAction()
     {
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+
+            $return = $this->getPageService()->create($data);
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
+        }
+
         $credentials = Credential::$statusesForm;
         $pagesStatuses = Page::$statuses;
         $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
-        $locales = $this->getLocaleService()->getLocaleMapper()->findAll();
+        $locales = $this->getLocaleService()->getLocaleMapper()->findBy(array('active_front' => 1));
 
         return new ViewModel(array('credentials'   => $credentials,
                                    'pagesStatuses' => $pagesStatuses,

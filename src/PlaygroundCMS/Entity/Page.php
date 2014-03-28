@@ -37,8 +37,8 @@ class Page implements InputFilterAwareInterface
     const PAGE_REFUSED = 3;
 
     public static $statuses = array(self::PAGE_DRAFT => "Draft",
-                                    self::PAGE_PUBLISHED => "Published",
                                     self::PAGE_PENDING => "Pending Review",
+                                    self::PAGE_PUBLISHED => "Published",
                                     self::PAGE_REFUSED => "Refused");
     /** 
     * @var InputFilter $inputFilter
@@ -574,11 +574,31 @@ class Page implements InputFilterAwareInterface
         return true;
     }
 
+
+    public function createRessource($pageMapper, $locales)
+    {
+        $repository = $pageMapper->getEntityManager()->getRepository($this->getTranslationRepository());
+        $pageTranslations = $repository->findTranslations($this);
+        foreach ($locales as $locale) {
+            if(!empty($pageTranslations[$locale->getLocale()])) {
+                $ressource = new \PlaygroundCMS\Entity\Ressource();
+                $url  = strtolower("/".$locale->getLocale()."/".$pageTranslations[$locale->getLocale()]['slug'].'-'.$this->getId().'.html');
+                $ressource->setUrl($url);
+                $ressource->setModel(__CLASS__);
+                $ressource->setRecordId($this->getId());
+                $ressource->setLocale($locale->getLocale());
+                $ressource->setSecurityContext($this->getSecurityContext());
+                $ressource->setLayoutContext($this->getLayoutContext());
+                $pageMapper->persist($ressource);
+            }
+        }
+    }
+
     /**
     * createRessource : Permet de creer une ressource à partir d'une entity page
     * @param EntityManager $manager
     */
-    public function createRessource(ObjectManager $manager)
+    public function createRessourceFromFixtures(ObjectManager $manager)
     {
         $locales = $manager->getRepository('PlaygroundCore\Entity\Locale')->findBy(array('active_front' => 1));
         $repository = $manager->getRepository($this->getTranslationRepository());

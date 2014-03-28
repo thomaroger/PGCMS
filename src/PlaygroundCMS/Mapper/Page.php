@@ -96,7 +96,7 @@ class Page
     *
     * @return PlaygroundCMS\Entity\Page $pagek
     */
-    public function insert(Page $entity)
+    public function insert($entity)
     {
         return $this->persist($entity);
     }
@@ -118,7 +118,7 @@ class Page
     *
     * @return PlaygroundCMS\Entity\Page $pagek
     */
-    protected function persist(Page $entity)
+    public function persist($entity)
     {
         $this->em->persist($entity);
         $this->em->flush();

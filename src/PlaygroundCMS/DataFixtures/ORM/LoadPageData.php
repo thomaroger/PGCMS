@@ -57,7 +57,7 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($page);
         $manager->flush();
 
-        $page->createRessource($manager);
+        $page->createRessourceFromFixtures($manager);
 
 
         sleep(1);
@@ -94,7 +94,7 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($page);
         $manager->flush();
 
-        $page->createRessource($manager);
+        $page->createRessourceFromFixtures($manager);
     }
 
     /**
