@@ -20,6 +20,7 @@ class PageController extends AbstractActionController
 
     protected $pageService;
     protected $ressourceService;
+    protected $layoutService;
     /**
     * indexAction : Action index du controller de page
     *
@@ -62,9 +63,11 @@ class PageController extends AbstractActionController
     {
         $credentials = Credential::$statusesForm;
         $pagesStatuses = Page::$statuses;
+        $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
 
         return new ViewModel(array('credentials'   => $credentials,
-                                   'pagesStatuses' => $pagesStatuses));
+                                   'pagesStatuses' => $pagesStatuses,
+                                   'layouts'       => $layouts));
     }
 
     protected function getPageService()
@@ -74,6 +77,15 @@ class PageController extends AbstractActionController
         }
 
         return $this->pageService;
+    }
+
+    protected function getLayoutService()
+    {
+        if (!$this->layoutService) {
+            $this->layoutService = $this->getServiceLocator()->get('playgroundcms_layout_service');
+        }
+
+        return $this->layoutService;
     }
 
     protected function getRessourceService()
