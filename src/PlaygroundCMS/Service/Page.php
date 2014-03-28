@@ -81,6 +81,22 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page->createRessource($this->getPageMapper(), $locales);
     }
 
+    public function checkPage()
+    {
+        // Il faut au moins une plateforme d'activer
+        // Il faut au moins un titre de renseigner
+        // Il faut une visibility
+        // Il faut une date de debut
+
+        // Il faut un status
+
+        if (empty($data['page']['status'])) {
+            return array('status' => 1, 'message' => 'status required');        
+        }
+
+        return array('status' => 0, 'message' => '', 'data' => $data);
+    }
+
     /**
      * getPageMapper : Getter pour pageMapper
      *

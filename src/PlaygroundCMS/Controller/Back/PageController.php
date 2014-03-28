@@ -62,16 +62,19 @@ class PageController extends AbstractActionController
 
     public function createAction()
     {
+        $return  = array();
+        $data = array();
         $request = $this->getRequest();
-
         if ($request->isPost()) {
             $data = array_merge(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
-
-            $return = $this->getPageService()->create($data);
-            return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
+            $return = $this->getPageService()->checkPage($data);
+            if ($return['status'] == 0) {
+                $this->getPageService()->create($return['data']);
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
+            }
         }
 
         $credentials = Credential::$statusesForm;
@@ -79,10 +82,14 @@ class PageController extends AbstractActionController
         $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
         $locales = $this->getLocaleService()->getLocaleMapper()->findBy(array('active_front' => 1));
 
+        /*var_dump($data);
+        var_dump($return);*/
+
         return new ViewModel(array('credentials'   => $credentials,
                                    'pagesStatuses' => $pagesStatuses,
                                    'layouts'       => $layouts,
-                                   'locales'       => $locales));
+                                   'locales'       => $locales,
+                                   'return'        => $return));
     }
 
     protected function getPageService()
