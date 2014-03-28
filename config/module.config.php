@@ -101,13 +101,23 @@ return array(
                             'page' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/page[/:filter][/:p]',
+                                    'route' => '/pages[/:filter][/:p]',
                                     'defaults' => array(
                                         'controller' => 'PlaygroundCMS\Controller\Back\Page',
                                         'action'     => 'list',
                                     ),
-                                ),
+                                ),    
                             ),
+                            'page_create' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/page/create',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Page',
+                                        'action'     => 'create',
+                                    ),
+                                ), 
+                            )
                         ),
                     ),
                 ),

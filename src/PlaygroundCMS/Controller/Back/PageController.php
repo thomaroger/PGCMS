@@ -11,6 +11,8 @@ namespace PlaygroundCMS\Controller\Back;
 
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
+use PlaygroundCMS\Security\Credential;
+use PlaygroundCMS\Entity\Page;
 
 class PageController extends AbstractActionController
 {
@@ -53,6 +55,16 @@ class PageController extends AbstractActionController
                                    'pagesPaginator'       => $pagesPaginator,
                                    'nbPage'               => $nbPage, 
                                    'ressourcesCollection' => $ressourcesCollection));
+    }
+
+
+    public function createAction()
+    {
+        $credentials = Credential::$statusesForm;
+        $pagesStatuses = Page::$statuses;
+
+        return new ViewModel(array('credentials'   => $credentials,
+                                   'pagesStatuses' => $pagesStatuses));
     }
 
     protected function getPageService()

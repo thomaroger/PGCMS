@@ -36,10 +36,10 @@ class Page implements InputFilterAwareInterface
     const PAGE_PENDING= 2;
     const PAGE_REFUSED = 3;
 
-    public static $statuses = array(self::PAGE_DRAFT => "draft",
-                                    self::PAGE_PUBLISHED => "published",
-                                    self::PAGE_PENDING => "pending",
-                                    self::PAGE_REFUSED => "refused");
+    public static $statuses = array(self::PAGE_DRAFT => "Draft",
+                                    self::PAGE_PUBLISHED => "Published",
+                                    self::PAGE_PENDING => "Pending Review",
+                                    self::PAGE_REFUSED => "Refused");
     /** 
     * @var InputFilter $inputFilter
     */
