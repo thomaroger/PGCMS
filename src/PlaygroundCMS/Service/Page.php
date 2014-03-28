@@ -81,18 +81,67 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page->createRessource($this->getPageMapper(), $locales);
     }
 
-    public function checkPage()
+    public function checkPage($data)
     {
-        // Il faut au moins une plateforme d'activer
-        // Il faut au moins un titre de renseigner
-        // Il faut une visibility
-        // Il faut une date de debut
+        // Valeur par défaut
 
-        // Il faut un status
+        $data['page']['status'] = (int) $data['page']['status'];
 
-        if (empty($data['page']['status'])) {
-            return array('status' => 1, 'message' => 'status required');        
+        if (empty($data['page']['start_date']['time'])) {
+            $data['page']['start_date']['time'] = '00:00:00';
         }
+        if (empty($data['page']['end_start']['date'])) {
+            $data['page']['end_start']['date'] = '12/31/2029';
+        }
+
+        if (empty($data['page']['end_start']['time'])) {
+            $data['page']['end_start']['time'] = '23:59:59';
+        }
+        
+        // Il faut au moins un titre de renseigner
+        $locales = $this->getLocaleMapper()->findBy(array('active_front' => 1));
+        $title = false;
+        foreach ($locales as $locale) {
+            if(!empty($data['page'][$locale->getLocale()])) {
+                if(!empty($data['page'][$locale->getLocale()]['title'])){
+                    $title = true;
+                }
+            }
+        }
+        if(!$title){
+            return array('status' => 1, 'message' => 'One of title is required', 'data' => $data);
+        }
+
+        // Il faut au moins une plateforme d'activer
+        if ($data['page']['web']['active'] == 0 && $data['page']['mobile']['active'] == 0) {
+            return array('status' => 1, 'message' => 'One of platform must be activated', 'data' => $data);
+        }
+
+        // Si une plateforme est active, alors il faut un layout
+        if ($data['page']['web']['active'] == 1 && $data['page']['web']['layout'] == '') {
+            return array('status' => 1, 'message' => 'For a activate platform, you must have a layout', 'data' => $data);
+        }
+
+        // Si une plateforme est active, alors il faut un layout
+        if ($data['page']['mobile']['active'] == 1 && $data['page']['mobile']['layout'] == '') {
+            return array('status' => 1, 'message' => 'For a activate platform, you must have a layout', 'data' => $data);
+        }
+
+        // Il faut une visibility
+        if(empty($data['page']['visibility'])) {
+            return array('status' => 1, 'message' => 'Visibility is required', 'data' => $data);  
+        }
+       
+        // Il faut un status
+        if ($data['page']['status'] == -1) {
+            return array('status' => 1, 'message' => 'The status is required', 'data' => $data);        
+        }
+
+        // Il faut une date de debut
+        if (empty($data['page']['start_date']['date'])) {
+            return array('status' => 1, 'message' => 'The start date is required', 'data' => $data);        
+        }
+
 
         return array('status' => 0, 'message' => '', 'data' => $data);
     }

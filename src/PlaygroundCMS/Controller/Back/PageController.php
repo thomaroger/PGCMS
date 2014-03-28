@@ -71,8 +71,11 @@ class PageController extends AbstractActionController
                     $request->getFiles()->toArray()
             );
             $return = $this->getPageService()->checkPage($data);
+            $data = $return["data"];
+            unset($return["data"]);
+
             if ($return['status'] == 0) {
-                $this->getPageService()->create($return['data']);
+                $this->getPageService()->create($data);
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
             }
         }
@@ -82,13 +85,11 @@ class PageController extends AbstractActionController
         $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
         $locales = $this->getLocaleService()->getLocaleMapper()->findBy(array('active_front' => 1));
 
-        /*var_dump($data);
-        var_dump($return);*/
-
         return new ViewModel(array('credentials'   => $credentials,
                                    'pagesStatuses' => $pagesStatuses,
                                    'layouts'       => $layouts,
                                    'locales'       => $locales,
+                                   'data'          => $data,
                                    'return'        => $return));
     }
 
