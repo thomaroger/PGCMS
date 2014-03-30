@@ -103,6 +103,10 @@ class PageController extends AbstractActionController
         $pageId = $this->getEvent()->getRouteMatch()->getParam('id');
         $page = $this->getPageService()->getPageMapper()->findById($pageId);
 
+        if(empty($page)){
+
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
+        }
 
         $translations = $this->getPageService()->getPageMapper()->getEntityRepositoryForEntity($page->getTranslationRepository())->findTranslations($page);
         $page->setTranslations($translations);
@@ -140,7 +144,23 @@ class PageController extends AbstractActionController
 
     public function removeAction()
     {
+        $pageId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $page = $this->getPageService()->getPageMapper()->findById($pageId);
 
+        if(empty($page)){
+
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
+        }
+
+        // Suppression des ressources associées 
+        $ressources = $this->getRessourceService()->getRessourceMapper()->findBy(array('model' => 'PlaygroundCMS\Entity\Page', 'recordId' => $pageId));
+        foreach ($ressources as $ressource) {
+            $this->getRessourceService()->getRessourceMapper()->remove($ressource);
+        }
+        // Suppresion de la page
+        $this->getPageService()->getPageMapper()->remove($page);
+
+        return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
     }
 
     protected function getPageService()

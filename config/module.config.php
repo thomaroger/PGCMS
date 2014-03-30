@@ -130,7 +130,41 @@ return array(
                                         'id' => '[0-9]+',
                                     ),
                                 ), 
-                            )
+                            ),
+                            'page_remove' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/page/remove/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Page',
+                                        'action'     => 'remove',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+                            'layout' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/layouts[/:filter][/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Layout',
+                                        'action'     => 'list',
+                                    ),
+                                ),    
+                            ),
+
+                            'layout_create' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/layout/create',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Layout',
+                                        'action'     => 'create',
+                                    ),
+                                ),    
+                            ),
                         ),
                     ),
                 ),
@@ -148,7 +182,8 @@ return array(
             'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController',
 
             'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController',
-            'PlaygroundCMS\Controller\Back\Page' => 'PlaygroundCMS\Controller\Back\PageController'
+            'PlaygroundCMS\Controller\Back\Page' => 'PlaygroundCMS\Controller\Back\PageController',
+            'PlaygroundCMS\Controller\Back\Layout' => 'PlaygroundCMS\Controller\Back\LayoutController',
         ),
     ),
     'navigation' => array(

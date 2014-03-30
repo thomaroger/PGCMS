@@ -53,7 +53,7 @@ class Module
             }
             $resolver = new TemplateMapResolver($templates);
             $serviceManager->get('playgroundcms_module_options')->setTemplateMapResolver($resolver);
-
+            $serviceManager->get('playgroundcms_module_options')->setThemeFolder($this->getTemplateFolder($serviceManager));
         }
 
         AbstractValidator::setDefaultTranslator($translator,'playgroundcms');

@@ -27,6 +27,9 @@ class ModuleOptions extends AbstractOptions
      */
     protected $translator;
 
+
+    protected $themeFolder;
+
     /**
     * setTemplateMapResolver : Setter pour le templateMapResolver
     * @param TemplateMapResolver $templateMapResolver
@@ -73,4 +76,16 @@ class ModuleOptions extends AbstractOptions
         return $this->translator;
     }
 
+    public function setThemeFolder($themeFolder)
+    {
+        $this->themeFolder = $themeFolder;
+    
+        return $this;
+    }
+
+  
+    public function getThemeFolder()
+    {
+        return $this->themeFolder;
+    }
 }
