@@ -55,7 +55,7 @@ class PageController extends AbstractActionController
 
         return new ViewModel(array('pages'                => $pages,
                                    'pagesPaginator'       => $pagesPaginator,
-                                   'nbPage'               => $nbPage, 
+                                   'nbPage'               => $nbPage,
                                    'ressourcesCollection' => $ressourcesCollection));
     }
 
@@ -91,6 +91,56 @@ class PageController extends AbstractActionController
                                    'locales'       => $locales,
                                    'data'          => $data,
                                    'return'        => $return));
+    }
+
+    public function editAction()
+    {
+        $return  = array();
+        $data = array();
+        
+        $request = $this->getRequest();
+
+        $pageId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $page = $this->getPageService()->getPageMapper()->findById($pageId);
+
+
+        $translations = $this->getPageService()->getPageMapper()->getEntityRepositoryForEntity($page->getTranslationRepository())->findTranslations($page);
+        $page->setTranslations($translations);
+
+        $ressources = $this->getRessourceService()->getRessourceMapper()->findBy(array('model' => 'PlaygroundCMS\Entity\Page', 'recordId' => $pageId));
+        
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+            $return = $this->getPageService()->checkPage($data);
+            $data = $return["data"];
+            unset($return["data"]);
+
+            if ($return['status'] == 0) {
+                $this->getPageService()->edit($data);
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
+            }
+        }
+
+        $credentials = Credential::$statusesForm;
+        $pagesStatuses = Page::$statuses;
+        $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
+        $locales = $this->getLocaleService()->getLocaleMapper()->findBy(array('active_front' => 1));
+
+        return new ViewModel(array('credentials'   => $credentials,
+                                   'pagesStatuses' => $pagesStatuses,
+                                   'layouts'       => $layouts,
+                                   'locales'       => $locales,
+                                   'page'          => $page,
+                                   'ressources'     => $ressources,
+                                   'return'        => $return));
+    }
+
+    public function removeAction()
+    {
+
     }
 
     protected function getPageService()

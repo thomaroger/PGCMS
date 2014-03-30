@@ -67,6 +67,17 @@ class Ressource
     }
 
     /**
+    * findOneBy : recupere des entites en fonction de filtre
+    * @param array $array tableau de filtre
+    *
+    * @return collection $ressourceks collection de PlaygroundCMS\Entity\Ressource
+    */
+    public function findOneBy($array)
+    {
+        return $this->getEntityRepository()->findOneBy($array);
+    }
+
+    /**
     * findBySlug : recupere des entites en fonction de filtre
     * @param string $slug slug d'un ressource à rechercher
     *

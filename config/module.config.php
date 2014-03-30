@@ -117,6 +117,19 @@ return array(
                                         'action'     => 'create',
                                     ),
                                 ), 
+                            ),
+                            'page_edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/page/edit/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Page',
+                                        'action'     => 'edit',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
                             )
                         ),
                     ),

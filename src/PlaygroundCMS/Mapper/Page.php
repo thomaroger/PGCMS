@@ -107,7 +107,7 @@ class Page
     *
     * @return PlaygroundCMS\Entity\Page $pagek
     */
-    public function update(Page $entity)
+    public function update($entity)
     {
         return $this->persist($entity);
     }
@@ -183,42 +183,8 @@ class Page
         return $this->er;
     }
 
-    /**
-    * getSupportedSorts : déclaration des tris supportés par l'entity Page
-    *
-    * @return array $sort
-    */
-    public function getSupportedSorts()
+    public function getEntityRepositoryForEntity($entity)
     {
-        return array(
-            'name' => 'b.name'
-        );
-    }
-
-    /**
-    * getSupportedFilters : déclaration des filtres supportés par l'entity Page
-    *
-    * @return array $filters
-    */
-    public function getSupportedFilters()
-    {
-        return array(
-            'name' => 'filterOnName',
-        );
-    }
-
-    /**
-    * filterOnName : Permet de filtrer sur 
-    * @param QueryBuilder $query
-    * @param string $name
-    *
-    * @return QueryBuilder $query
-    */
-    public function filterOnName(QueryBuilder $query, $name)
-    {
-        $query->where("b.name LIKE :name");
-        $query->setParameter('name', (string) $name);
-
-        return $query;
+        return $this->em->getRepository($entity);
     }
 }

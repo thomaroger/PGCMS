@@ -594,6 +594,18 @@ class Page implements InputFilterAwareInterface
         }
     }
 
+    public function editRessource($pageMapper, $locales)
+    {
+        $repository = $pageMapper->getEntityManager()->getRepository('PlaygroundCMS\Entity\Ressource');
+        $ressources = $repository->findBy(array('model' => __CLASS__, 'recordId' => $this->getId()));
+
+        foreach ($ressources as $ressource) {
+            $ressource->setSecurityContext($this->getSecurityContext());
+            $ressource->setLayoutContext($this->getLayoutContext());
+            $pageMapper->persist($ressource);
+        }
+    }
+
     /**
     * createRessource : Permet de creer une ressource à partir d'une entity page
     * @param EntityManager $manager
