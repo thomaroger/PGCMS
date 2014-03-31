@@ -37,10 +37,13 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page = new PageEntity();
         $layoutContext = array();
 
+        $page->setIsWeb(0);
         if ($data['page']['web']['active'] == 1) {
             $page->setIsWeb(1);
             $layoutContext['web'] = $data['page']['web']['layout'];
         }
+
+        $page->setIsMobile(0);
         if ($data['page']['mobile']['active'] == 1) {
             $page->setIsMobile(1);
             $layoutContext['mobile'] = $data['page']['mobile']['layout'];
@@ -86,15 +89,17 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
 
         $layoutContext = array();
 
+        $page->setIsWeb(0);
         if ($data['page']['web']['active'] == 1) {
             $page->setIsWeb(1);
             $layoutContext['web'] = $data['page']['web']['layout'];
         }
+
+        $page->setIsMobile(0);
         if ($data['page']['mobile']['active'] == 1) {
             $page->setIsMobile(1);
             $layoutContext['mobile'] = $data['page']['mobile']['layout'];
         }
-
         $page->setStatus(PageEntity::PAGE_DRAFT);
 
         if (!empty($data['page']['status'])) {
