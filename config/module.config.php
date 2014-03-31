@@ -165,6 +165,32 @@ return array(
                                     ),
                                 ),    
                             ),
+                            'layout_edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/layout/edit/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Layout',
+                                        'action'     => 'edit',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+                            'layout_remove' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/layout/remove/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Layout',
+                                        'action'     => 'remove',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
                         ),
                     ),
                 ),

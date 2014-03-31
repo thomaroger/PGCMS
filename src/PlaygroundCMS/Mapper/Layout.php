@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManager;
 use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundCMS\Options\ModuleOptions;
 use Doctrine\ORM\QueryBuilder;
+use PlaygroundCMS\Entity\Layout as LayoutEntity;
 
 class Layout
 {
@@ -96,7 +97,7 @@ class Layout
     *
     * @return PlaygroundCMS\Entity\Layout $layout
     */
-    public function insert(Layout $entity)
+    public function insert(LayoutEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -107,7 +108,7 @@ class Layout
     *
     * @return PlaygroundCMS\Entity\Layout $layout
     */
-    public function update(Layout $entity)
+    public function update(LayoutEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -118,7 +119,7 @@ class Layout
     *
     * @return PlaygroundCMS\Entity\Layout $layout
     */
-    protected function persist(Layout $entity)
+    protected function persist(LayoutEntity $entity)
     {
         $this->em->persist($entity);
         $this->em->flush();

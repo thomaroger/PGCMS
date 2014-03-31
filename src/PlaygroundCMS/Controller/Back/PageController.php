@@ -76,6 +76,7 @@ class PageController extends AbstractActionController
 
             if ($return['status'] == 0) {
                 $this->getPageService()->create($data);
+
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
             }
         }
@@ -124,6 +125,7 @@ class PageController extends AbstractActionController
 
             if ($return['status'] == 0) {
                 $this->getPageService()->edit($data);
+                
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
             }
         }

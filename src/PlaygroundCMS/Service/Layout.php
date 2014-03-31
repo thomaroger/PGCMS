@@ -12,6 +12,7 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundCMS\Mapper\Layout as LayoutMapper;
+use PlaygroundCMS\Entity\Layout as LayoutEntity;
 
 class Layout extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -26,6 +27,30 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
     
+    public function create($data)
+    {
+        $layout = new LayoutEntity();
+        
+        $layout->setName($data['layout']['name']);
+        $layout->setFile($data['layout']['file']);
+        $layout->setDescription($data['layout']['description']);
+
+        // upload File
+        // Zone
+
+        $layout = $this->getLayoutMapper()->insert($layout);
+
+    }
+
+    public function checkLayout($data)
+    {
+        if(empty($data['layout']['name'])){
+            return array('status' => 1, 'message' => 'Name required', 'data' => $data);
+        }
+
+        return array('status' => 0, 'message' => '', 'data' => $data);
+    }
+
     /**
      * getLayoutMapper : Getter pour layoutMapper
      *
