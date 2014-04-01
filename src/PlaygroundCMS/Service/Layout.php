@@ -22,6 +22,8 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $layoutMapper;
 
+    protected $cmsOptions;
+
     /**
      * @var Zend\ServiceManager\ServiceManager ServiceManager
      */
@@ -35,11 +37,24 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         $layout->setFile($data['layout']['file']);
         $layout->setDescription($data['layout']['description']);
 
-        // upload File
-        // Zone
 
         $layout = $this->getLayoutMapper()->insert($layout);
 
+        // upload File
+        // Zone
+        $this->addZone($layout);
+
+
+    }
+
+    public function addZone($layout)
+    {
+        $content = file_get_contents($this->getCMSOptions()->getThemeFolder().$data['layout']['file']);
+        
+        preg_match_all("/getZone(.*)/", $content, $matches);
+        foreach ($matches[1] as $value) {
+            $zoneName = (trim(trim(trim(trim($value,'?>')),"');"),"('"));
+        }
     }
 
     public function checkLayout($data)
@@ -47,6 +62,11 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         if(empty($data['layout']['name'])){
             return array('status' => 1, 'message' => 'Name required', 'data' => $data);
         }
+
+        if (!file_exists($this->getCMSOptions()->getThemeFolder().$data['layout']['file'])) {
+            return array('status' => 1, 'message' => 'The file must be created on the filer', 'data' => $data);
+        }
+
 
         return array('status' => 0, 'message' => '', 'data' => $data);
     }
@@ -99,5 +119,14 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         $this->serviceManager = $serviceManager;
 
         return $this;
+    }
+
+    protected function getCMSOptions()
+    {
+        if (!$this->cmsOptions) {
+            $this->cmsOptions = $this->getServiceManager()->get('playgroundcms_module_options');
+        }
+
+        return $this->cmsOptions;
     }
 }
