@@ -19,6 +19,7 @@ class DashboardController extends AbstractActionController
     protected $blockMapper;
     protected $pageMapper;
     protected $serviceManager;
+    protected $layoutMapper;
 
     /**
     * indexAction : Action index du controller de dashboard
@@ -33,8 +34,9 @@ class DashboardController extends AbstractActionController
         $blocks = $this->getBlockMapper()->findAll();
         $pages = $this->getPageMapper()->findAll();
         $users = $this->getUserService()->findAll();
+        $layouts = $this->getLayoutMapper()->findAll();
         
-        $feeds = $this->getFeeds($blocks, $pages, $users);
+        $feeds = $this->getFeeds($blocks, $pages, $users, $layouts);
 
         return new ViewModel(array("blocks" => $blocks,
                                    "users" => $users,
@@ -42,7 +44,7 @@ class DashboardController extends AbstractActionController
                                    "feeds" => $feeds));
     }
 
-    public function getFeeds($blocks, $pages, $users)
+    public function getFeeds($blocks, $pages, $users, $layouts)
     {
         $feeds = array();
         foreach ($blocks as $block) {
@@ -53,6 +55,9 @@ class DashboardController extends AbstractActionController
         }
         foreach ($pages as $page) {
             $feeds[$page->getCreatedAt()->getTimestamp()] = $page;
+        }
+        foreach ($layouts as $layout) {
+            $feeds[$layout->getCreatedAt()->getTimestamp()] = $layout;
         }
 
         krsort($feeds);
@@ -92,6 +97,22 @@ class DashboardController extends AbstractActionController
         return $this;
     }
 
+    protected function getLayoutMapper()
+    {
+        if (empty($this->layoutMapper)) {
+            $this->setLayoutMapper($this->getServiceLocator()->get('playgroundcms_layout_mapper'));
+        }
+
+        return $this->layoutMapper;
+    }
+
+    protected function setLayoutMapper($layoutMapper)
+    {
+        $this->layoutMapper = $layoutMapper;
+
+        return $this;
+    }
+
     /**
      * getUserMapper
      *
@@ -105,7 +126,6 @@ class DashboardController extends AbstractActionController
 
         return $this->userService;
     }
-
     /**
      * setUserMapper
      *

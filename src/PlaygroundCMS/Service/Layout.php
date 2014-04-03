@@ -2,7 +2,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 28/03/2014
+* @since : 03/04/2014
 *
 * Classe de service pour l'entite Layout
 **/
@@ -11,6 +11,7 @@ namespace PlaygroundCMS\Service;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
+use PlaygroundCore\Filter\Slugify;
 use PlaygroundCMS\Mapper\Layout as LayoutMapper;
 use PlaygroundCMS\Entity\Layout as LayoutEntity;
 
@@ -21,7 +22,8 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
      * @var PlaygroundCMS\Mapper\Layout layoutMapper
      */
     protected $layoutMapper;
-
+    protected $layoutZoneService;
+    protected $zoneService;
     protected $cmsOptions;
 
     /**
@@ -37,24 +39,60 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         $layout->setFile($data['layout']['file']);
         $layout->setDescription($data['layout']['description']);
 
-
         $layout = $this->getLayoutMapper()->insert($layout);
 
         // upload File
-        // Zone
-        $this->addZone($layout);
+        $layout = $this->uploadImage($layout, $data);
 
+        $layout = $this->addZone($layout, $data);
+
+        $layout = $this->getLayoutMapper()->update($layout);
 
     }
 
-    public function addZone($layout)
+    public function addZone($layout, $data)
     {
         $content = file_get_contents($this->getCMSOptions()->getThemeFolder().$data['layout']['file']);
         
         preg_match_all("/getZone(.*)/", $content, $matches);
         foreach ($matches[1] as $value) {
             $zoneName = (trim(trim(trim(trim($value,'?>')),"');"),"('"));
+            $zone = $this->getZoneService()->findByNameOrCreate($zoneName);
+            $layoutZone = $this->getLayoutZoneService()->findByLayoutZoneOrCreate($layout, $zone);
+            $layout->addLayoutzone($layoutZone);
         }
+
+        return $layout;
+    }
+
+
+    public function removeLayoutZone($layout)
+    {
+        $layoutZones = $this->getLayoutZoneService()->getLayoutZoneMapper()->findBy(array('layout' => $layout));
+        foreach ($layoutZones as $layoutZone) {
+           $this->getLayoutZoneService()->getLayoutZoneMapper()->remove($layoutZone);
+        }
+
+        return true;
+    }
+
+    public function uploadImage($layout, $data)
+    {
+         if (!empty($data['files']['tmp_name'])) {
+            $path = $this->getCMSOptions()->getLayoutPath();
+            
+            if (!is_dir($path)) {
+                mkdir($path,0777, true);
+            }
+            $media_url = $this->getCMSOptions()->getLayoutUrl();
+            $slugify = new Slugify;
+            $layoutImageName = $slugify->filter($layout->getName());
+            move_uploaded_file($data['files']['tmp_name'], $path . $layout->getId() . "-" . $layoutImageName);
+            $layout->setImage($media_url . $layout->getId() . "-" . $layoutImageName);
+        }
+        $layout = $this->getLayoutMapper()->update($layout);
+
+        return $layout;
     }
 
     public function checkLayout($data)
@@ -83,6 +121,25 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         }
 
         return $this->layoutMapper;
+    }
+
+   
+    public function getLayoutZoneService()
+    {
+        if (null === $this->layoutZoneService) {
+            $this->layoutZoneService = $this->getServiceManager()->get('playgroundcms_layoutZone_service');
+        }
+
+        return $this->layoutZoneService;
+    }
+
+     public function getZoneService()
+    {
+        if (null === $this->zoneService) {
+            $this->zoneService = $this->getServiceManager()->get('playgroundcms_zone_service');
+        }
+
+        return $this->zoneService;
     }
 
      /**

@@ -89,7 +89,8 @@ class LayoutController extends AbstractActionController
             return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
         }
 
-        //Suppresion des zones 
+        //Suppresion des layoutzone associé 
+        $this->getLayoutService()->removeLayoutZone($layout);
 
         // Suppresion de la page
         $this->getLayoutService()->getLayoutMapper()->remove($layout);

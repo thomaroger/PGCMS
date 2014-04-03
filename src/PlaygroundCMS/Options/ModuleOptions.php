@@ -30,6 +30,11 @@ class ModuleOptions extends AbstractOptions
 
     protected $themeFolder;
 
+    protected $layout_path = 'public/media/layout/';
+    protected $layout_url  =  '/media/layout/';
+
+
+
     /**
     * setTemplateMapResolver : Setter pour le templateMapResolver
     * @param TemplateMapResolver $templateMapResolver
@@ -88,4 +93,16 @@ class ModuleOptions extends AbstractOptions
     {
         return $this->themeFolder;
     }
+
+     public function getLayoutPath()
+    {
+        return $this->layout_path;
+    }
+
+    public function getLayoutUrl()
+    {
+        return $this->layout_url;
+    }
+
+
 }

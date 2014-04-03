@@ -3,9 +3,9 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 28/03/2014
+* @since : 24/03/2014
 *
-* Classe qui permet de gérer le mapper de layout
+* Classe qui permet de gérer le mapper de layoutZone
 **/
 
 namespace PlaygroundCMS\Mapper;
@@ -14,9 +14,8 @@ use Doctrine\ORM\EntityManager;
 use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundCMS\Options\ModuleOptions;
 use Doctrine\ORM\QueryBuilder;
-use PlaygroundCMS\Entity\Layout as LayoutEntity;
 
-class Layout
+class LayoutZone
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -48,9 +47,9 @@ class Layout
 
     /**
     * findById : recupere l'entite en fonction de son id
-    * @param int $id id du layout
+    * @param int $id id du layoutZone
     *
-    * @return PlaygroundCMS\Entity\Layout $layout
+    * @return PlaygroundCMS\Entity\LayoutZone $layoutZone
     */
     public function findById($id)
     {
@@ -61,7 +60,7 @@ class Layout
     * findBy : recupere des entites en fonction de filtre
     * @param array $array tableau de filtre
     *
-    * @return collection $layouts collection de PlaygroundCMS\Entity\Layout
+    * @return collection $layoutZones collection de PlaygroundCMS\Entity\LayoutZone
     */
     public function findBy($array)
     {
@@ -81,9 +80,9 @@ class Layout
 
     /**
     * findBySlug : recupere des entites en fonction de filtre
-    * @param string $slug slug d'un layout à rechercher
+    * @param string $slug slug d'un layoutZone à rechercher
     *
-    * @return collection $layouts collection de PlaygroundCMS\Entity\Layout
+    * @return collection $layoutZones collection de PlaygroundCMS\Entity\LayoutZone
     */
     public function findBySlug($slug)
     {
@@ -95,7 +94,7 @@ class Layout
     * @param array $by tableau de filtre
     * @param array $sortArray tableau de sort
     *
-    * @return collection $layouts collection de PlaygroundCMS\Entity\Layout
+    * @return collection $layoutZones collection de PlaygroundCMS\Entity\LayoutZone
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
@@ -103,34 +102,34 @@ class Layout
     }
 
     /**
-    * insert : insert en base une entité layout
-    * @param PlaygroundCMS\Entity\Layout $layout layout
+    * insert : insert en base une entité layoutZone
+    * @param PlaygroundCMS\Entity\LayoutZone $layoutZone layoutZone
     *
-    * @return PlaygroundCMS\Entity\Layout $layout
+    * @return PlaygroundCMS\Entity\LayoutZone $layoutZone
     */
-    public function insert(LayoutEntity $entity)
+    public function insert($entity)
     {
         return $this->persist($entity);
     }
 
     /**
-    * insert : met a jour en base une entité layout
-    * @param PlaygroundCMS\Entity\Layout $layout layout
+    * insert : met a jour en base une entité layoutZone
+    * @param PlaygroundCMS\Entity\LayoutZone $layoutZone layoutZone
     *
-    * @return PlaygroundCMS\Entity\Layout $layout
+    * @return PlaygroundCMS\Entity\LayoutZone $layoutZone
     */
-    public function update(LayoutEntity $entity)
+    public function update($entity)
     {
         return $this->persist($entity);
     }
 
     /**
     * persist 
-    * @param PlaygroundCMS\Entity\Layout $entity layout
+    * @param PlaygroundCMS\Entity\LayoutZone $entity layoutZone
     *
-    * @return PlaygroundCMS\Entity\Layout $layout
+    * @return PlaygroundCMS\Entity\LayoutZone $layoutZone
     */
-    protected function persist(LayoutEntity $entity)
+    public function persist($entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
@@ -141,7 +140,7 @@ class Layout
     /**
     * findAll : recupere toutes les entites
     *
-    * @return collection $layout collection de PlaygroundCMS\Entity\Layout
+    * @return collection $layoutZone collection de PlaygroundCMS\Entity\LayoutZone
     */
     public function findAll()
     {
@@ -149,8 +148,8 @@ class Layout
     }
 
     /**
-    * remove : supprimer une entite layout
-    * @param PlaygroundCMS\Entity\Layout $layout Layout
+    * remove : supprimer une entite layoutZone
+    * @param PlaygroundCMS\Entity\LayoutZone $layoutZone LayoutZone
     *
     */
     public function remove($entity)
@@ -182,16 +181,21 @@ class Layout
     }
 
     /**
-    * getEntityRepository : recupere l'entite layout
+    * getEntityRepository : recupere l'entite layoutZone
     *
-    * @return PlaygroundCMS\Entity\Layout $layout
+    * @return PlaygroundCMS\Entity\LayoutZone $layoutZone
     */
     public function getEntityRepository()
     {
         if (null === $this->er) {
-            $this->er = $this->em->getRepository('PlaygroundCMS\Entity\Layout');
+            $this->er = $this->em->getRepository('PlaygroundCMS\Entity\LayoutZone');
         }
 
         return $this->er;
+    }
+
+    public function getEntityRepositoryForEntity($entity)
+    {
+        return $this->em->getRepository($entity);
     }
 }

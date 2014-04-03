@@ -108,6 +108,14 @@ class Module
                     return new Mapper\Layout($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
                 },
 
+                'playgroundcms_zone_mapper' => function  ($sm) {
+                    return new Mapper\Zone($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
+                },
+
+                 'playgroundcms_layoutZone_mapper' => function  ($sm) {
+                    return new Mapper\LayoutZone($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
+                },
+
                 'RoutePluginManager' => function ($sm) { 
                     return new Router\RoutePluginManager();
                 },
@@ -117,7 +125,9 @@ class Module
                 'playgroundcms_template_service'  => 'PlaygroundCMS\Service\Template',
                 'playgroundcms_ressource_service' => 'PlaygroundCMS\Service\Ressource',
                 'playgroundcms_page_service'      => 'PlaygroundCMS\Service\Page',
-                'playgroundcms_layout_service'      => 'PlaygroundCMS\Service\Layout',
+                'playgroundcms_layout_service'    => 'PlaygroundCMS\Service\Layout',
+                'playgroundcms_zone_service'      => 'PlaygroundCMS\Service\Zone',
+                'playgroundcms_layoutZone_service'      => 'PlaygroundCMS\Service\LayoutZone',
 
                 'playgroundcms_block_renderer'    => 'PlaygroundCMS\Renderer\BlockRenderer',
                 'playgroundcms_block_generator'   => 'PlaygroundCMS\Renderer\BlockGenerator',
