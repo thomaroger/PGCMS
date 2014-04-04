@@ -23,7 +23,7 @@ class LayoutController extends AbstractActionController
     public function listAction()
     {
         $this->layout()->setVariable('nav', "cms");
-        $this->layout()->setVariable('subNav', "page");
+        $this->layout()->setVariable('subNav', "layout");
         $p = $this->getRequest()->getQuery('page', 1);
 
 

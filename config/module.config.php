@@ -191,6 +191,16 @@ return array(
                                     ),
                                 ), 
                             ),
+                            'zone' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/zones[/:filter][/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Zone',
+                                        'action'     => 'list',
+                                    ),
+                                ),    
+                            ),
                         ),
                     ),
                 ),
@@ -210,6 +220,7 @@ return array(
             'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController',
             'PlaygroundCMS\Controller\Back\Page' => 'PlaygroundCMS\Controller\Back\PageController',
             'PlaygroundCMS\Controller\Back\Layout' => 'PlaygroundCMS\Controller\Back\LayoutController',
+            'PlaygroundCMS\Controller\Back\Zone' => 'PlaygroundCMS\Controller\Back\ZoneController',
         ),
     ),
     'navigation' => array(
