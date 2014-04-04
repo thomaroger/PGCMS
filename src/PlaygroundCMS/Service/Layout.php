@@ -53,8 +53,24 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
 
     public function edit($data)
     {
-        var_dump($data);
-        die;
+        $layout = $this->getLayoutMapper()->findById($data['layout']['id']);
+        
+        $layout->setName($data['layout']['name']);
+        $layout->setFile($data['layout']['file']);
+        $layout->setDescription($data['layout']['description']);
+
+        $layout = $this->getLayoutMapper()->update($layout);
+
+        // upload File
+        if(!empty($data['files']['name'])) {
+            $layout = $this->uploadImage($layout, $data);
+        }
+
+        $this->removeLayoutZone($layout);
+        $layout = $this->addZone($layout, $data);
+
+        $layout = $this->getLayoutMapper()->update($layout);
+
     }
 
     public function addZone($layout, $data)
