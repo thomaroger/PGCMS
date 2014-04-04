@@ -45,8 +45,9 @@ class LayoutController extends AbstractActionController
     {
         $return  = array();
         $data = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
         $files = array();
+        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
+        
         $request = $this->getRequest();
 
         if ($request->isPost()) {
@@ -76,7 +77,45 @@ class LayoutController extends AbstractActionController
 
     public function editAction()
     {
+        $return  = array();
+        $data = array();
+        $files = array();
+        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
+        
+        $request = $this->getRequest();
 
+        $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
+
+        if(empty($layout)){
+
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+        }
+
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+
+            $return = $this->getLayoutService()->checkLayout($data);
+            $data = $return["data"];
+            unset($return["data"]);
+
+            if ($return['status'] == 0) {
+                $this->getLayoutService()->edit($data);
+
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+            }
+        }
+
+
+        $files = $this->getPhtmlFiles($folderTheme, $files);
+        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+
+        return new ViewModel(array('layout' => $layout,
+                                   'files'  => $files,
+                                   'return' => $return));
     }
 
     public function removeAction()

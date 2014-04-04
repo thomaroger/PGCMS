@@ -50,6 +50,13 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
 
     }
 
+
+    public function edit($data)
+    {
+        var_dump($data);
+        die;
+    }
+
     public function addZone($layout, $data)
     {
         $content = file_get_contents($this->getCMSOptions()->getThemeFolder().$data['layout']['file']);
