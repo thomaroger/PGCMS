@@ -20,6 +20,7 @@ class DashboardController extends AbstractActionController
     protected $pageMapper;
     protected $serviceManager;
     protected $layoutMapper;
+    protected $zoneMapper;
 
     /**
     * indexAction : Action index du controller de dashboard
@@ -35,8 +36,9 @@ class DashboardController extends AbstractActionController
         $pages = $this->getPageMapper()->findAll();
         $users = $this->getUserService()->findAll();
         $layouts = $this->getLayoutMapper()->findAll();
+        $zones = $this->getZoneMapper()->findAll();
         
-        $feeds = $this->getFeeds($blocks, $pages, $users, $layouts);
+        $feeds = $this->getFeeds($blocks, $pages, $users, $layouts, $zones);
 
         return new ViewModel(array("blocks" => $blocks,
                                    "users" => $users,
@@ -44,20 +46,23 @@ class DashboardController extends AbstractActionController
                                    "feeds" => $feeds));
     }
 
-    public function getFeeds($blocks, $pages, $users, $layouts)
+    public function getFeeds($blocks, $pages, $users, $layouts, $zones)
     {
         $feeds = array();
         foreach ($blocks as $block) {
-            $feeds[$block->getCreatedAt()->getTimestamp()] = $block;
+            $feeds[$block->getCreatedAt()->getTimestamp().''.$block->getId()] = $block;
         }
         foreach ($users as $user) {
-            $feeds[$user->getCreatedAt()->getTimestamp()] = $user;
+            $feeds[$user->getCreatedAt()->getTimestamp().''.$user->getId()] = $user;
         }
         foreach ($pages as $page) {
-            $feeds[$page->getCreatedAt()->getTimestamp()] = $page;
+            $feeds[$page->getCreatedAt()->getTimestamp().''.$page->getId()] = $page;
         }
         foreach ($layouts as $layout) {
-            $feeds[$layout->getCreatedAt()->getTimestamp()] = $layout;
+            $feeds[$layout->getCreatedAt()->getTimestamp().''.$layout->getId()] = $layout;
+        }
+        foreach ($zones as $zone) {
+            $feeds[$zone->getCreatedAt()->getTimestamp().''.$zone->getId()] = $zone;
         }
 
         krsort($feeds);
@@ -109,6 +114,22 @@ class DashboardController extends AbstractActionController
     protected function setLayoutMapper($layoutMapper)
     {
         $this->layoutMapper = $layoutMapper;
+
+        return $this;
+    }
+
+    protected function getZoneMapper()
+    {
+        if (empty($this->zoneMapper)) {
+            $this->setZoneMapper($this->getServiceLocator()->get('playgroundcms_zone_mapper'));
+        }
+
+        return $this->zoneMapper;
+    }
+
+    protected function setZoneMapper($zoneMapper)
+    {
+        $this->zoneMapper = $zoneMapper;
 
         return $this;
     }
