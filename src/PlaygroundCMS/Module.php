@@ -142,6 +142,7 @@ class Module
                 'playgroundcms_cached_ressources'       => 'PlaygroundCMS\Cache\Ressources',
                 'playgroundcms_cached_templates'        => 'PlaygroundCMS\Cache\Templates',
                 'playgroundcms_cached_layouts'          => 'PlaygroundCMS\Cache\Layouts',
+                'playgroundcms_cached_layoutszones'          => 'PlaygroundCMS\Cache\LayoutsZones',
                 'playgroundcms_cached_zones'            => 'PlaygroundCMS\Cache\Zones',
             ),
         );
