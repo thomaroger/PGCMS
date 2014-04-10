@@ -138,12 +138,13 @@ class Module
                 'playgroundcms_zone_renderer'   => 'PlaygroundCMS\Renderer\ZoneRenderer',
                 'playgroundcms_block_generator' => 'PlaygroundCMS\Renderer\BlockGenerator',
 
-                'playgroundcms_cached_blocks'           => 'PlaygroundCMS\Cache\Blocks',
-                'playgroundcms_cached_ressources'       => 'PlaygroundCMS\Cache\Ressources',
-                'playgroundcms_cached_templates'        => 'PlaygroundCMS\Cache\Templates',
-                'playgroundcms_cached_layouts'          => 'PlaygroundCMS\Cache\Layouts',
-                'playgroundcms_cached_layoutszones'          => 'PlaygroundCMS\Cache\LayoutsZones',
-                'playgroundcms_cached_zones'            => 'PlaygroundCMS\Cache\Zones',
+                'playgroundcms_cached_blocks'             => 'PlaygroundCMS\Cache\Blocks',
+                'playgroundcms_cached_ressources'         => 'PlaygroundCMS\Cache\Ressources',
+                'playgroundcms_cached_templates'          => 'PlaygroundCMS\Cache\Templates',
+                'playgroundcms_cached_layouts'            => 'PlaygroundCMS\Cache\Layouts',
+                'playgroundcms_cached_layoutszones'       => 'PlaygroundCMS\Cache\LayoutsZones',
+                'playgroundcms_cached_blockslayoutszones' => 'PlaygroundCMS\Cache\BlocksLayoutsZones',
+                'playgroundcms_cached_zones'              => 'PlaygroundCMS\Cache\Zones',
             ),
         );
     }

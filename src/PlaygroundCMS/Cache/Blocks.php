@@ -79,6 +79,8 @@ class Blocks extends CachedCollection
         $collections = array();
         $blocks = $this->getBlockService()->getBlockMapper()->findAll();
         foreach ($blocks as $block) {
+            // Remove manytoone relation for serialize block
+            $block->setblockLayoutZones(array());
             $collections['slug'][$block->getSlug()] = $block;
             $collections['id'][$block->getId()] = $block;
         }

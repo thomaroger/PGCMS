@@ -10,31 +10,44 @@
 namespace PlaygroundCMS\Cache;
 
 use PlaygroundCMS\Service\Zone;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-use Zend\ServiceManager\ServiceManager;
-use ZfcBase\EventManager\EventProvider;
 
-class Zones extends EventProvider implements ServiceManagerAwareInterface
-{   
 
+class Zones extends CachedCollection
+{
+
+    /**
+    * @var integer CACHE_TIME : Temps de cache fichier pour les zones
+    */
+    const CACHE_TIME = 60;
 
     /**
     * @var Template $zoneService : Instance du service de zones
     */
     protected $zoneService;
-    protected $collections;
 
-
-    public function findZoneBySlug($zone)
+     /**
+    * getCachedBlocks : Recuperation des blocks cachés
+    *
+    * @return array $blocks : Blocs qui sont cachés
+    */
+    public function getCachedZones()
     {
-        $collections = $this->getCachedCollection();
-        $zone = (string) $zone;
+        $this->setType('zones');
         
-        if (empty($collections[$zone])) {
+        return $this->getCachedCollection();
+    }
+
+
+    public function findZoneBySlug($zoneName)
+    {
+        $zones = $this->getCachedZones();
+        $zoneName = (string) $zoneName;
+
+        if (empty($zones[$zoneName])) {
             return '';
         }
-
-        return $collections[$zone];
+        
+        return $zones[$zoneName];
     }
 
     /**
@@ -47,8 +60,11 @@ class Zones extends EventProvider implements ServiceManagerAwareInterface
         $collections = array();
         $zones = $this->getZoneService()->getZoneMapper()->findAll();
         foreach ($zones as $zone) {
+            // Remove manytoone relation for serialize zone
+            $zone->setLayoutzones(array());
             $collections[$zone->getName()] = $zone;
         }
+
         return $collections;
     }
 
@@ -79,42 +95,14 @@ class Zones extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
-     public function setCachedCollection($collections)
-    {
-        $this->collections = $collections;
+    /** 
+    * getCacheTime : Temps de cache du fichier
+    *
+    * @return int $time
+    */
+    protected function getCacheTime() {
+        $time = self::CACHE_TIME;
 
-        return $this;
-    }
-
-    public function getCachedCollection()
-    {
-        if($this->collections === null) {
-            $this->setCachedCollection($this->getCollection());
-        }
-
-        return $this->collections;
-    }
-
-    /**
-     * getServiceManager : Getter pour l'instance du Service Manager
-     *
-     * @return ServiceManager $serviceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * setServiceManager : Setter pour l'instance du Service Manager
-     * @param  ServiceManager $serviceManager
-     *
-     * @return CachedCollection $cachedCollection
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
+        return $time; 
     }
 }

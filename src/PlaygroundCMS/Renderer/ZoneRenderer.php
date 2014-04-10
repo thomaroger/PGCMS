@@ -16,6 +16,7 @@ use PlaygroundCMS\Entity\Block;
 use PlaygroundCMS\Cache\BlocksLayoutsZones;
 use PlaygroundCMS\Cache\Layouts;
 use PlaygroundCMS\Cache\LayoutsZones;
+use PlaygroundCMS\Cache\Blocks;
 use PlaygroundCMS\Options\ModuleOptions;
 
 class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
@@ -30,6 +31,7 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     protected $cmsOptions;
     protected $cachedLayouts;
     protected $cachedLayoutsZones;
+    protected $cachedBlocks;
 
     /**
     * setBlock : Setter pour bloc
@@ -68,7 +70,9 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         $blocks = $this->getBlocks();
 
         if (!empty($blocks)) {
-            foreach ($blocks as $block) {
+            foreach ($blocks as $slug) {
+                $block = $this->getBlocksCached()->findBlockBySlug($slug);
+
                 if($block instanceOf Block) {
                     $out .= $this->getBlockRendererService()->setBlock($block)->render();
                 }
@@ -91,18 +95,9 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         $blocks = array();
         $currentLayout = $this->getCmsOptions()->getCurrentLayout();
         $layoutId = $this->getLayoutsCached()->findLayoutByFile($currentLayout);
-
         $layoutZone = $this->getLayoutsZonesCached()->findLayoutZoneByLayoutAndZone($layoutId, $this->getZone()->getId());
-         /**
-        * @todo : mettre en cache ces requetes
-        */
-        $blocklayoutZones = $this->getServiceManager()->get('playgroundcms_Blocklayoutzone_mapper')->findBy(array('layoutZone' => $layoutZone));
-        
-        foreach ($blocklayoutZones as $blocklayoutZone) {
-            $blocks[] = $this->getServiceManager()->get('playgroundcms_cached_blocks')->findBlockById($blocklayoutZone->getBlock()->getId());
-        }
-        
-        return $blocks;
+     
+        return $this->getBlocksLayoutsZonesCached()->findBlocksByLayoutZone($layoutZone);
     }
     
    
@@ -208,6 +203,61 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         }
 
         return $this->cachedLayoutsZones;
+    }
+
+     /**
+    * setBlockRendererService : Setter pour blockRenderer
+    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    *
+    * @return GetBlock 
+    */
+    public function setBlocksLayoutsZonesCached(BlocksLayoutsZones $cachedBlocksLayoutsZones)
+    {
+        $this->cachedBlocksLayoutsZones = $cachedBlocksLayoutsZones;
+
+        return $this;
+    }
+
+      /**
+    * getBlockRendererService : Getter pour blockRenderer
+    *
+    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    */
+    private function getBlocksLayoutsZonesCached()
+    {
+        if (null === $this->cachedBlocksLayoutsZones) {
+            $this->setBlocksLayoutsZonesCached($this->getServiceManager()->get('playgroundcms_cached_blockslayoutszones'));
+        }
+
+        return $this->cachedBlocksLayoutsZones;
+    }
+
+
+     /**
+    * getBlockRendererService : Getter pour blockRenderer
+    *
+    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    */
+    private function getBlocksCached()
+    {
+        if (null === $this->cachedBlocks) {
+            $this->setBlocksCached($this->getServiceManager()->get('playgroundcms_cached_blocks'));
+        }
+
+        return $this->cachedBlocks;
+    }
+
+    /**
+    * setBlockRendererService : Setter pour blockRenderer
+    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    *
+    * @return GetBlock 
+    */
+    public function setBlocksCached(Blocks $cachedBlocks)
+    {
+        $this->cachedBlocks = $cachedBlocks;
+
+        return $this;
     }
 
       /**

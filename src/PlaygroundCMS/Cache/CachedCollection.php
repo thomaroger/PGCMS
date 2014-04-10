@@ -80,6 +80,7 @@ class CachedCollection extends EventProvider implements ServiceManagerAwareInter
     private function setCachedCollection($collection)
     {
         $filename = $this->getFolderCache().$this->getType();
+        $collection = str_replace('DoctrineORMModule\Proxy\__CG__','',$collection);
         file_put_contents($filename, (string) $collection);
     }
 
