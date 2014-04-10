@@ -33,7 +33,6 @@ class LoadLayoutData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($layout);
         $manager->flush();
 
-        sleep(1);
     
     }
     /**

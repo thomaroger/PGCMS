@@ -76,6 +76,7 @@ class AbstractActionController extends AbstractActionControllerParent
         $templates = json_decode($ressource->getLayoutContext(), true);
         $template = $templates['web'];
 
+        $this->getServiceLocator()->get('playgroundcms_module_options')->setCurrentLayout($template);
         return $template;
     }  
 

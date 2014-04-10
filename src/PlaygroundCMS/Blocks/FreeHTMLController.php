@@ -22,8 +22,8 @@ class FreeHTMLController extends AbstractBlockController
     {
         $block = $this->getBlock();
         $params = array('block' => $block);
-
         $model = new ViewModel($params);
+        
         return $this->render($model);
     }
 

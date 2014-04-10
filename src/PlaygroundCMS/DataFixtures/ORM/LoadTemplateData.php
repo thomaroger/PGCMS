@@ -26,8 +26,8 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
 
         $template = new Template();
 
-        $template->setName('Block list template');
-        $template->setFile('playground-cms/blocks/list.phtml');
+        $template->setName('Block list template md 4');
+        $template->setFile('playground-cms/blocks/list_md_4.phtml');
         $template->setDescription('template for block list');
         $template->setBlockType('PlaygroundCMS\Blocks\BlockListController');
         
@@ -35,7 +35,17 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->flush();
 
 
-        sleep(1);
+
+        $template = new Template();
+
+        $template->setName('Block list template md 12');
+        $template->setFile('playground-cms/blocks/list_md_12.phtml');
+        $template->setDescription('template for block list');
+        $template->setBlockType('PlaygroundCMS\Blocks\BlockListController');
+        
+        $manager->persist($template);
+        $manager->flush();
+
         
         $template = new Template();
 
@@ -47,7 +57,6 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($template);
         $manager->flush();
 
-        sleep(1);
         
         $template = new Template();
 

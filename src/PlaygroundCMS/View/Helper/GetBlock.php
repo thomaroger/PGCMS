@@ -48,7 +48,7 @@ class GetBlock extends AbstractHelper
      */
     private function getBlockFromCache($slug)
     {
-        $block = $this->getBlockService()->findBlockBySlug($slug);
+        $block = $this->getCachedBlocks()->findBlockBySlug($slug);
 
         return $block;
     }
@@ -58,7 +58,7 @@ class GetBlock extends AbstractHelper
     *
     * @return PlaygroundCMS\Cache\Blocks $blockService
     */
-    private function getBlockService()
+    private function getCachedBlocks()
     {
         if (null === $this->blockService) {
             $this->blockService = $this->getServiceManager()->get('playgroundcms_cached_blocks');
@@ -73,7 +73,7 @@ class GetBlock extends AbstractHelper
     *
     * @return GetBlock 
     */
-    public function setBlockService(Blocks $blockService)
+    public function setCachedBlocks(Blocks $blockService)
     {
         $this->blockService = $blockService;
 
@@ -88,7 +88,7 @@ class GetBlock extends AbstractHelper
     private function getBlockRendererService()
     {
         if (null === $this->blockRenderer) {
-            $this->blockRenderer = $this->getServiceManager()->get('playgroundcms_blockrenderer_service');
+            $this->blockRenderer = $this->getServiceManager()->get('playgroundcms_block_renderer');
         }
 
         return $this->blockRenderer;

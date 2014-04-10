@@ -32,6 +32,7 @@ class ModuleOptions extends AbstractOptions
 
     protected $layout_path = 'public/media/layout/';
     protected $layout_url  =  '/media/layout/';
+    protected $currentLayout;
 
 
 
@@ -94,7 +95,7 @@ class ModuleOptions extends AbstractOptions
         return $this->themeFolder;
     }
 
-     public function getLayoutPath()
+    public function getLayoutPath()
     {
         return $this->layout_path;
     }
@@ -102,6 +103,19 @@ class ModuleOptions extends AbstractOptions
     public function getLayoutUrl()
     {
         return $this->layout_url;
+    }
+
+
+    public function getCurrentLayout()
+    {
+        return $this->currentLayout;
+    }
+
+    public function setCurrentLayout($currentLayout)
+    {
+        $this->currentLayout = $currentLayout;
+
+        return $this;
     }
 
 

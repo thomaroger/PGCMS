@@ -2,7 +2,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 18/03/2014
+* @since : 10/04/2014
 *
 * Classe qui permet de gérer le cache fichier de objets de type Blocks
 **/
@@ -11,7 +11,7 @@ namespace PlaygroundCMS\Cache;
 
 use PlaygroundCMS\Service\Block;
 
-class Blocks extends CachedCollection
+class Layouts extends CachedCollection
 {
     /**
     * @var integer CACHE_TIME : Temps de cache fichier pour les blocs
@@ -20,16 +20,16 @@ class Blocks extends CachedCollection
      /**
     * @var Block $blockService : Instance du service de block
     */
-    protected $blockService;
+    protected $layoutService;
 
     /**
     * getCachedBlocks : Recuperation des blocks cachés
     *
     * @return array $blocks : Blocs qui sont cachés
     */
-    public function getCachedBlocks()
+    public function getCachedLayouts()
     {
-        $this->setType('blocks');
+        $this->setType('layouts');
         
         return $this->getCachedCollection();
     }
@@ -39,35 +39,17 @@ class Blocks extends CachedCollection
     *
     * @return Block $block: Bloc
     */
-    public function findBlockBySlug($slug)
+    public function findLayoutByFile($file)
     {
-        $blocks = $this->getCachedBlocks();
-        $slug = (string) $slug;
-        $blocks = $blocks['slug'];
-        if (empty($blocks[$slug])) {
+        $layouts = $this->getCachedLayouts();
+        $file = (string) $file;
+
+        if (empty($layouts[$file])) {
             return '';
         }
 
-        return $blocks[$slug];
+        return $layouts[$file];
     }
-
-    /**
-    * findBlockById : Recuperation d'un bloc en fonction d'un id
-    *
-    * @return Block $block: Bloc
-    */
-    public function findBlockById($id)
-    {
-        $blocks = $this->getCachedBlocks();
-        $id = (integer) $id;
-        $blocks = $blocks['id'];
-        if (empty($blocks[$id])) {
-            return '';
-        }
-
-        return $blocks[$id];
-    }
-
 
     /**
     * getCollection : Permet de recuperer les blocs à cacher
@@ -77,10 +59,9 @@ class Blocks extends CachedCollection
     protected function getCollection()
     {
         $collections = array();
-        $blocks = $this->getBlockService()->getBlockMapper()->findAll();
-        foreach ($blocks as $block) {
-            $collections['slug'][$block->getSlug()] = $block;
-            $collections['id'][$block->getId()] = $block;
+        $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
+        foreach ($layouts as $layout) {
+            $collections[$layout->getFile()] = $layout->getId();
         }
 
         return $collections;
@@ -91,13 +72,13 @@ class Blocks extends CachedCollection
      *
      * @return Block $blockService
      */
-    private function getBlockService()
+    private function getLayoutService()
     {
-        if (null === $this->blockService) {
-            $this->blockService = $this->getServiceManager()->get('playgroundcms_block_service');
+        if (null === $this->layoutService) {
+            $this->layoutService = $this->getServiceManager()->get('playgroundcms_layout_service');
         }
 
-        return $this->blockService;
+        return $this->layoutService;
     }
 
     /**
@@ -106,9 +87,9 @@ class Blocks extends CachedCollection
      *
      * @return Blocks $blocks
      */
-    private function setBlockService($blockService)
+    private function setLayoutService($layoutService)
     {
-        $this->blockService = $blockService;
+        $this->layoutService = $layoutService;
 
         return $this;
     }

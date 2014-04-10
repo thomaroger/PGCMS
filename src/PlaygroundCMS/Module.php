@@ -112,8 +112,12 @@ class Module
                     return new Mapper\Zone($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
                 },
 
-                 'playgroundcms_layoutZone_mapper' => function  ($sm) {
+                'playgroundcms_layoutZone_mapper' => function  ($sm) {
                     return new Mapper\LayoutZone($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
+                },
+
+                'playgroundcms_blocklayoutZone_mapper' => function  ($sm) {
+                    return new Mapper\BlockLayoutZone($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
                 },
 
                 'RoutePluginManager' => function ($sm) { 
@@ -121,20 +125,24 @@ class Module
                 },
             ),
             'invokables' => array(
-                'playgroundcms_block_service'      => 'PlaygroundCMS\Service\Block',
-                'playgroundcms_template_service'   => 'PlaygroundCMS\Service\Template',
-                'playgroundcms_ressource_service'  => 'PlaygroundCMS\Service\Ressource',
-                'playgroundcms_page_service'       => 'PlaygroundCMS\Service\Page',
-                'playgroundcms_layout_service'     => 'PlaygroundCMS\Service\Layout',
-                'playgroundcms_zone_service'       => 'PlaygroundCMS\Service\Zone',
-                'playgroundcms_layoutZone_service' => 'PlaygroundCMS\Service\LayoutZone',
+                'playgroundcms_block_service'           => 'PlaygroundCMS\Service\Block',
+                'playgroundcms_template_service'        => 'PlaygroundCMS\Service\Template',
+                'playgroundcms_ressource_service'       => 'PlaygroundCMS\Service\Ressource',
+                'playgroundcms_page_service'            => 'PlaygroundCMS\Service\Page',
+                'playgroundcms_layout_service'          => 'PlaygroundCMS\Service\Layout',
+                'playgroundcms_zone_service'            => 'PlaygroundCMS\Service\Zone',
+                'playgroundcms_layoutZone_service'      => 'PlaygroundCMS\Service\LayoutZone',
+                'playgroundcms_blocklayoutZone_service' => 'PlaygroundCMS\Service\BlockLayoutZone',
 
-                'playgroundcms_block_renderer'    => 'PlaygroundCMS\Renderer\BlockRenderer',
-                'playgroundcms_block_generator'   => 'PlaygroundCMS\Renderer\BlockGenerator',
+                'playgroundcms_block_renderer'  => 'PlaygroundCMS\Renderer\BlockRenderer',
+                'playgroundcms_zone_renderer'   => 'PlaygroundCMS\Renderer\ZoneRenderer',
+                'playgroundcms_block_generator' => 'PlaygroundCMS\Renderer\BlockGenerator',
 
-                'playgroundcms_cached_blocks'     => 'PlaygroundCMS\Cache\Blocks',
-                'playgroundcms_cached_ressources' => 'PlaygroundCMS\Cache\Ressources',
-                'playgroundcms_cached_templates'  => 'PlaygroundCMS\Cache\Templates',
+                'playgroundcms_cached_blocks'           => 'PlaygroundCMS\Cache\Blocks',
+                'playgroundcms_cached_ressources'       => 'PlaygroundCMS\Cache\Ressources',
+                'playgroundcms_cached_templates'        => 'PlaygroundCMS\Cache\Templates',
+                'playgroundcms_cached_layouts'          => 'PlaygroundCMS\Cache\Layouts',
+                'playgroundcms_cached_zones'            => 'PlaygroundCMS\Cache\Zones',
             ),
         );
     }
@@ -145,8 +153,15 @@ class Module
             'factories' => array(
                 'getBlock' => function ($sm) {
                     $viewHelper = new View\Helper\GetBlock();
-                    $viewHelper->setBlockService($sm->getServiceLocator()->get('playgroundcms_cached_blocks'));
+                    $viewHelper->setCachedBlocks($sm->getServiceLocator()->get('playgroundcms_cached_blocks'));
                     $viewHelper->setBlockRendererService($sm->getServiceLocator()->get('playgroundcms_block_renderer'));
+                    return $viewHelper;
+                },
+
+                'getZone' => function ($sm) {
+                    $viewHelper = new View\Helper\GetZone();
+                    $viewHelper->setCachedZones($sm->getServiceLocator()->get('playgroundcms_cached_zones'));
+                    $viewHelper->setZoneRendererService($sm->getServiceLocator()->get('playgroundcms_zone_renderer'));
                     return $viewHelper;
                 },
 

@@ -29,7 +29,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $block->setName("HTML Hello World");
         $block->setType('PlaygroundCMS\Blocks\FreeHTMLController');
 
-        $configuration = array('html' => 'Hello World');
+        $configuration = array('html' => '<h1>Hello World</h1>');
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-html-hello-world");
         $template = array('web' => "playground-cms/blocks/freeHtml.phtml");
@@ -38,33 +38,23 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
-        sleep(1);
+
         
         $block = new Block();
 
-        $block->setName("HTML Form");
+        $block->setName("HTML Header");
         $block->setType('PlaygroundCMS\Blocks\FreeHTMLController');
 
-        $configuration = array('html' => '<div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
-        </div>');
+        $configuration = array('html' => '<div class="navbar navbar-inverse navbar-fixed-top" role="navigation"><div class="container"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/">PGCMS</a></div><div class="navbar-collapse collapse"><form class="navbar-form navbar-right" role="form"><div class="form-group"><input type="text" placeholder="Email" class="form-control"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control"></div><button type="submit" class="btn btn-success">Sign in</button></form></div></div></div>');
         $block->setConfiguration(json_encode($configuration));
-        $block->setSlug("block-html-form");
+        $block->setSlug("block-html-header");
         $template = array('web' => "playground-cms/blocks/freeHtml.phtml");
         $block->setTemplateContext(json_encode($template));
         
         $manager->persist($block);
         $manager->flush();
 
-        sleep(1);
+
         
         $block = new Block();
 
@@ -81,15 +71,15 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
-        sleep(1);
+
         
         $block = new Block();
 
         $block->setName("HTML Content 2");
         $block->setType('PlaygroundCMS\Blocks\FreeHTMLController');
 
-        $configuration = array('html' => '<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>');
+        $configuration = array('html' => '<div class="col-md-4"><h2>Helloworld</h2><p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p></div>');
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-html-content-2");
         $template = array('web' => "playground-cms/blocks/freeHtml.phtml");
@@ -98,7 +88,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($block);
         $manager->flush();
 
-        sleep(1);
+
         
         $block = new Block();
         
@@ -108,13 +98,13 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $configuration = array();
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-list-block");
-        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $template = array('web' => "playground-cms/blocks/list_md_4.phtml");
         $block->setTemplateContext(json_encode($template));
         
         $manager->persist($block);
         $manager->flush();
 
-        sleep(1);
+
         
         $block = new Block();
         
@@ -124,13 +114,13 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $configuration = array('filters' => array('name' => '%HTML%'));
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-list-block-filters");
-        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $template = array('web' => "playground-cms/blocks/list_md_4.phtml");
         $block->setTemplateContext(json_encode($template));
         
         $manager->persist($block);
         $manager->flush();
 
-        sleep(1);
+
         
         $block = new Block();
         
@@ -140,13 +130,13 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $configuration = array('sort' => array('field'=> 'name', 'direction' => 'DESC'));
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-list-block-sort");
-        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $template = array('web' => "playground-cms/blocks/list_md_4.phtml");
         $block->setTemplateContext(json_encode($template));
         
         $manager->persist($block);
         $manager->flush();
 
-        sleep(1);
+
         
         $block = new Block();
         
@@ -156,7 +146,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $configuration = array('filters' => array('name' => '%HTML%'), 'sort' => array('field'=> 'name', 'direction' => 'DESC'), 'pagination' => array('max_per_page' => 2, 'limit' => 5));
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-list-block-filters-sorts-pagers");
-        $template = array('web' => "playground-cms/blocks/list.phtml");
+        $template = array('web' => "playground-cms/blocks/list_md_12.phtml");
         $block->setTemplateContext(json_encode($template));
         
         $manager->persist($block);

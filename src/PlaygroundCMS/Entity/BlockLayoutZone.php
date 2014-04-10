@@ -37,7 +37,7 @@ class BlockLayoutZone implements InputFilterAwareInterface
     /**
      * @ORM\Column(type="integer", nullable=false)
      */
-    protected $order = 0;
+    protected $position = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="PlaygroundCMS\Entity\Block", inversedBy="BlockLayoutZone")
@@ -88,9 +88,9 @@ class BlockLayoutZone implements InputFilterAwareInterface
      *
      * @return order $order
      */
-    public function getOrder()
+    public function getPosition()
     {
-        return $this->order;
+        return $this->position;
     }
     
     /**
@@ -99,9 +99,9 @@ class BlockLayoutZone implements InputFilterAwareInterface
      *
      * @return BlockLayoutZone $blockLayoutZone
      */
-    public function setOrder($order)
+    public function setPosition($position)
     {
-        $this->order = (int) $order;
+        $this->position = (int) $position;
 
         return $this;
     }
