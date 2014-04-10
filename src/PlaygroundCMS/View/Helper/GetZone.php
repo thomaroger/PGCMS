@@ -24,15 +24,16 @@ class getZone extends AbstractHelper
      */
     public function __invoke($slug)
     {
+        $render = "";
         $zone = $this->getZoneFromCache((string) $slug);
         
-        if(empty($zone)) {
-            echo "";
-        }
-        
-        echo $this->getZoneRendererService()
+        if(!empty($zone)) {
+            $render = $this->getZoneRendererService()
                         ->setZone($zone)
-                        ->render();
+                        ->render();    
+        }
+
+        echo $render;
     }
 
     private function getZoneFromCache($slug)

@@ -49,7 +49,6 @@ class Zones extends EventProvider implements ServiceManagerAwareInterface
         foreach ($zones as $zone) {
             $collections[$zone->getName()] = $zone;
         }
-
         return $collections;
     }
 
