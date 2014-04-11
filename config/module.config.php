@@ -248,6 +248,16 @@ return array(
                                     ),
                                 ),    
                             ),
+                            'feed' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/feeds[/:filter][/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Feed',
+                                        'action'     => 'list',
+                                    ),
+                                ),    
+                            ),
                         ),
                     ),
                 ),
@@ -265,6 +275,7 @@ return array(
             'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController',
 
             'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController',
+            'PlaygroundCMS\Controller\Back\Feed' => 'PlaygroundCMS\Controller\Back\FeedController',
             'PlaygroundCMS\Controller\Back\Page'      => 'PlaygroundCMS\Controller\Back\PageController',
             'PlaygroundCMS\Controller\Back\Layout'    => 'PlaygroundCMS\Controller\Back\LayoutController',
             'PlaygroundCMS\Controller\Back\Template'  => 'PlaygroundCMS\Controller\Back\TemplateController',

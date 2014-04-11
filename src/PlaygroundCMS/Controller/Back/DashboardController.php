@@ -18,10 +18,8 @@ class DashboardController extends AbstractActionController
     protected $userService;
     protected $blockMapper;
     protected $pageMapper;
+    protected $feedService;
     protected $serviceManager;
-    protected $layoutMapper;
-    protected $zoneMapper;
-    protected $templateMapper;
 
     /**
     * indexAction : Action index du controller de dashboard
@@ -36,43 +34,13 @@ class DashboardController extends AbstractActionController
         $blocks = $this->getBlockMapper()->findAll();
         $pages = $this->getPageMapper()->findAll();
         $users = $this->getUserService()->findAll();
-        $layouts = $this->getLayoutMapper()->findAll();
-        $zones = $this->getZoneMapper()->findAll();
-        $templates = $this->getTemplateMapper()->findAll();
         
-        $feeds = $this->getFeeds($blocks, $pages, $users, $layouts, $zones, $templates);
+        $feeds = $this->getFeedService()->getFeeds();
 
         return new ViewModel(array("blocks" => $blocks,
                                    "users" => $users,
                                    "pages" => $pages,
                                    "feeds" => $feeds));
-    }
-
-    public function getFeeds($blocks, $pages, $users, $layouts, $zones, $templates)
-    {
-        $feeds = array();
-        foreach ($blocks as $block) {
-            $feeds[$block->getCreatedAt()->getTimestamp().''.$block->getId()] = $block;
-        }
-        foreach ($users as $user) {
-            $feeds[$user->getCreatedAt()->getTimestamp().''.$user->getId()] = $user;
-        }
-        foreach ($pages as $page) {
-            $feeds[$page->getCreatedAt()->getTimestamp().''.$page->getId()] = $page;
-        }
-        foreach ($layouts as $layout) {
-            $feeds[$layout->getCreatedAt()->getTimestamp().''.$layout->getId()] = $layout;
-        }
-        foreach ($zones as $zone) {
-            $feeds[$zone->getCreatedAt()->getTimestamp().''.$zone->getId()] = $zone;
-        }
-        foreach ($templates as $template) {
-            $feeds[$template->getCreatedAt()->getTimestamp().''.$template->getId()] = $template;
-        }
-
-        krsort($feeds);
-        
-        return $feeds;
     }
 
 
@@ -107,54 +75,6 @@ class DashboardController extends AbstractActionController
         return $this;
     }
 
-    protected function getLayoutMapper()
-    {
-        if (empty($this->layoutMapper)) {
-            $this->setLayoutMapper($this->getServiceLocator()->get('playgroundcms_layout_mapper'));
-        }
-
-        return $this->layoutMapper;
-    }
-
-    protected function setLayoutMapper($layoutMapper)
-    {
-        $this->layoutMapper = $layoutMapper;
-
-        return $this;
-    }
-
-    protected function getZoneMapper()
-    {
-        if (empty($this->zoneMapper)) {
-            $this->setZoneMapper($this->getServiceLocator()->get('playgroundcms_zone_mapper'));
-        }
-
-        return $this->zoneMapper;
-    }
-
-    protected function setZoneMapper($zoneMapper)
-    {
-        $this->zoneMapper = $zoneMapper;
-
-        return $this;
-    }
-
-    protected function getTemplateMapper()
-    {
-        if (empty($this->templateMapper)) {
-            $this->setTemplateMapper($this->getServiceLocator()->get('playgroundcms_template_mapper'));
-        }
-
-        return $this->templateMapper;
-    }
-
-    protected function setTemplateMapper($templateMapper)
-    {
-        $this->templateMapper = $templateMapper;
-
-        return $this;
-    }
-
     /**
      * getUserMapper
      *
@@ -177,6 +97,32 @@ class DashboardController extends AbstractActionController
     public function setUserService($userService)
     {
         $this->userService = $userService;
+
+        return $this;
+    }
+
+    /**
+     * getUserMapper
+     *
+     * @return UserMapperInterface
+     */
+    public function getFeedService()
+    {
+        if (null === $this->feedService) {
+            $this->setFeedService($this->getServiceLocator()->get('playgroundcms_feed_service'));
+        }
+
+        return $this->feedService;
+    }
+    /**
+     * setUserMapper
+     *
+     * @param  UserMapperInterface $userMapper
+     * @return User
+     */
+    public function setFeedService($feedService)
+    {
+        $this->feedService = $feedService;
 
         return $this;
     }
