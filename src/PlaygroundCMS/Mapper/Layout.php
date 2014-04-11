@@ -11,7 +11,6 @@
 namespace PlaygroundCMS\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundCMS\Options\ModuleOptions;
 use Doctrine\ORM\QueryBuilder;
 use PlaygroundCMS\Entity\Layout as LayoutEntity;

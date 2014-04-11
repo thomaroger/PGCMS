@@ -65,6 +65,11 @@ class Template implements InputFilterAwareInterface
     protected $blockType;
 
     /**
+     * @ORM\Column(name="is_system", type="boolean", nullable=false)
+     */
+    protected $isSystem = false;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $created_at;
@@ -232,6 +237,30 @@ class Template implements InputFilterAwareInterface
     public function getBlockType()
     {
         return $this->blockType;
+    }
+
+
+    /**
+     * setIsSystem : Setter pour blockType
+     * @param string $blockType 
+     *
+     * @return Template $template
+     */
+    public function setIsSystem($isSystem)
+    {
+        $this->isSystem = (boolean) $isSystem;
+
+        return $this;
+    }
+
+    /**
+     * getIsSystem : Getter pour isSystem
+     *
+     * @return boolean $isSystem
+     */
+    public function getIsSystem()
+    {
+        return $this->isSystem;
     }
 
     /**

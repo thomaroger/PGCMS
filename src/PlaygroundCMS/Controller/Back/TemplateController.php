@@ -17,7 +17,8 @@ use PlaygroundCMS\Entity\Template;
 class TemplateController extends AbstractActionController
 {
     const MAX_PER_PAGE = 20;
-    protected $layoutService;
+    protected $templateService;
+    protected $blockService;
     protected $cmsOptions;
 
     public function listAction()
@@ -50,22 +51,22 @@ class TemplateController extends AbstractActionController
         
         $request = $this->getRequest();
 
-        /*if ($request->isPost()) {
+        if ($request->isPost()) {
             $data = array_merge(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
 
-            $return = $this->getLayoutService()->checkLayout($data);
+            $return = $this->getTemplateService()->checkTemplate($data);
             $data = $return["data"];
             unset($return["data"]);
 
             if ($return['status'] == 0) {
-                $this->getLayoutService()->create($data);
+                $this->getTemplateService()->create($data);
 
-                return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
             }
-        }*/
+        }
 
         $files = $this->getPhtmlFiles($folderTheme, $files);
         $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
@@ -95,28 +96,30 @@ class TemplateController extends AbstractActionController
             return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
         }
 
-       /* if ($request->isPost()) {
+        if ($request->isPost()) {
             $data = array_merge(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
 
-            $return = $this->getLayoutService()->checkLayout($data);
+            $return = $this->getTemplateService()->checkTemplate($data);
             $data = $return["data"];
             unset($return["data"]);
 
             if ($return['status'] == 0) {
-                $this->getLayoutService()->edit($data);
+                $this->getTemplateService()->edit($data);
 
-                return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
             }
-        }*/
+        }
 
+        $blockstype = $this->getBlocksType();
 
         $files = $this->getPhtmlFiles($folderTheme, $files);
         $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
 
         return new ViewModel(array('template' => $template,
+                                   'blockstype' => $blockstype,
                                    'files'  => $files,
                                    'return' => $return));
     }
@@ -131,10 +134,15 @@ class TemplateController extends AbstractActionController
             return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
         }
 
-        /**
-         @todo  Attention à ne pas virer un template qui est utilisé par un bloc
-        */
-
+        $blocks = $this->getBlockService()->getBlockMapper()->findAll();
+        foreach ($blocks as $block) {
+            $templateContext = json_decode($block->getTemplateContext(), true);
+            foreach ($templateContext as $key => $value) {
+                if ($value  == $template->getFile()) {
+                    return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
+                }
+            }
+        }
 
         // Suppresion de la page
         $this->getTemplateService()->getTemplateMapper()->remove($template);
@@ -167,7 +175,8 @@ class TemplateController extends AbstractActionController
         $dir = opendir($path);
         while($item = readdir($dir)) {
             if (is_file($sub = $path.'/'.$item)) {
-                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "php") {
+                // garder uniquement les blocs et non les abstracts
+                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "php" && strpos($item, 'Abstract') === false) {
                     $blockstype[] = str_replace('Controller\Back', 'Blocks', __NAMESPACE__).'\\'.str_replace('.php','',$item);
                 }
             }
@@ -187,11 +196,20 @@ class TemplateController extends AbstractActionController
 
     protected function getTemplateService()
     {
-        if (!$this->layoutService) {
-            $this->layoutService = $this->getServiceLocator()->get('playgroundcms_template_service');
+        if (!$this->templateService) {
+            $this->templateService = $this->getServiceLocator()->get('playgroundcms_template_service');
         }
 
-        return $this->layoutService;
+        return $this->templateService;
+    }
+
+    protected function getBlockService()
+    {
+        if (!$this->blockService) {
+            $this->blockService = $this->getServiceLocator()->get('playgroundcms_block_service');
+        }
+
+        return $this->blockService;
     }
 
     protected function getCMSOptions()

@@ -11,7 +11,6 @@
 namespace PlaygroundCMS\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundCMS\Options\ModuleOptions;
 
 class Ressource

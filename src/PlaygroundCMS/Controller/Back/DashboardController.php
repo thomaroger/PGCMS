@@ -21,6 +21,7 @@ class DashboardController extends AbstractActionController
     protected $serviceManager;
     protected $layoutMapper;
     protected $zoneMapper;
+    protected $templateMapper;
 
     /**
     * indexAction : Action index du controller de dashboard
@@ -37,8 +38,9 @@ class DashboardController extends AbstractActionController
         $users = $this->getUserService()->findAll();
         $layouts = $this->getLayoutMapper()->findAll();
         $zones = $this->getZoneMapper()->findAll();
+        $templates = $this->getTemplateMapper()->findAll();
         
-        $feeds = $this->getFeeds($blocks, $pages, $users, $layouts, $zones);
+        $feeds = $this->getFeeds($blocks, $pages, $users, $layouts, $zones, $templates);
 
         return new ViewModel(array("blocks" => $blocks,
                                    "users" => $users,
@@ -46,7 +48,7 @@ class DashboardController extends AbstractActionController
                                    "feeds" => $feeds));
     }
 
-    public function getFeeds($blocks, $pages, $users, $layouts, $zones)
+    public function getFeeds($blocks, $pages, $users, $layouts, $zones, $templates)
     {
         $feeds = array();
         foreach ($blocks as $block) {
@@ -63,6 +65,9 @@ class DashboardController extends AbstractActionController
         }
         foreach ($zones as $zone) {
             $feeds[$zone->getCreatedAt()->getTimestamp().''.$zone->getId()] = $zone;
+        }
+        foreach ($templates as $template) {
+            $feeds[$template->getCreatedAt()->getTimestamp().''.$template->getId()] = $template;
         }
 
         krsort($feeds);
@@ -130,6 +135,22 @@ class DashboardController extends AbstractActionController
     protected function setZoneMapper($zoneMapper)
     {
         $this->zoneMapper = $zoneMapper;
+
+        return $this;
+    }
+
+    protected function getTemplateMapper()
+    {
+        if (empty($this->templateMapper)) {
+            $this->setTemplateMapper($this->getServiceLocator()->get('playgroundcms_template_mapper'));
+        }
+
+        return $this->templateMapper;
+    }
+
+    protected function setTemplateMapper($templateMapper)
+    {
+        $this->templateMapper = $templateMapper;
 
         return $this;
     }

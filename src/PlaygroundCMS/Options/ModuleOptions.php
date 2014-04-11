@@ -32,6 +32,9 @@ class ModuleOptions extends AbstractOptions
 
     protected $layout_path = 'public/media/layout/';
     protected $layout_url  =  '/media/layout/';
+
+    protected $template_path = 'public/media/template/';
+    protected $template_url  =  '/media/template/';
     protected $currentLayout;
 
 
@@ -103,6 +106,16 @@ class ModuleOptions extends AbstractOptions
     public function getLayoutUrl()
     {
         return $this->layout_url;
+    }
+
+    public function getTemplatePath()
+    {
+        return $this->template_path;
+    }
+
+    public function getTemplateUrl()
+    {
+        return $this->template_url;
     }
 
 

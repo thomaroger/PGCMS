@@ -1,12 +1,18 @@
 <?php
 
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 11/04/2014
+*
+* Classe qui permet de gérer le mapper de template
+**/
+
 namespace PlaygroundCMS\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use ZfcBase\Mapper\AbstractDbMapper;
-
 use PlaygroundCMS\Options\ModuleOptions;
-
+use PlaygroundCMS\Entity\Template as TemplateEntity;
 class Template
 {
     /**
@@ -89,7 +95,7 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    public function insert(Template $entity)
+    public function insert(TemplateEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -100,7 +106,7 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    public function update(Template $entity)
+    public function update(TemplateEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -111,7 +117,7 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    protected function persist(Template $entity)
+    protected function persist(TemplateEntity $entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
@@ -134,7 +140,7 @@ class Template
     * @param PlaygroundCMS\Entity\Template $template Template
     *
     */
-    public function remove(Template $entity)
+    public function remove(TemplateEntity $entity)
     {
         $this->em->remove($entity);
         $this->em->flush();

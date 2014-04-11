@@ -44,12 +44,15 @@ class Blocks extends CachedCollection
     {
         $blocks = $this->getCachedBlocks();
         if(empty($blocks)){
+            
             return '';
         }
 
         $slug = (string) $slug;
         $blocks = $blocks['slug'];
+        
         if (empty($blocks[$slug])) {
+            
             return '';
         }
 
@@ -67,11 +70,15 @@ class Blocks extends CachedCollection
     {
         $blocks = $this->getCachedBlocks();
         if(empty($blocks)){
+
             return '';
         }
+
         $id = (integer) $id;
         $blocks = $blocks['id'];
+        
         if (empty($blocks[$id])) {
+        
             return '';
         }
 
