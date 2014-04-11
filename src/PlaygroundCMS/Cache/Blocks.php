@@ -10,6 +10,7 @@
 namespace PlaygroundCMS\Cache;
 
 use PlaygroundCMS\Service\Block;
+use Doctrine\ORM\Internal\Hydration\ObjectHydrator as DoctrineHydrator;
 
 class Blocks extends CachedCollection
 {
@@ -42,13 +43,19 @@ class Blocks extends CachedCollection
     public function findBlockBySlug($slug)
     {
         $blocks = $this->getCachedBlocks();
+        if(empty($blocks)){
+            return '';
+        }
+
         $slug = (string) $slug;
         $blocks = $blocks['slug'];
         if (empty($blocks[$slug])) {
             return '';
         }
 
-        return $blocks[$slug];
+        $block = $blocks[$slug];
+
+        return $block;
     }
 
     /**
@@ -59,13 +66,18 @@ class Blocks extends CachedCollection
     public function findBlockById($id)
     {
         $blocks = $this->getCachedBlocks();
+        if(empty($blocks)){
+            return '';
+        }
         $id = (integer) $id;
         $blocks = $blocks['id'];
         if (empty($blocks[$id])) {
             return '';
         }
 
-        return $blocks[$id];
+        $block = $blocks[$id];
+
+        return $block;
     }
 
 
@@ -79,13 +91,18 @@ class Blocks extends CachedCollection
         $collections = array();
         $blocks = $this->getBlockService()->getBlockMapper()->findAll();
         foreach ($blocks as $block) {
-            // Remove manytoone relation for serialize block
-            $block->setblockLayoutZones(array());
             $collections['slug'][$block->getSlug()] = $block;
             $collections['id'][$block->getId()] = $block;
         }
 
         return $collections;
+    }
+
+    public function replaceProxyEntity($collection)
+    {
+        $collection = str_replace('O:57:"DoctrineORMModule\Proxy\__CG__','O:27:"',$collection);
+
+        return $collection;
     }
 
     /**

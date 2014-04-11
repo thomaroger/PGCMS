@@ -65,7 +65,11 @@ class CachedCollection extends EventProvider implements ServiceManagerAwareInter
         }
 
         $collections = unserialize(file_get_contents($filename));
-        
+        if($collections === false){
+            $this->clearCachedCollection();
+            return array();
+        }
+
         if (time() > $collections["cached_until"]) {
             $this->clearCachedCollection();
         }
@@ -80,8 +84,13 @@ class CachedCollection extends EventProvider implements ServiceManagerAwareInter
     private function setCachedCollection($collection)
     {
         $filename = $this->getFolderCache().$this->getType();
-        $collection = str_replace('DoctrineORMModule\Proxy\__CG__','',$collection);
+        $collection = $this->replaceProxyEntity($collection);
         file_put_contents($filename, (string) $collection);
+    }
+
+    public function replaceProxyEntity($collection)
+    {
+        return $collection;
     }
 
     /**
