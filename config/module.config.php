@@ -191,6 +191,53 @@ return array(
                                     ),
                                 ), 
                             ),
+                            'template' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/templates[/:filter][/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Template',
+                                        'action'     => 'list',
+                                    ),
+                                ),    
+                            ),
+
+                            'template_create' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/template/create',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Template',
+                                        'action'     => 'create',
+                                    ),
+                                ),    
+                            ),
+                            'template_edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/template/edit/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Template',
+                                        'action'     => 'edit',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+                            'template_remove' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/template/remove/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Template',
+                                        'action'     => 'remove',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
                             'zone' => array(
                                 'type' => 'Segment',
                                 'options' => array(
@@ -218,9 +265,10 @@ return array(
             'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController',
 
             'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController',
-            'PlaygroundCMS\Controller\Back\Page' => 'PlaygroundCMS\Controller\Back\PageController',
-            'PlaygroundCMS\Controller\Back\Layout' => 'PlaygroundCMS\Controller\Back\LayoutController',
-            'PlaygroundCMS\Controller\Back\Zone' => 'PlaygroundCMS\Controller\Back\ZoneController',
+            'PlaygroundCMS\Controller\Back\Page'      => 'PlaygroundCMS\Controller\Back\PageController',
+            'PlaygroundCMS\Controller\Back\Layout'    => 'PlaygroundCMS\Controller\Back\LayoutController',
+            'PlaygroundCMS\Controller\Back\Template'  => 'PlaygroundCMS\Controller\Back\TemplateController',
+            'PlaygroundCMS\Controller\Back\Zone'      => 'PlaygroundCMS\Controller\Back\ZoneController',
         ),
     ),
     'navigation' => array(

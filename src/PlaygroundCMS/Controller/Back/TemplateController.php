@@ -2,9 +2,9 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 30/03/2014
+* @since : 11/04/2014
 *
-* Classe de controleur de back pour la gestion des layouts
+* Classe de controleur de back pour la gestion des template
 **/
 
 namespace PlaygroundCMS\Controller\Back;
@@ -12,9 +12,9 @@ namespace PlaygroundCMS\Controller\Back;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 
-use PlaygroundCMS\Entity\Layout;
+use PlaygroundCMS\Entity\Template;
 
-class LayoutController extends AbstractActionController
+class TemplateController extends AbstractActionController
 {
     const MAX_PER_PAGE = 20;
     protected $layoutService;
@@ -23,22 +23,22 @@ class LayoutController extends AbstractActionController
     public function listAction()
     {
         $this->layout()->setVariable('nav', "cms");
-        $this->layout()->setVariable('subNav', "layout");
+        $this->layout()->setVariable('subNav', "template");
         $p = $this->getRequest()->getQuery('page', 1);
 
 
-        $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
+        $templates = $this->getTemplateService()->getTemplateMapper()->findAll();
         
-        $nbLayout = count($layouts);
+        $nbTemplates = count($templates);
 
-        $layoutsPaginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($layouts));
-        $layoutsPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
-        $layoutsPaginator->setCurrentPageNumber($p);
+        $templatesPaginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($templates));
+        $templatesPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
+        $templatesPaginator->setCurrentPageNumber($p);
 
 
-        return new ViewModel(array('layouts'                => $layouts,
-                                   'layoutsPaginator'     => $layoutsPaginator,
-                                   'nbLayout'             => $nbLayout));
+        return new ViewModel(array('templates'               => $templates,
+                                   'templatesPaginator'        => $templatesPaginator,
+                                   'nbTemplates'             => $nbTemplates));
     }
 
     public function createAction()
@@ -50,7 +50,7 @@ class LayoutController extends AbstractActionController
         
         $request = $this->getRequest();
 
-        if ($request->isPost()) {
+        /*if ($request->isPost()) {
             $data = array_merge(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
@@ -65,12 +65,15 @@ class LayoutController extends AbstractActionController
 
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
             }
-        }
+        }*/
 
         $files = $this->getPhtmlFiles($folderTheme, $files);
         $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
 
+        $blockstype = $this->getBlocksType();
+
         return new ViewModel(array('files'  => $files,
+                                   'blockstype' => $blockstype,
                                    'data'   => $data,
                                    'return' => $return));
     }
@@ -84,15 +87,15 @@ class LayoutController extends AbstractActionController
         
         $request = $this->getRequest();
 
-        $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
-        $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
+        $templateId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $template = $this->getTemplateService()->getTemplateMapper()->findById($templateId);
 
-        if(empty($layout)){
+        if(empty($template)){
 
-            return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
         }
 
-        if ($request->isPost()) {
+       /* if ($request->isPost()) {
             $data = array_merge(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
@@ -107,34 +110,36 @@ class LayoutController extends AbstractActionController
 
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
             }
-        }
+        }*/
 
 
         $files = $this->getPhtmlFiles($folderTheme, $files);
         $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
 
-        return new ViewModel(array('layout' => $layout,
+        return new ViewModel(array('template' => $template,
                                    'files'  => $files,
                                    'return' => $return));
     }
 
     public function removeAction()
     {
-        $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
-        $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
+        $templateId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $template = $this->getTemplateService()->getTemplateMapper()->findById($templateId);
 
-        if(empty($layout)){
+        if(empty($template)){
 
-            return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
         }
 
-        //Suppresion des layoutzone associé 
-        $this->getLayoutService()->removeLayoutZone($layout);
+        /**
+         @todo  Attention à ne pas virer un template qui est utilisé par un bloc
+        */
+
 
         // Suppresion de la page
-        $this->getLayoutService()->getLayoutMapper()->remove($layout);
+        $this->getTemplateService()->getTemplateMapper()->remove($template);
 
-        return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+        return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
     }
 
     public function getPhtmlFiles($path, $files)
@@ -154,6 +159,23 @@ class LayoutController extends AbstractActionController
         return($files);
     }
 
+    public function getBlocksType()
+    {
+        $blockstype = array();
+
+        $path = __DIR__.'/../../Blocks/';
+        $dir = opendir($path);
+        while($item = readdir($dir)) {
+            if (is_file($sub = $path.'/'.$item)) {
+                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "php") {
+                    $blockstype[] = str_replace('Controller\Back', 'Blocks', __NAMESPACE__).'\\'.str_replace('.php','',$item);
+                }
+            }
+        }
+
+        return $blockstype;
+    }
+
     public function cleanFiles($path, $files)
     {
         foreach ($files as $key => $file) {
@@ -163,10 +185,10 @@ class LayoutController extends AbstractActionController
         return $files;
     }
 
-    protected function getLayoutService()
+    protected function getTemplateService()
     {
         if (!$this->layoutService) {
-            $this->layoutService = $this->getServiceLocator()->get('playgroundcms_layout_service');
+            $this->layoutService = $this->getServiceLocator()->get('playgroundcms_template_service');
         }
 
         return $this->layoutService;
