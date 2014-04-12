@@ -34,6 +34,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $block->setSlug("block-html-hello-world");
         $template = array('web' => "playground-cms/blocks/freeHtml.phtml");
         $block->setTemplateContext(json_encode($template));
+        $block->setIsExportable(true);
         
         $manager->persist($block);
         $manager->flush();
