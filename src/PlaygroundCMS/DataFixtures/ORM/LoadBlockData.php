@@ -148,6 +148,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $block->setSlug("block-list-block-filters-sorts-pagers");
         $template = array('web' => "playground-cms/blocks/list_md_12.phtml");
         $block->setTemplateContext(json_encode($template));
+        $block->setIsExportable(true);
         
         $manager->persist($block);
         $manager->flush();

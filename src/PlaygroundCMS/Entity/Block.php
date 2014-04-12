@@ -436,4 +436,9 @@ class Block implements InputFilterAwareInterface
 
         return isset($params[$name]);
     }
+
+    public function getUrlForExport()
+    {
+        return '/fr_fr/export-block/'.$this->getSlug().'-'.$this->getId().'.html';
+    }
 }

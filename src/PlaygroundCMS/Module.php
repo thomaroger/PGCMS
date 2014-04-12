@@ -29,9 +29,20 @@ class Module
         // Gestion de la locale
         if (PHP_SAPI !== 'cli') {
             $locale = null;
-            $options = $serviceManager->get('playgroundcore_module_options');
 
-            $locale = $options->getLocale();
+            // Recuperation de la locale depuis l'url
+            $router = $serviceManager->get('router');
+            $request = $serviceManager->get('request');
+            $routeMatch = $router->match($request);
+            if($routeMatch){
+                $locale = trim($routeMatch->getParam('locale'), '/');  
+            }
+
+            if(empty($locale)){
+                $options = $serviceManager->get('playgroundcore_module_options');
+                $locale = $options->getLocale();
+            }
+
 
             $translator->setLocale($locale);
 

@@ -68,10 +68,20 @@ return array(
             'may_terminate' => true,
             ),
             */
-            /**
-            *   @todo : Export de bloc
-            */
 
+            'export-block' => array(
+                'type' => 'PlaygroundCore\Mvc\Router\Http\RegexSlash',
+                'options' => array(
+                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/export-block\/(?<slug>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
+                  'defaults' => array(
+                    'controller' => 'PlaygroundCMS\Controller\Front\ExportBlock',
+                    'action'     => 'index',
+                  ),
+                  'spec' => '',
+                ),
+            'may_terminate' => true,
+            ),
+            
             // http://dev.pgcms.fr/fr/index-1.html
             'frontend' => array(
                 'type' => 'PlaygroundCMS\Router\Http\RegexSlash',
@@ -282,8 +292,9 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'PlaygroundCMS\Controller\Front\Page' => 'PlaygroundCMS\Controller\Front\PageController',
-
+            'PlaygroundCMS\Controller\Front\Page'        => 'PlaygroundCMS\Controller\Front\PageController',
+            'PlaygroundCMS\Controller\Front\ExportBlock' => 'PlaygroundCMS\Controller\Front\ExportBlockController',
+            
             'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController',
             'PlaygroundCMS\Controller\Back\Block'     => 'PlaygroundCMS\Controller\Back\BlockController',
             'PlaygroundCMS\Controller\Back\Feed'      => 'PlaygroundCMS\Controller\Back\FeedController',
