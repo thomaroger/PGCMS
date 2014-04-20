@@ -58,11 +58,11 @@ class BlocksLayoutsZones extends CachedCollection
     protected function getCollection()
     {
         $collections = array();
-        $blockLayoutZones = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findAll();
+        $blockLayoutZones = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findByAndOrderBy(array(), array('position' => 'ASC'));
         foreach ($blockLayoutZones as $blockLayoutZone) {
             $collections[$blockLayoutZone->getLayoutZone()->getId()][] = $blockLayoutZone->getBlock()->getSlug();
         }
-
+        
         return $collections;
     }
 

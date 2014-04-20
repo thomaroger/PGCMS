@@ -18,6 +18,8 @@ class LayoutController extends AbstractActionController
 {
     const MAX_PER_PAGE = 20;
     protected $layoutService;
+    protected $layoutZoneService;
+    protected $blockLayoutZoneService;
     protected $cmsOptions;
 
     public function listAction()
@@ -43,6 +45,8 @@ class LayoutController extends AbstractActionController
 
     public function createAction()
     {
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "layout");
         $return  = array();
         $data = array();
         $files = array();
@@ -77,6 +81,8 @@ class LayoutController extends AbstractActionController
 
     public function editAction()
     {
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "layout");
         $return  = array();
         $data = array();
         $files = array();
@@ -139,9 +145,11 @@ class LayoutController extends AbstractActionController
 
     public function blocklayoutzoneAction()
     {
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "layout");
         $return  = array();
         $data = array();
-        $files = array();
+        $zones = array();
         $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
         
         $request = $this->getRequest();
@@ -154,7 +162,11 @@ class LayoutController extends AbstractActionController
             return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
         }
 
+
+        $zones = $this->getBlocksLayoutZone($layout);
+
         return new ViewModel(array('layout' => $layout,
+                                   'zones'  => $zones,
                                    'return' => $return));
     }
 
@@ -184,6 +196,26 @@ class LayoutController extends AbstractActionController
         return $files;
     }
 
+
+    public function getBlocksLayoutZone($layout)
+    {
+        $zones = array();
+
+        $layoutZones = $this->getLayoutZoneService()->getLayoutZoneMapper()->findBy(array('layout' => $layout->getId()));
+        foreach ($layoutZones as $layoutZone) {
+            $zone = $layoutZone->getZone();
+            $zones[$zone->getName()]['zone'] = $zone;
+            $zones[$zone->getName()]['blocks'] = array();
+
+            $blocksLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findByAndOrderBy(array('layoutZone' => $layoutZone->getId()), array('position' => 'ASC'));
+            foreach ($blocksLayoutZone as $blockLayoutZone) {
+                $zones[$zone->getName()]['blocks'][] = $blockLayoutZone->getBlock();
+            }
+        }
+
+        return $zones;
+    }
+
     protected function getLayoutService()
     {
         if (!$this->layoutService) {
@@ -191,6 +223,24 @@ class LayoutController extends AbstractActionController
         }
 
         return $this->layoutService;
+    }
+
+    public function getLayoutZoneService()
+    {
+        if (!$this->layoutZoneService) {
+            $this->layoutZoneService = $this->getServiceLocator()->get('playgroundcms_layoutZone_service');
+        }
+
+        return $this->layoutZoneService;
+    }
+
+    public function getBlockLayoutZoneService()
+    {
+        if (!$this->blockLayoutZoneService) {
+            $this->blockLayoutZoneService = $this->getServiceLocator()->get('playgroundcms_blocklayoutZone_service');
+        }
+
+        return $this->blockLayoutZoneService;
     }
 
     protected function getCMSOptions()
