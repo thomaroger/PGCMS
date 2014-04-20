@@ -278,6 +278,19 @@ return array(
                                     ),
                                 ),    
                             ),
+                            'blocklayoutzone_edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/blocklayoutzone/edit/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Layout',
+                                        'action'     => 'blocklayoutzone',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
                         ),
                     ),
                 ),
@@ -332,5 +345,8 @@ return array(
                 'text_domain'  => 'playgroundcms'
             ),
         ),
+    ),
+    'blocksType' => array(
+        'cms' => __DIR__.'../src/PlaygroundCMS/Blocks', 
     ),
 );
