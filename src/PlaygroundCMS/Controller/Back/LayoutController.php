@@ -137,6 +137,27 @@ class LayoutController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
     }
 
+    public function blocklayoutzoneAction()
+    {
+        $return  = array();
+        $data = array();
+        $files = array();
+        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
+        
+        $request = $this->getRequest();
+
+        $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
+
+        if(empty($layout)){
+
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
+        }
+
+        return new ViewModel(array('layout' => $layout,
+                                   'return' => $return));
+    }
+
     public function getPhtmlFiles($path, $files)
     {
         $dir = opendir($path);

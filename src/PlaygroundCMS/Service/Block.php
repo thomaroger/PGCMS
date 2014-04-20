@@ -26,6 +26,30 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
     
+    public function getBlocksType()
+    {
+        $blockstype = array();
+
+        $config = $this->getServiceManager()->get('config');
+        $paths = $config['blocksType'];
+
+        foreach ($paths as $path) {
+            $path = __DIR__.'/../Blocks/';
+            $dir = opendir($path);
+
+            while($item = readdir($dir)) {
+                if (is_file($sub = $path.'/'.$item)) {
+                    // garder uniquement les blocs et non les abstracts
+                    if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "php" && strpos($item, 'Abstract') === false) {
+                        $blockstype[] = str_replace('Service', 'Blocks', __NAMESPACE__).'\\'.str_replace('.php','',$item);
+                    }
+                }
+            }
+        }
+
+        return $blockstype;
+    }
+
     /**
      * getBlockMapper : Getter pour blockMapper
      *

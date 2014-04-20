@@ -167,24 +167,6 @@ class TemplateController extends AbstractActionController
         return($files);
     }
 
-    public function getBlocksType()
-    {
-        $blockstype = array();
-
-        $path = __DIR__.'/../../Blocks/';
-        $dir = opendir($path);
-        while($item = readdir($dir)) {
-            if (is_file($sub = $path.'/'.$item)) {
-                // garder uniquement les blocs et non les abstracts
-                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "php" && strpos($item, 'Abstract') === false) {
-                    $blockstype[] = str_replace('Controller\Back', 'Blocks', __NAMESPACE__).'\\'.str_replace('.php','',$item);
-                }
-            }
-        }
-
-        return $blockstype;
-    }
-
     public function cleanFiles($path, $files)
     {
         foreach ($files as $key => $file) {
@@ -192,6 +174,11 @@ class TemplateController extends AbstractActionController
         }
 
         return $files;
+    }
+
+    public function getBlocksType()
+    {
+        return $this->getBlockService()->getBlocksType();
     }
 
     protected function getTemplateService()

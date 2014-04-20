@@ -54,7 +54,7 @@ class ExportBlockController extends AbstractActionController
                         ->render();
 
         $response->setStatusCode(200);
-        $response->setContent($out); 
+        $response->setContent(utf8_decode($out)); 
         
         return $response;
     }
