@@ -209,7 +209,7 @@ class LayoutController extends AbstractActionController
 
             $blocksLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findByAndOrderBy(array('layoutZone' => $layoutZone->getId()), array('position' => 'ASC'));
             foreach ($blocksLayoutZone as $blockLayoutZone) {
-                $zones[$zone->getName()]['blocks'][] = $blockLayoutZone->getBlock();
+                $zones[$zone->getName()]['blocks'][$blockLayoutZone->getId()] = $blockLayoutZone->getBlock();
             }
         }
 
