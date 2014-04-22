@@ -194,20 +194,40 @@ class LayoutController extends AbstractActionController
                                    'return' => $return));
     }
 
+    public function updateBlockLayoutZoneAction()
+    {
+
+        $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $blocklayoutZoneId = $this->getEvent()->getRouteMatch()->getParam('blocklayoutZoneId');
+        $position = $this->getEvent()->getRouteMatch()->getParam('position');
+
+        $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
+
+        $blockLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findById($blocklayoutZoneId);
+        $blockLayoutZone->setPosition($position);
+
+        $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->update($blockLayoutZone);
+
+        $response = $this->getResponse();
+        $response->setStatusCode(200);
+        $headers = $response->getHeaders();
+        $response->setContent(json_encode(array('status' => 0)));        
+        return $response;
+    }
+
     public function removeBlockLayoutZoneAction()
     {
 
         $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
-        $blocklayoutId = $this->getEvent()->getRouteMatch()->getParam('blocklayoutId');
+        $blocklayoutZoneId = $this->getEvent()->getRouteMatch()->getParam('blocklayoutZoneId');
 
         $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
 
-        $blockLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findById($blocklayoutId);
+        $blockLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findById($blocklayoutZoneId);
 
         $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->remove($blockLayoutZone);
 
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
-
     }
 
     public function getPhtmlFiles($path, $files)

@@ -291,17 +291,33 @@ return array(
                                     ),
                                 ), 
                             ),
+                            'blocklayoutzone_update' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/blocklayoutzone/update/:id/:blocklayoutZoneId/:position',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Layout',
+                                        'action'     => 'updateBlockLayoutZone',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                        'blocklayoutZoneId' => '[0-9]+',
+                                        'position' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+
                             'blocklayoutzone_remove' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/blocklayoutzone/remove/:id/:blocklayoutId',
+                                    'route' => '/blocklayoutzone/remove/:id/:blocklayoutZoneId',
                                     'defaults' => array(
                                         'controller' => 'PlaygroundCMS\Controller\Back\Layout',
                                         'action'     => 'removeBlockLayoutZone',
                                     ),
                                     'constraints' => array(
                                         'id' => '[0-9]+',
-                                        'blocklayoutId' => '[0-9]+',
+                                        'blocklayoutZoneId' => '[0-9]+',
                                     ),
                                 ), 
                             ),
