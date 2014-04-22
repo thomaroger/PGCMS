@@ -18,6 +18,7 @@ class LayoutController extends AbstractActionController
 {
     const MAX_PER_PAGE = 20;
     protected $layoutService;
+    protected $blockService;
     protected $layoutZoneService;
     protected $blockLayoutZoneService;
     protected $cmsOptions;
@@ -143,7 +144,7 @@ class LayoutController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
     }
 
-    public function blocklayoutzoneAction()
+    public function blockLayoutZoneAction()
     {
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "layout");
@@ -162,12 +163,51 @@ class LayoutController extends AbstractActionController
             return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
         }
 
+         if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+
+            $return = $this->getBlockLayoutZoneService()->checkData($data);
+            $data = $return["data"];
+            unset($return["data"]);
+
+
+            if ($return['status'] == 0) {
+                $this->getBlockLayoutZoneService()->create($data);
+
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
+            }
+
+        }
+
+        $blockTypes = $this->getBlockService()->getBlocksType();
+        $blocksGallery = $this->getBlockService()->getBlockMapper()->findBy(array('isGallery' => 1));
 
         $zones = $this->getBlocksLayoutZone($layout);
 
         return new ViewModel(array('layout' => $layout,
                                    'zones'  => $zones,
+                                   'blockTypes' => $blockTypes,
+                                   'blocksGallery' => $blocksGallery,
                                    'return' => $return));
+    }
+
+    public function removeBlockLayoutZoneAction()
+    {
+
+        $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $blocklayoutId = $this->getEvent()->getRouteMatch()->getParam('blocklayoutId');
+
+        $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
+
+        $blockLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findById($blocklayoutId);
+
+        $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->remove($blockLayoutZone);
+
+        return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
+
     }
 
     public function getPhtmlFiles($path, $files)
@@ -223,6 +263,15 @@ class LayoutController extends AbstractActionController
         }
 
         return $this->layoutService;
+    }
+
+    protected function getBlockService()
+    {
+        if (!$this->blockService) {
+            $this->blockService = $this->getServiceLocator()->get('playgroundcms_block_service');
+        }
+
+        return $this->blockService;
     }
 
     public function getLayoutZoneService()

@@ -169,39 +169,45 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
             }
         }
         if(!$title){
+            
             return array('status' => 1, 'message' => 'One of title is required', 'data' => $data);
         }
 
         // Il faut au moins une plateforme d'activer
         if ($data['page']['web']['active'] == 0 && $data['page']['mobile']['active'] == 0) {
+            
             return array('status' => 1, 'message' => 'One of platform must be activated', 'data' => $data);
         }
 
         // Si une plateforme est active, alors il faut un layout
         if ($data['page']['web']['active'] == 1 && $data['page']['web']['layout'] == '') {
+            
             return array('status' => 1, 'message' => 'For a activate platform, you must have a layout', 'data' => $data);
         }
 
         // Si une plateforme est active, alors il faut un layout
         if ($data['page']['mobile']['active'] == 1 && $data['page']['mobile']['layout'] == '') {
+            
             return array('status' => 1, 'message' => 'For a activate platform, you must have a layout', 'data' => $data);
         }
 
         // Il faut une visibility
         if(empty($data['page']['visibility'])) {
+            
             return array('status' => 1, 'message' => 'Visibility is required', 'data' => $data);  
         }
        
         // Il faut un status
         if ($data['page']['status'] == -1) {
+            
             return array('status' => 1, 'message' => 'The status is required', 'data' => $data);        
         }
 
         // Il faut une date de debut
         if (empty($data['page']['start_date']['date'])) {
+            
             return array('status' => 1, 'message' => 'The start date is required', 'data' => $data);        
         }
-
 
         return array('status' => 0, 'message' => '', 'data' => $data);
     }

@@ -100,27 +100,31 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
     public function checkTemplate($data)
     {
         if(empty($data['template']['name'])){
+            
             return array('status' => 1, 'message' => 'Name is required', 'data' => $data);
         }
 
         if(empty($data['template']['file'])){
+            
             return array('status' => 1, 'message' => 'File is required', 'data' => $data);
         }
 
         if (!empty($data['template']['system'])) {
             if (!empty($data['template']['block_type']) || !empty($data['template']['entity'])) {
+            
                 return array('status' => 1, 'message' => 'If a template is a template system, it\'s not associate to a block type or an entity', 'data' => $data);
             }
         }
 
         if (empty($data['template']['system']) && empty($data['template']['block_type']) && empty($data['template']['entity'])) {
+            
             return array('status' => 1, 'message' => 'A template is a template system or a template associate to a block type or an entity', 'data' => $data);
         }
 
         if (!file_exists($this->getCMSOptions()->getThemeFolder().$data['template']['file'])) {
+            
             return array('status' => 1, 'message' => 'The file must be created on the filer', 'data' => $data);
         }
-
 
         return array('status' => 0, 'message' => '', 'data' => $data);
     }

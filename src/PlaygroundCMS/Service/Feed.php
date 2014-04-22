@@ -68,6 +68,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         if (empty($this->blockMapper)) {
             $this->setBlockMapper($this->getServiceManager()->get('playgroundcms_block_mapper'));
         }
+        
         return $this->blockMapper;
     }
 

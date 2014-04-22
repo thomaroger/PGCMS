@@ -121,17 +121,19 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
     public function checkLayout($data)
     {
         if(empty($data['layout']['name'])){
+            
             return array('status' => 1, 'message' => 'Name is required', 'data' => $data);
         }
 
         if(empty($data['layout']['file'])){
+            
             return array('status' => 1, 'message' => 'File is required', 'data' => $data);
         }
 
         if (!file_exists($this->getCMSOptions()->getThemeFolder().$data['layout']['file'])) {
+            
             return array('status' => 1, 'message' => 'The file must be created on the filer', 'data' => $data);
         }
-
 
         return array('status' => 0, 'message' => '', 'data' => $data);
     }

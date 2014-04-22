@@ -284,10 +284,24 @@ return array(
                                     'route' => '/blocklayoutzone/edit/:id',
                                     'defaults' => array(
                                         'controller' => 'PlaygroundCMS\Controller\Back\Layout',
-                                        'action'     => 'blocklayoutzone',
+                                        'action'     => 'blockLayoutZone',
                                     ),
                                     'constraints' => array(
                                         'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+                            'blocklayoutzone_remove' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/blocklayoutzone/remove/:id/:blocklayoutId',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Layout',
+                                        'action'     => 'removeBlockLayoutZone',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                        'blocklayoutId' => '[0-9]+',
                                     ),
                                 ), 
                             ),

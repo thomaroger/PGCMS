@@ -13,6 +13,8 @@ namespace PlaygroundCMS\Mapper;
 use Doctrine\ORM\EntityManager;
 use PlaygroundCMS\Options\ModuleOptions;
 use Doctrine\ORM\QueryBuilder;
+use PlaygroundCMS\Entity\Block as BlockEntity;
+
 
 class Block
 {
@@ -95,7 +97,7 @@ class Block
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    public function insert(Block $entity)
+    public function insert(BlockEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -106,7 +108,7 @@ class Block
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    public function update(Block $entity)
+    public function update(BlockEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -117,7 +119,7 @@ class Block
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    protected function persist(Block $entity)
+    protected function persist(BlockEntity $entity)
     {
         $this->em->persist($entity);
         $this->em->flush();

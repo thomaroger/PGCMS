@@ -13,6 +13,8 @@ namespace PlaygroundCMS\Mapper;
 use Doctrine\ORM\EntityManager;
 use PlaygroundCMS\Options\ModuleOptions;
 use Doctrine\ORM\QueryBuilder;
+use PlaygroundCMS\Entity\BlockLayoutZone as BlockLayoutZoneEntity;
+
 
 class BlockLayoutZone
 {
@@ -85,7 +87,7 @@ class BlockLayoutZone
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    public function insert(Block $entity)
+    public function insert(BlockLayoutZoneEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -96,7 +98,7 @@ class BlockLayoutZone
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    public function update(Block $entity)
+    public function update(BlockLayoutZoneEntity $entity)
     {
         return $this->persist($entity);
     }
@@ -107,7 +109,7 @@ class BlockLayoutZone
     *
     * @return PlaygroundCMS\Entity\Block $block
     */
-    protected function persist(Block $entity)
+    protected function persist(BlockLayoutZoneEntity $entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
