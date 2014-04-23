@@ -55,6 +55,8 @@ class ExportBlockController extends AbstractActionController
 
         $response->setStatusCode(200);
         $response->setContent(utf8_decode($out)); 
+
+        $response->getHeaders()->addHeaderLine('Access-Control-Allow-Origin', '*');
         
         return $response;
     }
