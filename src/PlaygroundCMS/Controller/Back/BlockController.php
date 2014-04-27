@@ -37,8 +37,11 @@ class BlockController extends AbstractActionController
         $blocksPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
         $blocksPaginator->setCurrentPageNumber($p);
 
+        $blockTypes = $this->getBlockService()->getBlocksType();
+
         return new ViewModel(array('blocks'                => $blocks,
                                    'blocksPaginator'       => $blocksPaginator,
+                                   'blockTypes'            => $blockTypes,
                                    'nbBlock'               => $nbBlock));
     }
 

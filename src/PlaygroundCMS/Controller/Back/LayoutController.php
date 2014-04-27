@@ -27,6 +27,10 @@ class LayoutController extends AbstractActionController
     {
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "layout");
+        
+        $files = array();
+        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
+        
         $p = $this->getRequest()->getQuery('page', 1);
 
 
@@ -38,8 +42,11 @@ class LayoutController extends AbstractActionController
         $layoutsPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
         $layoutsPaginator->setCurrentPageNumber($p);
 
-
-        return new ViewModel(array('layouts'                => $layouts,
+        $files = $this->getPhtmlFiles($folderTheme, $files);
+        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+        
+        return new ViewModel(array('layouts'              => $layouts,
+                                   'files'                => $files,
                                    'layoutsPaginator'     => $layoutsPaginator,
                                    'nbLayout'             => $nbLayout));
     }
