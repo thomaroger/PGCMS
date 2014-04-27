@@ -35,6 +35,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $template = array('web' => "playground-cms/blocks/freeHtml.phtml");
         $block->setTemplateContext(json_encode($template));
         $block->setIsExportable(true);
+        $block->setIsGallery(true);
         
         $manager->persist($block);
         $manager->flush();
@@ -51,6 +52,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $block->setSlug("block-html-header");
         $template = array('web' => "playground-cms/blocks/freeHtml.phtml");
         $block->setTemplateContext(json_encode($template));
+        $block->setIsGallery(true);
         
         $manager->persist($block);
         $manager->flush();
@@ -150,6 +152,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $template = array('web' => "playground-cms/blocks/list_md_12.phtml");
         $block->setTemplateContext(json_encode($template));
         $block->setIsExportable(true);
+        $block->setIsGallery(true);
         
         $manager->persist($block);
         $manager->flush();
