@@ -25,7 +25,9 @@ class TemplateController extends AbstractActionController
     {
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "template");
+        $files = array();
         $p = $this->getRequest()->getQuery('page', 1);
+        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
 
 
         $templates = $this->getTemplateService()->getTemplateMapper()->findAll();
@@ -36,9 +38,16 @@ class TemplateController extends AbstractActionController
         $templatesPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
         $templatesPaginator->setCurrentPageNumber($p);
 
+        $blockTypes = $this->getBlockService()->getBlocksType();
+
+        $files = $this->getPhtmlFiles($folderTheme, $files);
+        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+
 
         return new ViewModel(array('templates'               => $templates,
-                                   'templatesPaginator'        => $templatesPaginator,
+                                   'blockTypes'              => $blockTypes,
+                                   'files'                   => $files,
+                                   'templatesPaginator'      => $templatesPaginator,
                                    'nbTemplates'             => $nbTemplates));
     }
 

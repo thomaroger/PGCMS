@@ -22,6 +22,7 @@ class PageController extends AbstractActionController
     protected $ressourceService;
     protected $layoutService;
     protected $localeService;
+    protected $cmsOptions;
     /**
     * indexAction : Action index du controller de page
     *
@@ -34,6 +35,9 @@ class PageController extends AbstractActionController
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "page");
         $p = $this->getRequest()->getQuery('page', 1);
+
+        $files = array();
+        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
 
 
         $pages = $this->getPageService()->getPageMapper()->findAll();
@@ -53,9 +57,18 @@ class PageController extends AbstractActionController
             $ressourcesCollection[$ressource->getRecordId()][$ressource->getLocale()] = $ressource;
         }
 
+        $credentials = Credential::$statusesForm;
+        $pagesStatuses = Page::$statuses;
+
+        $files = $this->getPhtmlFiles($folderTheme, $files);
+        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+
         return new ViewModel(array('pages'                => $pages,
                                    'pagesPaginator'       => $pagesPaginator,
                                    'nbPage'               => $nbPage,
+                                   'files'                => $files,
+                                   'credentials'          => $credentials,
+                                   'pagesStatuses'        => $pagesStatuses,
                                    'ressourcesCollection' => $ressourcesCollection));
     }
 
@@ -165,6 +178,32 @@ class PageController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
     }
 
+     public function getPhtmlFiles($path, $files)
+    {
+        $dir = opendir($path);
+        while($item = readdir($dir)) {
+            if (is_file($sub = $path.'/'.$item)) {
+                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "phtml") {
+                    $files[] = $sub;
+                }
+            } else {
+                if($item != "." and $item != "..") {
+                    $files = $this->getPhtmlFiles($sub,$files); 
+                }
+            }
+        }
+        return($files);
+    }
+
+    public function cleanFiles($path, $files)
+    {
+        foreach ($files as $key => $file) {
+            $files[$key] = str_replace($path, '', $files[$key]);
+        }
+
+        return $files;
+    }
+
     protected function getPageService()
     {
         if (!$this->pageService) {
@@ -199,5 +238,14 @@ class PageController extends AbstractActionController
         }
 
         return $this->ressourceService;
+    }
+
+    protected function getCMSOptions()
+    {
+        if (!$this->cmsOptions) {
+            $this->cmsOptions = $this->getServiceLocator()->get('playgroundcms_module_options');
+        }
+
+        return $this->cmsOptions;
     }
 }
