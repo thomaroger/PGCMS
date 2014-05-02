@@ -46,6 +46,7 @@ class BlockListController extends AbstractListController
                         'uri' => $request->getUri()->getPath());
 
         $model = new ViewModel($params);
+        
         return $this->render($model);
     }
 
