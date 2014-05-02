@@ -12,6 +12,7 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundCMS\Mapper\Block as BlockMapper;
+use PlaygroundCMS\Entity\Block as BlockEntity;
 
 class Block extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -25,6 +26,50 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
      * @var Zend\ServiceManager\ServiceManager ServiceManager
      */
     protected $serviceManager;
+
+    public function create($data){
+
+        $block = new BlockEntity();
+
+        $block->setName($data['name']);
+        $block->setType($data['type']);
+        $block->setIsExportable($data['is_exportable']);
+        $block->setIsGallery($data['is_gallery']);
+
+        // Specifique Block List
+        $data['configuration']['filters'] = array($data['configuration']['filters']['column'] => $data['configuration']['filters']['value']);
+
+        $block->setConfiguration(json_encode($data['configuration']));
+        $block->setTemplateContext(json_encode($data['template_context']));
+
+        $block = $this->getBlockMapper()->insert($block);
+
+    }
+
+
+    public function checkBlock($data)
+    {
+        
+        // Il faut au moins une plateforme d'activer
+        if (empty($data['template_context']['web']) && empty($data['template_context']['mobile'])) {
+
+            return array('status' => 1, 'message' => 'One of platform must have a template', 'data' => $data);
+        }
+
+        // Il faut une visibility
+        if(empty($data['name'])) {
+
+            return array('status' => 1, 'name' => 'name is required', 'data' => $data);  
+        }
+
+        // Il faut une visibility
+        if(empty($data['configuration'])) {
+
+            return array('status' => 1, 'name' => 'configuration is required', 'data' => $data);  
+        }       
+
+        return array('status' => 0, 'message' => '', 'data' => $data);
+    }
     
     public function getBlocksType()
     {

@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping\PreUpdate;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use PlaygroundCore\Filter\Slugify;
 
 /**
  * @ORM\Entity @HasLifecycleCallbacks
@@ -118,6 +119,9 @@ class Block implements InputFilterAwareInterface
     public function setName($name)
     {
         $this->name = (string) $name;
+
+        $slugify = new Slugify;
+        $this->setSlug($slugify->filter($name));
 
         return $this;
     }

@@ -138,6 +138,43 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         return array('status' => 0, 'message' => '', 'data' => $data);
     }
 
+    public function getLayouts()
+    {
+        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
+
+        $files = $this->getPhtmlFiles($folderTheme, array());
+        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+
+        return $files;
+    }
+
+
+    public function getPhtmlFiles($path, $files)
+    {
+        $dir = opendir($path);
+        while($item = readdir($dir)) {
+            if (is_file($sub = $path.'/'.$item)) {
+                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "phtml") {
+                    $files[] = $sub;
+                }
+            } else {
+                if($item != "." and $item != "..") {
+                    $files = $this->getPhtmlFiles($sub,$files); 
+                }
+            }
+        }
+        return($files);
+    }
+
+    public function cleanFiles($path, $files)
+    {
+        foreach ($files as $key => $file) {
+            $files[$key] = str_replace($path, '', $files[$key]);
+        }
+
+        return $files;
+    }
+
     /**
      * getLayoutMapper : Getter pour layoutMapper
      *

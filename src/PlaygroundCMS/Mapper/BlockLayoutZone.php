@@ -173,4 +173,19 @@ class BlockLayoutZone
 
         return $this->er;
     }
+
+
+    public function getBlocksBelow($blockLayoutZone, $position)
+    {
+        $select  = " SELECT BLZ ";
+        $from    = " FROM PlaygroundCMS\Entity\BlockLayoutZone BLZ";
+        $where   = " WHERE BLZ.id != ".$blockLayoutZone->getId()." 
+                     AND BLZ.layoutZone = ".$blockLayoutZone->getLayoutZone()->getId()."
+                     AND BLZ.position >= ".$position;
+
+        $query = $select.' '.$from.' '.$where;
+        $results =  $this->em->createQuery($query)->getResult();
+
+        return $results;
+    }
 }

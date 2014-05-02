@@ -18,7 +18,7 @@ class Zones extends CachedCollection
     /**
     * @var integer CACHE_TIME : Temps de cache fichier pour les zones
     */
-    const CACHE_TIME = 60;
+    const CACHE_TIME = 0;
 
     /**
     * @var Template $zoneService : Instance du service de zones

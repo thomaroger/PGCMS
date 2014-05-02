@@ -16,7 +16,7 @@ class Layouts extends CachedCollection
     /**
     * @var integer CACHE_TIME : Temps de cache fichier pour les blocs
     */
-    const CACHE_TIME = 60;
+    const CACHE_TIME = 0;
      /**
     * @var Block $blockService : Instance du service de block
     */

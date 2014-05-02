@@ -93,11 +93,14 @@ class Module
                 'playgroundcms_doctrine_em' => 'doctrine.entitymanager.orm_default',
             ),    
             'factories' => array(
+                // OPTION 
                 'playgroundcms_module_options' => function  ($sm) {
                     $config = $sm->get('Configuration');
 
                     return new Options\ModuleOptions(isset($config['playgroundcms']) ? $config['playgroundcms'] : array());
                 },
+
+                // MAPPER
                 
                 'playgroundcms_block_mapper' => function  ($sm) {
                     return new Mapper\Block($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
@@ -131,9 +134,25 @@ class Module
                     return new Mapper\BlockLayoutZone($sm->get('playgroundcms_doctrine_em'), $sm->get('playgroundcms_module_options'));
                 },
 
+                // ROUTER
                 'RoutePluginManager' => function ($sm) { 
                     return new Router\RoutePluginManager();
                 },
+
+
+                // FORM
+                'playgroundcms_blocks_freehtml_form' => function  ($sm) {
+                    $form = new Form\FreeHTMLForm(null, $sm);
+
+                    return $form;
+                },
+
+                'playgroundcms_blocks_blocklist_form' => function  ($sm) {
+                    $form = new Form\BlockListForm(null, $sm);
+
+                    return $form;
+                },
+
             ),
             'invokables' => array(
                 'playgroundcms_block_service'           => 'PlaygroundCMS\Service\Block',

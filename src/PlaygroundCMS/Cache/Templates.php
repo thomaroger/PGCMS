@@ -16,7 +16,7 @@ class Templates extends CachedCollection
     /**
     * @var integer CACHE_TIME : Temps de cache fichier pour les templates
     */
-    const CACHE_TIME = 60;
+    const CACHE_TIME = 0;
 
     /**
     * @var Template $templateService : Instance du service de template

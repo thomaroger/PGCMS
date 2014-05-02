@@ -16,7 +16,7 @@ class Ressources extends CachedCollection
     /**
     * @var integer CACHE_TIME : Temps de cache fichier pour les ressources
     */
-    const CACHE_TIME = 60;
+    const CACHE_TIME = 0;
 
      /**
     * @var Ressource $ressourceService : Instance du service de ressource

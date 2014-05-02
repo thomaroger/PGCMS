@@ -28,8 +28,7 @@ class LayoutController extends AbstractActionController
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "layout");
         
-        $files = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
+ 
         
         $p = $this->getRequest()->getQuery('page', 1);
 
@@ -42,8 +41,7 @@ class LayoutController extends AbstractActionController
         $layoutsPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
         $layoutsPaginator->setCurrentPageNumber($p);
 
-        $files = $this->getPhtmlFiles($folderTheme, $files);
-        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+        $files = $this->getLayoutService()->getLayouts();
         
         return new ViewModel(array('layouts'              => $layouts,
                                    'files'                => $files,
@@ -57,9 +55,6 @@ class LayoutController extends AbstractActionController
         $this->layout()->setVariable('subNav', "layout");
         $return  = array();
         $data = array();
-        $files = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
-        
         $request = $this->getRequest();
 
         if ($request->isPost()) {
@@ -79,8 +74,7 @@ class LayoutController extends AbstractActionController
             }
         }
 
-        $files = $this->getPhtmlFiles($folderTheme, $files);
-        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+        $files = $this->getLayoutService()->getLayouts();
 
         return new ViewModel(array('files'  => $files,
                                    'data'   => $data,
@@ -93,8 +87,6 @@ class LayoutController extends AbstractActionController
         $this->layout()->setVariable('subNav', "layout");
         $return  = array();
         $data = array();
-        $files = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
         
         $request = $this->getRequest();
 
@@ -124,8 +116,7 @@ class LayoutController extends AbstractActionController
         }
 
 
-        $files = $this->getPhtmlFiles($folderTheme, $files);
-        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+        $files = $this->getLayoutService()->getLayouts();
 
         return new ViewModel(array('layout' => $layout,
                                    'files'  => $files,
@@ -158,7 +149,6 @@ class LayoutController extends AbstractActionController
         $return  = array();
         $data = array();
         $zones = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
         
         $request = $this->getRequest();
 
@@ -211,6 +201,15 @@ class LayoutController extends AbstractActionController
         $layout = $this->getLayoutService()->getLayoutMapper()->findById($layoutId);
 
         $blockLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findById($blocklayoutZoneId);
+
+        // ajout +1 pour les blocks qui seront en dessous de lui
+        $blocksLayoutZoneBelow = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->getBlocksBelow($blockLayoutZone, $position);
+
+        foreach ($blocksLayoutZoneBelow as $blockLayoutZoneBelow) {
+            $blockLayoutZoneBelow->setPosition($blockLayoutZoneBelow->getPosition() + 1);
+            $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->update($blockLayoutZoneBelow);
+        }
+
         $blockLayoutZone->setPosition($position);
 
         $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->update($blockLayoutZone);
@@ -218,7 +217,8 @@ class LayoutController extends AbstractActionController
         $response = $this->getResponse();
         $response->setStatusCode(200);
         $headers = $response->getHeaders();
-        $response->setContent(json_encode(array('status' => 0)));        
+        $response->setContent(json_encode(array('status' => 0)));
+
         return $response;
     }
 

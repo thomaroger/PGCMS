@@ -25,9 +25,7 @@ class TemplateController extends AbstractActionController
     {
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "template");
-        $files = array();
         $p = $this->getRequest()->getQuery('page', 1);
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
 
 
         $templates = $this->getTemplateService()->getTemplateMapper()->findAll();
@@ -40,9 +38,7 @@ class TemplateController extends AbstractActionController
 
         $blockTypes = $this->getBlockService()->getBlocksType();
 
-        $files = $this->getPhtmlFiles($folderTheme, $files);
-        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
-
+        $files = $this->getTemplateService()->getTemplates();
 
         return new ViewModel(array('templates'               => $templates,
                                    'blockTypes'              => $blockTypes,
@@ -55,8 +51,6 @@ class TemplateController extends AbstractActionController
     {
         $return  = array();
         $data = array();
-        $files = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
         
         $request = $this->getRequest();
 
@@ -77,8 +71,7 @@ class TemplateController extends AbstractActionController
             }
         }
 
-        $files = $this->getPhtmlFiles($folderTheme, $files);
-        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+        $files = $this->getTemplateService()->getTemplates();
 
         $blockstype = $this->getBlocksType();
 
@@ -92,8 +85,6 @@ class TemplateController extends AbstractActionController
     {
         $return  = array();
         $data = array();
-        $files = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
         
         $request = $this->getRequest();
 
@@ -124,8 +115,7 @@ class TemplateController extends AbstractActionController
 
         $blockstype = $this->getBlocksType();
 
-        $files = $this->getPhtmlFiles($folderTheme, $files);
-        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+        $files = $this->getTemplateService()->getTemplates();
 
         return new ViewModel(array('template' => $template,
                                    'blockstype' => $blockstype,
@@ -157,32 +147,6 @@ class TemplateController extends AbstractActionController
         $this->getTemplateService()->getTemplateMapper()->remove($template);
 
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
-    }
-
-    public function getPhtmlFiles($path, $files)
-    {
-        $dir = opendir($path);
-        while($item = readdir($dir)) {
-            if (is_file($sub = $path.'/'.$item)) {
-                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "phtml") {
-                    $files[] = $sub;
-                }
-            } else {
-                if($item != "." and $item != "..") {
-                    $files = $this->getPhtmlFiles($sub,$files); 
-                }
-            }
-        }
-        return($files);
-    }
-
-    public function cleanFiles($path, $files)
-    {
-        foreach ($files as $key => $file) {
-            $files[$key] = str_replace($path, '', $files[$key]);
-        }
-
-        return $files;
     }
 
     public function getBlocksType()

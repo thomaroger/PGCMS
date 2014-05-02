@@ -130,6 +130,11 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
     }
 
 
+    public function getTemplates()
+    {
+        return $this->getServiceManager()->get('Playgroundcms_layout_service')->getLayouts();
+    }
+
      /**
      * getTemplateMapper : Getter pour templateMapper
      *

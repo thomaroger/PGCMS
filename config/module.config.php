@@ -278,6 +278,35 @@ return array(
                                     ),
                                 ),    
                             ),
+
+                            'block_create'  => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/block/create/:type',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Block',
+                                        'action'     => 'create',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[a-Z_]+',
+                                    ),
+                                ), 
+                            ),
+
+                            'block_remove'  => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/block/remove/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Block',
+                                        'action'     => 'remove',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+
                             'blocklayoutzone_edit' => array(
                                 'type' => 'Segment',
                                 'options' => array(

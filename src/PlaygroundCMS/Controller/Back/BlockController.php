@@ -45,6 +45,63 @@ class BlockController extends AbstractActionController
                                    'nbBlock'               => $nbBlock));
     }
 
+    public function createAction()
+    {
+        $typeBlock = $this->getEvent()->getRouteMatch()->getParam('type');
+        $type = strtolower(str_replace('Controller', '_form', $typeBlock));
+        $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+
+        $form->get('type')->setValue('PlaygroundCMS\Blocks\\'.$typeBlock);
+        $form->get('is_exportable')->setValue(array(0));
+        $form->get('is_gallery')->setValue(array(0));
+
+        $return  = array();
+        $data = array();
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+
+
+            $return = $this->getBlockService()->checkBlock($data);
+
+            $data = $return["data"];
+            unset($return["data"]);
+
+            if ($return['status'] == 0) {
+                $this->getBlockService()->create($data);
+
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
+            }
+        }
+
+        return new ViewModel(array('form' => $form,
+                                   'data'          => $data,
+                                   'return'        => $return));
+    }
+
+    public function editAction()
+    {
+       
+    }
+
+    public function removeAction()
+    {
+        $blockId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $block = $this->getBlockService()->getBlockMapper()->findById($blockId);
+
+        if(empty($block)){
+
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
+        }
+
+        // Suppresion de la page
+        $this->getBlockService()->getBlockMapper()->remove($block);
+        return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
+    }
+
 
     protected function getBlockService()
     {
