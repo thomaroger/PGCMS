@@ -187,6 +187,11 @@ class BlockForm extends ProvidesEventsForm
         return $templatesFiles;
     }
 
+    public function decorateSpecificDecoration($data)
+    {
+        return $data;
+    }
+
     public function getServiceManager()
     {
         return $this->serviceManager;

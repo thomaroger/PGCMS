@@ -21,6 +21,7 @@ class BlockListForm extends BlockForm
             'options' => array(
                 'label' => 'Column',
                 'value_options' => $this->getSupportedFilters(),
+                'empty_option' => 'Choose a column to filter',
                 'label_attributes' => array(
                     'class'  => 'control-label'
                 ),
@@ -56,6 +57,7 @@ class BlockListForm extends BlockForm
             'name' => 'configuration[sort][field]',
             'options' => array(
                 'label' => 'Column',
+                'empty_option' => 'Choose the column to sort',
                 'value_options' => $this->getSupportedSorts(),
                 'label_attributes' => array(
                     'class'  => 'control-label'
@@ -74,6 +76,7 @@ class BlockListForm extends BlockForm
             'name' => 'configuration[sort][direction]',
             'options' => array(
                 'label' => 'Value',
+                'empty_option' => 'Choose a direction',
                 'value_options' => $this->getDirection(),
                 'label_attributes' => array(
                     'class'  => 'control-label'
@@ -158,5 +161,12 @@ class BlockListForm extends BlockForm
             'configuration[sort][direction]',
             'configuration[pagination][max_per_page]',
             'configuration[pagination][limit]');
+    }
+
+    public function decorateSpecificDecoration($data)
+    {
+        $data['configuration']['filters'] = array($data['configuration']['filters']['column'] => $data['configuration']['filters']['value']);
+
+        return $data;
     }
 }

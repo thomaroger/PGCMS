@@ -26,7 +26,8 @@ class FreeHTMLForm extends BlockForm
             ),
             'attributes' => array(
                 'required' => 'required',
-                'class' => 'form-control',
+                'class' => 'form-control textarea',
+                'rows' => 6,
             )
         ));
     }

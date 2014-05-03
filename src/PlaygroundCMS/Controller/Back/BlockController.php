@@ -71,7 +71,7 @@ class BlockController extends AbstractActionController
             unset($return["data"]);
 
             if ($return['status'] == 0) {
-                $this->getBlockService()->create($data);
+                $this->getBlockService()->create($data, $form);
 
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
             }

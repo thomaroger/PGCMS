@@ -27,7 +27,7 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
 
-    public function create($data){
+    public function create($data, $form){
 
         $block = new BlockEntity();
 
@@ -36,8 +36,7 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         $block->setIsExportable($data['is_exportable']);
         $block->setIsGallery($data['is_gallery']);
 
-        // Specifique Block List
-        $data['configuration']['filters'] = array($data['configuration']['filters']['column'] => $data['configuration']['filters']['value']);
+        $data = $form->decorateSpecificDecoration($data);
 
         $block->setConfiguration(json_encode($data['configuration']));
         $block->setTemplateContext(json_encode($data['template_context']));
