@@ -125,6 +125,10 @@ class BlockController extends AbstractActionController
             }
         }
 
+        if ($block->getIsExportable()) {
+            $form->get('export')->setValue("/fr-fr/export-block/".$block->getSlug().'.html');  
+        }
+
         $form->setData($data);
 
         return new ViewModel(array('form'   => $form,
