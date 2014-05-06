@@ -93,7 +93,44 @@ class BlockController extends AbstractActionController
 
     public function editAction()
     {
-       
+        $blockId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $block = $this->getBlockService()->getBlockMapper()->findById($blockId);
+
+
+        $type = strtolower(str_replace(array('PlaygroundCMS\Blocks\\', 'Controller'), array('', '_form'), $block->getType()));
+        $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+
+        $form->bind($block);
+        $form->setData($block);
+        
+        $return  = array();
+        $data = array();
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+
+
+            $return = $this->getBlockService()->checkBlock($data);
+
+            $data = $return["data"];
+            unset($return["data"]);
+
+            if ($return['status'] == 0) {
+                $this->getBlockService()->update($block, $data, $form);
+
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
+            }
+        }
+
+        $form->setData($data);
+
+        return new ViewModel(array('form'   => $form,
+                                   'block'  => $block,
+                                   'data'   => $data,
+                                   'return' => $return));
     }
 
     public function removeAction()

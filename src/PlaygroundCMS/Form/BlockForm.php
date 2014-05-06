@@ -5,6 +5,7 @@ namespace PlaygroundCMS\Form;
 use Zend\Form\Element;
 use ZfcBase\Form\ProvidesEventsForm;
 use Zend\ServiceManager\ServiceManager;
+use PlaygroundCMS\Entity\Block;
 
 class BlockForm extends ProvidesEventsForm
 {
@@ -79,7 +80,7 @@ class BlockForm extends ProvidesEventsForm
             'name' => 'export',
             'type' => 'Zend\Form\Element\Text',
             'options' => array(
-                'label' => 'Url export block',
+                'label' => 'Url Export Block',
                 'label_attributes' => array(
                     'class'  => 'control-label'
                 ),
@@ -205,22 +206,36 @@ class BlockForm extends ProvidesEventsForm
     }
 
 
-    public function setData($data){
+    public function setData($data)
+    {
+        if (!is_array($data)) {
+            $this->get('name')->setValue($data->getName());
+            $this->get('is_exportable')->setValue($data->getIsExportable());
+            $this->get('is_gallery')->setValue($data->getIsGallery());
+            $templateContext = json_decode($data->getTemplateContext(), true);
+            if(!empty($templateContext['web']))  {
+                $this->get('template_context[web]')->setValue($templateContext['web']);
+            }
+            if(!empty($templateContext['mobile']))  {
+                $this->get('template_context[mobile]')->setValue($templateContext['mobile']);
+            }
+        } else {
+            if (!empty($data['name'])) {
+                $this->get('name')->setValue($data['name']);
+            }
 
-        if (!empty($data['name'])) {
-            $this->get('name')->setValue($data['name']);
-        }
+            if (!empty($data['is_exportable'])) {
+                $this->get('is_exportable')->setValue(array($data['is_exportable']));
+            }
 
-        if (!empty($data['is_exportable'])) {
-            $this->get('is_exportable')->setValue(array($data['is_exportable']));
+            if (!empty($data['is_gallery'])) {
+                $this->get('is_gallery')->setValue(array($data['is_gallery']));
+            }    
         }
-
-        if (!empty($data['is_gallery'])) {
-            $this->get('is_gallery')->setValue(array($data['is_gallery']));
-        }
+        
     }
 
-    public function decorateSpecificDecoration($data)
+    public function decorateSpecificConfguration($data)
     {
         return $data;
     }

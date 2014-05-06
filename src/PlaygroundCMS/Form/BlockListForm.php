@@ -155,23 +155,43 @@ class BlockListForm extends BlockForm
     {
         parent::setData($data);
 
-        if (!empty($data['configuration']['filters']['column'])) {
-            $this->get('configuration[filters][column]')->setValue($data['configuration']['filters']['column']);
-        }
-        if (!empty($data['configuration']['filters']['value'])) {
-            $this->get('configuration[filters][value]')->setValue($data['configuration']['filters']['value']);
-        }
-        if (!empty($data['configuration']['sort']['field'])) {
-            $this->get('configuration[sort][field]')->setValue($data['configuration']['sort']['field']);
-        }
-        if (!empty($data['configuration']['sort']['direction'])) {
-            $this->get('configuration[sort][direction]')->setValue($data['configuration']['sort']['direction']);
-        }
-        if (!empty($data['configuration']['pagination']['max_per_page'])) {
-            $this->get('configuration[pagination][max_per_page]')->setValue($data['configuration']['pagination']['max_per_page']);
-        }
-         if (!empty($data['configuration']['pagination']['limit'])) {
-            $this->get('configuration[pagination][limit]')->setValue($data['configuration']['pagination']['limit']);
+        if (!is_array($data)) {
+
+            $filters = $data->getParam('filters');
+            $sort = $data->getParam('sort');
+            $pagination = $data->getParam('pagination');
+            if(!empty($filters)) {
+                $this->get('configuration[filters][column]')->setValue(key($filters));
+                $this->get('configuration[filters][value]')->setValue($filters[key($filters)]);
+            }
+            if(!empty($sort)) {
+                $this->get('configuration[sort][field]')->setValue($sort['field']);
+                $this->get('configuration[sort][direction]')->setValue($sort['direction']);
+            }
+            if(!empty($pagination)) {
+                $this->get('configuration[pagination][max_per_page]')->setValue($pagination['max_per_page']);
+                $this->get('configuration[pagination][limit]')->setValue($pagination['limit']);
+            }
+
+        } else {
+            if (!empty($data['configuration']['filters']['column'])) {
+                $this->get('configuration[filters][column]')->setValue($data['configuration']['filters']['column']);
+            }
+            if (!empty($data['configuration']['filters']['value'])) {
+                $this->get('configuration[filters][value]')->setValue($data['configuration']['filters']['value']);
+            }
+            if (!empty($data['configuration']['sort']['field'])) {
+                $this->get('configuration[sort][field]')->setValue($data['configuration']['sort']['field']);
+            }
+            if (!empty($data['configuration']['sort']['direction'])) {
+                $this->get('configuration[sort][direction]')->setValue($data['configuration']['sort']['direction']);
+            }
+            if (!empty($data['configuration']['pagination']['max_per_page'])) {
+                $this->get('configuration[pagination][max_per_page]')->setValue($data['configuration']['pagination']['max_per_page']);
+            }
+            if (!empty($data['configuration']['pagination']['limit'])) {
+                $this->get('configuration[pagination][limit]')->setValue($data['configuration']['pagination']['limit']);
+            }
         }
 
     }
@@ -188,13 +208,10 @@ class BlockListForm extends BlockForm
             'configuration[pagination][limit]');
     }
 
-    public function decorateSpecificDecoration($data)
+    public function decorateSpecificConfguration($data)
     {
-
         $configuration = array();
-
-        $data['configuration']['filters'] = array($data['configuration']['filters']['column'] => $data['configuration']['filters']['value']);
-
+        
         if (!empty($data['configuration']['filters']['column']) && !empty($data['configuration']['filters']['value'])) {
             $configuration['filters'] = array($data['configuration']['filters']['column'] => $data['configuration']['filters']['value']);
         }

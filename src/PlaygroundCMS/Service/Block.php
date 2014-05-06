@@ -36,7 +36,24 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         $block->setIsExportable($data['is_exportable']);
         $block->setIsGallery($data['is_gallery']);
 
-        $data = $form->decorateSpecificDecoration($data);
+        $data = $form->decorateSpecificConfguration($data);
+
+        $block->setConfiguration(json_encode($data['configuration']));
+        $block->setTemplateContext(json_encode($data['template_context']));
+
+        $block = $this->getBlockMapper()->insert($block);
+
+    }
+
+
+    public function update($block, $data, $form){
+
+        $block->setName($data['name']);
+        $block->setType($data['type']);
+        $block->setIsExportable($data['is_exportable']);
+        $block->setIsGallery($data['is_gallery']);
+
+        $data = $form->decorateSpecificConfguration($data);
 
         $block->setConfiguration(json_encode($data['configuration']));
         $block->setTemplateContext(json_encode($data['template_context']));

@@ -39,9 +39,13 @@ class FreeHTMLForm extends BlockForm
     public function setData($data)
     {
         parent::setData($data);
-
-        if (!empty($data['configuration']['html'])) {
-            $this->get('configuration[html]')->setValue($data['configuration']['html']);
+        
+        if (!is_array($data)) {
+            $this->get('configuration[html]')->setValue($data->getParam('html'));
+        } else {
+            if (!empty($data['configuration']['html'])) {
+                $this->get('configuration[html]')->setValue($data['configuration']['html']);
+            }
         }
     }
 }

@@ -293,6 +293,20 @@ return array(
                                 ), 
                             ),
 
+                            'block_edit'  => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/block/edit/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Block',
+                                        'action'     => 'edit',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+
                             'block_remove'  => array(
                                 'type' => 'Segment',
                                 'options' => array(
