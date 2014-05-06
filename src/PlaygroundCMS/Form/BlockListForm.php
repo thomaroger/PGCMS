@@ -165,7 +165,21 @@ class BlockListForm extends BlockForm
 
     public function decorateSpecificDecoration($data)
     {
+
+        $configuration = array();
+
         $data['configuration']['filters'] = array($data['configuration']['filters']['column'] => $data['configuration']['filters']['value']);
+
+        if (!empty($data['configuration']['filters']['column']) && !empty($data['configuration']['filters']['value'])) {
+            $configuration['filters'] = array($data['configuration']['filters']['column'] => $data['configuration']['filters']['value']);
+        }
+
+        if (!empty($data['configuration']['sort']['field']) && !empty($data['configuration']['sort']['direction'])) {
+            $configuration['sort'] = $data['configuration']['sort'];
+        }
+
+        $configuration['pagination'] = $data['configuration']['pagination'];
+        $data['configuration'] = $configuration;
 
         return $data;
     }

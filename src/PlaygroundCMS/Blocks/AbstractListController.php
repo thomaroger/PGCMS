@@ -164,7 +164,7 @@ abstract class AbstractListController extends AbstractBlockController
         $limit      = !empty($paginationParam['limit'])        ? $paginationParam['limit']        : null;
         $maxPerPage = !empty($paginationParam['max_per_page']) ? $paginationParam['max_per_page'] : null;
 
-        list($limit, $maxPerPage) = $this->initPagerVars((int) $limit, (int) $maxPerPage);
+        list($limit, $maxPerPage) = $this->initPagerVars($limit, $maxPerPage);
 
         if ($maxPerPage > $limit) {
             $maxPerPage = $limit;
