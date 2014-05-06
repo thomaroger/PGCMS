@@ -17,6 +17,7 @@ class BlockController extends AbstractActionController
     const MAX_PER_PAGE = 20;
 
     protected $blockService;
+    protected $blockLayoutZoneService;
     /**
     * indexAction : Action index du controller de block
     *
@@ -27,7 +28,7 @@ class BlockController extends AbstractActionController
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "block");
         $p = $this->getRequest()->getQuery('page', 1);
-
+        $nbUseBlock = array();
 
         $blocks = $this->getBlockService()->getBlockMapper()->findAll();
         
@@ -37,11 +38,17 @@ class BlockController extends AbstractActionController
         $blocksPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
         $blocksPaginator->setCurrentPageNumber($p);
 
+        foreach ($blocksPaginator as $block) {
+            $nbUseBlocks[$block->getId()] = count($this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findBy(array('block' => $block)));
+        }
+
+
         $blockTypes = $this->getBlockService()->getBlocksType();
 
         return new ViewModel(array('blocks'                => $blocks,
                                    'blocksPaginator'       => $blocksPaginator,
                                    'blockTypes'            => $blockTypes,
+                                   'nbUseBlocks'           => $nbUseBlocks,
                                    'nbBlock'               => $nbBlock));
     }
 
@@ -77,9 +84,11 @@ class BlockController extends AbstractActionController
             }
         }
 
-        return new ViewModel(array('form' => $form,
-                                   'data'          => $data,
-                                   'return'        => $return));
+        $form->setData($data);
+
+        return new ViewModel(array('form'   => $form,
+                                   'data'   => $data,
+                                   'return' => $return));
     }
 
     public function editAction()
@@ -111,4 +120,15 @@ class BlockController extends AbstractActionController
 
         return $this->blockService;
     }
+
+    protected function getBlockLayoutZoneService()
+    {
+        if (!$this->blockLayoutZoneService) {
+            $this->blockLayoutZoneService = $this->getServiceLocator()->get('playgroundcms_blocklayoutzone_service');
+        }
+
+        return $this->blockLayoutZoneService;
+    }
 }
+
+

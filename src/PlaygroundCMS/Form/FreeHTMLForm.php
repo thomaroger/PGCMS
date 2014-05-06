@@ -25,7 +25,6 @@ class FreeHTMLForm extends BlockForm
                 ),
             ),
             'attributes' => array(
-                'required' => 'required',
                 'class' => 'form-control textarea',
                 'rows' => 6,
             )
@@ -35,5 +34,14 @@ class FreeHTMLForm extends BlockForm
     public function getConfiguration()
     {
         return array('configuration[html]');
+    }
+
+    public function setData($data)
+    {
+        parent::setData($data);
+
+        if (!empty($data['configuration']['html'])) {
+            $this->get('configuration[html]')->setValue($data['configuration']['html']);
+        }
     }
 }

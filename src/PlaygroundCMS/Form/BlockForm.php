@@ -55,7 +55,7 @@ class BlockForm extends ProvidesEventsForm
             'attributes' => array(
                 'type' => 'text',
                 'class' => 'form-control',
-                'disabled' => 'disabled',
+                'readonly' => 'true',
             )
         ));
 
@@ -71,6 +71,23 @@ class BlockForm extends ProvidesEventsForm
             'attributes' => array(
                 'type' => 'text',
                 'class' => 'form-control',
+                'readonly' => 'true',
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'export',
+            'type' => 'Zend\Form\Element\Text',
+            'options' => array(
+                'label' => 'Url export block',
+                'label_attributes' => array(
+                    'class'  => 'control-label'
+                ),
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'class' => 'form-control',
+                'disabled' => 'disabled',
             )
         ));
 
@@ -185,6 +202,22 @@ class BlockForm extends ProvidesEventsForm
         }
 
         return $templatesFiles;
+    }
+
+
+    public function setData($data){
+
+        if (!empty($data['name'])) {
+            $this->get('name')->setValue($data['name']);
+        }
+
+        if (!empty($data['is_exportable'])) {
+            $this->get('is_exportable')->setValue(array($data['is_exportable']));
+        }
+
+        if (!empty($data['is_gallery'])) {
+            $this->get('is_gallery')->setValue(array($data['is_gallery']));
+        }
     }
 
     public function decorateSpecificDecoration($data)
