@@ -43,6 +43,8 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
 
         $block = $this->getBlockMapper()->insert($block);
 
+        return $block;
+
     }
 
 
@@ -60,6 +62,8 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
 
         $block = $this->getBlockMapper()->insert($block);
 
+        return $block;
+        
     }
 
 

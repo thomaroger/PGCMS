@@ -91,9 +91,29 @@ class BlockController extends AbstractActionController
                                    'return' => $return));
     }
 
+    public function createWithoutLayoutAction()
+    {
+        $typeBlock = $this->getEvent()->getRouteMatch()->getParam('type');
+        $type = strtolower(str_replace('Controller', '_form', $typeBlock));
+        $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+
+        $form->get('type')->setValue('PlaygroundCMS\Blocks\\'.$typeBlock);
+        $form->get('is_exportable')->setValue(array(0));
+        $form->get('is_gallery')->setValue(array(0));
+
+
+
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true);
+        $viewModel->setVariables(array('form' => $form));
+        return $viewModel;
+
+    }
+
     public function editAction()
     {
         $blockId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $layoutId = $this->getEvent()->getRouteMatch()->getParam('layoutId', 0);
         $block = $this->getBlockService()->getBlockMapper()->findById($blockId);
 
 
@@ -120,6 +140,10 @@ class BlockController extends AbstractActionController
 
             if ($return['status'] == 0) {
                 $this->getBlockService()->update($block, $data, $form);
+
+                if($layoutId > 0) {
+                    return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layoutId));
+                }
 
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
             }

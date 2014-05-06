@@ -166,12 +166,36 @@ class LayoutController extends AbstractActionController
                     $request->getFiles()->toArray()
             );
 
-            $return = $this->getBlockLayoutZoneService()->checkData($data);
-            $data = $return["data"];
-            unset($return["data"]);
+            if(!empty($data['layout'])) {
+                $return = $this->getBlockLayoutZoneService()->checkData($data);
+                $data = $return["data"];
+                unset($return["data"]);
 
 
-            if ($return['status'] == 0) {
+                if ($return['status'] == 0) {
+                    $this->getBlockLayoutZoneService()->create($data);
+
+                    return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
+                }
+            } else {
+                $type = strtolower(str_replace(array('PlaygroundCMS\Blocks\\', 'Controller'), array('', '_form'), $data['type']));
+                $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+
+                 $return = $this->getBlockService()->checkBlock($data);
+
+                $data = $return["data"];
+                unset($return["data"]);
+
+                if ($return['status'] == 0) {
+                    $block = $this->getBlockService()->create($data, $form);
+                }
+
+                $zoneId = $data['layoutZoneId'];
+                $data = array();
+                $data['layout']['id'] = $layoutId;
+                $data['layout']['zone'] = $zoneId;
+                $data['layout']['block'] = $block->getId();
+
                 $this->getBlockLayoutZoneService()->create($data);
 
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));

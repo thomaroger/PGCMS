@@ -293,16 +293,31 @@ return array(
                                 ), 
                             ),
 
+                            'block_create_sans_layout'  => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/block/createwithoutlayout/:type',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Block',
+                                        'action'     => 'createWithoutLayout',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[a-Z_]+',
+                                    ),
+                                ), 
+                            ),
+
                             'block_edit'  => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/block/edit/:id',
+                                    'route' => '/block/edit/:id[/:layoutId]',
                                     'defaults' => array(
                                         'controller' => 'PlaygroundCMS\Controller\Back\Block',
                                         'action'     => 'edit',
                                     ),
                                     'constraints' => array(
-                                        'id' => '[0-9]+',
+                                        'id'       => '[0-9]+',
+                                        'layoutId' => '[0-9]+',
                                     ),
                                 ), 
                             ),

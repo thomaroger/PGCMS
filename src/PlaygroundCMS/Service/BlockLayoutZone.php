@@ -44,11 +44,6 @@ class BlockLayoutZone extends EventProvider implements ServiceManagerAwareInterf
         $this->getBlockLayoutZoneMapper()->insert($blockLayoutZoneEntity);
     }
 
-    public function editPosition()
-    {
-
-    }
-
     public function checkData($data)
     {
         if(empty($data['layout']['id'])){
