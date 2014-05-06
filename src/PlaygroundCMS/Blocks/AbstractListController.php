@@ -181,8 +181,8 @@ abstract class AbstractListController extends AbstractBlockController
 
     /**
     * initPagerVars : Permet d'initialiser les variables lié à la pagination en fonction des valeurs par défaut
-    * @param int $limit : Correspond au nombre d'item
-    * @param int $maxPerPage : Nombre d'item par page
+    * @param mixed $limit : Correspond au nombre d'item
+    * @param mixed $maxPerPage : Nombre d'item par page
     *
     * @return array $paginationParam : limit correspond au nombre d'item, max_per_page correspond au nombre d'item par page
     */

@@ -1,5 +1,12 @@
 <?php
 
+/**
+* @package : PlaygroundCMS
+* @author : troger
+* @since : 01/05/2014
+*
+* Classe qui permet de gerer les forms de block
+**/
 namespace PlaygroundCMS\Form;
 
 use Zend\Form\Element;

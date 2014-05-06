@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 10/04/2014
 *
-* Classe qui permet de gérer le cache fichier de objets de type LayoutZone
+* Classe qui permet de gérer le cache fichier de objets de type BlockLayoutZone
 **/
 
 namespace PlaygroundCMS\Cache;
@@ -14,19 +14,19 @@ use PlaygroundCMS\Service\BlockLayoutZone;
 class BlocksLayoutsZones extends CachedCollection
 {   
     /**
-    * @var integer CACHE_TIME : Temps de cache fichier pour les templates
+    * @var integer CACHE_TIME : Temps de cache fichier pour les blockLayoutZone
     */
     const CACHE_TIME = 0;
 
     /**
-    * @var Template $templateService : Instance du service de template
+    * @var Template $blocklayoutZoneService : Instance du service de blockLayoutZone
     */
     protected $blocklayoutZoneService;
 
     /**
-    * getCachedTemplates : Recuperation des templates cachés
+    * getCachedBlockLayoutZone : Recuperation des templates cachés
     *
-    * @return array $templates : Templates qui sont cachés
+    * @return array $blockLayoutZones : blockLayoutZones qui sont cachés
     */
     public function getCachedBlockLayoutZone()
     {
@@ -35,7 +35,12 @@ class BlocksLayoutsZones extends CachedCollection
         return $this->getCachedCollection();
     }
 
-
+    /**
+    * findBlocksByLayoutZone : Recuperation d'un blockLayoutZone en fonction d'un id de layoutzone
+    * @param int $layoutZone : Id du layoutZone
+    *
+    * @return BlockLayoutZone $blockslayoutsZone
+    */
     public function findBlocksByLayoutZone($layoutZone)
     {
         $blockslayoutsZones = $this->getCachedBlockLayoutZone();
@@ -51,9 +56,9 @@ class BlocksLayoutsZones extends CachedCollection
 
 
     /**
-    * getCollection : Permet de recuperer les templates à cacher
+    * getCollection : Permet de recuperer les blockLayoutZones à cacher
     *
-    * @return array $collections : Templates à cacher
+    * @return array $collections : blockLayoutZones à cacher
     */
     protected function getCollection()
     {
@@ -67,9 +72,9 @@ class BlocksLayoutsZones extends CachedCollection
     }
 
     /**
-     * getTemplateService : Getter pour l'instance du Service Template
+     * getBlockLayoutZoneService : Getter pour l'instance du Service blockLayoutZone
      *
-     * @return Template $templateService
+     * @return BlockLayoutZone $blocklayoutZoneService
      */
     private function getBlockLayoutZoneService()
     {
@@ -81,10 +86,10 @@ class BlocksLayoutsZones extends CachedCollection
     }
 
     /**
-     * setTemplateService : Setter pour l'instance du Service Template
-     * @param  Template $templateService
+     * setTemplateService : Setter pour l'instance du Service blockLayoutZone
+     * @param  BlockLayoutZone $blocklayoutZoneService
      *
-     * @return Templates $templates
+     * @return BlocksLayoutsZones $blocksLayoutsZones
      */
     private function setBlockLayoutZoneService(BlockLayoutZone $blocklayoutZoneService)
     {
