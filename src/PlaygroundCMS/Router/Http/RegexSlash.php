@@ -71,8 +71,13 @@ class RegexSlash extends \Zend\Mvc\Router\Http\Regex implements \Zend\Mvc\Router
         return new RouteMatch(array_merge($this->defaults, $matches), $matchedLength);
     }
 
-
-    public function getRessource($path)
+    /**
+    * getRessource : Recuperation d'une ressource via un path / url
+    * @param string $path
+    *
+    * @return Ressource $ressource
+    */
+    private function getRessource($path)
     {
         $cachedRessources = new Ressources();
         $cachedRessources->setEntityManager($this->getEntityManager());
