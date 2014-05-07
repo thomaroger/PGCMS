@@ -16,13 +16,41 @@ use PlaygroundCMS\Entity\Layout;
 
 class LayoutController extends AbstractActionController
 {
+    /**
+    * @var MAX_PER_PAGE  Nombre d'item par page
+    */
     const MAX_PER_PAGE = 20;
+
+    /**
+    * @var Layout $layoutService Service de Layout
+    */
     protected $layoutService;
+
+    /**
+    * @var Block $blockService Service de block
+    */
     protected $blockService;
+
+    /**
+    * @var LayoutZone $layoutZoneService Service de LayoutZone
+    */
     protected $layoutZoneService;
+
+    /**
+    * @var BlockLayoutZone $blockLayoutZoneService Service de BlockLayoutZone
+    */
     protected $blockLayoutZoneService;
+
+    /**
+    * @var Options $cmsOptions Option du CMS
+    */
     protected $cmsOptions;
 
+    /**
+    * listAction : Action de list du controller de Layout
+    *
+    * @return ViewModel $viewModel 
+    */
     public function listAction()
     {
         $this->layout()->setVariable('nav', "cms");
