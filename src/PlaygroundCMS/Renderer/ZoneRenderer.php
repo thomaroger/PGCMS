@@ -25,19 +25,47 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     * @var Zone $zone : Bloc à rendre
     */
     protected $zone;
+
+    /**
+    * @var BlockRenderer $blockRenderer : Renderer de bloc
+    */
     protected $blockRenderer;
+    
+    /**
+    * @var Block $blockService : Service de bloc
+    */
     protected $blockService;
+    
+    /**
+    * @var BlocksLayoutsZones $cachedBlocksLayoutsZones : Cached BlocksLayoutsZones
+    */
     protected $cachedBlocksLayoutsZones;
+    
+    /**
+    * @var ModuleOptions $cmsOptions : Options de playgroundCms
+    */
     protected $cmsOptions;
+    
+    /**
+    * @var Layouts $cachedLayouts : Caches Layouts
+    */
     protected $cachedLayouts;
+    
+    /**
+    * @var LayoutsZones $cachedLayoutsZones : Cached LayoutsZones
+    */
     protected $cachedLayoutsZones;
+    
+    /**
+    * @var Blocks $cachedBlocks : Cached blocks
+    */
     protected $cachedBlocks;
 
     /**
-    * setBlock : Setter pour bloc
-    * @param Block $block : bloc à rendre
+    * setZone : Setter pour zone
+    * @param Zone $zone : zone à rendre
     *
-    * @return BlockRenderer
+    * @return ZoneRenderer
     */
     public function setZone(Zone $zone)
     {
@@ -47,9 +75,9 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
-    * getBlock : Getter pour bloc
+    * getZone : Getter pour zone
     *
-    * @return Block $block
+    * @return Zone $zone
     */    
     private function getZone()
     {
@@ -57,7 +85,7 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
-    * render : Rend un bloc
+    * render : Rend un zone
     * 
     * @return string $render
     */
@@ -84,12 +112,22 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         return $out;
     }
 
+    /**
+    * getBlocks : Recuperation des blocs en fonction d'une zone
+    *
+    * @return array $blocks
+    */
     public function getBlocks()
     {
 
         return $this->getBlocksInZone();
     }
 
+    /**
+    * getBlocksInZone : Recuperation des blocs en fonction d'une zone
+    *
+    * @return array $blocks
+    */
     public function getBlocksInZone()
     {
         $blocks = array();
@@ -115,7 +153,7 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
      * setServiceManager : Setter pour le serviceManagee
      * @param  ServiceManager $serviceManager
      *
-     * @return BlockRenderer
+     * @return ZoneRenderer
      */
     public function setServiceManager(ServiceManager $serviceManager)
     {
@@ -142,7 +180,7 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     * setBlockRendererService : Setter pour blockRenderer
     * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
     *
-    * @return GetBlock 
+    * @return ZoneRenderer 
     */
     public function setBlockRendererService(BlockRenderer $blockRenderer)
     {
@@ -151,10 +189,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
-      /**
-    * getBlockRendererService : Getter pour blockRenderer
+    /**
+    * getLayoutsCached : Getter pour Layouts
     *
-    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * @return Layouts $cachedLayouts
     */
     private function getLayoutsCached()
     {
@@ -166,10 +204,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
-    * setBlockRendererService : Setter pour blockRenderer
-    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * setLayoutsCached : Setter pour cachedLayouts
+    * @param Layouts $cachedLayouts
     *
-    * @return GetBlock 
+    * @return ZoneRenderer 
     */
     public function setLayoutsCached(Layouts $cachedLayouts)
     {
@@ -178,11 +216,11 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
-    /**
-    * setBlockRendererService : Setter pour blockRenderer
-    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+   /**
+    * setLayoutsZonesCached : Setter pour cachedLayoutsZones
+    * @param LayoutsZones $cachedLayoutsZones
     *
-    * @return GetBlock 
+    * @return ZoneRenderer 
     */
     public function setLayoutsZonesCached(LayoutsZones $cachedLayoutsZones)
     {
@@ -191,10 +229,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
-      /**
-    * getBlockRendererService : Getter pour blockRenderer
+    /**
+    * getLayoutsZonesCached : Getter pour cachedLayoutsZones
     *
-    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * @return LayoutsZones $cachedLayoutsZones
     */
     private function getLayoutsZonesCached()
     {
@@ -205,11 +243,11 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         return $this->cachedLayoutsZones;
     }
 
-     /**
-    * setBlockRendererService : Setter pour blockRenderer
-    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    /**
+    * setBlocksLayoutsZonesCached : Setter pour cachedBlocksLayoutsZones
+    * @param BlocksLayoutsZones $cachedBlocksLayoutsZones
     *
-    * @return GetBlock 
+    * @return ZoneRenderer 
     */
     public function setBlocksLayoutsZonesCached(BlocksLayoutsZones $cachedBlocksLayoutsZones)
     {
@@ -218,10 +256,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
-      /**
-    * getBlockRendererService : Getter pour blockRenderer
+    /**
+    * getBlocksLayoutsZonesCached : Getter pour cachedBlocksLayoutsZones
     *
-    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * @return BlocksLayoutsZones $cachedBlocksLayoutsZones
     */
     private function getBlocksLayoutsZonesCached()
     {
@@ -233,10 +271,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     }
 
 
-     /**
-    * getBlockRendererService : Getter pour blockRenderer
+    /**
+    * getBlocksCached : Getter pour cachedBlocks
     *
-    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * @return Blocks $cachedBlocks
     */
     private function getBlocksCached()
     {
@@ -248,10 +286,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
-    * setBlockRendererService : Setter pour blockRenderer
-    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * setBlocksCached : Setter pour cachedBlocks
+    * @param Blocks $cachedBlocks
     *
-    * @return GetBlock 
+    * @return ZoneRenderer 
     */
     public function setBlocksCached(Blocks $cachedBlocks)
     {
@@ -260,10 +298,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
-      /**
-    * getBlockRendererService : Getter pour blockRenderer
+   /**
+    * getCmsOptions : Getter pour cmsOptions
     *
-    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * @return ModuleOptions $cmsOptions
     */
     private function getCmsOptions()
     {
@@ -275,10 +313,10 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
-    * setBlockRendererService : Setter pour blockRenderer
-    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * setCmsOptions : Setter pour cmsOptions
+    * @param ModuleOptions $cmsOptions
     *
-    * @return GetBlock 
+    * @return ZoneRenderer 
     */
     public function setCmsOptions(ModuleOptions $cmsOptions)
     {

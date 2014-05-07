@@ -40,6 +40,7 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
     */    
     private function getBlock()
     {
+
         return $this->block;
     }
 
@@ -50,6 +51,7 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
     */
     public function render()
     {
+
         return $this->getRenderAction();
     }
 
@@ -84,6 +86,7 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
      */
     private function getServiceManager()
     {
+        
         return $this->serviceManager;
     }
 

@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 18/03/2014
 *
-* Classe qui permet de générer les blocks
+* Classe qui permet de générer les blocs
 **/
 
 namespace PlaygroundCMS\Renderer;
@@ -40,6 +40,7 @@ class BlockGenerator extends EventProvider implements ServiceManagerAwareInterfa
      */
     private function getServiceManager()
     {
+
         return $this->serviceManager;
     }
 
