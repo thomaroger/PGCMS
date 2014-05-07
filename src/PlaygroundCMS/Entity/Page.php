@@ -574,7 +574,11 @@ class Page implements InputFilterAwareInterface
         return true;
     }
 
-
+    /**
+    * createRessource : Creation d'une ressource à partir d'une entité Page
+    * @param Page $pageMapper : Mapper de page
+    * @param Collection $locales : Collection de locales
+    */
     public function createRessource($pageMapper, $locales)
     {
         $repository = $pageMapper->getEntityManager()->getRepository($this->getTranslationRepository());
@@ -594,6 +598,11 @@ class Page implements InputFilterAwareInterface
         }
     }
 
+    /**
+    * editRessource : Edition d'une ressource à partir d'une entité Page lors de l'edition d'une page
+    * @param Page $pageMapper : Mapper de page
+    * @param Collection $locales : Collection de locales
+    */
     public function editRessource($pageMapper, $locales)
     {
         $repository = $pageMapper->getEntityManager()->getRepository('PlaygroundCMS\Entity\Ressource');
@@ -607,7 +616,7 @@ class Page implements InputFilterAwareInterface
     }
 
     /**
-    * createRessource : Permet de creer une ressource à partir d'une entity page
+    * createRessource : Permet de creer une ressource à partir d'une entity page depuis les fixtures
     * @param EntityManager $manager
     */
     public function createRessourceFromFixtures(ObjectManager $manager)

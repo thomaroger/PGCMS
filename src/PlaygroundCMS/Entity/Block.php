@@ -1,5 +1,4 @@
 <?php
-
 /**
 * @package : PlaygroundCMS
 * @author : troger
@@ -7,7 +6,6 @@
 *
 * Classe qui permet de gérer l'entity block
 **/
-
 namespace PlaygroundCMS\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -441,8 +439,18 @@ class Block implements InputFilterAwareInterface
         return isset($params[$name]);
     }
 
+    /**
+    * getUrlForExport : Recuperation de l'url pour l'export de bloc
+    *
+    * @return string $url 
+    */
     public function getUrlForExport()
     {
+        if($this->getIsExportable() == false){
+        
+            return '';
+        }
+
         return '/fr_fr/export-block/'.$this->getSlug().'-'.$this->getId().'.html';
     }
 }

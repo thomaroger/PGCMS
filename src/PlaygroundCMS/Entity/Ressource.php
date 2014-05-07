@@ -96,6 +96,7 @@ class Ressource implements InputFilterAwareInterface
     public function setId($id)
     {
         $this->id = $id;
+        
         return $this;
     }
 

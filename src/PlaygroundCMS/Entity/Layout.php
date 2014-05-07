@@ -90,6 +90,7 @@ class Layout implements InputFilterAwareInterface
     public function setId($id)
     {
         $this->id = (int) $id;
+        
         return $this;
     }
 

@@ -98,6 +98,7 @@ class Template implements InputFilterAwareInterface
     public function setId($id)
     {
         $this->id = (int) $id;
+
         return $this;
     }
 
@@ -241,8 +242,8 @@ class Template implements InputFilterAwareInterface
 
 
     /**
-     * setIsSystem : Setter pour blockType
-     * @param string $blockType 
+     * setIsSystem : Setter pour isSystem
+     * @param boolean $isSystem 
      *
      * @return Template $template
      */
