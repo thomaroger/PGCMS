@@ -41,6 +41,7 @@ abstract class AbstractListController extends AbstractBlockController
         $sortBlockParam = $block->getParam('sort', array());
 
         if (empty($sortBlockParam)) {
+
             return $query;
         }
 
@@ -89,6 +90,7 @@ abstract class AbstractListController extends AbstractBlockController
         $filtersBlockParam = $block->getParam('filters', array());   
         
         if (empty($filtersBlockParam)) {
+
             return $query;
         }
 
@@ -135,6 +137,7 @@ abstract class AbstractListController extends AbstractBlockController
         
         if (empty($pagerBlockParam)) {
             $results = $this->getResults($query);
+            
             return array($results, count($results));
         }
 

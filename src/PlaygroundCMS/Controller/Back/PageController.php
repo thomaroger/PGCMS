@@ -23,6 +23,7 @@ class PageController extends AbstractActionController
     protected $layoutService;
     protected $localeService;
     protected $cmsOptions;
+
     /**
     * indexAction : Action index du controller de page
     *
@@ -60,8 +61,7 @@ class PageController extends AbstractActionController
         $credentials = Credential::$statusesForm;
         $pagesStatuses = Page::$statuses;
 
-        $files = $this->getPhtmlFiles($folderTheme, $files);
-        $files = $this->cleanFiles($this->getCMSOptions()->getThemeFolder(), $files);
+        $files = $this->getLayoutService()->getLayouts();
 
         return new ViewModel(array('pages'                => $pages,
                                    'pagesPaginator'       => $pagesPaginator,
@@ -178,32 +178,7 @@ class PageController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
     }
 
-     public function getPhtmlFiles($path, $files)
-    {
-        $dir = opendir($path);
-        while($item = readdir($dir)) {
-            if (is_file($sub = $path.'/'.$item)) {
-                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "phtml") {
-                    $files[] = $sub;
-                }
-            } else {
-                if($item != "." and $item != "..") {
-                    $files = $this->getPhtmlFiles($sub,$files); 
-                }
-            }
-        }
-        return($files);
-    }
-
-    public function cleanFiles($path, $files)
-    {
-        foreach ($files as $key => $file) {
-            $files[$key] = str_replace($path, '', $files[$key]);
-        }
-
-        return $files;
-    }
-
+   
     protected function getPageService()
     {
         if (!$this->pageService) {

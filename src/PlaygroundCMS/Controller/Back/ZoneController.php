@@ -25,7 +25,6 @@ class ZoneController extends AbstractActionController
         $this->layout()->setVariable('subNav', "zone");
         $p = $this->getRequest()->getQuery('page', 1);
 
-
         $zones = $this->getZoneService()->getZoneMapper()->findAll();
         
         $nbZones = count($zones);
@@ -40,9 +39,6 @@ class ZoneController extends AbstractActionController
                 $layouts[$zone->getId()][] = $layoutZone->getLayout(); 
             }
         }
-
-
-
 
         return new ViewModel(array('zones'          => $zones,
                                    'zonesPaginator' => $zonesPaginator,

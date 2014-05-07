@@ -14,19 +14,19 @@ use PlaygroundCMS\Service\LayoutZone;
 class LayoutsZones extends CachedCollection
 {   
     /**
-    * @var integer CACHE_TIME : Temps de cache fichier pour les templates
+    * @var integer CACHE_TIME : Temps de cache fichier pour les layoutZones
     */
     const CACHE_TIME = 0;
 
     /**
-    * @var Template $templateService : Instance du service de template
+    * @var LayoutZone $layoutZoneService : Instance du service de LayoutZone
     */
     protected $layoutZoneService;
 
     /**
-    * getCachedTemplates : Recuperation des templates cachés
+    * getCachedLayoutZone : Recuperation des layoutZones cachés
     *
-    * @return array $templates : Templates qui sont cachés
+    * @return array $layoutZones : LayoutZone qui sont cachés
     */
     public function getCachedLayoutZone()
     {
@@ -35,7 +35,13 @@ class LayoutsZones extends CachedCollection
         return $this->getCachedCollection();
     }
 
-
+    /**
+    * findLayoutZoneByLayoutAndZone : Recuperation d'une layoutZone en fonction d'un layout et d'une zone
+    * @param Layout $layout : Layout
+    * @param Zone $zone : Zone
+    * 
+    * @return LayoutZone $layoutZone : layoutzone
+    */
     public function findLayoutZoneByLayoutAndZone($layout, $zone)
     {
         $layoutZones = $this->getCachedLayoutZone();
@@ -51,7 +57,7 @@ class LayoutsZones extends CachedCollection
 
 
     /**
-    * getCollection : Permet de recuperer les templates à cacher
+    * getCollection : Permet de recuperer les layoutZones à cacher
     *
     * @return array $collections : Templates à cacher
     */
@@ -67,9 +73,9 @@ class LayoutsZones extends CachedCollection
     }
 
     /**
-     * getTemplateService : Getter pour l'instance du Service Template
+     * getLayoutZoneService : Getter pour l'instance du Service LayoutZone
      *
-     * @return Template $templateService
+     * @return LayoutZone $layoutZoneService
      */
     private function getLayoutZoneService()
     {
@@ -81,10 +87,10 @@ class LayoutsZones extends CachedCollection
     }
 
     /**
-     * setTemplateService : Setter pour l'instance du Service Template
-     * @param  Template $templateService
+     * setLayoutZoneService : Setter pour l'instance du Service LayoutZone
+     * @param  LayoutZone $layoutZoneService
      *
-     * @return Templates $templates
+     * @return LayoutsZones $templates
      */
     private function setLayoutZoneService(LayoutZone $layoutZoneService)
     {

@@ -57,6 +57,7 @@ class BlockListController extends AbstractListController
     */
     public function __toString()
     {
+        
         return 'Block list Block';
     }
 

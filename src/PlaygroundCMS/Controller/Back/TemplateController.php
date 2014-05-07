@@ -17,6 +17,7 @@ use PlaygroundCMS\Entity\Template;
 class TemplateController extends AbstractActionController
 {
     const MAX_PER_PAGE = 20;
+
     protected $templateService;
     protected $blockService;
     protected $cmsOptions;
@@ -138,6 +139,7 @@ class TemplateController extends AbstractActionController
             $templateContext = json_decode($block->getTemplateContext(), true);
             foreach ($templateContext as $key => $value) {
                 if ($value  == $template->getFile()) {
+                    
                     return $this->redirect()->toRoute('admin/playgroundcmsadmin/template');
                 }
             }

@@ -26,9 +26,9 @@ class Zones extends CachedCollection
     protected $zoneService;
 
      /**
-    * getCachedBlocks : Recuperation des blocks cachés
+    * getCachedZones : Recuperation des zones cachés
     *
-    * @return array $blocks : Blocs qui sont cachés
+    * @return array $zones : Zones qui sont cachés
     */
     public function getCachedZones()
     {
@@ -37,7 +37,12 @@ class Zones extends CachedCollection
         return $this->getCachedCollection();
     }
 
-
+    /**
+    * findZoneBySlug : Recuperation d'une zone en fonction d'un nom
+    * @param string $zoneName : Nom de la zone
+    *
+    * @return Zone $zone : zone
+    */
     public function findZoneBySlug($zoneName)
     {
         $zones = $this->getCachedZones();
@@ -51,9 +56,9 @@ class Zones extends CachedCollection
     }
 
     /**
-    * getCollection : Permet de recuperer les templates à cacher
+    * getCollection : Permet de recuperer les zones à cacher
     *
-    * @return array $collections : Templates à cacher
+    * @return array $collections : Zones à cacher
     */
     protected function getCollection()
     {
@@ -69,9 +74,9 @@ class Zones extends CachedCollection
     }
 
     /**
-     * getTemplateService : Getter pour l'instance du Service Template
+     * getZoneService : Getter pour l'instance du Service Zone
      *
-     * @return Template $templateService
+     * @return Zone $zoneService
      */
     private function getZoneService()
     {
@@ -83,10 +88,10 @@ class Zones extends CachedCollection
     }
 
     /**
-     * setTemplateService : Setter pour l'instance du Service Template
-     * @param  Template $templateService
+     * setZoneService : Setter pour l'instance du Service Template
+     * @param  Zone $zoneService
      *
-     * @return Templates $templates
+     * @return Zones $zones
      */
     private function setZoneService(Zone $zoneService)
     {

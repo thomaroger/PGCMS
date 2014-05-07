@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 10/04/2014
 *
-* Classe qui permet de gérer le cache fichier de objets de type Blocks
+* Classe qui permet de gérer le cache fichier de objets de type layouts
 **/
 
 namespace PlaygroundCMS\Cache;
@@ -14,18 +14,18 @@ use PlaygroundCMS\Service\Block;
 class Layouts extends CachedCollection
 {
     /**
-    * @var integer CACHE_TIME : Temps de cache fichier pour les blocs
+    * @var integer CACHE_TIME : Temps de cache fichier pour les layouts
     */
     const CACHE_TIME = 0;
      /**
-    * @var Block $blockService : Instance du service de block
+    * @var Layout $layoutService : Instance du service de layout
     */
     protected $layoutService;
 
     /**
-    * getCachedBlocks : Recuperation des blocks cachés
+    * getCachedLayouts : Recuperation des layouts cachés
     *
-    * @return array $blocks : Blocs qui sont cachés
+    * @return array $layouts : Layouts qui sont cachés
     */
     public function getCachedLayouts()
     {
@@ -35,9 +35,10 @@ class Layouts extends CachedCollection
     }
 
     /**
-    * findBlockBySlug : Recuperation d'un bloc en fonction d'un slug
+    * findLayoutByFile : Recuperation d'un layout en fonction d'un fichier
+    * @param string $file : fichier du layout
     *
-    * @return Block $block: Bloc
+    * @return Layout $layout : Layout
     */
     public function findLayoutByFile($file)
     {
@@ -52,9 +53,9 @@ class Layouts extends CachedCollection
     }
 
     /**
-    * getCollection : Permet de recuperer les blocs à cacher
+    * getCollection : Permet de recuperer les layouts à cacher
     *
-    * @return array $collections : blocs à cacher
+    * @return array $collections : layouts à cacher
     */
     protected function getCollection()
     {
@@ -68,9 +69,9 @@ class Layouts extends CachedCollection
     }
 
     /**
-     * getBlockService : Getter pour l'instance du Service Block
+     * getLayoutService : Getter pour l'instance du Service Layout
      *
-     * @return Block $blockService
+     * @return Layout $layoutService
      */
     private function getLayoutService()
     {
@@ -82,10 +83,10 @@ class Layouts extends CachedCollection
     }
 
     /**
-     * setTemplateService : Setter pour l'instance du Service Block
-     * @param  Block $blockService
+     * setLayoutService : Setter pour l'instance du Service Layout
+     * @param  Layout $layoutService
      *
-     * @return Blocks $blocks
+     * @return Layouts $layouts
      */
     private function setLayoutService($layoutService)
     {

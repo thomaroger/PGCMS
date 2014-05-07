@@ -42,6 +42,7 @@ class FreeHTMLController extends AbstractBlockController
     */
     public function __toString()
     {
+        
         return 'Block HTML';
     }
 }

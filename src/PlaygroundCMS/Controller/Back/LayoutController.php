@@ -27,11 +27,8 @@ class LayoutController extends AbstractActionController
     {
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "layout");
-        
- 
-        
+    
         $p = $this->getRequest()->getQuery('page', 1);
-
 
         $layouts = $this->getLayoutService()->getLayoutMapper()->findAll();
         
@@ -261,34 +258,7 @@ class LayoutController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
     }
 
-    public function getPhtmlFiles($path, $files)
-    {
-        $dir = opendir($path);
-        while($item = readdir($dir)) {
-            if (is_file($sub = $path.'/'.$item)) {
-                if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "phtml") {
-                    $files[] = $sub;
-                }
-            } else {
-                if($item != "." and $item != "..") {
-                    $files = $this->getPhtmlFiles($sub,$files); 
-                }
-            }
-        }
-        return($files);
-    }
-
-    public function cleanFiles($path, $files)
-    {
-        foreach ($files as $key => $file) {
-            $files[$key] = str_replace($path, '', $files[$key]);
-        }
-
-        return $files;
-    }
-
-
-    public function getBlocksLayoutZone($layout)
+    private function getBlocksLayoutZone($layout)
     {
         $zones = array();
 
@@ -307,7 +277,7 @@ class LayoutController extends AbstractActionController
         return $zones;
     }
 
-    protected function getLayoutService()
+    private function getLayoutService()
     {
         if (!$this->layoutService) {
             $this->layoutService = $this->getServiceLocator()->get('playgroundcms_layout_service');
@@ -316,7 +286,7 @@ class LayoutController extends AbstractActionController
         return $this->layoutService;
     }
 
-    protected function getBlockService()
+    private function getBlockService()
     {
         if (!$this->blockService) {
             $this->blockService = $this->getServiceLocator()->get('playgroundcms_block_service');
@@ -325,7 +295,7 @@ class LayoutController extends AbstractActionController
         return $this->blockService;
     }
 
-    public function getLayoutZoneService()
+    private function getLayoutZoneService()
     {
         if (!$this->layoutZoneService) {
             $this->layoutZoneService = $this->getServiceLocator()->get('playgroundcms_layoutZone_service');
@@ -334,7 +304,7 @@ class LayoutController extends AbstractActionController
         return $this->layoutZoneService;
     }
 
-    public function getBlockLayoutZoneService()
+    private function getBlockLayoutZoneService()
     {
         if (!$this->blockLayoutZoneService) {
             $this->blockLayoutZoneService = $this->getServiceLocator()->get('playgroundcms_blocklayoutZone_service');
@@ -343,7 +313,7 @@ class LayoutController extends AbstractActionController
         return $this->blockLayoutZoneService;
     }
 
-    protected function getCMSOptions()
+    private function getCMSOptions()
     {
         if (!$this->cmsOptions) {
             $this->cmsOptions = $this->getServiceLocator()->get('playgroundcms_module_options');

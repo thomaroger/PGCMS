@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 25/03/2014
 *
-* Classe de controleur  de back du dashboard du CMS
+* Classe de controleur de back du feed
 **/
 
 namespace PlaygroundCMS\Controller\Back;
@@ -14,28 +14,30 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class FeedController extends AbstractActionController
 {
-    protected $feedService;
     /**
-    * indexAction : Action index du controller de dashboard
+    * @var $feedService : Service de feed
+    */
+    protected $feedService;
+    
+    /**
+    * indexAction : Action list du controller de feed
     *
     * @return ViewModel $viewModel 
     */
     public function listAction()
     {
-
         $this->layout()->setVariable('nav', "feeds");
-        
         $feeds = $this->getFeedService()->getFeeds();
 
         return new ViewModel(array("feeds" => $feeds));
     }  
 
      /**
-     * getUserMapper
+     * getFeedService : Recuperation du service de feed
      *
-     * @return UserMapperInterface
+     * @return Feed $feedService : feedService
      */
-    public function getFeedService()
+    private function getFeedService()
     {
         if (null === $this->feedService) {
             $this->setFeedService($this->getServiceLocator()->get('playgroundcms_feed_service'));
@@ -44,12 +46,12 @@ class FeedController extends AbstractActionController
         return $this->feedService;
     }
     /**
-     * setUserMapper
+     * setFeedService : Setter du service de feed
+     * @param  Feed $feedService
      *
-     * @param  UserMapperInterface $userMapper
-     * @return User
+     * @return FeedController $this
      */
-    public function setFeedService($feedService)
+    private function setFeedService($feedService)
     {
         $this->feedService = $feedService;
 

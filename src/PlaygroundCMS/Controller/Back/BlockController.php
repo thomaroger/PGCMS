@@ -14,12 +14,22 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class BlockController extends AbstractActionController
 {
+    /**
+    * @var MAX_PER_PAGE  Nombre d'item par page
+    */
     const MAX_PER_PAGE = 20;
 
-    protected $blockService;
-    protected $blockLayoutZoneService;
     /**
-    * indexAction : Action index du controller de block
+    * @var Block $blockService Service de block
+    */
+    protected $blockService;
+    /**
+    * @var BlockLayoutZone blockLayoutZoneService  Service de BlockLayoutZone
+    */
+    protected $blockLayoutZoneService;
+    
+    /**
+    * listAction : Action de list du controller de block
     *
     * @return ViewModel $viewModel 
     */
@@ -52,6 +62,12 @@ class BlockController extends AbstractActionController
                                    'nbBlock'               => $nbBlock));
     }
 
+    /**
+    * createAction : Action create du controller de block
+    * @param string $type : Type de bloc à créer 
+    *
+    * @return ViewModel $viewModel 
+    */
     public function createAction()
     {
         $typeBlock = $this->getEvent()->getRouteMatch()->getParam('type');
@@ -91,6 +107,12 @@ class BlockController extends AbstractActionController
                                    'return' => $return));
     }
 
+    /**
+    * createWithoutLayoutAction : Action create du controller de block sans layout
+    * @param string $type : Type de bloc à créer 
+    *
+    * @return ViewModel $viewModel 
+    */
     public function createWithoutLayoutAction()
     {
         $typeBlock = $this->getEvent()->getRouteMatch()->getParam('type');
@@ -101,15 +123,21 @@ class BlockController extends AbstractActionController
         $form->get('is_exportable')->setValue(array(0));
         $form->get('is_gallery')->setValue(array(0));
 
-
-
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true);
         $viewModel->setVariables(array('form' => $form));
+
         return $viewModel;
 
     }
 
+    /**
+    * editAction : Action edit du controller de block 
+    * @param int $id : Id du bloc à editer
+    * @param int $layoutId : Id du layout relié au bloc
+    *
+    * @return ViewModel $viewModel 
+    */
     public function editAction()
     {
         $blockId = $this->getEvent()->getRouteMatch()->getParam('id');
@@ -142,6 +170,7 @@ class BlockController extends AbstractActionController
                 $this->getBlockService()->update($block, $data, $form);
 
                 if($layoutId > 0) {
+
                     return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layoutId));
                 }
 
@@ -161,6 +190,12 @@ class BlockController extends AbstractActionController
                                    'return' => $return));
     }
 
+    /**
+    * removeAction : Action remove du controller de block 
+    * @param int $id : Id du bloc à editer
+    *
+    * @return ViewModel $viewModel 
+    */
     public function removeAction()
     {
         $blockId = $this->getEvent()->getRouteMatch()->getParam('id');
@@ -176,7 +211,11 @@ class BlockController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
     }
 
-
+    /**
+    * getBlockService : Recuperation du service de block
+    *
+    * @return Block $blockService : blockService 
+    */    
     protected function getBlockService()
     {
         if (!$this->blockService) {
@@ -186,6 +225,11 @@ class BlockController extends AbstractActionController
         return $this->blockService;
     }
 
+    /**
+    * getBlockLayoutZoneService : Recuperation du service de BlockLayoutZon
+    *
+    * @return BlockLayoutZon $blockLayoutZoneService : blockLayoutZoneService 
+    */
     protected function getBlockLayoutZoneService()
     {
         if (!$this->blockLayoutZoneService) {

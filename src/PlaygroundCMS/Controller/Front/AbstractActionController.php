@@ -28,6 +28,17 @@ class AbstractActionController extends AbstractActionControllerParent
    }
 
    /**
+   * getMatches : Permet de recuperer le matches du router
+   *
+   * @return array $getMatches
+   */
+   protected function getMatches()
+   {
+        return $this->params()->fromRoute('matches', array());
+   }
+
+
+   /**
    * Retourne l'entity en fonction de la langue
    *
    * @return PlaygroundCMS\Entity\* $entity
@@ -56,16 +67,6 @@ class AbstractActionController extends AbstractActionControllerParent
    }
 
    /**
-   * getMatches : Permet de recuperer le matches du router
-   *
-   * @return array $getMatches
-   */
-   protected function getMatches()
-   {
-        return $this->params()->fromRoute('matches', array());
-   }
-
-   /**
    * getTemplate : Retourne le layout défini pour l'entité
    *
    * @return string $template
@@ -77,8 +78,10 @@ class AbstractActionController extends AbstractActionControllerParent
         $template = $templates['web'];
 
         $this->getServiceLocator()->get('playgroundcms_module_options')->setCurrentLayout($template);
+        
         return $template;
     }  
+
 
     protected function getRessourceService()
     {
