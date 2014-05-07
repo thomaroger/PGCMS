@@ -53,6 +53,7 @@ class Layout
     */
     public function findById($id)
     {
+
         return $this->getEntityRepository()->find($id);
     }
 
@@ -64,6 +65,7 @@ class Layout
     */
     public function findBy($array)
     {
+
         return $this->getEntityRepository()->findBy($array);
     }
 
@@ -75,18 +77,8 @@ class Layout
     */
     public function findOneBy($array)
     {
-        return $this->getEntityRepository()->findOneBy($array);
-    }
 
-    /**
-    * findBySlug : recupere des entites en fonction de filtre
-    * @param string $slug slug d'un layout à rechercher
-    *
-    * @return collection $layouts collection de PlaygroundCMS\Entity\Layout
-    */
-    public function findBySlug($slug)
-    {
-       return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
+        return $this->getEntityRepository()->findOneBy($array);
     }
 
     /**
@@ -98,6 +90,7 @@ class Layout
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
+
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
@@ -109,6 +102,7 @@ class Layout
     */
     public function insert(LayoutEntity $entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -120,6 +114,7 @@ class Layout
     */
     public function update(LayoutEntity $entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -144,6 +139,7 @@ class Layout
     */
     public function findAll()
     {
+        
         return $this->getEntityRepository()->findAll();
     }
 

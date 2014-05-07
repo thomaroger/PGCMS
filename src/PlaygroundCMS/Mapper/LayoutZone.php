@@ -52,6 +52,7 @@ class LayoutZone
     */
     public function findById($id)
     {
+
         return $this->getEntityRepository()->find($id);
     }
 
@@ -63,6 +64,7 @@ class LayoutZone
     */
     public function findBy($array)
     {
+
         return $this->getEntityRepository()->findBy($array);
     }
 
@@ -74,18 +76,8 @@ class LayoutZone
     */
     public function findOneBy($array)
     {
-        return $this->getEntityRepository()->findOneBy($array);
-    }
 
-    /**
-    * findBySlug : recupere des entites en fonction de filtre
-    * @param string $slug slug d'un layoutZone à rechercher
-    *
-    * @return collection $layoutZones collection de PlaygroundCMS\Entity\LayoutZone
-    */
-    public function findBySlug($slug)
-    {
-       return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
+        return $this->getEntityRepository()->findOneBy($array);
     }
 
     /**
@@ -97,6 +89,7 @@ class LayoutZone
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
+
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
@@ -108,6 +101,7 @@ class LayoutZone
     */
     public function insert($entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -119,6 +113,7 @@ class LayoutZone
     */
     public function update($entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -143,6 +138,7 @@ class LayoutZone
     */
     public function findAll()
     {
+
         return $this->getEntityRepository()->findAll();
     }
 
@@ -191,10 +187,5 @@ class LayoutZone
         }
 
         return $this->er;
-    }
-
-    public function getEntityRepositoryForEntity($entity)
-    {
-        return $this->em->getRepository($entity);
     }
 }

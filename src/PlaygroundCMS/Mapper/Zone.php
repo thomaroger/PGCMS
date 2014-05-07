@@ -12,8 +12,6 @@ namespace PlaygroundCMS\Mapper;
 
 use Doctrine\ORM\EntityManager;
 use PlaygroundCMS\Options\ModuleOptions;
-use Doctrine\ORM\QueryBuilder;
-use PlaygroundCMS\Entity\Zone as ZoneEntity;
 
 class Zone
 {
@@ -53,6 +51,7 @@ class Zone
     */
     public function findById($id)
     {
+
         return $this->getEntityRepository()->find($id);
     }
 
@@ -64,6 +63,7 @@ class Zone
     */
     public function findBy($array)
     {
+
         return $this->getEntityRepository()->findBy($array);
     }
 
@@ -75,18 +75,8 @@ class Zone
     */
     public function findOneBy($array)
     {
-        return $this->getEntityRepository()->findOneBy($array);
-    }
 
-    /**
-    * findBySlug : recupere des entites en fonction de filtre
-    * @param string $slug slug d'un zone à rechercher
-    *
-    * @return collection $zones collection de PlaygroundCMS\Entity\Zone
-    */
-    public function findBySlug($slug)
-    {
-       return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
+        return $this->getEntityRepository()->findOneBy($array);
     }
 
     /**
@@ -98,6 +88,7 @@ class Zone
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
+
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
@@ -107,8 +98,9 @@ class Zone
     *
     * @return PlaygroundCMS\Entity\Zone $zone
     */
-    public function insert(ZoneEntity $entity)
+    public function insert($entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -118,8 +110,9 @@ class Zone
     *
     * @return PlaygroundCMS\Entity\Zone $zone
     */
-    public function update(ZoneEntity $entity)
+    public function update($entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -129,7 +122,7 @@ class Zone
     *
     * @return PlaygroundCMS\Entity\Zone $zone
     */
-    protected function persist(ZoneEntity $entity)
+    protected function persist($entity)
     {
         $this->em->persist($entity);
         $this->em->flush();

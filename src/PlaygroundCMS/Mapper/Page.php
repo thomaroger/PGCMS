@@ -12,7 +12,6 @@ namespace PlaygroundCMS\Mapper;
 
 use Doctrine\ORM\EntityManager;
 use PlaygroundCMS\Options\ModuleOptions;
-use Doctrine\ORM\QueryBuilder;
 
 class Page
 {
@@ -48,10 +47,11 @@ class Page
     * findById : recupere l'entite en fonction de son id
     * @param int $id id du page
     *
-    * @return PlaygroundCMS\Entity\Page $pagek
+    * @return PlaygroundCMS\Entity\Page $page
     */
     public function findById($id)
     {
+
         return $this->getEntityRepository()->find($id);
     }
 
@@ -59,10 +59,11 @@ class Page
     * findBy : recupere des entites en fonction de filtre
     * @param array $array tableau de filtre
     *
-    * @return collection $pageks collection de PlaygroundCMS\Entity\Page
+    * @return collection $pages collection de PlaygroundCMS\Entity\Page
     */
     public function findBy($array)
     {
+
         return $this->getEntityRepository()->findBy($array);
     }
 
@@ -70,10 +71,11 @@ class Page
     * findBySlug : recupere des entites en fonction de filtre
     * @param string $slug slug d'un page à rechercher
     *
-    * @return collection $pageks collection de PlaygroundCMS\Entity\Page
+    * @return collection $pages collection de PlaygroundCMS\Entity\Page
     */
     public function findBySlug($slug)
     {
+
        return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
     }
 
@@ -82,40 +84,43 @@ class Page
     * @param array $by tableau de filtre
     * @param array $sortArray tableau de sort
     *
-    * @return collection $pageks collection de PlaygroundCMS\Entity\Page
+    * @return collection $pages collection de PlaygroundCMS\Entity\Page
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
+
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
     /**
-    * insert : insert en base une entité pagek
-    * @param PlaygroundCMS\Entity\Page $pagek pagek
+    * insert : insert en base une entité page
+    * @param PlaygroundCMS\Entity\Page $page page
     *
-    * @return PlaygroundCMS\Entity\Page $pagek
+    * @return PlaygroundCMS\Entity\Page $page
     */
     public function insert($entity)
     {
+
         return $this->persist($entity);
     }
 
     /**
-    * insert : met a jour en base une entité pagek
-    * @param PlaygroundCMS\Entity\Page $pagek pagek
+    * insert : met a jour en base une entité page
+    * @param PlaygroundCMS\Entity\Page $page page
     *
-    * @return PlaygroundCMS\Entity\Page $pagek
+    * @return PlaygroundCMS\Entity\Page $page
     */
     public function update($entity)
     {
+
         return $this->persist($entity);
     }
 
     /**
     * persist 
-    * @param PlaygroundCMS\Entity\Page $entity pagek
+    * @param PlaygroundCMS\Entity\Page $entity page
     *
-    * @return PlaygroundCMS\Entity\Page $pagek
+    * @return PlaygroundCMS\Entity\Page $page
     */
     public function persist($entity)
     {
@@ -128,16 +133,17 @@ class Page
     /**
     * findAll : recupere toutes les entites
     *
-    * @return collection $pagek collection de PlaygroundCMS\Entity\Page
+    * @return collection $page collection de PlaygroundCMS\Entity\Page
     */
     public function findAll()
     {
+
         return $this->getEntityRepository()->findAll();
     }
 
     /**
-    * remove : supprimer une entite pagek
-    * @param PlaygroundCMS\Entity\Page $pagek Page
+    * remove : supprimer une entite page
+    * @param PlaygroundCMS\Entity\Page $page Page
     *
     */
     public function remove($entity)
@@ -169,9 +175,9 @@ class Page
     }
 
     /**
-    * getEntityRepository : recupere l'entite pagek
+    * getEntityRepository : recupere l'entite page
     *
-    * @return PlaygroundCMS\Entity\Page $pagek
+    * @return PlaygroundCMS\Entity\Page $page
     */
     public function getEntityRepository()
     {
@@ -182,8 +188,15 @@ class Page
         return $this->er;
     }
 
+    /**
+    * getEntityRepositoryForEntity : Recuperer l'entité repository d'une entité
+    * @param string $entity : Nom de l'entité
+    *
+    * @return PlaygroundCMS\Entity\Page $page 
+    */
     public function getEntityRepositoryForEntity($entity)
     {
+
         return $this->em->getRepository($entity);
     }
 }

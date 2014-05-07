@@ -13,6 +13,7 @@ namespace PlaygroundCMS\Mapper;
 use Doctrine\ORM\EntityManager;
 use PlaygroundCMS\Options\ModuleOptions;
 
+
 class Ressource
 {
     /**
@@ -47,10 +48,11 @@ class Ressource
     * findById : recupere l'entite en fonction de son id
     * @param int $id id du ressource
     *
-    * @return PlaygroundCMS\Entity\Ressource $ressourcek
+    * @return PlaygroundCMS\Entity\Ressource $ressource
     */
     public function findById($id)
     {
+
         return $this->getEntityRepository()->find($id);
     }
 
@@ -58,10 +60,11 @@ class Ressource
     * findBy : recupere des entites en fonction de filtre
     * @param array $array tableau de filtre
     *
-    * @return collection $ressourceks collection de PlaygroundCMS\Entity\Ressource
+    * @return collection $ressources collection de PlaygroundCMS\Entity\Ressource
     */
     public function findBy($array)
     {
+
         return $this->getEntityRepository()->findBy($array);
     }
 
@@ -69,22 +72,12 @@ class Ressource
     * findOneBy : recupere des entites en fonction de filtre
     * @param array $array tableau de filtre
     *
-    * @return collection $ressourceks collection de PlaygroundCMS\Entity\Ressource
+    * @return collection $ressources collection de PlaygroundCMS\Entity\Ressource
     */
     public function findOneBy($array)
     {
-        return $this->getEntityRepository()->findOneBy($array);
-    }
 
-    /**
-    * findBySlug : recupere des entites en fonction de filtre
-    * @param string $slug slug d'un ressource à rechercher
-    *
-    * @return collection $ressourceks collection de PlaygroundCMS\Entity\Ressource
-    */
-    public function findBySlug($slug)
-    {
-       return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
+        return $this->getEntityRepository()->findOneBy($array);
     }
 
     /**
@@ -92,42 +85,45 @@ class Ressource
     * @param array $by tableau de filtre
     * @param array $sortArray tableau de sort
     *
-    * @return collection $ressourceks collection de PlaygroundCMS\Entity\Ressource
+    * @return collection $ressources collection de PlaygroundCMS\Entity\Ressource
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
+
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
     /**
-    * insert : insert en base une entité ressourcek
-    * @param PlaygroundCMS\Entity\Ressource $ressourcek ressourcek
+    * insert : insert en base une entité ressource
+    * @param PlaygroundCMS\Entity\Ressource $ressource ressource
     *
-    * @return PlaygroundCMS\Entity\Ressource $ressourcek
+    * @return PlaygroundCMS\Entity\Ressource $ressource
     */
-    public function insert(Ressource $entity)
+    public function insert($entity)
     {
+
         return $this->persist($entity);
     }
 
     /**
-    * insert : met a jour en base une entité ressourcek
-    * @param PlaygroundCMS\Entity\Ressource $ressourcek ressourcek
+    * insert : met a jour en base une entité ressource
+    * @param PlaygroundCMS\Entity\Ressource $ressource ressource
     *
-    * @return PlaygroundCMS\Entity\Ressource $ressourcek
+    * @return PlaygroundCMS\Entity\Ressource $ressource
     */
-    public function update(Ressource $entity)
+    public function update($entity)
     {
+
         return $this->persist($entity);
     }
 
     /**
     * persist 
-    * @param PlaygroundCMS\Entity\Ressource $entity ressourcek
+    * @param PlaygroundCMS\Entity\Ressource $entity ressource
     *
-    * @return PlaygroundCMS\Entity\Ressource $ressourcek
+    * @return PlaygroundCMS\Entity\Ressource $ressource
     */
-    protected function persist(Ressource $entity)
+    protected function persist($entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
@@ -138,16 +134,17 @@ class Ressource
     /**
     * findAll : recupere toutes les entites
     *
-    * @return collection $ressourcek collection de PlaygroundCMS\Entity\Ressource
+    * @return collection $ressource collection de PlaygroundCMS\Entity\Ressource
     */
     public function findAll()
     {
+
         return $this->getEntityRepository()->findAll();
     }
 
     /**
-    * remove : supprimer une entite ressourcek
-    * @param PlaygroundCMS\Entity\Ressource $ressourcek Ressource
+    * remove : supprimer une entite ressource
+    * @param PlaygroundCMS\Entity\Ressource $ressource Ressource
     *
     */
     public function remove($entity)
@@ -179,9 +176,9 @@ class Ressource
     }
 
     /**
-    * getEntityRepository : recupere l'entite ressourcek
+    * getEntityRepository : recupere l'entite ressource
     *
-    * @return PlaygroundCMS\Entity\Ressource $ressourcek
+    * @return PlaygroundCMS\Entity\Ressource $ressource
     */
     public function getEntityRepository()
     {
@@ -192,8 +189,15 @@ class Ressource
         return $this->er;
     }
 
+    /**
+    * getEntityRepositoryForEntity : Recuperer l'entité repository d'une entité
+    * @param string $entity : Nom de l'entité
+    *
+    * @return PlaygroundCMS\Entity\Page $page 
+    */
     public function getEntityRepositoryForEntity($entity)
     {
+
         return $this->em->getRepository($entity);
     }
     

@@ -13,6 +13,7 @@ namespace PlaygroundCMS\Mapper;
 use Doctrine\ORM\EntityManager;
 use PlaygroundCMS\Options\ModuleOptions;
 use PlaygroundCMS\Entity\Template as TemplateEntity;
+
 class Template
 {
     /**
@@ -51,6 +52,7 @@ class Template
     */
     public function findById($id)
     {
+
         return $this->getEntityRepository()->find($id);
     }
      
@@ -62,19 +64,8 @@ class Template
     */
     public function findBy($array)
     {
+
         return $this->getEntityRepository()->findBy($array);
-    }
-
-    /**
-    * findBySlug : recupere une entity Template en fonction d'un slug
-    * @param string $slug slug
-    *
-    * @return PlaygroundCMS\Entity\Template $template
-    */
-    public function findBySlug($slug)
-    {
-
-       return $this->getEntityRepository()->findOneBy(array('slug' => (string) $slug)); 
     }
 
     /**
@@ -86,6 +77,7 @@ class Template
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
+
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
@@ -95,8 +87,9 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    public function insert(TemplateEntity $entity)
+    public function insert($entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -106,8 +99,9 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    public function update(TemplateEntity $entity)
+    public function update($entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -117,7 +111,7 @@ class Template
     *
     * @return PlaygroundCMS\Entity\Template $template
     */
-    protected function persist(TemplateEntity $entity)
+    protected function persist($entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
@@ -132,6 +126,7 @@ class Template
     */
     public function findAll()
     {
+
         return $this->getEntityRepository()->findAll();
     }
 
@@ -140,7 +135,7 @@ class Template
     * @param PlaygroundCMS\Entity\Template $template Template
     *
     */
-    public function remove(TemplateEntity $entity)
+    public function remove($entity)
     {
         $this->em->remove($entity);
         $this->em->flush();
@@ -178,7 +173,6 @@ class Template
         if (null === $this->er) {
             $this->er = $this->em->getRepository('PlaygroundCMS\Entity\Template');
         }
-
 
         return $this->er;
     }

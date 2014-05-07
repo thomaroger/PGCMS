@@ -15,7 +15,6 @@ use PlaygroundCMS\Options\ModuleOptions;
 use Doctrine\ORM\QueryBuilder;
 use PlaygroundCMS\Entity\Block as BlockEntity;
 
-
 class Block
 {
     /**
@@ -54,6 +53,7 @@ class Block
     */
     public function findById($id)
     {
+
         return $this->getEntityRepository()->find($id);
     }
 
@@ -65,6 +65,7 @@ class Block
     */
     public function findBy($array)
     {
+
         return $this->getEntityRepository()->findBy($array);
     }
 
@@ -76,6 +77,7 @@ class Block
     */
     public function findBySlug($slug)
     {
+
        return $this->getEntityRepository()->findOneBy(array('slug' => $slug)); 
     }
 
@@ -88,6 +90,7 @@ class Block
     */
     public function findByAndOrderBy($by = array(), $sortArray = array())
     {
+
         return $this->getEntityRepository()->findBy($by, $sortArray);
     }
 
@@ -99,6 +102,7 @@ class Block
     */
     public function insert(BlockEntity $entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -110,6 +114,7 @@ class Block
     */
     public function update(BlockEntity $entity)
     {
+
         return $this->persist($entity);
     }
 
@@ -134,6 +139,7 @@ class Block
     */
     public function findAll()
     {
+
         return $this->getEntityRepository()->findAll();
     }
 
@@ -191,6 +197,7 @@ class Block
     */
     public function getSupportedSorts()
     {
+        
         return array(
             'name' => 'b.name'
         );
@@ -203,6 +210,7 @@ class Block
     */
     public function getSupportedFilters()
     {
+        
         return array(
             'name' => 'filterOnName',
         );
