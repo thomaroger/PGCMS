@@ -29,7 +29,7 @@ class BlockController extends AbstractActionController
     protected $blockLayoutZoneService;
     
     /**
-    * listAction : Action de list du controller de block
+    * listAction : Liste des blocs
     *
     * @return ViewModel $viewModel 
     */
@@ -63,7 +63,7 @@ class BlockController extends AbstractActionController
     }
 
     /**
-    * createAction : Action create du controller de block
+    * createAction : Creation d'un bloc en fonction de son type
     * @param string $type : Type de bloc à créer 
     *
     * @return ViewModel $viewModel 
@@ -108,7 +108,7 @@ class BlockController extends AbstractActionController
     }
 
     /**
-    * createWithoutLayoutAction : Action create du controller de block sans layout
+    * createWithoutLayoutAction : Creation d'un bloc en fonction de son type sans layout
     * @param string $type : Type de bloc à créer 
     *
     * @return ViewModel $viewModel 
@@ -132,7 +132,7 @@ class BlockController extends AbstractActionController
     }
 
     /**
-    * editAction : Action edit du controller de block 
+    * editAction : Edition d'un bloc
     * @param int $id : Id du bloc à editer
     * @param int $layoutId : Id du layout relié au bloc
     *
@@ -191,7 +191,7 @@ class BlockController extends AbstractActionController
     }
 
     /**
-    * removeAction : Action remove du controller de block 
+    * removeAction : Suppression d'un bloc
     * @param int $id : Id du bloc à editer
     *
     * @return ViewModel $viewModel 
@@ -228,7 +228,7 @@ class BlockController extends AbstractActionController
     /**
     * getBlockLayoutZoneService : Recuperation du service de BlockLayoutZon
     *
-    * @return BlockLayoutZon $blockLayoutZoneService : blockLayoutZoneService 
+    * @return BlockLayoutZone $blockLayoutZoneService : blockLayoutZoneService 
     */
     protected function getBlockLayoutZoneService()
     {

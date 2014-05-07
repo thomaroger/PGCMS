@@ -16,16 +16,38 @@ use PlaygroundCMS\Entity\Page;
 
 class PageController extends AbstractActionController
 {
+    /**
+    * @var MAX_PER_PAGE  Nombre d'item par page
+    */
     const MAX_PER_PAGE = 20;
 
+    /**
+    * @var Service $pageService Service de page
+    */
     protected $pageService;
+
+    /**
+    * @var Ressource $ressourceService  Service de ressource
+    */
     protected $ressourceService;
+    
+    /**
+    * @var Layout $layoutService  Service de layout
+    */
     protected $layoutService;
+    
+    /**
+    * @var Locale $localeService  Service de locale
+    */
     protected $localeService;
+    
+    /**
+    * @var ModuleOptions $cmsOptions  Options de playgroundcms
+    */
     protected $cmsOptions;
 
     /**
-    * indexAction : Action index du controller de page
+    * indexAction : Liste des pages
     *
     * @return ViewModel $viewModel 
     */
@@ -72,7 +94,11 @@ class PageController extends AbstractActionController
                                    'ressourcesCollection' => $ressourcesCollection));
     }
 
-
+    /**
+    * createAction : Creation de page
+    *
+    * @return ViewModel $viewModel 
+    */
     public function createAction()
     {
         $return  = array();
@@ -107,6 +133,12 @@ class PageController extends AbstractActionController
                                    'return'        => $return));
     }
 
+    /**
+    * editAction : Edition d'une page en fonction d'un id
+    * @param int $id : Id de la page
+    *
+    * @return ViewModel $viewModel 
+    */
     public function editAction()
     {
         $return  = array();
@@ -157,6 +189,13 @@ class PageController extends AbstractActionController
                                    'return'        => $return));
     }
 
+    /**
+    * removeAction : Edition d'une page en fonction d'un id
+    * @param int $id : Id de la page
+    *
+    * @return ViewModel $viewModel 
+    */
+    
     public function removeAction()
     {
         $pageId = $this->getEvent()->getRouteMatch()->getParam('id');
@@ -178,8 +217,12 @@ class PageController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/page');
     }
 
-   
-    protected function getPageService()
+    /**
+    * getPageService : Recuperation du service de page
+    *
+    * @return Page $pageService 
+    */
+    private function getPageService()
     {
         if (!$this->pageService) {
             $this->pageService = $this->getServiceLocator()->get('playgroundcms_page_service');
@@ -188,7 +231,12 @@ class PageController extends AbstractActionController
         return $this->pageService;
     }
 
-    protected function getLocaleService()
+    /**
+    * getLocaleService : Recuperation du service de locale
+    *
+    * @return Locale $localeService 
+    */
+    private function getLocaleService()
     {
         if (!$this->localeService) {
             $this->localeService = $this->getServiceLocator()->get('playgroundcore_locale_service');
@@ -197,7 +245,12 @@ class PageController extends AbstractActionController
         return $this->localeService;
     }
 
-    protected function getLayoutService()
+    /**
+    * getLayoutService : Recuperation du service de Layout
+    *
+    * @return Layout $layoutService 
+    */
+    private function getLayoutService()
     {
         if (!$this->layoutService) {
             $this->layoutService = $this->getServiceLocator()->get('playgroundcms_layout_service');
@@ -206,7 +259,12 @@ class PageController extends AbstractActionController
         return $this->layoutService;
     }
 
-    protected function getRessourceService()
+    /**
+    * getRessourceService : Recuperation du service de Ressource
+    *
+    * @return Ressource $ressourceService 
+    */
+    private function getRessourceService()
     {
         if (!$this->ressourceService) {
             $this->ressourceService = $this->getServiceLocator()->get('playgroundcms_ressource_service');
@@ -215,7 +273,12 @@ class PageController extends AbstractActionController
         return $this->ressourceService;
     }
 
-    protected function getCMSOptions()
+    /**
+    * getCMSOptions : Recuperation des options de playgroundCMS
+    *
+    * @return ModuleOptions $cmsOptions 
+    */
+    private function getCMSOptions()
     {
         if (!$this->cmsOptions) {
             $this->cmsOptions = $this->getServiceLocator()->get('playgroundcms_module_options');

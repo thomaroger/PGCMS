@@ -13,11 +13,27 @@ use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class ZoneController extends AbstractActionController
-{
+{   
+    /**
+    * @var MAX_PER_PAGE  Nombre d'item par page
+    */
     const MAX_PER_PAGE = 20;
+    
+    /**
+    * @var Zone $zoneService Service de zone
+    */
     protected $zoneService;
+    
+    /**
+    * @var LayoutZone $layoutZoneService  Service de layoutZone
+    */
     protected $layoutZoneService;
 
+    /**
+    * indexAction : Liste des zones
+    *
+    * @return ViewModel $viewModel 
+    */
     public function listAction()
     {
         $layouts = array();
@@ -47,8 +63,12 @@ class ZoneController extends AbstractActionController
     }
 
  
-
-    protected function getZoneService()
+    /**
+    * getZoneService : Recuperation du service de zone
+    *
+    * @return Zone $zoneService : zoneService 
+    */ 
+    private function getZoneService()
     {
         if (!$this->zoneService) {
             $this->zoneService = $this->getServiceLocator()->get('playgroundcms_zone_service');
@@ -57,7 +77,12 @@ class ZoneController extends AbstractActionController
         return $this->zoneService;
     }
 
-    protected function getLayoutZoneService()
+    /**
+    * getLayoutZoneService : Recuperation du service de layoutzone
+    *
+    * @return LayoutZone $layoutZoneService : layoutZoneService 
+    */ 
+    private function getLayoutZoneService()
     {
         if (!$this->layoutZoneService) {
             $this->layoutZoneService = $this->getServiceLocator()->get('playgroundcms_layoutzone_service');

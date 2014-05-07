@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 25/03/2014
 *
-* Classe de controleur de back du feed
+* Classe de controleur de back des feeds
 **/
 
 namespace PlaygroundCMS\Controller\Back;
@@ -20,7 +20,7 @@ class FeedController extends AbstractActionController
     protected $feedService;
     
     /**
-    * indexAction : Action list du controller de feed
+    * indexAction : Liste des feeds
     *
     * @return ViewModel $viewModel 
     */

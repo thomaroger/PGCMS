@@ -47,7 +47,7 @@ class LayoutController extends AbstractActionController
     protected $cmsOptions;
 
     /**
-    * listAction : Action de list du controller de Layout
+    * listAction : Liste des layouts
     *
     * @return ViewModel $viewModel 
     */
@@ -74,6 +74,11 @@ class LayoutController extends AbstractActionController
                                    'nbLayout'             => $nbLayout));
     }
 
+    /**
+    * createAction : Creation de layout
+    *
+    * @return ViewModel $viewModel 
+    */
     public function createAction()
     {
         $this->layout()->setVariable('nav', "cms");
@@ -106,6 +111,12 @@ class LayoutController extends AbstractActionController
                                    'return' => $return));
     }
 
+    /**
+    * editAction : Edition d'un layout en fonction de son id
+    * @param int $id : id du layout à editer
+    *
+    * @return ViewModel $viewModel 
+    */
     public function editAction()
     {
         $this->layout()->setVariable('nav', "cms");
@@ -148,6 +159,12 @@ class LayoutController extends AbstractActionController
                                    'return' => $return));
     }
 
+    /**
+    * removeAction : Suppression d'un layout en fonction de son id
+    * @param int $id : id du layout à supprimer
+    *
+    * @return ViewModel $viewModel 
+    */
     public function removeAction()
     {
         $layoutId = $this->getEvent()->getRouteMatch()->getParam('id');
@@ -167,6 +184,12 @@ class LayoutController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/layout');
     }
 
+    /**
+    * blockLayoutZoneAction : Liste des blocs dans une zone pour un layout donnée
+    * @param int $id : id du layout à afficher
+    *
+    * @return ViewModel $viewModel 
+    */
     public function blockLayoutZoneAction()
     {
         $this->layout()->setVariable('nav', "cms");
@@ -240,6 +263,14 @@ class LayoutController extends AbstractActionController
                                    'return' => $return));
     }
 
+    /**
+    * updateBlockLayoutZoneAction : Modification de la position d'un bloc dans une zone pour un layout donné
+    * @param int $id : id du du layout
+    * @param int $blocklayoutZoneId : id du blocLayoutZone
+    * @param int $position : Position du bloc
+    *
+    * @return Response $response 
+    */
     public function updateBlockLayoutZoneAction()
     {
 
@@ -271,6 +302,13 @@ class LayoutController extends AbstractActionController
         return $response;
     }
 
+    /**
+    * removeBlockLayoutZoneAction : Suppression du bloc dans la zone du layout
+    * @param int $id : id du layout 
+    * @param int $blocklayoutZoneId : id du bloclayoutzone à supprimer 
+    *
+    * @return Response $response 
+    */
     public function removeBlockLayoutZoneAction()
     {
 
@@ -286,6 +324,12 @@ class LayoutController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
     }
 
+    /**
+    * getBlocksLayoutZone : Permet de recuperer les blocs qui sont présent dans les zones du layout
+    * @param Layout $layout :  layout 
+    *
+    * @return Array $zones : Tableau de zone avec les blocs 
+    */
     private function getBlocksLayoutZone($layout)
     {
         $zones = array();
@@ -305,6 +349,11 @@ class LayoutController extends AbstractActionController
         return $zones;
     }
 
+    /**
+    * getLayoutService : Recuperation du service de Layout
+    *
+    * @return Layout $layoutService 
+    */
     private function getLayoutService()
     {
         if (!$this->layoutService) {
@@ -314,6 +363,11 @@ class LayoutController extends AbstractActionController
         return $this->layoutService;
     }
 
+    /**
+    * getBlockService : Recuperation du service de bloc
+    *
+    * @return Block $blockService 
+    */
     private function getBlockService()
     {
         if (!$this->blockService) {
@@ -323,6 +377,11 @@ class LayoutController extends AbstractActionController
         return $this->blockService;
     }
 
+    /**
+    * getLayoutZoneService : Recuperation du service de LayoutZone
+    *
+    * @return LayoutZone $layoutZoneService 
+    */
     private function getLayoutZoneService()
     {
         if (!$this->layoutZoneService) {
@@ -332,6 +391,11 @@ class LayoutController extends AbstractActionController
         return $this->layoutZoneService;
     }
 
+    /**
+    * getBlockLayoutZoneService : Recuperation du service de blockLayoutZone
+    *
+    * @return blockLayoutZone $blockLayoutZoneService 
+    */
     private function getBlockLayoutZoneService()
     {
         if (!$this->blockLayoutZoneService) {
@@ -341,6 +405,11 @@ class LayoutController extends AbstractActionController
         return $this->blockLayoutZoneService;
     }
 
+     /**
+    * getCMSOptions : Recuperation des options de playgroundCMS
+    *
+    * @return ModuleOptions $cmsOptions 
+    */
     private function getCMSOptions()
     {
         if (!$this->cmsOptions) {

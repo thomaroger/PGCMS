@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 25/03/2014
 *
-* Classe de controleur  de back du dashboard du CMS
+* Classe de controleur de back du dashboard du CMS
 **/
 
 namespace PlaygroundCMS\Controller\Back;
@@ -32,7 +32,7 @@ class DashboardController extends AbstractActionController
     protected $feedService;
 
     /**
-    * indexAction : Action index du controller de dashboard
+    * indexAction : Dashboard
     *
     * @return ViewModel $viewModel 
     */
