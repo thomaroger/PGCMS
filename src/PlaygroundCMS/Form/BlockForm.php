@@ -3,7 +3,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 01/05/2014
+* @since : 02/05/2014
 *
 * Classe qui permet de gerer les forms de block
 **/
@@ -13,11 +13,20 @@ use Zend\Form\Element;
 use ZfcBase\Form\ProvidesEventsForm;
 use Zend\ServiceManager\ServiceManager;
 use PlaygroundCMS\Entity\Block;
+use Doctrine\Common\Collections\Criteria;
 
 class BlockForm extends ProvidesEventsForm
 {
+    /**
+    * @var ServiceManager $serviceManager
+    */
     protected $serviceManager;
 
+    /**
+    * __construct
+    * @param string $name 
+    * @param ServiceManager $sm
+    */
     public function __construct($name = null, ServiceManager $sm)
     {
         $this->setServiceManager($sm);
@@ -183,13 +192,25 @@ class BlockForm extends ProvidesEventsForm
         $this->add($submitElement, array('priority' => -100));
     }
 
-    public function getDirection()
+    /**
+    * getDirection : Récuperation des sorts de Criteria
+    *
+    * @return array $directions
+    */
+    private function getDirection()
     {
-        return array('DESC' => 'DESC',
-                     'ASC' => 'ASC');
+        return array(
+            Criteria::ASC => Criteria::ASC,
+            Criteria::DESC => Criteria::DESC
+            );
     }
 
-    public function getBlocksType()
+    /**
+    * getBlocksType : Recuperation des types de blocs
+    *
+    * @return array $types
+    */
+    private function getBlocksType()
     {
         $types = array();
         $blockTypes = $this->getServiceManager()->get('playgroundcms_block_service')->getBlocksType();
@@ -201,7 +222,12 @@ class BlockForm extends ProvidesEventsForm
         return $types;
     }
 
-    public function getTemplates()
+    /**
+    * getTemplates : Recuperation des templates
+    *
+    * @return array $templates
+    */
+    private function getTemplates()
     {
         $templatesFiles = array();
         $templates = $this->getServiceManager()->get('playgroundcms_template_service')->getTemplateMapper()->findBy(array('isSystem' => 0));
@@ -212,7 +238,10 @@ class BlockForm extends ProvidesEventsForm
         return $templatesFiles;
     }
 
-
+    /**
+    * setData : Setter des données du block dans le form
+    * @param mixed $data 
+    */
     public function setData($data)
     {
         if (!is_array($data)) {
@@ -242,17 +271,46 @@ class BlockForm extends ProvidesEventsForm
         
     }
 
+    /**
+    * decorateSpecificConfguration : Modifier les datas pour prendre en compte les configurations spécifiques du bloc 
+    * qui ne sont pas perçues depuis le formulaire
+    * @param array $data 
+    * 
+    * @return array $data
+    */
     public function decorateSpecificConfguration($data)
     {
         return $data;
     }
 
-    public function getServiceManager()
+    /**
+    * getConfiguration : Permet de définir quelle sont les champs spécifiques à la configuration du bloc
+    * 
+    * @return array $data 
+    * @throws Runtime Exception
+    */
+    public function getConfiguration()
+    {
+        throw new \RuntimeException('getConfiguration methods have to be defined in form class');  
+    }
+
+    /**
+     * getServiceManager : Getter pour le serviceManager
+     *
+     * @return ServiceManager
+     */
+    private function getServiceManager()
     {
         return $this->serviceManager;
     }
 
-    public function setServiceManager(ServiceManager $serviceManager)
+    /**
+     * setServiceManager : Setter pour le serviceManager
+     * @param  ServiceManager $serviceManager
+     *
+     * @return BlockForm
+     */
+    private function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 

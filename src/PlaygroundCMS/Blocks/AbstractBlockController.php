@@ -185,8 +185,8 @@ abstract class AbstractBlockController
 
     /**
      * setServiceManager : Setter pour le serviceManager
-     *
      * @param  ServiceManager $serviceManager
+     *
      * @return AbstractBlockController
      */
     private function setServiceManager(ServiceManager $serviceManager)

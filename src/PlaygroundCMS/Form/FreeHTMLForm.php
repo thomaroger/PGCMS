@@ -2,7 +2,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 01/05/2014
+* @since : 02/05/2014
 *
 * Classe qui permet de gerer les forms de block free HTML
 **/
@@ -14,8 +14,10 @@ use Zend\ServiceManager\ServiceManager;
 
 class FreeHTMLForm extends BlockForm
 {
-    protected $serviceManager;
-
+    /**
+    * {@inheritdoc}
+    * __construct : Ajout des champs spécifique au bloc free HTML
+    */
     public function __construct($name = null, ServiceManager $sm)
     {
 
@@ -37,11 +39,20 @@ class FreeHTMLForm extends BlockForm
         ));
     }
 
+    /**
+    * {@inheritdoc}
+    * getConfiguration : Définit les champs spécifiques du bloc
+    */
     public function getConfiguration()
     {
+
         return array('configuration[html]');
     }
 
+    /**
+    * {@inheritdoc}
+    * setDate : Setter des données spécifique du block dans le form
+    */
     public function setData($data)
     {
         parent::setData($data);

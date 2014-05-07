@@ -2,7 +2,7 @@
 /**
 * @package : PlaygroundCMS
 * @author : troger
-* @since : 01/05/2014
+* @since : 02/05/2014
 *
 * Classe qui permet de gerer les forms de block Block List
 **/
@@ -14,8 +14,10 @@ use Zend\ServiceManager\ServiceManager;
 
 class BlockListForm extends BlockForm
 {
-    protected $serviceManager;
-
+    /**
+    * {@inheritdoc}
+    * __construct : Ajout des champs spécifique au bloc de liste de bloc
+    */
     public function __construct($name = null, ServiceManager $sm)
     {
 
@@ -133,8 +135,12 @@ class BlockListForm extends BlockForm
         ));
     }    
 
-
-    public function getSupportedFilters() 
+    /**
+    * getSupportedFilters : Recuperation des filtres supportés par les blocs
+    *
+    * @return array $filtersArray
+    */
+    private function getSupportedFilters() 
     {
         $filtersArray = array();
         $filters = array_keys($this->getServiceManager()->get('playgroundcms_block_mapper')->getSupportedFilters());
@@ -146,7 +152,12 @@ class BlockListForm extends BlockForm
         return $filtersArray;
     }
 
-    public function getSupportedSorts() 
+    /**
+    * getSupportedSorts : Recuperation des sorts supportées par les blocs
+    *
+    * @return array $sortsArray
+    */
+    private function getSupportedSorts() 
     {
         $sortsArray = array();
         $sorts = array_keys($this->getServiceManager()->get('playgroundcms_block_mapper')->getSupportedSorts());
@@ -157,6 +168,10 @@ class BlockListForm extends BlockForm
         return $sortsArray;
     }
 
+    /**
+    * {@inheritdoc}
+    * setDate : Setter des données spécifique du block dans le form
+    */
     public function setData($data)
     {
         parent::setData($data);
@@ -202,8 +217,10 @@ class BlockListForm extends BlockForm
 
     }
 
-
-
+    /**
+    * {@inheritdoc}
+    * getConfiguration : Définit les champs spécifiques du bloc
+    */
     public function getConfiguration()
     {
         return array('configuration[filters][column]',
@@ -214,6 +231,10 @@ class BlockListForm extends BlockForm
             'configuration[pagination][limit]');
     }
 
+    /**
+    * {@inheritdoc}
+    * decorateSpecificConfguration : Modifit la configuration du bloc avant mise en base
+    */
     public function decorateSpecificConfguration($data)
     {
         $configuration = array();
