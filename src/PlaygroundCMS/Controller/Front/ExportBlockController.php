@@ -15,13 +15,20 @@ use PlaygroundCMS\Renderer\BlockRenderer;
 
 class ExportBlockController extends AbstractActionController
 {
-
+    /**
+    * @var BlockRenderer $blockRenderer : Renderer de bloc
+    */
     protected $blockRenderer;
+
+    /**
+    * @var Block $blockService Service du bloc
+    */
     protected $blockService;
+
     /**
     * indexAction : Action index du controller de page
     *
-    * @return ViewModel $viewModel 
+    * @return Response $response 
     */
     public function indexAction()
     {
@@ -75,26 +82,26 @@ class ExportBlockController extends AbstractActionController
     }
 
     /**
-    * getBlockService : Getter pour blockService
+    * getCachedBlocks : Getter pour CachedBlock
     *
     * @return PlaygroundCMS\Cache\Blocks $blockService
     */
     private function getCachedBlocks()
     {
         if (null === $this->blockService) {
-            $this->blockService = $this->getServiceLocator()->get('playgroundcms_cached_blocks');
+            $this->setCachedBlocks($this->getServiceLocator()->get('playgroundcms_cached_blocks'));
         }
 
         return $this->blockService;
     }
 
     /**
-    * setBlockService : Setter pour blockService
+    * setCachedBlocks : Setter pour CachedBlock
     * @param PlaygroundCMS\Cache\Blocks $blockService
     *
-    * @return GetBlock 
+    * @return ExportBlockController $this 
     */
-    public function setCachedBlocks(Blocks $blockService)
+    private function setCachedBlocks(Blocks $blockService)
     {
         $this->blockService = $blockService;
 
@@ -109,7 +116,7 @@ class ExportBlockController extends AbstractActionController
     private function getBlockRendererService()
     {
         if (null === $this->blockRenderer) {
-            $this->blockRenderer = $this->getServiceLocator()->get('playgroundcms_block_renderer');
+            $this->setBlockRendererService($this->getServiceLocator()->get('playgroundcms_block_renderer'));
         }
 
         return $this->blockRenderer;
@@ -119,9 +126,9 @@ class ExportBlockController extends AbstractActionController
     * setBlockRendererService : Setter pour blockRenderer
     * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
     *
-    * @return GetBlock 
+    * @return ExportBlockController $this  
     */
-    public function setBlockRendererService(BlockRenderer $blockRenderer)
+    private function setBlockRendererService(BlockRenderer $blockRenderer)
     {
         $this->blockRenderer = $blockRenderer;
 

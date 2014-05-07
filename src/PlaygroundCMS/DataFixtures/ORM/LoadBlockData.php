@@ -17,7 +17,7 @@ use PlaygroundCMS\Entity\Block;
 class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * load : permet de charger en base différents types de blocs
+     * load : permet de charger en base les blocs
      *
      * @param ObjectManager $manager
      */

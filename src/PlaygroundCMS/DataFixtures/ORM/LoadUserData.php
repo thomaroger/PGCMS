@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 25/03/2014
 *
-* Classe qui permet de loader les templates
+* Classe qui permet de loader les utilisateurs
 **/
 namespace PlaygroundCms\DataFixtures\ORM;
 
@@ -17,8 +17,8 @@ use Zend\Crypt\Password\Bcrypt;
 
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
 {
-   /**
-     * load : permet de charger en base différents utilisateurs
+    /**
+     * load : permet de charger en base les utilisateurs
      *
      * @param ObjectManager $manager
      */
@@ -48,6 +48,11 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
+     /**
+     * getOrder : donne un ordre de priorité au chargement
+     *
+     * @return integer $order
+     */
     public function getOrder()
     {
         return 50;

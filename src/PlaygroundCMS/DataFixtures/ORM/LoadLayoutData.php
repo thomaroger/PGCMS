@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 28/03/2014
 *
-* Classe qui permet de loader les layout
+* Classe qui permet de loader les layouts
 **/
 namespace PlaygroundCMS\DataFixtures\ORM;
 
@@ -17,7 +17,7 @@ use PlaygroundCMS\Entity\Layout;
 class LoadLayoutData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * load : permet de charger en base différents templates
+     * load : permet de charger en base les layouts
      *
      * @param ObjectManager $manager
      */
@@ -32,9 +32,8 @@ class LoadLayoutData extends AbstractFixture implements OrderedFixtureInterface
         
         $manager->persist($layout);
         $manager->flush();
-
-    
     }
+
     /**
      * getOrder : donne un ordre de priorité au chargement
      *

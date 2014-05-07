@@ -4,7 +4,7 @@
 * @author : troger
 * @since : 21/03/2014
 *
-* Classe qui permet de loader les website
+* Classe qui permet de loader les websites
 **/
 namespace PlaygroundCMS\DataFixtures\ORM;
 
@@ -17,9 +17,9 @@ use PlaygroundCore\Entity\Website;
 class LoadWebsiteData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load address types
+     * load : permet de charger en base les websites
      *
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
@@ -52,6 +52,11 @@ class LoadWebsiteData extends AbstractFixture implements OrderedFixtureInterface
 
     }
 
+    /**
+     * getOrder : donne un ordre de priorité au chargement
+     *
+     * @return integer $order
+     */
     public function getOrder()
     {
         return 33;

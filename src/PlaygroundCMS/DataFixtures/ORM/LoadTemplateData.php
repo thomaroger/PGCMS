@@ -17,7 +17,7 @@ use PlaygroundCMS\Entity\Template;
 class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * load : permet de charger en base différents templates
+     * load : permet de charger en base les templates
      *
      * @param ObjectManager $manager
      */
@@ -69,6 +69,7 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
 
        
     }
+
     /**
      * getOrder : donne un ordre de priorité au chargement
      *

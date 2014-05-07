@@ -16,35 +16,36 @@ class AbstractActionController extends AbstractActionControllerParent
     * @var Ressource $ressourceService
     */
     protected $ressourceService;
-   /**
-   * getRessource : permet de récuperer une ressource
-   *
-   * @return Ressource $ressource
-   */
-   protected function getRessource()
-   {
+    
+    /**
+    * getRessource : permet de récuperer une ressource
+    *
+    * @return Ressource $ressource
+    */
+    protected function getRessource()
+    {
 
         return $this->params()->fromRoute('ressource', null);
-   }
+    }
 
-   /**
-   * getMatches : Permet de recuperer le matches du router
-   *
-   * @return array $getMatches
-   */
-   protected function getMatches()
-   {
+    /**
+    * getMatches : Permet de recuperer le matches du router
+    *
+    * @return array $getMatches
+    */
+    protected function getMatches()
+    {
         return $this->params()->fromRoute('matches', array());
-   }
+    }
 
 
-   /**
-   * Retourne l'entity en fonction de la langue
-   *
-   * @return PlaygroundCMS\Entity\* $entity
-   */
-   protected function getEntity()
-   {
+    /**
+    * Retourne l'entity en fonction de la langue
+    *
+    * @return *\Entity\* $entity
+    */
+    protected function getEntity()
+    {
         $ressource = $this->getRessource();
         $entity = $this->getRessourceService()->getRessourceMapper()->getEntityRepositoryForEntity($ressource->getModel())->findOneById($ressource->getRecordId());
 
@@ -64,14 +65,14 @@ class AbstractActionController extends AbstractActionControllerParent
         $entity->setTranslations($translations[$ressource->getLocale()]);
 
         return $entity;
-   }
+    }
 
-   /**
-   * getTemplate : Retourne le layout défini pour l'entité
-   *
-   * @return string $template
-   */
-   protected function getTemplate()
+    /**
+    * getTemplate : Retourne le layout défini pour l'entité
+    *
+    * @return string $template
+    */
+    protected function getTemplate()
     {
         $ressource = $this->getRessource();
         $templates = json_decode($ressource->getLayoutContext(), true);

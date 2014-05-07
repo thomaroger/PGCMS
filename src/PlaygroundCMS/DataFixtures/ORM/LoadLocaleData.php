@@ -16,9 +16,9 @@ use PlaygroundCore\Entity\Locale;
 class LoadLocaleData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load address types
+     * load : permet de charger en base les locales
      *
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
@@ -41,6 +41,11 @@ class LoadLocaleData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('locale-en-us', $locale);        
     }
 
+    /**
+     * getOrder : donne un ordre de priorité au chargement
+     *
+     * @return integer $order
+     */
     public function getOrder()
     {
         return 32;

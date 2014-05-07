@@ -14,7 +14,7 @@ use PlaygroundCMS\Controller\Front\AbstractActionController;
 class PageController extends AbstractActionController
 {
     /**
-    * indexAction : Action index du controller de page
+    * indexAction : Index du Controller de page
     *
     * @return ViewModel $viewModel 
     */
