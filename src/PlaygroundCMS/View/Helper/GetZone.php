@@ -13,9 +13,16 @@ use PlaygroundCMS\Renderer\ZoneRenderer;
 
 class getZone extends AbstractHelper
 {
-
+    /**
+    * @var ZoneRenderer $zone
+    */
     protected $zoneRenderer;
+
+    /**
+    * @var Zones $zones
+    */
     protected $zones;
+    
     /**
      * __invoke : permet de rendre un bloc
      * @param  string $slug slug
@@ -36,6 +43,12 @@ class getZone extends AbstractHelper
         echo $render;
     }
 
+    /**
+    *  getZoneFromCache : Recuperation d'une zone depuis le cache en fonction d'un slug
+    * @param string $slug : slug de la zone a rechercher
+    *
+    * @return Zone $zone 
+    */
     private function getZoneFromCache($slug)
     {
         $zone = $this->getCachedZones()->findZoneBySlug($slug);
@@ -44,9 +57,9 @@ class getZone extends AbstractHelper
     }
 
     /**
-    * getBlockRendererService : Getter pour blockRenderer
+    * getZoneRendererService : Getter pour zoneRenderer
     *
-    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * @return  ZoneRenderer $zoneRenderer
     */
     private function getZoneRendererService()
     {
@@ -58,10 +71,10 @@ class getZone extends AbstractHelper
     }
 
     /**
-    * setBlockRendererService : Setter pour blockRenderer
-    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    * setZoneRendererService : Setter pour zoneRenderer
+    * @param ZoneRenderer $zoneRenderer
     *
-    * @return GetBlock 
+    * @return GetZone $this 
     */
     public function setZoneRendererService(ZoneRenderer $zoneRenderer)
     {
@@ -70,6 +83,12 @@ class getZone extends AbstractHelper
         return $this;
     }
 
+   /**
+    * setCachedZones : Setter pour zones
+    * @param Zones $zones
+    *
+    * @return GetZone $this 
+    */
     public function setCachedZones($zones)
     {
         $this->zones = $zones;
@@ -77,7 +96,12 @@ class getZone extends AbstractHelper
         return $this;
     }
 
-     public function getCachedZones()
+    /**
+    * getCachedZones : Getter pour zones
+    *
+    * @return Zones $zones
+    */
+    public function getCachedZones()
     {
         return $this->zones;
     }

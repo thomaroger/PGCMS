@@ -15,9 +15,14 @@ use PlaygroundCMS\Renderer\BlockRenderer;
 
 class GetBlock extends AbstractHelper
 {
-
+    /**
+    * @var BlockRenderer $blockRenderer
+    */
     protected $blockRenderer;
 
+    /**
+    * @var Block $blockService
+    */
     protected $blockService;
 
     /**
@@ -54,7 +59,7 @@ class GetBlock extends AbstractHelper
     }
 
     /**
-    * getBlockService : Getter pour blockService
+    * getCachedBlocks : Getter pour Blocks
     *
     * @return PlaygroundCMS\Cache\Blocks $blockService
     */
@@ -68,10 +73,10 @@ class GetBlock extends AbstractHelper
     }
 
     /**
-    * setBlockService : Setter pour blockService
+    * setCachedBlocks : Setter pour Blocks
     * @param PlaygroundCMS\Cache\Blocks $blockService
     *
-    * @return GetBlock 
+    * @return GetBlock $this
     */
     public function setCachedBlocks(Blocks $blockService)
     {
@@ -98,7 +103,7 @@ class GetBlock extends AbstractHelper
     * setBlockRendererService : Setter pour blockRenderer
     * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
     *
-    * @return GetBlock 
+    * @return GetBlock  $this
     */
     public function setBlockRendererService(BlockRenderer $blockRenderer)
     {
