@@ -8,8 +8,17 @@ use Zend\View\Resolver\TemplateMapResolver;
 
 class Module
 {
+    /**
+    * @var string DIR_TEMPLATE : Directory du template 
+    */
     const DIR_TEMPLATE = '/../../../../../design';
 
+    /**
+    * getTemplateFolder : Permet de recuperer le repertoire ou se trouve les templates
+    * @param ServiceManager $serviceManager
+    *
+    * @return string $path
+    */
     public function getTemplateFolder($serviceManager)
     {
         $config = $serviceManager->get('Config');
