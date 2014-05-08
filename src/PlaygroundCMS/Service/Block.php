@@ -27,6 +27,13 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
 
+    /**
+    * create : Permet de créer un bloc
+    * @param array $data : tableau de données 
+    * @param BlockForm $form : formulaire associé au bloc
+    *
+    * @return Block $block
+    */
     public function create($data, $form){
 
         $block = new BlockEntity();
@@ -47,7 +54,14 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
 
     }
 
-
+    /**
+    * update : Permet de modifer un bloc
+    * @param Block $block : bloc
+    * @param array $data : tableau de données 
+    * @param BlockForm $form : formulaire associé au bloc
+    *
+    * @return Block $block
+    */
     public function update($block, $data, $form){
 
         $block->setName($data['name']);
@@ -66,7 +80,12 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         
     }
 
-
+    /**
+    * checkBlock : Permet de verifier si le form est valid
+    * @param array $data : tableau de données 
+    *
+    * @return array $result
+    */
     public function checkBlock($data)
     {
         
@@ -91,6 +110,11 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         return array('status' => 0, 'message' => '', 'data' => $data);
     }
     
+    /**
+    * getBlocksType : Recuperation des types de blocks
+    *
+    * @return array $blockstype
+    */
     public function getBlocksType()
     {
         $blockstype = array();
@@ -133,7 +157,7 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
      * setBlockMapper : Setter pour le blockMapper
      * @param  PlaygroundCMS\Mapper\Block $blockMapper
      *
-     * @return Block
+     * @return Block $this
      */
     private function setBlockMapper(BlockMapper $blockMapper)
     {
@@ -156,7 +180,7 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
      * setServiceManager : Setter pour le serviceManager
      * @param  ServiceManager $serviceManager
      *
-     * @return Block
+     * @return Block $this
      */
     public function setServiceManager(ServiceManager $serviceManager)
     {
