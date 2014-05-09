@@ -10,7 +10,6 @@
 
 namespace PlaygroundCMS\Mapper;
 
-
 class Page extends EntityMapper
 {
    
