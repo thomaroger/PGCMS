@@ -99,7 +99,6 @@ class BlockController extends AbstractActionController
                 return $this->redirect()->toRoute('admin/playgroundcmsadmin/block');
             }
         }
-
         $form->setData($data);
 
         return new ViewModel(array('form'   => $form,

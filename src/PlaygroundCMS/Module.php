@@ -162,6 +162,12 @@ class Module
                     return $form;
                 },
 
+                'playgroundcms_blocks_switchlocale_form' => function  ($sm) {
+                    $form = new Form\SwitchLocaleForm(null, $sm);
+
+                    return $form;
+                },
+
             ),
             'invokables' => array(
                 'playgroundcms_block_service'           => 'PlaygroundCMS\Service\Block',

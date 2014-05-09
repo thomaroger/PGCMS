@@ -287,11 +287,10 @@ class BlockForm extends ProvidesEventsForm
     * getConfiguration : Permet de définir quelle sont les champs spécifiques à la configuration du bloc
     * 
     * @return array $data 
-    * @throws Runtime Exception
     */
     public function getConfiguration()
     {
-        throw new \RuntimeException('getConfiguration methods have to be defined in form class');  
+        return array();
     }
 
     /**
