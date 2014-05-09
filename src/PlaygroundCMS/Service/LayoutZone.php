@@ -28,10 +28,17 @@ class LayoutZone extends EventProvider implements ServiceManagerAwareInterface
     protected $serviceManager;
 
 
+    /**
+    * findByLayoutZoneOrCreate : Recuperation un layoutzone en fonction d'un layout et une zone
+    * @param Layout $layout Layout
+    * @param Zone $zone
+    *
+    * @return LayoutZone $layoutZone
+    */
     public function findByLayoutZoneOrCreate($layout, $zone)
     {
         $layoutZone = $this->getLayoutZoneMapper()->findOneBy(array('layout' => $layout, 'zone' => $zone));
-        if (empty($readEvents)) {
+        if (empty($layoutZone)) {
             $layoutZone = new layoutZoneEntity();
             $layoutZone->setLayout($layout);
             $layoutZone->setZone($zone);

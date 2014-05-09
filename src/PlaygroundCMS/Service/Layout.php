@@ -22,15 +22,31 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
      * @var PlaygroundCMS\Mapper\Layout layoutMapper
      */
     protected $layoutMapper;
+
+    /**
+     * @var PlaygroundCMS\Mapper\Layout layoutMapper
+     */
     protected $layoutZoneService;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\Layout layoutMapper
+     */
     protected $zoneService;
+    
+    /**
+     * @var PlaygroundCMS\Options\ModuleOptions cmsOptions
+     */
     protected $cmsOptions;
 
     /**
      * @var Zend\ServiceManager\ServiceManager ServiceManager
      */
     protected $serviceManager;
-    
+        
+    /**
+    * create : Permet de créer un Layout
+    * @param array $data : tableau de données 
+    */
     public function create($data)
     {
         $layout = new LayoutEntity();
@@ -50,7 +66,10 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
 
     }
 
-
+    /**
+    * update : Permet de modifer un layout
+    * @param array $data : tableau de données 
+    */
     public function edit($data)
     {
         $layout = $this->getLayoutMapper()->findById($data['layout']['id']);
@@ -73,6 +92,12 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
 
     }
 
+    /**
+    * addZone : Permet de rajouter une zone à un layout
+    * @param array $data : tableau de données 
+    *
+    * @return Layout $layout
+    */
     public function addZone($layout, $data)
     {
         $content = file_get_contents($this->getCMSOptions()->getThemeFolder().$data['layout']['file']);
@@ -89,6 +114,12 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
     }
 
 
+    /**
+    * removeLayoutZone : Remove les zones à un layout
+    * @param Layout $layout : layout concerné
+    *
+    * @return boolean $boolean
+    */
     public function removeLayoutZone($layout)
     {
         $layoutZones = $this->getLayoutZoneService()->getLayoutZoneMapper()->findBy(array('layout' => $layout));
@@ -99,6 +130,13 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         return true;
     }
 
+    /**
+    * uploadImage : Upload de l'image du layout
+    * @param Layout $layout : layout concerné
+    * @param array $data : layout concerné
+    *
+    * @return Layout $layout
+    */
     public function uploadImage($layout, $data)
     {
          if (!empty($data['files']['tmp_name'])) {
@@ -118,6 +156,12 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         return $layout;
     }
 
+    /**
+    * checkLayout : Permet de verifier si le form est valid
+    * @param array $data : tableau de données 
+    *
+    * @return array $result
+    */
     public function checkLayout($data)
     {
         if(empty($data['layout']['name'])){
@@ -138,6 +182,11 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         return array('status' => 0, 'message' => '', 'data' => $data);
     }
 
+    /**
+    * getLayouts : Permet de récuperer les layouts sur le filer
+    *
+    * @return array $files layouts trouvés
+    */
     public function getLayouts()
     {
         $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
@@ -149,6 +198,13 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
     }
 
 
+    /**
+    * getPhtmlFiles : Permet de récuperer les layouts sur le filer
+    * @param string $path : Dossier dans lequel chercher les layouts
+    * @param array $files : Tableau des layouts déjà trouvés
+    *
+    * @return array $files layouts trouvés
+    */
     public function getPhtmlFiles($path, $files)
     {
         $dir = opendir($path);
@@ -163,9 +219,16 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
                 }
             }
         }
-        return($files);
+        return $files;
     }
 
+     /**
+    * cleanFiles : Suppresion des paths inutiles
+    * @param string $path : Dossier dans lequel chercher les layouts
+    * @param array $files : Tableau des layouts déjà trouvés
+    *
+    * @return array $files layouts trouvés
+    */
     public function cleanFiles($path, $files)
     {
         foreach ($files as $key => $file) {
@@ -189,7 +252,11 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         return $this->layoutMapper;
     }
 
-   
+     /**
+     * getLayoutZoneService : Getter pour layoutZoneService
+     *
+     * @return PlaygroundCMS\Mapper\LayoutZone $layoutZoneService
+     */
     public function getLayoutZoneService()
     {
         if (null === $this->layoutZoneService) {
@@ -199,6 +266,11 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         return $this->layoutZoneService;
     }
 
+     /**
+     * getZoneService : Getter pour zoneService
+     *
+     * @return PlaygroundCMS\Mapper\Zone $zoneService
+     */
      public function getZoneService()
     {
         if (null === $this->zoneService) {
@@ -206,19 +278,6 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         }
 
         return $this->zoneService;
-    }
-
-     /**
-     * setLayoutMapper : Setter pour le layoutMapper
-     * @param  PlaygroundCMS\Mapper\Layout $layoutMapper
-     *
-     * @return Layout
-     */
-    private function setLayoutMapper(LayoutMapper $layoutMapper)
-    {
-        $this->layoutMapper = $layoutMapper;
-
-        return $this;
     }
 
     /**
@@ -244,6 +303,11 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
+     /**
+     * getCMSOptions : Getter pour les options de playgroundcms
+     *
+     * @return ModuleOptions $cmsOptions
+     */
     protected function getCMSOptions()
     {
         if (!$this->cmsOptions) {

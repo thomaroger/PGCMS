@@ -28,9 +28,16 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
 
+     /**
+     * @var PlaygroundCore\Mapper\Locale localeMapper
+     */
     protected $localeMapper;
     
 
+    /**
+    * create : Permet de créer une page
+    * @param array $data : tableau de données 
+    */
     public function create($data)
     {
 
@@ -82,7 +89,10 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page->createRessource($this->getPageMapper(), $locales);
     }
 
-
+    /**
+    * edit : Permet d'editer une page
+    * @param array $data : tableau de données 
+    */
     public function edit($data){
 
         $page = $this->getPageMapper()->findById($data['page']['id']);
@@ -141,6 +151,12 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page->editRessource($this->getPageMapper(), $locales);
     }
 
+    /**
+    * checkPage : Permet de verifier si le form est valid
+    * @param array $data : tableau de données 
+    *
+    * @return array $result
+    */
     public function checkPage($data)
     {
         // Valeur par défaut
@@ -226,6 +242,11 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         return $this->pageMapper;
     }
 
+    /**
+     * getLocaleMapper : Getter pour localeMapper
+     *
+     * @return PlaygroundCore\Mapper\Locale $localeMapper
+     */
     public function getLocaleMapper()
     {
         if (null === $this->localeMapper) {
@@ -239,7 +260,7 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
      * setPageMapper : Setter pour le pageMapper
      * @param  PlaygroundCMS\Mapper\Page $pageMapper
      *
-     * @return Page
+     * @return Page $this
      */
     private function setPageMapper(PageMapper $pageMapper)
     {

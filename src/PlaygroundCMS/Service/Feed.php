@@ -14,14 +14,47 @@ use ZfcBase\EventManager\EventProvider;
 
 class Feed extends EventProvider implements ServiceManagerAwareInterface
 {
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
     protected $userService;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
     protected $blockMapper;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
     protected $pageMapper;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
     protected $serviceManager;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
     protected $layoutMapper;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
     protected $zoneMapper;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
     protected $templateMapper;
 
+
+    /**
+     * getFeeds : Permet de recuperer les feeds
+     *
+     * @return array $feeds
+    */
     public function getFeeds()
     {
         list($blocks, $users, $pages, $layouts, $zones, $templates) = $this->getDataForFeeds();
@@ -50,6 +83,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $feeds;
     }
 
+    /**
+    * getDataForFeeds : Permet de recuperer les datas pour les feeds
+    *
+    * @return array $feeds
+    */
     public function getDataForFeeds()
     {
         $data = array();
@@ -63,6 +101,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $data;
     }
 
+    /**
+     * getBlockMapper : Getter pour Block
+     *
+     * @return PlaygroundCMS\Mapper\Block $blockMapper
+     */
     protected function getBlockMapper()
     {
         if (empty($this->blockMapper)) {
@@ -72,6 +115,12 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this->blockMapper;
     }
 
+     /**
+     * setBlockMapper : Setter pour Block
+     * @param PlaygroundCMS\Mapper\Block $blockMapper
+     *
+     * @return Feed $this
+     */
     protected function setBlockMapper($blockMapper)
     {
         $this->blockMapper = $blockMapper;
@@ -79,6 +128,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
+     /**
+     * getPageMapper : Getter pour pageMapper
+     *
+     * @return PlaygroundCMS\Mapper\Page $pageMapper
+     */
     protected function getPageMapper()
     {
         if (empty($this->pageMapper)) {
@@ -88,6 +142,12 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this->pageMapper;
     }
 
+    /**
+     * setPageMapper : Setter pour pageMapper
+     * @param PlaygroundCMS\Mapper\Page $pageMapper
+     *
+     * @return Feed $this
+     */
     protected function setPageMapper($pageMapper)
     {
         $this->pageMapper = $pageMapper;
@@ -95,6 +155,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
+     /**
+     * getLayoutMapper : Getter pour layoutMapper
+     *
+     * @return PlaygroundCMS\Mapper\Layout $layoutMapper
+     */
     protected function getLayoutMapper()
     {
         if (empty($this->layoutMapper)) {
@@ -104,6 +169,12 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this->layoutMapper;
     }
 
+     /**
+     * setLayoutMapper : Setter pour layoutMapper
+     * @param PlaygroundCMS\Mapper\Layout $layoutMapper
+     *
+     * @return Feed $this
+     */ 
     protected function setLayoutMapper($layoutMapper)
     {
         $this->layoutMapper = $layoutMapper;
@@ -111,6 +182,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
+    /**
+     * getZoneMapper : Getter pour zoneMapper
+     *
+     * @return PlaygroundCMS\Mapper\Zone $zoneMapper
+     */
     protected function getZoneMapper()
     {
         if (empty($this->zoneMapper)) {
@@ -120,6 +196,12 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this->zoneMapper;
     }
 
+     /**
+     * setZoneMapper : Setter pour zoneMapper
+     * @param PlaygroundCMS\Mapper\Zone $zoneMapper
+     *
+     * @return Feed $this
+     */
     protected function setZoneMapper($zoneMapper)
     {
         $this->zoneMapper = $zoneMapper;
@@ -127,6 +209,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
+     /**
+     * getTemplateMapper : Getter pour templateMapper
+     *
+     * @return PlaygroundCMS\Mapper\Template $templateMapper
+     */
     protected function getTemplateMapper()
     {
         if (empty($this->templateMapper)) {
@@ -136,6 +223,12 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this->templateMapper;
     }
 
+     /**
+     * setTemplateMapper : Setter pour templateMapper
+     * @param PlaygroundCMS\Mapper\Template $templateMapper
+     *
+     * @return Feed $this
+     */
     protected function setTemplateMapper($templateMapper)
     {
         $this->templateMapper = $templateMapper;
@@ -160,7 +253,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
      * setUserMapper
      *
      * @param  UserMapperInterface $userMapper
-     * @return User
+     * @return Feed $this
      */
     public function setUserService($userService)
     {
@@ -183,7 +276,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
      * setServiceManager : Setter pour le serviceManager
      * @param  ServiceManager $serviceManager
      *
-     * @return Block
+     * @return Feed $this
      */
     public function setServiceManager(ServiceManager $serviceManager)
     {

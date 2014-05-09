@@ -44,7 +44,7 @@ class Ressource extends EventProvider implements ServiceManagerAwareInterface
      * setRessourceMapper : Setter pour le ressourceMapper
      * @param  PlaygroundCMS\Mapper\Ressource $ressourceMapper
      *
-     * @return Ressource
+     * @return Ressource $this
      */
     private function setRessourceMapper(RessourceMapper $ressourceMapper)
     {
@@ -67,7 +67,7 @@ class Ressource extends EventProvider implements ServiceManagerAwareInterface
      * setServiceManager : Setter pour le serviceManager
      * @param  ServiceManager $serviceManager
      *
-     * @return Ressource
+     * @return Ressource $this
      */
     public function setServiceManager(ServiceManager $serviceManager)
     {

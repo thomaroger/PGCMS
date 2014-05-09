@@ -27,7 +27,12 @@ class Zone extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
     
-
+    /**
+    * findByNameOrCreate : Permet de recuperer une zone par son nom
+    * @param string $name : Nom de la zone
+    *
+    * @return Zone $zone
+    */
     public function findByNameOrCreate($name)
     {
 

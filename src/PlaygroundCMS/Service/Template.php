@@ -22,6 +22,10 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
      * @var PlaygroundCMS\Mapper\Template templateMapper
      */
     protected $templateMapper;
+
+    /**
+     * @var PlaygroundCMS\Options\ModuleOptions cmsOptions
+     */
     protected $cmsOptions;
 
     /**
@@ -29,7 +33,11 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
 
-
+    /**
+    * create : Permet de créer un template
+    * @param array $data : tableau de données 
+    *
+    */
     public function create($data)
     {
         $template = new TemplateEntity();
@@ -56,6 +64,11 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
 
     }
 
+    /**
+    * edit : Permet d'editer un template
+    * @param array $data : tableau de données 
+    *
+    */
     public function edit($data)
     {
         $template = $this->getTemplateMapper()->findById($data['template']['id']);
@@ -78,6 +91,13 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
 
     }
 
+    /**
+    * uploadImage : Upload de l'image du layout
+    * @param Template $template : layout concerné
+    * @param array $data : layout concerné
+    *
+    * @return Template $template
+    */
     public function uploadImage($template, $data)
     {
          if (!empty($data['files']['tmp_name'])) {
@@ -97,6 +117,12 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         return $template;
     }
 
+    /**
+    * checkTemplate : Permet de verifier si le form est valid
+    * @param array $data : tableau de données 
+    *
+    * @return array $result
+    */
     public function checkTemplate($data)
     {
         if(empty($data['template']['name'])){
@@ -129,7 +155,11 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         return array('status' => 0, 'message' => '', 'data' => $data);
     }
 
-
+    /**
+    * getTemplates : Permet de recuperer l'ensemble des templates sur le filer
+    *
+    * @return array $templates
+    */
     public function getTemplates()
     {
         return $this->getServiceManager()->get('Playgroundcms_layout_service')->getLayouts();
@@ -185,6 +215,11 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
+    /**
+     * getCMSOptions : Getter pour les options de playgroundcms
+     *
+     * @return ModuleOptions $cmsOptions
+     */
     protected function getCMSOptions()
     {
         if (!$this->cmsOptions) {

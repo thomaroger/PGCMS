@@ -16,21 +16,35 @@ use PlaygroundCMS\Entity\BlockLayoutZone as BlockLayoutZoneEntity;
 
 class BlockLayoutZone extends EventProvider implements ServiceManagerAwareInterface
 {
-
-    const DEFAULT_BLOCK_POSITION = 99;
     /**
-     * @var PlaygroundCMS\Mapper\Block blockMapper
+     * @var integer DEFAULT_BLOCK_POSITION
+    */
+    const DEFAULT_BLOCK_POSITION = 99;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
      */
     protected $blockLayoutZoneMapper;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\LayoutZone LayoutZone
+     */
     protected $layoutZoneMapper;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\Block block
+     */
     protected $blockMapper;
-
 
     /**
      * @var Zend\ServiceManager\ServiceManager ServiceManager
      */
     protected $serviceManager;
 
+     /**
+    * create : Permet de créer un blockLayoutZone
+    * @param array $data : tableau de données 
+    */
     public function create($data)
     {
         $layoutZone = $this->getLayoutZoneMapper()->findOneBy(array('layout' => $data['layout']['id'], 'zone' => $data['layout']['zone']));
@@ -44,6 +58,12 @@ class BlockLayoutZone extends EventProvider implements ServiceManagerAwareInterf
         $this->getBlockLayoutZoneMapper()->insert($blockLayoutZoneEntity);
     }
 
+    /**
+    * checkBlock : Permet de verifier si le form est valid
+    * @param array $data : tableau de données 
+    *
+    * @return array $result
+    */
     public function checkData($data)
     {
         if(empty($data['layout']['id'])){
@@ -93,9 +113,9 @@ class BlockLayoutZone extends EventProvider implements ServiceManagerAwareInterf
     }
 
     /**
-     * getBlockMapper : Getter pour blockMapper
+     * getLayoutZoneMapper : Getter pour LayoutZone
      *
-     * @return PlaygroundCMS\Mapper\Block $blockMapper
+     * @return PlaygroundCMS\Mapper\LayoutZone $layoutZoneMapper
      */
     public function getLayoutZoneMapper()
     {
@@ -107,9 +127,9 @@ class BlockLayoutZone extends EventProvider implements ServiceManagerAwareInterf
     }
 
     /**
-     * getBlockMapper : Getter pour blockMapper
+     * getBlockLayoutZoneMapper : Getter pour blockLayoutZoneMapper
      *
-     * @return PlaygroundCMS\Mapper\Block $blockMapper
+     * @return PlaygroundCMS\Mapper\blockLayoutZone $blockLayoutZoneMapper
      */
     public function getBlockLayoutZoneMapper()
     {
@@ -121,10 +141,10 @@ class BlockLayoutZone extends EventProvider implements ServiceManagerAwareInterf
     }
 
      /**
-     * setBlockMapper : Setter pour le blockMapper
-     * @param  PlaygroundCMS\Mapper\Block $blockMapper
+     * setBlockLayoutZoneMapper : Setter pour le blockLayoutZoneMapper
+     * @param  PlaygroundCMS\Mapper\blockLayoutZone $blockLayoutZoneMapper
      *
-     * @return Block
+     * @return BlockLayoutZone $this
      */
     private function setBlockLayoutZoneMapper(BlockLayoutZoneMapper $blockLayoutZoneMapper)
     {
