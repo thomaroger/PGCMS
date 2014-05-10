@@ -197,7 +197,7 @@ class BlockForm extends ProvidesEventsForm
     *
     * @return array $directions
     */
-    private function getDirection()
+    protected function getDirection()
     {
         return array(
             Criteria::ASC => Criteria::ASC,
@@ -210,7 +210,7 @@ class BlockForm extends ProvidesEventsForm
     *
     * @return array $types
     */
-    private function getBlocksType()
+    protected function getBlocksType()
     {
         $types = array();
         $blockTypes = $this->getServiceManager()->get('playgroundcms_block_service')->getBlocksType();
@@ -227,7 +227,7 @@ class BlockForm extends ProvidesEventsForm
     *
     * @return array $templates
     */
-    private function getTemplates()
+    protected function getTemplates()
     {
         $templatesFiles = array();
         $templates = $this->getServiceManager()->get('playgroundcms_template_service')->getTemplateMapper()->findBy(array('isSystem' => 0));
@@ -298,7 +298,7 @@ class BlockForm extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    private function getServiceManager()
+    protected function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -309,7 +309,7 @@ class BlockForm extends ProvidesEventsForm
      *
      * @return BlockForm
      */
-    private function setServiceManager(ServiceManager $serviceManager)
+    protected function setServiceManager(ServiceManager $serviceManager)
     {
         $this->serviceManager = $serviceManager;
 

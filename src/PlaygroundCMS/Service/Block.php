@@ -95,17 +95,17 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
             return array('status' => 1, 'message' => 'One of platform must have a template', 'data' => $data);
         }
 
-        // Il faut une visibility
+        // Il faut un nom
         if(empty($data['name'])) {
 
-            return array('status' => 1, 'name' => 'name is required', 'data' => $data);  
+            return array('status' => 1, 'message' => 'name is required', 'data' => $data);  
         }
 
         // Il faut une visibility
-        if(empty($data['configuration'])) {
+        /*if(empty($data['configuration'])) {
 
-            return array('status' => 1, 'name' => 'configuration is required', 'data' => $data);  
-        }       
+            return array('status' => 1, 'message' => 'configuration is required', 'data' => $data);  
+        } */      
 
         return array('status' => 0, 'message' => '', 'data' => $data);
     }

@@ -23,14 +23,21 @@ abstract class AbstractBlockController
     * @var Block $block bloc en cours de rendu
     */ 
     protected $block;
+    
     /**
     * @var ServiceManager $serviceManager Instance du serviceManager
     */
     protected $serviceManager;
+
     /**
     * @var PhpRenderer $renderer Instance d'un phpRenderer qui va servir à rendre le bloc
     */
     protected $renderer;
+
+    /**
+    * @var ModuleOptions $cmsOptions
+    */
+    protected $cmsOptions;
 
     /**
     * Methode qui permet d'afficher le bloc
@@ -161,6 +168,26 @@ abstract class AbstractBlockController
     }
 
     /**
+    * getRessource : Recuperer la ressource courante
+    *
+    * @return Ressource $ressource
+    */
+    public function getRessource()
+    {
+        return $this->getCMSOptions()->getRessource();
+    }
+
+    /**
+    * getEntity : Recuperer l'entity courante
+    *
+    * @return *\Entity\* $entity 
+    */
+    public function getEntity()
+    {
+        return $this->getCMSOptions()->getEntity();
+    }
+
+    /**
     * setHeaders : Creation de header pour le code généré par le bloc
     * 
     */
@@ -194,5 +221,19 @@ abstract class AbstractBlockController
         $this->serviceManager = $serviceManager;
 
         return $this;
+    }
+
+    /**
+     * getCMSOptions : Getter pour les options de playgroundcms
+     *
+     * @return ModuleOptions $cmsOptions
+     */
+    protected function getCMSOptions()
+    {
+        if (!$this->cmsOptions) {
+            $this->cmsOptions = $this->getServiceManager()->get('playgroundcms_module_options');
+        }
+
+        return $this->cmsOptions;
     }
 }

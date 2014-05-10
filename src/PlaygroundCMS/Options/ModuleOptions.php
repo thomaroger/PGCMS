@@ -58,6 +58,15 @@ class ModuleOptions extends AbstractOptions
      */
     protected $currentLayout;
 
+    /**
+    * @var Ressource $ressource
+    */
+    protected $ressource;
+
+    /**
+    * @var *\Entity\* $entity 
+    */
+    protected $entity;
 
 
     /**
@@ -198,5 +207,52 @@ class ModuleOptions extends AbstractOptions
         return $this;
     }
 
+    /**
+    * getRessource : Getter pour la ressource
+    *
+    * @return Ressource $ressource
+    */
+    public function getRessource()
+    {
+
+        return $this->ressource;
+    }
+
+    /**
+    * setRessource : Setter pour le ressource
+    * @param Ressource $ressource
+    *
+    * @return ModuleOptions $moduleOptions
+    */
+    public function setRessource($ressource)
+    {
+        $this->ressource = $ressource;
+
+        return $this;
+    }
+
+    /**
+    * getEntity : Getter pour l'entity
+    *
+    * @return *\Entity\* $entity 
+    */
+    public function getEntity()
+    {
+
+        return $this->entity;
+    }
+
+    /**
+    * setEntity : Setter pour l'entity
+    * @param *\Entity\* $entity 
+    *
+    * @return ModuleOptions $moduleOptions
+    */
+    public function setEntity($entity)
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
 
 }

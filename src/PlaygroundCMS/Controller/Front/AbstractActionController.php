@@ -16,6 +16,11 @@ class AbstractActionController extends AbstractActionControllerParent
     * @var Ressource $ressourceService
     */
     protected $ressourceService;
+
+    /**
+    * @var ModuleOptions $cmsOptions
+    */
+    protected $cmsOptions;
     
     /**
     * getRessource : permet de récuperer une ressource
@@ -24,8 +29,10 @@ class AbstractActionController extends AbstractActionControllerParent
     */
     protected function getRessource()
     {
+        $ressource = $this->params()->fromRoute('ressource', null);
+        $this->getCmsOptions()->setRessource($ressource);
 
-        return $this->params()->fromRoute('ressource', null);
+        return $ressource;
     }
 
     /**
@@ -64,6 +71,8 @@ class AbstractActionController extends AbstractActionControllerParent
         $translations = $this->getRessourceService()->getRessourceMapper()->getEntityRepositoryForEntity($entity->getTranslationRepository())->findTranslations($entity);
         $entity->setTranslations($translations[$ressource->getLocale()]);
 
+        $this->getCmsOptions()->setEntity($entity);
+
         return $entity;
     }
 
@@ -83,7 +92,11 @@ class AbstractActionController extends AbstractActionControllerParent
         return $template;
     }  
 
-
+    /**
+     * getRessourceService : Getter pour le service de ressource
+     *
+     * @return Ressource $ressourceService
+     */
     protected function getRessourceService()
     {
         if (!$this->ressourceService) {
@@ -91,5 +104,19 @@ class AbstractActionController extends AbstractActionControllerParent
         }
 
         return $this->ressourceService;
+    }
+
+     /**
+     * getCMSOptions : Getter pour les options de playgroundcms
+     *
+     * @return ModuleOptions $cmsOptions
+     */
+    protected function getCMSOptions()
+    {
+        if (!$this->cmsOptions) {
+            $this->cmsOptions = $this->getServiceLocator()->get('playgroundcms_module_options');
+        }
+
+        return $this->cmsOptions;
     }
 }
