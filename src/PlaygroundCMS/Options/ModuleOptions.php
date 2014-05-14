@@ -1,6 +1,6 @@
 <?php
 /**
-* @package : PlaygroundCMS\Blocks
+* @package : PlaygroundCMS\Options
 * @author : troger
 * @since : 18/03/2014
 *
