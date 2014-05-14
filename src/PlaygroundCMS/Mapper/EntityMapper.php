@@ -123,7 +123,7 @@ class EntityMapper
     *
     * @return PlaygroundCMS\Entity\Layout $layout
     */
-    protected function persist($entity)
+    public function persist($entity)
     {
         $this->em->persist($entity);
         $this->em->flush();
