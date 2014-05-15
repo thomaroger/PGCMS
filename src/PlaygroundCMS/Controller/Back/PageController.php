@@ -59,10 +59,6 @@ class PageController extends AbstractActionController
         $this->layout()->setVariable('subNav', "page");
         $p = $this->getRequest()->getQuery('page', 1);
 
-        $files = array();
-        $folderTheme = "/".trim($this->getCMSOptions()->getThemeFolder(),'/');
-
-
         $pages = $this->getPageService()->getPageMapper()->findAll();
         
         $nbPage = count($pages);
