@@ -60,7 +60,7 @@ class Page implements InputFilterAwareInterface
      * Used locale to override Translation listener`s locale
      * this is not a mapped field of entity metadata, just a simple property
      */
-    protected $locale;
+    protected $locale = 'en_US';
 
     /**
      * @ORM\Id
@@ -373,7 +373,7 @@ class Page implements InputFilterAwareInterface
     /**
      * getSlug : Getter pour slug
      *
-     * @return strign $slug
+     * @return string $slug
      */
     public function getSlug()
     {
@@ -396,7 +396,7 @@ class Page implements InputFilterAwareInterface
     /**
      * getTitleMeta : Getter pour titleMeta
      *
-     * @return strign $titleMeta
+     * @return string $titleMeta
      */
     public function getTitleMeta()
     {
@@ -419,7 +419,7 @@ class Page implements InputFilterAwareInterface
     /**
      * getKeywordMeta : Getter pour keywordMeta
      *
-     * @return strign $keywordMeta
+     * @return string $keywordMeta
      */
     public function getKeywordMeta()
     {
@@ -465,7 +465,7 @@ class Page implements InputFilterAwareInterface
     /**
      * getSecurityContext : Getter pour securityContext
      *
-     * @return strign $slug
+     * @return string $slug
      */
     public function getSecurityContext()
     {
@@ -488,7 +488,7 @@ class Page implements InputFilterAwareInterface
     /**
      * getLayoutContext : Getter pour layoutContext
      *
-     * @return strign $layoutContext
+     * @return string $layoutContext
      */
     public function getLayoutContext()
     {
@@ -551,6 +551,16 @@ class Page implements InputFilterAwareInterface
     public function updateChrono()
     {
         $this->updated_at = new \DateTime("now");
+    }
+
+     /**
+     * getLocale : Getter pour locale
+     *
+     * @return string $locale
+     */
+    public function getLocale()
+    {
+        return $this->locale;
     }
 
     /**

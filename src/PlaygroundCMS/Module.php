@@ -13,6 +13,7 @@ class Module
     */
     const DIR_TEMPLATE = '/../../../../../design';
 
+
     /**
     * getTemplateFolder : Permet de recuperer le repertoire ou se trouve les templates
     * @param ServiceManager $serviceManager
@@ -75,7 +76,7 @@ class Module
             $serviceManager->get('playgroundcms_module_options')->setTemplateMapResolver($resolver);
             $serviceManager->get('playgroundcms_module_options')->setThemeFolder($this->getTemplateFolder($serviceManager));
         }
-
+        
         AbstractValidator::setDefaultTranslator($translator,'playgroundcms');
     }
 

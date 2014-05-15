@@ -38,21 +38,20 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $page->setStartDate($startDate);
         $endDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/01/2029 00:00:00');
         $page->setEndDate($endDate);
-        $page->setTranslatableLocale('fr_FR');
-        $page->setTitle('Index');
-        $page->setTitleMeta('PGCMS - Index');
-        $page->setKeywordMeta('PGCMS, Index');
-        $page->setDescriptionMeta('PGCMS - Index');
 
-        $manager->persist($page);
-        $manager->flush();
+        $repository = $manager->getRepository('PlaygroundCMS\Entity\Translation\PageTranslation');
 
-        $page = $manager->find("PlaygroundCMS\Entity\Page", $page->getId());
-        $page->setTranslatableLocale('en_US');
+        $repository->translate($page, 'title', 'fr_FR', 'Index')
+                    ->translate($page, 'slug', 'fr_FR', 'index')
+                    ->translate($page, 'titleMeta', 'fr_FR', 'PGCMS - Index')
+                    ->translate($page, 'keywordMeta', 'fr_FR', 'PGCMS, Index')
+                    ->translate($page, 'descriptionMeta', 'fr_FR', 'PGCMS, Index');
+
         $page->setTitle('Home');
         $page->setTitleMeta('PGCMS - Home');
         $page->setKeywordMeta('PGCMS, Home');
-        $page->setDescriptionMeta('PGCMS - Home');
+        $page->setDescriptionMeta('PGCMS - Home');            
+
 
         $manager->persist($page);
         $manager->flush();
@@ -73,21 +72,17 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $page->setStartDate($startDate);
         $endDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/01/2029 00:00:00');
         $page->setEndDate($endDate);
-        $page->setTranslatableLocale('fr_FR');
-        $page->setTitle('Sommaire');
-        $page->setTitleMeta('PGCMS - Sommaire');
-        $page->setKeywordMeta('PGCMS, Sommaire');
-        $page->setDescriptionMeta('PGCMS - Sommaire');
 
-        $manager->persist($page);
-        $manager->flush();
-
-        $page = $manager->find("PlaygroundCMS\Entity\Page", $page->getId());
-        $page->setTranslatableLocale('en_US');
+        $repository->translate($page, 'title', 'fr_FR', 'Sommaire')
+                    ->translate($page, 'slug', 'fr_FR', 'sommaire')
+                    ->translate($page, 'titleMeta', 'fr_FR', 'PGCMS - Sommaire')
+                    ->translate($page, 'keywordMeta', 'fr_FR', 'PGCMS, Sommaire')
+                    ->translate($page, 'descriptionMeta', 'fr_FR', 'PGCMS, Sommaire');
+ 
         $page->setTitle('Summary');
         $page->setTitleMeta('PGCMS - Summary');
         $page->setKeywordMeta('PGCMS, Summary');
-        $page->setDescriptionMeta('PGCMS - Summary');
+        $page->setDescriptionMeta('PGCMS - Summary');    
 
         $manager->persist($page);
         $manager->flush();

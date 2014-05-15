@@ -14,6 +14,8 @@ use ZfcBase\EventManager\EventProvider;
 use Datetime;
 use PlaygroundCMS\Mapper\Page as PageMapper;
 use PlaygroundCMS\Entity\Page as PageEntity;
+use PlaygroundCore\Filter\Slugify;
+
 
 class Page extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -70,22 +72,27 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $endDate = DateTime::createFromFormat('m/d/Y H:i:s', $data['page']['end_start']['date'].' '.$data['page']['end_start']['time']);
         $page->setEndDate($endDate);
 
-
+        $slugify = new Slugify;
         $locales = $this->getLocaleMapper()->findBy(array('active_front' => 1));
+
+        $repository = $this->getPageMapper()->getEntityManager()->getRepository($page->getTranslationRepository());
 
         foreach ($locales as $locale) {
             if(!empty($data['page'][$locale->getLocale()])) {
-                $page->setTranslatableLocale($locale->getLocale());
-                $page->setTitle($data['page'][$locale->getLocale()]['title']);
-                $page->setTitleMeta($data['page'][$locale->getLocale()]['title_seo']);
-                $page->setKeywordMeta($data['page'][$locale->getLocale()]['keyword_seo']);
-                $page->setDescriptionMeta($data['page'][$locale->getLocale()]['description_seo']);
-
-                $page = $this->getPageMapper()->persist($page);
-                $page = $this->getPageMapper()->findById($page->getId());
+                $slug = $slugify->filter($data['page'][$locale->getLocale()]['title']);
+                $repository->translate($page, 'title', $locale->getLocale(), $data['page'][$locale->getLocale()]['title'])
+                        ->translate($page, 'slug', $locale->getLocale(), $slug)
+                        ->translate($page, 'titleMeta', $locale->getLocale(), $data['page'][$locale->getLocale()]['title_seo'])
+                        ->translate($page, 'keywordMeta', $locale->getLocale(), $data['page'][$locale->getLocale()]['keyword_seo'])
+                        ->translate($page, 'descriptionMeta', $locale->getLocale(), $data['page'][$locale->getLocale()]['description_seo']); 
+               
             }
-           
+            
         }
+
+        $page = $this->getPageMapper()->persist($page);
+        $page = $this->getPageMapper()->findById($page->getId());
+        
         $page->createRessource($this->getPageMapper(), $locales);
     }
 
@@ -125,28 +132,26 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page->setEndDate($endDate);
 
 
+        $slugify = new Slugify;
         $locales = $this->getLocaleMapper()->findBy(array('active_front' => 1));
-        $cpt = 0;
+
+        $repository = $this->getPageMapper()->getEntityManager()->getRepository($page->getTranslationRepository());
+
         foreach ($locales as $locale) {
             if(!empty($data['page'][$locale->getLocale()])) {
-                if($cpt == 0) {
-                    $page->setTitle($data['page'][$locale->getLocale()]['title']);
-                    $page->setTitleMeta($data['page'][$locale->getLocale()]['title_seo']);
-                    $page->setKeywordMeta($data['page'][$locale->getLocale()]['keyword_seo']);
-                    $page->setDescriptionMeta($data['page'][$locale->getLocale()]['description_seo']);
-                    $page = $this->getPageMapper()->update($page);
-                }
-                $page->setTranslatableLocale($locale->getLocale());
-                $page->setTitle($data['page'][$locale->getLocale()]['title']);
-                $page->setTitleMeta($data['page'][$locale->getLocale()]['title_seo']);
-                $page->setKeywordMeta($data['page'][$locale->getLocale()]['keyword_seo']);
-                $page->setDescriptionMeta($data['page'][$locale->getLocale()]['description_seo']);
-
-                $page = $this->getPageMapper()->update($page);
-                $page = $this->getPageMapper()->findById($page->getId());
-                $cpt ++;
+                $slug = $slugify->filter($data['page'][$locale->getLocale()]['title']);
+                $repository->translate($page, 'title', $locale->getLocale(), $data['page'][$locale->getLocale()]['title'])
+                        ->translate($page, 'slug', $locale->getLocale(), $slug)
+                        ->translate($page, 'titleMeta', $locale->getLocale(), $data['page'][$locale->getLocale()]['title_seo'])
+                        ->translate($page, 'keywordMeta', $locale->getLocale(), $data['page'][$locale->getLocale()]['keyword_seo'])
+                        ->translate($page, 'descriptionMeta', $locale->getLocale(), $data['page'][$locale->getLocale()]['description_seo']); 
+               
             }
+            
         }
+
+        $page = $this->getPageMapper()->update($page);
+        $page = $this->getPageMapper()->findById($page->getId());
 
         $page->editRessource($this->getPageMapper(), $locales);
     }

@@ -21,10 +21,10 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
  *
  * @Table(
  *         name="cms_page_translations",
- *         indexes={@index(name="translations_lookup_idx", columns={
+ *         indexes={@index(name="page_translations_lookup_idx", columns={
  *             "locale", "object_class", "foreign_key"
  *         })},
- *         uniqueConstraints={@UniqueConstraint(name="lookup_unique_idx", columns={
+ *         uniqueConstraints={@UniqueConstraint(name="page_translations_lookup_unique_idx", columns={
  *             "locale", "object_class", "field", "foreign_key"
  *         })}
  * )
