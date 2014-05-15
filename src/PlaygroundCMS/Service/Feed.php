@@ -49,6 +49,15 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $templateMapper;
 
+     /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
+    protected $tagMapper;
+
+     /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
+    protected $categoryMapper;
 
     /**
      * getFeeds : Permet de recuperer les feeds
@@ -57,7 +66,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
     */
     public function getFeeds()
     {
-        list($blocks, $users, $pages, $layouts, $zones, $templates) = $this->getDataForFeeds();
+        list($blocks, $users, $pages, $layouts, $zones, $templates, $tags, $categories) = $this->getDataForFeeds();
         $feeds = array();
         foreach ($blocks as $block) {
             $feeds[$block->getCreatedAt()->getTimestamp().''.$block->getId().'b'] = $block;
@@ -76,6 +85,12 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         }
         foreach ($templates as $template) {
             $feeds[$template->getCreatedAt()->getTimestamp().''.$template->getId().'t'] = $template;
+        }
+        foreach ($tags as $tag) {
+            $feeds[$tag->getCreatedAt()->getTimestamp().''.$tag->getId().'ta'] = $tag;
+        }
+        foreach ($categories as $category) {
+            $feeds[$category->getCreatedAt()->getTimestamp().''.$category->getId().'c'] = $category;
         }
 
         krsort($feeds);
@@ -97,6 +112,8 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         $data[] = $this->getLayoutMapper()->findAll();
         $data[] = $this->getZoneMapper()->findAll();
         $data[] = $this->getTemplateMapper()->findAll();
+        $data[] = $this->getTagMapper()->findAll();
+        $data[] = $this->getCategoryMapper()->findAll();
 
         return $data;
     }
@@ -236,6 +253,62 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $this;
     }
 
+     /**
+     * setTagMapper : Setter pour tagService
+     * @param PlaygroundPublishing\Mapper\Tag $tagService
+     *
+     * @return Feed $this
+     */
+    public function setTagMapper($tagMapper)
+    {
+        $this->tagMapper = $tagMapper;
+
+        return $this;
+    }
+
+
+    /**
+     * getTagMapper : Getter pour tagService
+     *
+     * @return PlaygroundPublishing\Mapper\Tag $tagService
+     */
+    public function getTagMapper()
+    {
+        if (null === $this->tagMapper) {
+            $this->setTagMapper($this->getServiceManager()->get('playgroundpublishing_tag_mapper'));
+        }
+
+        return $this->tagMapper;
+    }
+
+     /**
+     * setTagMapper : Setter pour tagService
+     * @param PlaygroundPublishing\Mapper\Tag $tagService
+     *
+     * @return Feed $this
+     */
+    public function setCategoryMapper($categoryMapper)
+    {
+        $this->categoryMapper = $categoryMapper;
+
+        return $this;
+    }
+
+
+    /**
+     * getTagMapper : Getter pour tagService
+     *
+     * @return PlaygroundPublishing\Mapper\Tag $tagService
+     */
+    public function getCategoryMapper()
+    {
+        if (null === $this->categoryMapper) {
+            $this->setCategoryMapper($this->getServiceManager()->get('playgroundpublishing_category_mapper'));
+        }
+
+        return $this->categoryMapper;
+    }
+
     /**
      * getUserMapper
      *
@@ -249,6 +322,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
 
         return $this->userService;
     }
+
     /**
      * setUserMapper
      *
