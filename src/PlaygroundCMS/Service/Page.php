@@ -75,7 +75,7 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $slugify = new Slugify;
         $locales = $this->getLocaleMapper()->findBy(array('active_front' => 1));
 
-        $repository = $this->getPageMapper()->getEntityManager()->getRepository('PlaygroundCMS\Entity\Translation\PageTranslation');
+        $repository = $this->getPageMapper()->getEntityManager()->getRepository($page->getTranslationRepository());
 
         foreach ($locales as $locale) {
             if(!empty($data['page'][$locale->getLocale()])) {
@@ -135,7 +135,7 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $slugify = new Slugify;
         $locales = $this->getLocaleMapper()->findBy(array('active_front' => 1));
 
-        $repository = $this->getPageMapper()->getEntityManager()->getRepository('PlaygroundCMS\Entity\Translation\PageTranslation');
+        $repository = $this->getPageMapper()->getEntityManager()->getRepository($page->getTranslationRepository());
 
         foreach ($locales as $locale) {
             if(!empty($data['page'][$locale->getLocale()])) {
