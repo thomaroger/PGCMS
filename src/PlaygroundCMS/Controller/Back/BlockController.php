@@ -70,6 +70,9 @@ class BlockController extends AbstractActionController
     */
     public function createAction()
     {
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "block");
+
         $typeBlock = $this->getEvent()->getRouteMatch()->getParam('type');
         $type = strtolower(str_replace('Controller', '_form', $typeBlock));
         $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
@@ -139,6 +142,9 @@ class BlockController extends AbstractActionController
     */
     public function editAction()
     {
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "block");
+        
         $blockId = $this->getEvent()->getRouteMatch()->getParam('id');
         $layoutId = $this->getEvent()->getRouteMatch()->getParam('layoutId', 0);
         $block = $this->getBlockService()->getBlockMapper()->findById($blockId);

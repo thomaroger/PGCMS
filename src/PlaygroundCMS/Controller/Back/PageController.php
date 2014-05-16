@@ -99,6 +99,9 @@ class PageController extends AbstractActionController
     {
         $return  = array();
         $data = array();
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "page");
+
         $request = $this->getRequest();
         if ($request->isPost()) {
             $data = array_merge(
@@ -139,6 +142,9 @@ class PageController extends AbstractActionController
     {
         $return  = array();
         $data = array();
+        
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "page");
         
         $request = $this->getRequest();
 

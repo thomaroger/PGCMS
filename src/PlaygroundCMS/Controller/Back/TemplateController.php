@@ -77,6 +77,9 @@ class TemplateController extends AbstractActionController
         $return  = array();
         $data = array();
         
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "template");
+
         $request = $this->getRequest();
 
         if ($request->isPost()) {
@@ -116,6 +119,9 @@ class TemplateController extends AbstractActionController
     {
         $return  = array();
         $data = array();
+
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "template");
         
         $request = $this->getRequest();
 
