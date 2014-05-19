@@ -13,6 +13,8 @@ use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 
 use PlaygroundCMS\Entity\Layout;
+use PlaygroundCore\Filter\Slugify;
+
 
 class LayoutController extends AbstractActionController
 {
@@ -226,10 +228,12 @@ class LayoutController extends AbstractActionController
                     return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
                 }
             } else {
-                $type = strtolower(str_replace('controller', '-form', $data['type']));
+                $slugify = new Slugify;
+                $type = strtolower(str_replace('controller', '-form', $slugify->filter($data['type'])));
+                var_dump($type);
                 $form = $this->getServiceLocator()->get($type);
 
-                 $return = $this->getBlockService()->checkBlock($data);
+                $return = $this->getBlockService()->checkBlock($data);
 
                 $data = $return["data"];
                 unset($return["data"]);
