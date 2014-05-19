@@ -31,7 +31,7 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $page->setStatus(1);
 
         $page->setSecurityContext(Credential::SECURITY_ANONYMOUS);
-        $template = array('web' => "playground-cms/page/index.phtml");
+        $template = array('web' => "playground-cms/layout/index.phtml");
         $page->setLayoutContext(json_encode($template));
 
         $startDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/01/2014 00:00:00');
@@ -65,7 +65,7 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
         $page->setStatus(1);
 
         $page->setSecurityContext(Credential::SECURITY_ANONYMOUS);
-        $template = array('web' => "playground-cms/page/index_zone.phtml");
+        $template = array('web' => "playground-cms/layout/index_zone.phtml");
         $page->setLayoutContext(json_encode($template));
 
         $startDate = DateTime::createFromFormat('d/m/Y H:i:s', '01/02/2014 00:00:00');

@@ -226,8 +226,8 @@ class LayoutController extends AbstractActionController
                     return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
                 }
             } else {
-                $type = strtolower(str_replace(array('PlaygroundCMS\Blocks\\', 'Controller'), array('', '_form'), $data['type']));
-                $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+                $type = strtolower(str_replace('controller', '-form', $data['type']));
+                $form = $this->getServiceLocator()->get($type);
 
                  $return = $this->getBlockService()->checkBlock($data);
 

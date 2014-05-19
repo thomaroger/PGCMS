@@ -151,19 +151,19 @@ class Module
 
 
                 // FORM
-                'playgroundcms_blocks_freehtml_form' => function  ($sm) {
+                'playgroundcms-blocks-freehtml-form' => function  ($sm) {
                     $form = new Form\FreeHTMLForm(null, $sm);
 
                     return $form;
                 },
 
-                'playgroundcms_blocks_blocklist_form' => function  ($sm) {
+                'playgroundcms-blocks-blocklist-form' => function  ($sm) {
                     $form = new Form\BlockListForm(null, $sm);
 
                     return $form;
                 },
 
-                'playgroundcms_blocks_switchlocale_form' => function  ($sm) {
+                'playgroundcms-blocks-switchlocale-form' => function  ($sm) {
                     $form = new Form\SwitchLocaleForm(null, $sm);
 
                     return $form;

@@ -13,6 +13,7 @@ use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundCMS\Mapper\Block as BlockMapper;
 use PlaygroundCMS\Entity\Block as BlockEntity;
+use PlaygroundCore\Filter\Slugify;
 
 class Block extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -122,20 +123,23 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         $config = $this->getServiceManager()->get('config');
         $paths = $config['blocksType'];
 
+        $slugify = new Slugify;
+
         foreach ($paths as $path) {
-            $path = __DIR__.'/../Blocks/';
             $dir = opendir($path);
 
             while($item = readdir($dir)) {
                 if (is_file($sub = $path.'/'.$item)) {
                     // garder uniquement les blocs et non les abstracts
                     if(pathinfo($path.'/'.$item, PATHINFO_EXTENSION) == "php" && strpos($item, 'Abstract') === false) {
-                        $blockstype[] = str_replace('Service', 'Blocks', __NAMESPACE__).'\\'.str_replace('.php','',$item);
+                        $subSlash = explode('/', $sub);  
+                        $blockName = $subSlash[count($subSlash)-3].'\\'.$subSlash[count($subSlash)-2].'\\'.str_replace('.php','',$item);                      
+                        $blockstype[$slugify->filter($blockName)] = $blockName;
                     }
                 }
             }
         }
-
+        
         return $blockstype;
     }
 

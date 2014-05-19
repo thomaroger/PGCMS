@@ -16,7 +16,6 @@ class SwitchLocaleForm extends BlockForm
 {
     /**
     * {@inheritdoc}
-    * __construct : Ajout des champs spécifique au bloc free HTML
     */
     public function __construct($name = null, ServiceManager $sm)
     {

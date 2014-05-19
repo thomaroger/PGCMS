@@ -53,21 +53,6 @@ return array(
                 ),
             'may_terminate' => true,
             ),
-            
-            // http://dev.pgcms.fr/fr/article/mon-article-1.html Page entity article
-            'article' => array(
-                'type' => 'PlaygroundCMS\Router\Http\RegexSlash',
-                'options' => array(
-                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/article\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
-                  'defaults' => array(
-                    'controller' => 'PlaygroundCMS\Controller\Front\Article',
-                    'action'     => 'index',
-                  ),
-                  'spec' => '',
-                ),
-            'may_terminate' => true,
-            ),
-            
 
             'export-block' => array(
                 'type' => 'PlaygroundCore\Mvc\Router\Http\RegexSlash',
@@ -435,6 +420,6 @@ return array(
         ),
     ),
     'blocksType' => array(
-        'cms' => __DIR__.'../src/PlaygroundCMS/Blocks', 
+        'cms' => __DIR__.'/../src/PlaygroundCMS/Blocks', 
     ),
 );

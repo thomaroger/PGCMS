@@ -27,7 +27,7 @@ class LoadLayoutData extends AbstractFixture implements OrderedFixtureInterface
         $layout = new Layout();
 
         $layout->setName('Page Layout');
-        $layout->setFile('playground-cms/page/index.phtml');
+        $layout->setFile('playground-cms/layout/index.phtml');
         $layout->setDescription('Layout for entity page');
         
         $manager->persist($layout);

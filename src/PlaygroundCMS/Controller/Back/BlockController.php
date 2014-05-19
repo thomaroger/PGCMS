@@ -74,10 +74,12 @@ class BlockController extends AbstractActionController
         $this->layout()->setVariable('subNav', "block");
 
         $typeBlock = $this->getEvent()->getRouteMatch()->getParam('type');
-        $type = strtolower(str_replace('Controller', '_form', $typeBlock));
-        $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+        $type = strtolower(str_replace('controller', '-form', $typeBlock));
+        $form = $this->getServiceLocator()->get($type);
 
-        $form->get('type')->setValue('PlaygroundCMS\Blocks\\'.$typeBlock);
+        $blockTypes = $this->getBlockService()->getBlocksType();
+
+        $form->get('type')->setValue($blockTypes[$typeBlock]);
         $form->get('is_exportable')->setValue(array(0));
         $form->get('is_gallery')->setValue(array(0));
 
@@ -118,10 +120,13 @@ class BlockController extends AbstractActionController
     public function createWithoutLayoutAction()
     {
         $typeBlock = $this->getEvent()->getRouteMatch()->getParam('type');
-        $type = strtolower(str_replace('Controller', '_form', $typeBlock));
-        $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+        $type = strtolower(str_replace('controller', '-form', $typeBlock));
+        $form = $this->getServiceLocator()->get($type);
 
-        $form->get('type')->setValue('PlaygroundCMS\Blocks\\'.$typeBlock);
+        $blockTypes = $this->getBlockService()->getBlocksType();
+
+        $form->get('type')->setValue($blockTypes[$typeBlock]);
+
         $form->get('is_exportable')->setValue(array(0));
         $form->get('is_gallery')->setValue(array(0));
 
