@@ -59,6 +59,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $categoryMapper;
 
+     /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
+    protected $articleMapper;
+
     /**
      * getFeeds : Permet de recuperer les feeds
      *
@@ -66,7 +71,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
     */
     public function getFeeds()
     {
-        list($blocks, $users, $pages, $layouts, $zones, $templates, $tags, $categories) = $this->getDataForFeeds();
+        list($blocks, $users, $pages, $layouts, $zones, $templates, $tags, $categories, $articles) = $this->getDataForFeeds();
         $feeds = array();
         foreach ($blocks as $block) {
             $feeds[$block->getCreatedAt()->getTimestamp().''.$block->getId().'b'] = $block;
@@ -93,6 +98,10 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
             $feeds[$category->getCreatedAt()->getTimestamp().''.$category->getId().'c'] = $category;
         }
 
+        foreach ($articles as $article) {
+            $feeds[$article->getCreatedAt()->getTimestamp().''.$article->getId().'a'] = $article;
+        }
+
         krsort($feeds);
         
         return $feeds;
@@ -114,6 +123,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         $data[] = $this->getTemplateMapper()->findAll();
         $data[] = $this->getTagMapper()->findAll();
         $data[] = $this->getCategoryMapper()->findAll();
+        $data[] = $this->getArticleMapper()->findAll();
 
         return $data;
     }
@@ -307,6 +317,34 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         }
 
         return $this->categoryMapper;
+    }
+
+    /**
+     * setTagMapper : Setter pour tagService
+     * @param PlaygroundPublishing\Mapper\Tag $tagService
+     *
+     * @return Feed $this
+     */
+    public function setArticleMapper($articleMapper)
+    {
+        $this->articleMapper = $articleMapper;
+
+        return $this;
+    }
+
+
+    /**
+     * getTagMapper : Getter pour tagService
+     *
+     * @return PlaygroundPublishing\Mapper\Tag $tagService
+     */
+    public function getArticleMapper()
+    {
+        if (null === $this->articleMapper) {
+            $this->setArticleMapper($this->getServiceManager()->get('playgroundpublishing_article_mapper'));
+        }
+
+        return $this->articleMapper;
     }
 
     /**

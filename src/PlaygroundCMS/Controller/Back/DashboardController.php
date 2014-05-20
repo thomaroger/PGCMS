@@ -30,6 +30,10 @@ class DashboardController extends AbstractActionController
     * @var Feed $feedService : Service feed
     */
     protected $feedService;
+    /**
+    * @var Article $articleMapper : Mapper article
+    */
+    protected $articleMapper;
 
     /**
     * indexAction : Dashboard
@@ -44,12 +48,14 @@ class DashboardController extends AbstractActionController
         $blocks = $this->getBlockMapper()->findAll();
         $pages = $this->getPageMapper()->findAll();
         $users = $this->getUserService()->findAll();
+        $articles = $this->getArticleMapper()->findAll();
         
         $feeds = $this->getFeedService()->getFeeds();
 
         return new ViewModel(array("blocks" => $blocks,
                                    "users" => $users,
                                    "pages" => $pages,
+                                   "articles" => $articles,
                                    "feeds" => $feeds));
     }
 
@@ -157,6 +163,33 @@ class DashboardController extends AbstractActionController
     private function setFeedService($feedService)
     {
         $this->feedService = $feedService;
+
+        return $this;
+    }
+
+    /**
+    * getArticleMapper : Recuperation du mapper de l'article
+    *
+    * @return Article $articleMapper 
+    */
+    private function getArticleMapper()
+    {
+        if (null === $this->articleMapper) {
+            $this->setArticleMapper($this->getServiceLocator()->get('playgroundpublishing_article_mapper'));
+        }
+
+        return $this->articleMapper;
+    }
+    
+     /**
+    * setArticleMapper : Setter du mapper d'utilisateur
+    * @param Article $articleMapper : articleMapper
+    *
+    * @return DashboardController $this
+    */
+    private function setArticleMapper($articleMapper)
+    {
+        $this->articleMapper = $articleMapper;
 
         return $this;
     }
