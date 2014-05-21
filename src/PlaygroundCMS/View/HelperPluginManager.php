@@ -68,6 +68,7 @@ class HelperPluginManager extends HelperPluginManagerParent
         'url'                 => 'Zend\View\Helper\Url',
         'viewmodel'           => 'Zend\View\Helper\ViewModel',
         'cmstranslate'        => 'PlaygroundCMS\View\Helper\CMSTranslate',
+        'geturl'              => 'PlaygroundCMS\View\Helper\GetUrl',
     );
 
      /**
