@@ -11,6 +11,7 @@ namespace PlaygroundCMS\View\Helper;
 use Zend\View\Helper\AbstractHelper;
 use Zend\ServiceManager\ServiceManager;
 use PlaygroundCMS\Service\Ressource;
+use PlaygroundCMS\Options\ModuleOptions;
 
 class GetUrl extends AbstractHelper
 {
@@ -22,15 +23,17 @@ class GetUrl extends AbstractHelper
 
     protected $serviceManager;
 
+    protected $cmsOptions;
+
     /**
      * __invoke : permet de rendre un bloc
      * @param  string $slug slug
      *
      * @return string $return 
      */
-    public function __invoke($entity, $locale)
+    public function __invoke($entity)
     {
-        if(empty($entity) || empty($locale)){
+        if (empty($entity)) {
          
             return "#";
         }
@@ -38,10 +41,10 @@ class GetUrl extends AbstractHelper
         $filters = array();
         $filters['model'] = get_class($entity);
         $filters['recordId'] = $entity->getId();
-        $filters['locale'] = $locale;
+        $filters['locale'] = $this->getLocale();
         $ressource = $this->getRessourceService()->getRessourceMapper()->findOneBy($filters);
         
-        if(empty($ressource)){
+        if (empty($ressource)) {
          
             return "#";
         }
@@ -96,6 +99,39 @@ class GetUrl extends AbstractHelper
     public function setRessourceService(Ressource $ressourceService)
     {
         $this->ressourceService = $ressourceService;
+
+        return $this;
+    }
+
+    public function getLocale()
+    {
+        return $this->getCmsOptions()->getRessource()->getLocale();
+    }
+
+
+    /**
+     * getPluginTranslator : Getter pour translator
+     *
+     * @return Zend\Mvc\I18n\Translator $translator
+     */
+    private function getCmsOptions()
+    {
+        if ($this->cmsOptions === null){
+            $this->setCmsOptions($this->getServiceManager()->get('playgroundcms_module_options'));
+        }
+
+        return $this->cmsOptions;
+    }
+
+     /**
+     * setPluginTranslator : Setter pour le translator
+     * @param  Zend\Mvc\I18n\Translator $translator
+     *
+     * @return CMSTranslate
+     */
+    public function setCmsOptions(ModuleOptions $cmsOptions)
+    {
+        $this->cmsOptions = $cmsOptions;
 
         return $this;
     }
