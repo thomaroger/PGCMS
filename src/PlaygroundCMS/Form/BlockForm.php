@@ -119,7 +119,7 @@ class BlockForm extends ProvidesEventsForm
                     'class'  => 'control-label'
                 ),
                 'value_options' => array(
-                     '0' => 'Non',
+                     '0' => 'No',
                      '1' => 'Yes',
                 ),
             ),
@@ -137,7 +137,7 @@ class BlockForm extends ProvidesEventsForm
                     'class'  => 'control-label'
                 ),
                 'value_options' => array(
-                     '0' => 'Non',
+                     '0' => 'No',
                      '1' => 'Yes',
                 ),
             ),

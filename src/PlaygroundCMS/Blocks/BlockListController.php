@@ -36,8 +36,8 @@ class BlockListController extends AbstractListController
         $query = $query->select('b')->from('PlaygroundCMS\Entity\Block', 'b');
 
         $query = $this->addFilters($query);
-        $query = $this->addSort($query);        
-
+        $query = $this->addSort($query);   
+             
         list($results, $countResults) = $this->addPager($query);
 
         $params = array('block' => $block,

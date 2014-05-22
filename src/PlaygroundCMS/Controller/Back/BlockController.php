@@ -11,6 +11,8 @@ namespace PlaygroundCMS\Controller\Back;
 
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
+use PlaygroundCore\Filter\Slugify;
+
 
 class BlockController extends AbstractActionController
 {
@@ -154,9 +156,9 @@ class BlockController extends AbstractActionController
         $layoutId = $this->getEvent()->getRouteMatch()->getParam('layoutId', 0);
         $block = $this->getBlockService()->getBlockMapper()->findById($blockId);
 
-
-        $type = strtolower(str_replace(array('PlaygroundCMS\Blocks\\', 'Controller'), array('', '_form'), $block->getType()));
-        $form = $this->getServiceLocator()->get('playgroundcms_blocks_'.$type);
+        $slugify = new Slugify;
+        $type = strtolower(str_replace('controller', '-form', $slugify->filter($block->getType())));
+        $form = $this->getServiceLocator()->get($type);
 
         $form->bind($block);
         $form->setData($block);

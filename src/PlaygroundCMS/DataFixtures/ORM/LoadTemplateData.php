@@ -67,6 +67,26 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($template);
         $manager->flush();
 
+        $template = new Template();
+
+        $template->setName('Block Entity Article template');
+        $template->setFile('playground-publishing/blocks/article.phtml');
+        $template->setDescription('template for entity details article');
+        $template->setBlockType('PlaygroundPublishing\Blocks\ArticleBlockController');
+        
+        $manager->persist($template);
+        $manager->flush();
+
+        $template = new Template();
+
+        $template->setName('Block Liste Article template md 12');
+        $template->setFile('playground-publishing/blocks/listArticle_md_12.phtml');
+        $template->setDescription('template for list article md 12');
+        $template->setBlockType('PlaygroundPublishing\Blocks\ArticleSameCategoryListController');
+        
+        $manager->persist($template);
+        $manager->flush();
+
         
         $template = new Template();
 

@@ -207,7 +207,7 @@ abstract class AbstractListController extends AbstractBlockController
 
     /**
     * setBlockMapper : Setter pour le blokcMapper
-    * @var PlaygroundCMS\Mapper\* $mapper : Classe de Mapper relié à l'entité qui est requetée
+    * @var *\Mapper\* $mapper : Classe de Mapper relié à l'entité qui est requetée
     *
     * @return AbstractListController $abstractListController
     */
