@@ -23,34 +23,11 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {        
-
-        $template = new Template();
-
-        $template->setName('Block list template md 4');
-        $template->setFile('playground-cms/blocks/list_md_4.phtml');
-        $template->setDescription('template for block list');
-        $template->setBlockType('PlaygroundCMS\Blocks\BlockListController');
-        
-        $manager->persist($template);
-        $manager->flush();
-
-
-
-        $template = new Template();
-
-        $template->setName('Block list template md 12');
-        $template->setFile('playground-cms/blocks/list_md_12.phtml');
-        $template->setDescription('template for block list');
-        $template->setBlockType('PlaygroundCMS\Blocks\BlockListController');
-        
-        $manager->persist($template);
-        $manager->flush();
-
         
         $template = new Template();
 
         $template->setName('Block HTML template');
-        $template->setFile('playground-cms/blocks/freeHtml.phtml');
+        $template->setFile('playground-cms/blocks/free_html.phtml');
         $template->setDescription('template for block html');
         $template->setBlockType('PlaygroundCMS\Blocks\FreeHTMLController');
         
@@ -67,16 +44,6 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $manager->persist($template);
         $manager->flush();
 
-        $template = new Template();
-
-        $template->setName('Block Entity Article template');
-        $template->setFile('playground-publishing/blocks/article.phtml');
-        $template->setDescription('template for entity details article');
-        $template->setBlockType('PlaygroundPublishing\Blocks\ArticleBlockController');
-        
-        $manager->persist($template);
-        $manager->flush();
-
         
         $template = new Template();
 
@@ -86,8 +53,6 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $template->setIsSystem(true);
         $manager->persist($template);
         $manager->flush();
-
-       
     }
 
     /**
