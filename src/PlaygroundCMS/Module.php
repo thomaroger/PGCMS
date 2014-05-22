@@ -218,7 +218,13 @@ class Module
                     $viewHelper = new View\Helper\CMSTranslate();
                     $viewHelper->setServiceLocator($sm->getServiceLocator());
                     return $viewHelper;
-                }
+                },
+
+                'getUrl' => function ($sm) {
+                    $viewHelper = new View\Helper\GetUrl();
+                    $viewHelper->setRessourceService($sm->getServiceLocator()->get('playgroundcms_ressource_service'));
+                    return $viewHelper;
+                },
             ),
         );
     }
