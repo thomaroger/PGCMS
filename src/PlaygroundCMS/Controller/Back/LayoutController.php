@@ -286,6 +286,10 @@ class LayoutController extends AbstractActionController
 
         $blockLayoutZone = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findById($blocklayoutZoneId);
 
+        $blockLayoutZone->setPosition($position);
+
+        $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->update($blockLayoutZone);
+
         // ajout +1 pour les blocks qui seront en dessous de lui
         $blocksLayoutZoneBelow = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->getBlocksBelow($blockLayoutZone, $position);
 
@@ -293,11 +297,7 @@ class LayoutController extends AbstractActionController
             $blockLayoutZoneBelow->setPosition($blockLayoutZoneBelow->getPosition() + 1);
             $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->update($blockLayoutZoneBelow);
         }
-
-        $blockLayoutZone->setPosition($position);
-
-        $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->update($blockLayoutZone);
-
+        
         $response = $this->getResponse();
         $response->setStatusCode(200);
         $headers = $response->getHeaders();
