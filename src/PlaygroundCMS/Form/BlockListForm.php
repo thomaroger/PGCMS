@@ -133,7 +133,23 @@ class BlockListForm extends BlockForm
                 new \Zend\Validator\NotEmpty(),
             )
         ));
-    }    
+    }  
+
+    /**
+    * getTemplates : Recuperation des templates
+    *
+    * @return array $templates
+    */
+    protected function getTemplates()
+    {
+        $templatesFiles = array();
+        $templates = $this->getServiceManager()->get('playgroundcms_template_service')->getTemplateMapper()->findBy(array('isSystem' => 0, 'blockType' => 'PlaygroundCMS\Blocks\BlockListController'));
+        foreach ($templates as $template) {
+            $templatesFiles[$template->getFile()] = $template->getFile();
+        }
+
+        return $templatesFiles;
+    }  
 
     /**
     * getSupportedFilters : Recuperation des filtres supportés par les blocs

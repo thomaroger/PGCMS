@@ -26,7 +26,7 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         
         $template = new Template();
 
-        $template->setName('Block HTML template');
+        $template->setName('template HTML');
         $template->setFile('playground-cms/blocks/free_html.phtml');
         $template->setDescription('template for block html');
         $template->setBlockType('PlaygroundCMS\Blocks\FreeHTMLController');
@@ -36,7 +36,7 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
 
         $template = new Template();
 
-        $template->setName('Block Switch Locale template');
+        $template->setName('template switch de langue');
         $template->setFile('playground-cms/blocks/switch_locale.phtml');
         $template->setDescription('template for switch locale');
         $template->setBlockType('PlaygroundCMS\Blocks\SwitchLocaleController');

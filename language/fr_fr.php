@@ -11,4 +11,8 @@ return array(
     'French' => 'Français',
     'English' => 'Anglais',
     'by' => 'par',
+    'No article for' => 'Pas d\'article pour',
+    'No article' => 'Pas d\'article',
+    'No category' => 'Pas de category',
+    'No tag' => 'Pas de tag',
 );

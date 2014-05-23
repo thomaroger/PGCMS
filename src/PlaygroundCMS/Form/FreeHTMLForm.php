@@ -40,6 +40,22 @@ class FreeHTMLForm extends BlockForm
     }
 
     /**
+    * getTemplates : Recuperation des templates
+    *
+    * @return array $templates
+    */
+    protected function getTemplates()
+    {
+        $templatesFiles = array();
+        $templates = $this->getServiceManager()->get('playgroundcms_template_service')->getTemplateMapper()->findBy(array('isSystem' => 0, 'blockType' => 'PlaygroundCMS\Blocks\FreeHTMLController'));
+        foreach ($templates as $template) {
+            $templatesFiles[$template->getFile()] = $template->getFile();
+        }
+
+        return $templatesFiles;
+    }
+
+    /**
     * {@inheritdoc}
     * getConfiguration : Définit les champs spécifiques du bloc
     */

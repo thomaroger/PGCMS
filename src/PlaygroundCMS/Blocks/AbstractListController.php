@@ -86,6 +86,12 @@ abstract class AbstractListController extends AbstractBlockController
     {
         $filtersCount = 0;
         $block = $this->getBlock();
+        $mapper = $this->getBlockMapper();
+
+        // Filtres par défaut
+        if (method_exists($mapper, "defaultFilters")) {
+           $query = $mapper->defaultFilters($query);
+        }
 
         $filtersBlockParam = $block->getParam('filters', array());   
         
@@ -93,8 +99,6 @@ abstract class AbstractListController extends AbstractBlockController
 
             return $query;
         }
-
-        $mapper = $this->getBlockMapper();
 
         if (!method_exists($mapper, "getSupportedFilters")) {
             throw new \RuntimeException(sprintf(

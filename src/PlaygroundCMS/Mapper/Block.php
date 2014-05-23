@@ -76,7 +76,7 @@ class Block extends EntityMapper
     */
     public function filterOnName(QueryBuilder $query, $name)
     {
-        $query->where("b.name LIKE :name");
+        $query->andWhere("b.name LIKE :name");
         $query->setParameter('name', (string) $name);
 
         return $query;
