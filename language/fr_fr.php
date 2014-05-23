@@ -10,4 +10,5 @@ return array(
     'locales' => 'langues',
     'French' => 'Français',
     'English' => 'Anglais',
+    'by' => 'par',
 );

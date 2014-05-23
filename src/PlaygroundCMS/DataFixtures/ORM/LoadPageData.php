@@ -27,7 +27,7 @@ class LoadPageData extends AbstractFixture implements OrderedFixtureInterface
 
         $page = new Page();
         $page->setIsWeb(1);
-        $page->setIsMobile(1);
+        $page->setIsMobile(0);
         $page->setStatus(1);
 
         $page->setSecurityContext(Credential::SECURITY_ANONYMOUS);

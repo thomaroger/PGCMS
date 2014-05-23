@@ -55,11 +55,6 @@ class Template implements InputFilterAwareInterface
     protected $image;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $entity;
-
-    /**
      * @ORM\Column(name="block_type", type="string", length=255, nullable=true)
      */
     protected $blockType;
@@ -192,29 +187,6 @@ class Template implements InputFilterAwareInterface
     public function getImage()
     {
         return $this->image;
-    }
-
-     /**
-     * setEntity : Setter pour entity
-     * @param string $entity 
-     *
-     * @return Template $template
-     */
-    public function setEntity($entity)
-    {
-        $this->entity = (string) $entity;
-
-        return $this;
-    }
-
-    /**
-     * getEntity : Getter pour entity
-     *
-     * @return string $entity
-     */
-    public function getEntity()
-    {
-        return $this->entity;
     }
 
     /**

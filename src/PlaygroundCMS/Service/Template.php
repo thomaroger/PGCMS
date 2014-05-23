@@ -50,9 +50,6 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         if (!empty($data['template']['block_type'])) {
             $template->setBlockType($data['template']['block_type']);
         }
-        if (!empty($data['template']['entity'])) {
-            $template->setEntity($data['template']['entity']);
-        }
         if (!empty($data['template']['system'])) {
             $template->setIsSystem(true);
         }
@@ -78,7 +75,7 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         $template->setIsSystem(false);
         
         $template->setBlockType($data['template']['block_type']);
-        $template->setEntity($data['template']['entity']);
+        
         if (!empty($data['template']['system'])) {
             $template->setIsSystem(true);
         }
@@ -136,15 +133,15 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         }
 
         if (!empty($data['template']['system'])) {
-            if (!empty($data['template']['block_type']) || !empty($data['template']['entity'])) {
+            if (!empty($data['template']['block_type'])) {
             
-                return array('status' => 1, 'message' => 'If a template is a template system, it\'s not associate to a block type or an entity', 'data' => $data);
+                return array('status' => 1, 'message' => 'If a template is a template system, it\'s not associate to a block type', 'data' => $data);
             }
         }
 
-        if (empty($data['template']['system']) && empty($data['template']['block_type']) && empty($data['template']['entity'])) {
+        if (empty($data['template']['system']) && empty($data['template']['block_type'])) {
             
-            return array('status' => 1, 'message' => 'A template is a template system or a template associate to a block type or an entity', 'data' => $data);
+            return array('status' => 1, 'message' => 'A template is a template system or a template associate to a block type', 'data' => $data);
         }
 
         if (!file_exists($this->getCMSOptions()->getThemeFolder().$data['template']['file'])) {

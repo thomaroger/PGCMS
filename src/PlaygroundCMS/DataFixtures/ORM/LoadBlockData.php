@@ -33,7 +33,7 @@ class LoadBlockData extends AbstractFixture implements OrderedFixtureInterface
         $configuration = array('html' => '<div class="navbar navbar-inverse navbar-fixed-top" role="navigation"><div class="container"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/">PGCMS</a></div><div class="navbar-collapse collapse"><form class="navbar-form navbar-right" role="form"><div class="form-group"><input type="text" placeholder="Email" class="form-control"></div><div class="form-group"><input type="password" placeholder="Password" class="form-control"></div><button type="submit" class="btn btn-success">Sign in</button></form></div></div></div>');
         $block->setConfiguration(json_encode($configuration));
         $block->setSlug("block-html-header");
-        $template = array('web' => "playground-cms/blocks/freeHtml.phtml");
+        $template = array('web' => "playground-cms/blocks/free_html.phtml");
         $block->setTemplateContext(json_encode($template));
         $block->setIsGallery(true);
         
