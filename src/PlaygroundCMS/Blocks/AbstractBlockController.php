@@ -135,6 +135,16 @@ abstract class AbstractBlockController
     }  
 
     /**
+    * getResponse : Recuperation de la response
+    *
+    * @return Response $response
+    */
+    protected function getResponse()
+    {
+        return $this->getServiceManager()->get('response');
+    }
+
+    /**
     * getRequest : Recuperation de la request
     *
     * @return Request $request
