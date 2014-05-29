@@ -35,6 +35,8 @@ class DashboardController extends AbstractActionController
     */
     protected $articleMapper;
 
+    protected $commentMapper;
+
     /**
     * indexAction : Dashboard
     *
@@ -49,6 +51,7 @@ class DashboardController extends AbstractActionController
         $pages = $this->getPageMapper()->findAll();
         $users = $this->getUserService()->findAll();
         $articles = $this->getArticleMapper()->findAll();
+        $comments = $this->getCommentMapper()->findAll();
         
         $feeds = $this->getFeedService()->getFeeds();
 
@@ -56,6 +59,7 @@ class DashboardController extends AbstractActionController
                                    "users" => $users,
                                    "pages" => $pages,
                                    "articles" => $articles,
+                                   "comments" => $comments,
                                    "feeds" => $feeds));
     }
 
@@ -190,6 +194,33 @@ class DashboardController extends AbstractActionController
     private function setArticleMapper($articleMapper)
     {
         $this->articleMapper = $articleMapper;
+
+        return $this;
+    }
+
+    /**
+    * getArticleMapper : Recuperation du mapper de l'article
+    *
+    * @return Article $articleMapper 
+    */
+    private function getCommentMapper()
+    {
+        if (null === $this->commentMapper) {
+            $this->setCommentMapper($this->getServiceLocator()->get('playgroundpublishing_comment_mapper'));
+        }
+
+        return $this->commentMapper;
+    }
+    
+     /**
+    * setArticleMapper : Setter du mapper d'utilisateur
+    * @param Article $articleMapper : articleMapper
+    *
+    * @return DashboardController $this
+    */
+    private function setCommentMapper($commentMapper)
+    {
+        $this->commentMapper = $commentMapper;
 
         return $this;
     }
