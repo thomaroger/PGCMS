@@ -15,4 +15,7 @@ return array(
     'No article' => 'Pas d\'article',
     'No category' => 'Pas de category',
     'No tag' => 'Pas de tag',
+    'Categories' => 'Categories',
+    'Tags' => 'Tags',
+    'Comments' => 'Commentaires',
 );
