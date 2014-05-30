@@ -18,4 +18,5 @@ return array(
     'Categories' => 'Categories',
     'Tags' => 'Tags',
     'Comments' => 'Commentaires',
+    'Polls' => 'Sondages',
 );

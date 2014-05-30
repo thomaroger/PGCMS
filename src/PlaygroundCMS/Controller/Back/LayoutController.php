@@ -230,7 +230,6 @@ class LayoutController extends AbstractActionController
             } else {
                 $slugify = new Slugify;
                 $type = strtolower(str_replace('controller', '-form', $slugify->filter($data['type'])));
-                var_dump($type);
                 $form = $this->getServiceLocator()->get($type);
 
                 $return = $this->getBlockService()->checkBlock($data);
@@ -240,6 +239,11 @@ class LayoutController extends AbstractActionController
 
                 if ($return['status'] == 0) {
                     $block = $this->getBlockService()->create($data, $form);
+                }
+
+                if (empty($block)) {
+                    
+                    return $this->redirect()->toRoute('admin/playgroundcmsadmin/blocklayoutzone_edit', array('id' => $layout->getId()));
                 }
 
                 $zoneId = $data['layoutZoneId'];
