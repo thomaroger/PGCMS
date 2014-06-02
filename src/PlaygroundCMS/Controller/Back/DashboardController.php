@@ -52,6 +52,7 @@ class DashboardController extends AbstractActionController
         $users = $this->getUserService()->findAll();
         $articles = $this->getArticleMapper()->findAll();
         $comments = $this->getCommentMapper()->findAll();
+        $polls = $this->getPollMapper()->findAll();
         
         $feeds = $this->getFeedService()->getFeeds();
 
@@ -60,6 +61,7 @@ class DashboardController extends AbstractActionController
                                    "pages" => $pages,
                                    "articles" => $articles,
                                    "comments" => $comments,
+                                   "polls" => $polls,
                                    "feeds" => $feeds));
     }
 
@@ -86,6 +88,34 @@ class DashboardController extends AbstractActionController
     private function setBlockMapper($blockMapper)
     {
         $this->blockMapper = $blockMapper;
+
+        return $this;
+    }
+
+
+     /**
+    * getBlockMapper : Recuperation du mapper de block
+    *
+    * @return Block $blockMapper 
+    */
+    private function getPollMapper()
+    {
+        if (empty($this->pollMapper)) {
+            $this->setPollMapper($this->getServiceLocator()->get('playgroundpublishing_poll_mapper'));
+        }
+        
+        return $this->pollMapper;
+    }
+
+    /**
+    * setBlockMapper : Setter du mapper de block
+    * @param Block $blockMapper : blockMapper
+    *
+    * @return DashboardController $this
+    */
+    private function setPollMapper($pollMapper)
+    {
+        $this->pollMapper = $pollMapper;
 
         return $this;
     }
