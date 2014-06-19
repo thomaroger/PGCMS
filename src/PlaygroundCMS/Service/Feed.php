@@ -64,6 +64,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $articleMapper;
 
+     /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
+    protected $pollMapper;
+
     /**
      * getFeeds : Permet de recuperer les feeds
      *
@@ -71,7 +76,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
     */
     public function getFeeds()
     {
-        list($blocks, $users, $pages, $layouts, $zones, $templates, $tags, $categories, $articles) = $this->getDataForFeeds();
+        list($blocks, $users, $pages, $layouts, $zones, $templates, $tags, $categories, $articles, $polls) = $this->getDataForFeeds();
         $feeds = array();
         foreach ($blocks as $block) {
             $feeds[$block->getCreatedAt()->getTimestamp().''.$block->getId().'b'] = $block;
@@ -97,9 +102,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         foreach ($categories as $category) {
             $feeds[$category->getCreatedAt()->getTimestamp().''.$category->getId().'c'] = $category;
         }
-
         foreach ($articles as $article) {
             $feeds[$article->getCreatedAt()->getTimestamp().''.$article->getId().'a'] = $article;
+        }
+        foreach ($polls as $poll) {
+            $feeds[$poll->getCreatedAt()->getTimestamp().''.$poll->getId().'p'] = $poll;
         }
 
         krsort($feeds);
@@ -124,6 +131,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         $data[] = $this->getTagMapper()->findAll();
         $data[] = $this->getCategoryMapper()->findAll();
         $data[] = $this->getArticleMapper()->findAll();
+        $data[] = $this->getPollMapper()->findAll();
 
         return $data;
     }
@@ -328,6 +336,34 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
     public function setArticleMapper($articleMapper)
     {
         $this->articleMapper = $articleMapper;
+
+        return $this;
+    }
+
+
+    /**
+     * getTagMapper : Getter pour tagService
+     *
+     * @return PlaygroundPublishing\Mapper\Tag $tagService
+     */
+    public function getPollMapper()
+    {
+        if (null === $this->pollMapper) {
+            $this->setPollMapper($this->getServiceManager()->get('playgroundpublishing_poll_mapper'));
+        }
+
+        return $this->pollMapper;
+    }
+
+    /**
+     * setTagMapper : Setter pour tagService
+     * @param PlaygroundPublishing\Mapper\Tag $tagService
+     *
+     * @return Feed $this
+     */
+    public function setPollMapper($pollMapper)
+    {
+        $this->pollMapper = $pollMapper;
 
         return $this;
     }

@@ -34,7 +34,13 @@ class DashboardController extends AbstractActionController
     * @var Article $articleMapper : Mapper article
     */
     protected $articleMapper;
-
+    /**
+    * @var Poll $pollMapper : Mapper poll
+    */
+    protected $pollMapper;
+    /**
+    * @var Comment $commentMapper : Mapper comment
+    */
     protected $commentMapper;
 
     /**
@@ -52,15 +58,17 @@ class DashboardController extends AbstractActionController
         $users = $this->getUserService()->findAll();
         $articles = $this->getArticleMapper()->findAll();
         $comments = $this->getCommentMapper()->findAll();
+        $polls = $this->getPollMapper()->findAll();
         
         $feeds = $this->getFeedService()->getFeeds();
 
-        return new ViewModel(array("blocks" => $blocks,
-                                   "users" => $users,
-                                   "pages" => $pages,
+        return new ViewModel(array("blocks"   => $blocks,
+                                   "users"    => $users,
+                                   "pages"    => $pages,
                                    "articles" => $articles,
                                    "comments" => $comments,
-                                   "feeds" => $feeds));
+                                   "polls"    => $polls,
+                                   "feeds"    => $feeds));
     }
 
     /**
@@ -221,6 +229,33 @@ class DashboardController extends AbstractActionController
     private function setCommentMapper($commentMapper)
     {
         $this->commentMapper = $commentMapper;
+
+        return $this;
+    }
+
+    /**
+    * getArticleMapper : Recuperation du mapper de l'article
+    *
+    * @return Article $articleMapper 
+    */
+    private function getPollMapper()
+    {
+        if (null === $this->pollMapper) {
+            $this->setPollMapper($this->getServiceLocator()->get('playgroundpublishing_poll_mapper'));
+        }
+
+        return $this->pollMapper;
+    }
+    
+     /**
+    * setArticleMapper : Setter du mapper d'utilisateur
+    * @param Article $articleMapper : articleMapper
+    *
+    * @return DashboardController $this
+    */
+    private function setPollMapper($pollMapper)
+    {
+        $this->pollMapper = $pollMapper;
 
         return $this;
     }
