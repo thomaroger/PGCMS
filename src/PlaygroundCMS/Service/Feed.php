@@ -70,6 +70,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
     protected $pollMapper;
 
     /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
+    protected $pollMapper;
+
+    /**
      * getFeeds : Permet de recuperer les feeds
      *
      * @return array $feeds
@@ -105,6 +110,10 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         foreach ($articles as $article) {
             $feeds[$article->getCreatedAt()->getTimestamp().''.$article->getId().'a'] = $article;
         }
+        foreach ($polls as $poll) {
+            $feeds[$poll->getCreatedAt()->getTimestamp().''.$poll->getId().'p'] = $poll;
+        }
+
         foreach ($polls as $poll) {
             $feeds[$poll->getCreatedAt()->getTimestamp().''.$poll->getId().'p'] = $poll;
         }
@@ -297,6 +306,35 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         }
 
         return $this->tagMapper;
+    }
+
+
+     /**
+     * setTagMapper : Setter pour tagService
+     * @param PlaygroundPublishing\Mapper\Tag $tagService
+     *
+     * @return Feed $this
+     */
+    public function setPollMapper($pollMapper)
+    {
+        $this->pollMapper = $pollMapper;
+
+        return $this;
+    }
+
+
+    /**
+     * getTagMapper : Getter pour tagService
+     *
+     * @return PlaygroundPublishing\Mapper\Tag $tagService
+     */
+    public function getPollMapper()
+    {
+        if (null === $this->pollMapper) {
+            $this->setPollMapper($this->getServiceManager()->get('playgroundpublishing_poll_mapper'));
+        }
+
+        return $this->pollMapper;
     }
 
      /**
