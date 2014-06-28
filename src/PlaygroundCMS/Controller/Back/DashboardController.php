@@ -261,31 +261,4 @@ class DashboardController extends AbstractActionController
 
         return $this;
     }
-
-    /**
-    * getArticleMapper : Recuperation du mapper de l'article
-    *
-    * @return Article $articleMapper 
-    */
-    private function getPollMapper()
-    {
-        if (null === $this->pollMapper) {
-            $this->setPollMapper($this->getServiceLocator()->get('playgroundpublishing_poll_mapper'));
-        }
-
-        return $this->pollMapper;
-    }
-    
-     /**
-    * setArticleMapper : Setter du mapper d'utilisateur
-    * @param Article $articleMapper : articleMapper
-    *
-    * @return DashboardController $this
-    */
-    private function setPollMapper($pollMapper)
-    {
-        $this->pollMapper = $pollMapper;
-
-        return $this;
-    }
 }
