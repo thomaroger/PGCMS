@@ -14,6 +14,7 @@ return array(
             'orm_default' => array(
                 'subscribers' => array(
                     'Gedmo\Translatable\TranslatableListener',
+                    'Gedmo\Sortable\SortableListener',
                 ),
             ),
         ),
