@@ -365,6 +365,17 @@ return array(
                                     ),
                                 ), 
                             ),
+
+                            'menu' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/menus[/:filter][/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Menu',
+                                        'action'     => 'list',
+                                    ),
+                                ),    
+                            ),
                         ),
                     ),
                 ),
@@ -385,6 +396,7 @@ return array(
             'PlaygroundCMS\Controller\Back\Dashboard' => 'PlaygroundCMS\Controller\Back\DashboardController',
             'PlaygroundCMS\Controller\Back\Block'     => 'PlaygroundCMS\Controller\Back\BlockController',
             'PlaygroundCMS\Controller\Back\Feed'      => 'PlaygroundCMS\Controller\Back\FeedController',
+            'PlaygroundCMS\Controller\Back\Menu'      => 'PlaygroundCMS\Controller\Back\MenuController',
             'PlaygroundCMS\Controller\Back\Page'      => 'PlaygroundCMS\Controller\Back\PageController',
             'PlaygroundCMS\Controller\Back\Layout'    => 'PlaygroundCMS\Controller\Back\LayoutController',
             'PlaygroundCMS\Controller\Back\Template'  => 'PlaygroundCMS\Controller\Back\TemplateController',
