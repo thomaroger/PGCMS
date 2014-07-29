@@ -11,6 +11,7 @@ return array(
     'French' => 'Français',
     'English' => 'Anglais',
     'by' => 'par',
+    'until' => 'jusqu\'au',
     'No article for' => 'Pas d\'article pour',
     'No article' => 'Pas d\'article',
     'No category' => 'Pas de category',
