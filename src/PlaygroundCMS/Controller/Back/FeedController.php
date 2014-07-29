@@ -14,6 +14,12 @@ use Zend\Mvc\Controller\AbstractActionController;
 
 class FeedController extends AbstractActionController
 {
+
+    /**
+    * @var MAX_PER_PAGE  Nombre d'item par page
+    */
+    const MAX_PER_PAGE = 20;
+
     /**
     * @var $feedService : Service de feed
     */
@@ -29,7 +35,14 @@ class FeedController extends AbstractActionController
         $this->layout()->setVariable('nav', "feeds");
         $feeds = $this->getFeedService()->getFeeds();
 
-        return new ViewModel(array("feeds" => $feeds));
+        $p = $this->getRequest()->getQuery('page', 1);
+
+        $feedsPaginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($feeds));
+        $feedsPaginator->setItemCountPerPage(self::MAX_PER_PAGE);
+        $feedsPaginator->setCurrentPageNumber($p);
+
+        return new ViewModel(array("feeds" => $feeds,
+                                   "feedsPaginator" => $feedsPaginator));
     }  
 
      /**
