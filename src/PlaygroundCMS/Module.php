@@ -183,7 +183,7 @@ class Module
                 'playgroundcms_layoutZone_service'      => 'PlaygroundCMS\Service\LayoutZone',
                 'playgroundcms_blocklayoutZone_service' => 'PlaygroundCMS\Service\BlockLayoutZone',
                 'playgroundcms_feed_service'            => 'PlaygroundCMS\Service\Feed',
-                'playgroundcms_menu_service'            => 'PlaygroundCMS\Menu\Feed',
+                'playgroundcms_menu_service'            => 'PlaygroundCMS\Service\Menu',
 
                 'playgroundcms_block_renderer'  => 'PlaygroundCMS\Renderer\BlockRenderer',
                 'playgroundcms_zone_renderer'   => 'PlaygroundCMS\Renderer\ZoneRenderer',

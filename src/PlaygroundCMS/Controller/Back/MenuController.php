@@ -19,6 +19,10 @@ class MenuController extends AbstractActionController
     * @var $feedService : Service de feed
     */
     protected $menuService;
+
+    protected $localeService;
+
+    protected $ressourceService;
     
     /**
     * indexAction : Liste des feeds
@@ -27,10 +31,39 @@ class MenuController extends AbstractActionController
     */
     public function listAction()
     {
-        $this->layout()->setVariable('nav', "menu");
-        $menus = array();
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "menu");
+        $ressources = array();
+        $request = $this->getRequest();
 
-        return new ViewModel(array("menus" => $menus));
+
+        $locales = $this->getLocaleService()->getLocaleMapper()->findBy(array('active_front' => 1));
+        foreach ($locales as $locale) {
+            $ressources[$locale->getLocale()] = $this->getRessourceService()->getRessourceMapper()->findBy(array('locale' => $locale->getLocale()));
+        }
+
+        $menus = $this->getMenuService()->getMenuMapper()->findBy(array());   
+
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+
+            $return = $this->getMenuService()->checkMenu($data);
+            $data = $return["data"];
+            unset($return["data"]);
+
+            if ($return['status'] == 0) {
+                $this->getMenuService()->create($data);
+
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/menu');
+            }
+        }
+
+        return new ViewModel(array("menus" => $menus,
+                                   "ressources" => $ressources,
+                                   "locales" => $locales));
     }  
 
      /**
@@ -57,5 +90,34 @@ class MenuController extends AbstractActionController
         $this->menuService = $menuService;
 
         return $this;
+    }
+
+
+    /**
+    * getLocaleService : Recuperation du service de locale
+    *
+    * @return Locale $localeService 
+    */
+    private function getLocaleService()
+    {
+        if (!$this->localeService) {
+            $this->localeService = $this->getServiceLocator()->get('playgroundcore_locale_service');
+        }
+
+        return $this->localeService;
+    }
+
+    /**
+    * getRessourceService : Recuperation du service de Ressource
+    *
+    * @return Ressource $ressourceService 
+    */
+    private function getRessourceService()
+    {
+        if (!$this->ressourceService) {
+            $this->ressourceService = $this->getServiceLocator()->get('playgroundcms_ressource_service');
+        }
+
+        return $this->ressourceService;
     }
 }

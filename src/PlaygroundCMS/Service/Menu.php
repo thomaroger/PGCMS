@@ -25,6 +25,18 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
      */
     protected $serviceManager;
 
+
+    public function create($data)
+    {
+    }
+
+
+    public function checkMenu($data)
+    {
+
+        return array('status' => 0, 'message' => '', 'data' => $data);
+    }
+
   
     public function getMenuMapper()
     {
