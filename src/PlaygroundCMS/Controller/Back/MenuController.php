@@ -34,6 +34,8 @@ class MenuController extends AbstractActionController
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "menu");
         $ressources = array();
+        $return  = array();
+        $data = array();
         $request = $this->getRequest();
 
 
@@ -61,10 +63,64 @@ class MenuController extends AbstractActionController
             }
         }
 
+        $repository = $this->getMenuService()->getMenuMapper()->getEntityRepository();
+        
+        $controller = $this;
+        $options = array(
+            'decorate' => true,
+            'rootOpen' => '<ol class="dd-list">',
+            'rootClose' => '</ol>',
+            'childOpen' => '<li class="dd-item">',
+            'childClose' => '</li>',
+            'nodeDecorator' => function($node) use (&$controller) {
+                return $controller->decorateNode($node);
+            }
+        );
+
+        $htmlTree = $repository->childrenHierarchy(null, true, $options);
+
+
+
         return new ViewModel(array("menus" => $menus,
+                                   "return" => $return,
+                                   "data" => $data,
+                                   'htmlTree' => $htmlTree,
                                    "ressources" => $ressources,
                                    "locales" => $locales));
     }  
+
+
+    public function decorateNode($node)
+    {
+
+        $html = "";
+        $html .= '<div class="dd-handle">';
+        if ($node['status'] == 1 ) {
+            $html .= '<div class="feed-item pull-left">
+                        <div class="icon">
+                            <i class="fa fa-check color-green"></i>
+                        </div>
+                    </div>';
+        } else {
+            $html .= '<div class="feed-item pull-left">
+                        <div class="icon">
+                            <i class="fa fa-times color-red"></i>
+                        </div>
+                    </div>';
+        }
+        $html .= '&nbsp;&nbsp;&nbsp; '.$node['id'] .'&nbsp;&nbsp;&nbsp;';
+        $html .=  $node['title'].' ('.$node['url'].')';
+        $html .= '<div class="pull-right">
+                    <a href="" class="btn btn-xs btn-success">
+                        <i class="btn-icon-only fa fa-pencil"></i>                                       
+                    </a>
+                    <a href="" class="btn btn-xs btn-danger">
+                        <i class="btn-icon-only fa fa-times"></i>                                       
+                    </a>
+                </div>';
+        $html .= '</div>';
+        return $html; 
+    }
 
      /**
      * getFeedService : Recuperation du service de feed

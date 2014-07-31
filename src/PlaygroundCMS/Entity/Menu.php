@@ -19,6 +19,7 @@ use Zend\InputFilter\InputFilterInterface;
 use PlaygroundCore\Filter\Slugify;
 
 /**
+ * @ORM\Entity @HasLifecycleCallbacks
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="cms_menu")
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
@@ -26,11 +27,11 @@ use PlaygroundCore\Filter\Slugify;
  */
 class Menu implements InputFilterAwareInterface
 {
-    const PAGE_NOT_PUBLISHED = 0;
-    const PAGE_PUBLISHED = 1;
+    const MENU_NOT_PUBLISHED = 0;
+    const MENU_PUBLISHED = 1;
     
-    public static $statuses = array(self::PAGE_NOT_PUBLISHED => "Not Published",
-                                    self::PAGE_PUBLISHED => "Published");
+    public static $statuses = array(self::MENU_NOT_PUBLISHED => "Not Published",
+                                    self::MENU_PUBLISHED => "Published");
 
     /**
      * @Gedmo\Locale
@@ -344,5 +345,62 @@ class Menu implements InputFilterAwareInterface
     public function updateChrono()
     {
         $this->updated_at = new \DateTime("now");
+    }
+
+    /**
+    * getTranslationRepository :  Recuperation de l'entite PageTranslation
+    *
+    * @return string 
+    */
+    public function getTranslationRepository()
+    {
+        return 'PlaygroundCMS\Entity\Translation\MenuTranslation';
+    }
+
+    /**
+    * setTranslatableLocale : Setter pour la locale
+    * @param string $locale
+    *
+    * @return Page 
+    */
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+
+    /**
+    * getTranslatableLocale : Getter pour la  locale
+    *
+    * @return  string $locale
+    */
+    public function getTranslatableLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+    * getTranslations : Getter pour les traductions
+    *
+    * @return  array $translations
+    */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+     /**
+    * getTranslations : Setter pour les traductions
+    * @param array $translation 
+    *
+    * @return Page 
+    */
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+
+        return $this;
     }
 }
