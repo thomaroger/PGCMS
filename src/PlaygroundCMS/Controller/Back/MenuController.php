@@ -95,7 +95,7 @@ class MenuController extends AbstractActionController
 
         $html = "";
         $html .= '<li class="dd-item"  data-id="'.$node['id'].'">';
-        $html .= '<div class="dd-handle pull-left">';
+        $html .= '<div class="dd-handle">';
         if ($node['status'] == 1 ) {
             $html .= '<div class="feed-item pull-left">
                         <div class="icon">
@@ -109,12 +109,13 @@ class MenuController extends AbstractActionController
                         </div>
                     </div>';
         }
-        $html .= '&nbsp;&nbsp;&nbsp; '.$node['id'] .'&nbsp;&nbsp;&nbsp;';
+
+        $html .= '&nbsp;&nbsp;&nbsp; '.$node['id'] .'&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;';
         $html .=  $node['title'].' ('.$node['url'].')';
         $html .= '</div>';
 
    
-        $html .= '<div class="pull-right dd-actions">
+        $html .= '<div class="dd-actions pull-right">
                     <a href="#" class="btn btn-xs btn-success">
                         <i class="btn-icon-only fa fa-pencil"></i>                                       
                     </a>
