@@ -70,8 +70,8 @@ class MenuController extends AbstractActionController
             'decorate' => true,
             'rootOpen' => '<ol class="dd-list">',
             'rootClose' => '</ol>',
-            'childOpen' => '<li class="dd-item">',
-            'childClose' => '</li>',
+            'childOpen' => '',
+            'childClose' => '',
             'nodeDecorator' => function($node) use (&$controller) {
                 return $controller->decorateNode($node);
             }
@@ -94,7 +94,8 @@ class MenuController extends AbstractActionController
     {
 
         $html = "";
-        $html .= '<div class="dd-handle">';
+        $html .= '<li class="dd-item"  data-id="'.$node['id'].'">';
+        $html .= '<div class="dd-handle pull-left">';
         if ($node['status'] == 1 ) {
             $html .= '<div class="feed-item pull-left">
                         <div class="icon">
@@ -110,15 +111,20 @@ class MenuController extends AbstractActionController
         }
         $html .= '&nbsp;&nbsp;&nbsp; '.$node['id'] .'&nbsp;&nbsp;&nbsp;';
         $html .=  $node['title'].' ('.$node['url'].')';
-        $html .= '<div class="pull-right">
-                    <a href="" class="btn btn-xs btn-success">
+        $html .= '</div>';
+
+   
+        $html .= '<div class="pull-right dd-actions">
+                    <a href="#" class="btn btn-xs btn-success">
                         <i class="btn-icon-only fa fa-pencil"></i>                                       
                     </a>
-                    <a href="" class="btn btn-xs btn-danger">
+                    <a href="#" class="btn btn-xs btn-danger">
                         <i class="btn-icon-only fa fa-times"></i>                                       
                     </a>
                 </div>';
-        $html .= '</div>';
+
+        $html .= '</li>';
+
         return $html; 
     }
 
