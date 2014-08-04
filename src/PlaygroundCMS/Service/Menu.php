@@ -71,6 +71,44 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
         $menu = $this->getMenuMapper()->persist($menu);
     }
 
+    public function edit($data)
+    {
+        $menu = $this->getMenuService()->getMenuMapper()->findById($data['id']);
+
+        $menu->setStatus(MenuEntity::MENU_NOT_PUBLISHED);
+        if ($data['menu']['published'] == 1) {
+            $menu->setStatus(MenuEntity::MENU_PUBLISHED);
+        }
+
+        $locales = $this->getLocaleMapper()->findBy(array('active_front' => 1));
+        $repository = $this->getMenuMapper()->getEntityManager()->getRepository($menu->getTranslationRepository());
+        $slugify = new Slugify;
+
+
+        foreach ($locales as $locale) {
+            if(!empty($data['menu'][$locale->getLocale()])) {
+
+                $url = "";
+                if(!empty($data['menu'][$locale->getLocale()]['ext_page'])) {
+                    $url = $data['menu'][$locale->getLocale()]['ext_page'];
+                }
+                if(!empty($data['menu'][$locale->getLocale()]['int_page'])) {
+                    $url = $data['menu'][$locale->getLocale()]['int_page'];
+                    $ressource = $this->getRessourceMapper()->findById($url);
+                    $url = $ressource->getUrl();
+                }
+
+                $slug = $slugify->filter($data['menu'][$locale->getLocale()]['name']);
+                $repository->translate($menu, 'title', $locale->getLocale(), $data['menu'][$locale->getLocale()]['name'])
+                           ->translate($menu, 'slug', $locale->getLocale(), $slug)
+                           ->translate($menu, 'url', $locale->getLocale(), $url);               
+            }
+            
+        }
+
+        $menu = $this->getMenuMapper()->update($menu);
+    }
+
 
     public function checkMenu($data)
     {

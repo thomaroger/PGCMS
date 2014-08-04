@@ -90,6 +90,70 @@ class MenuController extends AbstractActionController
     }  
 
 
+    public function editAction()
+    {
+        $this->layout()->setVariable('nav', "cms");
+        $this->layout()->setVariable('subNav', "menu@");
+        $return  = array();
+        $data = array();
+        $ressources = array();
+        
+
+        $locales = $this->getLocaleService()->getLocaleMapper()->findBy(array('active_front' => 1));
+        foreach ($locales as $locale) {
+            $ressources[$locale->getLocale()] = $this->getRessourceService()->getRessourceMapper()->findBy(array('locale' => $locale->getLocale()));
+        }
+        
+        $request = $this->getRequest();
+
+        $menuId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $menu = $this->getMenuService()->getMenuMapper()->findById($menuId);
+
+        if(empty($menu)){
+
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/menus');
+        }
+
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+
+            $return = $this->getMenuService()->checkMenu($data);
+            $data = $return["data"];
+            unset($return["data"]);
+
+            if ($return['status'] == 0) {
+                $this->getMenuService()->edit($data);
+
+                return $this->redirect()->toRoute('admin/playgroundcmsadmin/menu');
+            }
+        }
+
+
+
+        return new ViewModel(array('menu' => $menu,
+                                   "ressources" => $ressources,
+                                   "locales" => $locales));
+    }
+
+    public function removeAction()
+    {
+        $menuId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $menu = $this->getMenuService()->getMenuMapper()->findById($menuId);
+
+        if(empty($menu)){
+
+            return $this->redirect()->toRoute('admin/playgroundcmsadmin/menu');
+        }
+
+        $this->getMenuService()->getMenuMapper()->remove($menu);
+
+        return $this->redirect()->toRoute('admin/playgroundcmsadmin/menu');
+    }
+
+
     public function decorateNode($node)
     {
 
