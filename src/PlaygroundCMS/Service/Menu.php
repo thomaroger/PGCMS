@@ -73,7 +73,7 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
 
     public function edit($data)
     {
-        $menu = $this->getMenuService()->getMenuMapper()->findById($data['id']);
+        $menu = $this->getMenuMapper()->findById($data['id']);
 
         $menu->setStatus(MenuEntity::MENU_NOT_PUBLISHED);
         if ($data['menu']['published'] == 1) {

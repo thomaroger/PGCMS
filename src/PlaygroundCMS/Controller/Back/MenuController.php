@@ -93,7 +93,7 @@ class MenuController extends AbstractActionController
     public function editAction()
     {
         $this->layout()->setVariable('nav', "cms");
-        $this->layout()->setVariable('subNav', "menu@");
+        $this->layout()->setVariable('subNav', "menu");
         $return  = array();
         $data = array();
         $ressources = array();
@@ -108,6 +108,9 @@ class MenuController extends AbstractActionController
 
         $menuId = $this->getEvent()->getRouteMatch()->getParam('id');
         $menu = $this->getMenuService()->getMenuMapper()->findById($menuId);
+
+        $translations = $this->getMenuService()->getMenuMapper()->getEntityRepositoryForEntity($menu->getTranslationRepository())->findTranslations($menu);
+        $menu->setTranslations($translations);
 
         if(empty($menu)){
 
@@ -180,10 +183,10 @@ class MenuController extends AbstractActionController
 
    
         $html .= '<div class="dd-actions pull-right">
-                    <a href="#" class="btn btn-xs btn-success">
+                    <a href="/admin/playgroundcms/menu/edit/'.$node['id'].'" class="btn btn-xs btn-success">
                         <i class="btn-icon-only fa fa-pencil"></i>                                       
                     </a>
-                    <a href="#" class="btn btn-xs btn-danger">
+                    <a href="javascript:;" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal_'.$node['id'].'">
                         <i class="btn-icon-only fa fa-times"></i>                                       
                     </a>
                 </div>';
@@ -192,7 +195,6 @@ class MenuController extends AbstractActionController
 
         return $html; 
     }
-
      /**
      * getFeedService : Recuperation du service de feed
      *

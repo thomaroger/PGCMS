@@ -376,6 +376,34 @@ return array(
                                     ),
                                 ),    
                             ),
+
+                            'menu_edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/menu/edit/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Menu',
+                                        'action'     => 'edit',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    )
+                                ),    
+                            ),
+
+                            'menu_delete' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/menu/delete/:id',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Menu',
+                                        'action'     => 'remove',
+                                    ),
+                                    'constraints' => array(
+                                        'id' => '[0-9]+',
+                                    )
+                                ),    
+                            ),
                         ),
                     ),
                 ),

@@ -120,6 +120,9 @@ class Menu implements InputFilterAwareInterface
      */
     protected $updated_at;
 
+    protected $translations;
+    
+
 
     public function getId()
     {
