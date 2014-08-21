@@ -129,7 +129,7 @@ class Menu implements InputFilterAwareInterface
         return $this->id;
     }
 
-    public function setParent(Category $parent = null)
+    public function setParent(Menu $parent = null)
     {
         $this->parent = $parent;
     }
@@ -230,6 +230,16 @@ class Menu implements InputFilterAwareInterface
     public function getStatusName()
     {
         return self::$statuses[$this->status];
+    }
+
+    /**
+     * getLevel : Getter pour level
+     *
+     * @return integer $lvl
+     */
+    public function getLevel()
+    {
+        return $this->lvl;
     }
     
     /**

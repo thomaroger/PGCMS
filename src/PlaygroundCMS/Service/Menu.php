@@ -32,6 +32,25 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
     protected $ressourceMapper;
 
 
+    public function findOrCreateRoot()
+    {
+        $root = $this->getMenuMapper()->findBy(array('title' => 'root'));
+        if(empty($root)){
+            $root = new MenuEntity();
+            $root->setStatus(MenuEntity::MENU_PUBLISHED);
+            $root->setTitle('root');
+            $root->setUrl('/');
+            $this->getMenuMapper()->getEntityRepository()->persistAsFirstChild($root);
+            $root = $this->getMenuMapper()->persist($root);
+        }
+
+        if (is_array($root)) {
+            $root = $root[0];
+        }
+
+        return $root;
+    }
+
     public function create($data)
     {
         $menu = new MenuEntity();
@@ -66,8 +85,9 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
             
         }
 
+        $root = $this->findOrCreateRoot();
+        $menu->setParent($root);
 
-        $this->getMenuMapper()->getEntityRepository()->persistAsFirstChild($menu);
         $menu = $this->getMenuMapper()->persist($menu);
     }
 
@@ -119,6 +139,12 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
             if(!empty($data['menu'][$locale->getLocale()])) {
                 if(!empty($data['menu'][$locale->getLocale()]['name'])){
                     $name = true;
+                }
+
+                if(!empty($data['menu'][$locale->getLocale()]['name']) && $data['menu'][$locale->getLocale()]['name'] == 'root'){
+                    
+                    return array('status' => 1, 'message' => 'root is reserved', 'data' => $data);
+
                 }
             }
         }

@@ -404,6 +404,16 @@ return array(
                                     )
                                 ),    
                             ),
+                            'menu_position' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/menu/position',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Menu',
+                                        'action'     => 'position',
+                                    ),
+                                ),    
+                            ),
                         ),
                     ),
                 ),

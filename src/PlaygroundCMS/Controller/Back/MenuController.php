@@ -77,9 +77,9 @@ class MenuController extends AbstractActionController
             }
         );
 
-        $htmlTree = $repository->childrenHierarchy(null, true, $options);
-
-
+        $root = $this->getMenuService()->findOrCreateRoot();
+        //$htmlTree = $repository->childrenHierarchy($root, false, $options);
+        $htmlTree = $repository->childrenHierarchy($root, true, $options);
 
         return new ViewModel(array("menus" => $menus,
                                    "return" => $return,
@@ -156,10 +156,39 @@ class MenuController extends AbstractActionController
         return $this->redirect()->toRoute('admin/playgroundcmsadmin/menu');
     }
 
+    public function positionAction()
+    {
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+        $response->setStatusCode(200);
+
+        $return['status'] = 1;
+
+
+        if ($request->isPost()) {
+            $data = array_merge(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+            $repository = $this->getMenuService()->getMenuMapper()->getEntityRepository();
+            $menus = json_decode($data['data'], true);
+            foreach ($menus as $key => $menu) {
+                $menu = $this->getMenuService()->getMenuMapper()->findById($menu['id']);
+                //$repository->moveUp($menu, $key);                
+            }
+            $return['status'] = 0;
+        }
+        
+        
+        $response->setContent(json_encode($return));
+        
+        return $response;
+    }  
+
 
     public function decorateNode($node)
     {
-
+        $menu = $this->getMenuService()->getMenuMapper()->findById($node['id']);
         $html = "";
         $html .= '<li class="dd-item"  data-id="'.$node['id'].'">';
         $html .= '<div class="dd-handle">';
@@ -178,18 +207,19 @@ class MenuController extends AbstractActionController
         }
 
         $html .= '&nbsp;&nbsp;&nbsp; '.$node['id'] .'&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;';
-        $html .=  $node['title'].' ('.$node['url'].')';
+        $html .=  $menu->getTitle().' ('.$menu->getUrl().')';
         $html .= '</div>';
 
-   
-        $html .= '<div class="dd-actions pull-right">
-                    <a href="/admin/playgroundcms/menu/edit/'.$node['id'].'" class="btn btn-xs btn-success">
-                        <i class="btn-icon-only fa fa-pencil"></i>                                       
-                    </a>
-                    <a href="javascript:;" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal_'.$node['id'].'">
-                        <i class="btn-icon-only fa fa-times"></i>                                       
-                    </a>
-                </div>';
+        if($menu->getLevel() > 0) {
+            $html .= '<div class="dd-actions pull-right">
+                        <a href="/admin/playgroundcms/menu/edit/'.$node['id'].'" class="btn btn-xs btn-success">
+                            <i class="btn-icon-only fa fa-pencil"></i>                                       
+                        </a>
+                        <a href="/admin/playgroundcms/menu/delete/'.$node['id'].'" class="btn btn-xs btn-danger">
+                            <i class="btn-icon-only fa fa-times"></i>                                       
+                        </a>
+                    </div>';
+        }
 
         $html .= '</li>';
 
