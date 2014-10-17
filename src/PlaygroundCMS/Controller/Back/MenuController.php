@@ -171,13 +171,13 @@ class MenuController extends AbstractActionController
             );
             $repository = $this->getMenuService()->getMenuMapper()->getEntityRepository();
             $menus = json_decode($data['data'], true);
-            var_dump($menus);
             foreach ($menus as $key => $menu) {
                 if(is_numeric($menu)){
                     $menu = $this->getMenuService()->getMenuMapper()->findById($menu);
                     $root = $this->getMenuService()->findOrCreateRoot();
                     if($menu == $root) {
                         continue;
+
                     }
                     $this->getMenuService()->getMenuMapper()->getEntityRepository()->persistAsFirstChild($root)->persistAsLastChildOf($menu, $root);
                     $this->getMenuService()->getMenuMapper()->getEntityManager()->flush();
@@ -203,41 +203,45 @@ class MenuController extends AbstractActionController
     public function decorateNode($node)
     {
         $menu = $this->getMenuService()->getMenuMapper()->findById($node['id']);
-        //if ($menu->getTitle() != "root") {
-            $html = "";
-            $html .= '<li class="dd-item"  data-id="'.$node['id'].'">';
-            $html .= '<div class="dd-handle">';
-            if ($node['status'] == 1 ) {
-                $html .= '<div class="feed-item pull-left">
-                            <div class="icon">
-                                <i class="fa fa-check color-green"></i>
-                            </div>
-                        </div>';
-            } else {
-                $html .= '<div class="feed-item pull-left">
-                            <div class="icon">
-                                <i class="fa fa-times color-red"></i>
-                            </div>
-                        </div>';
-            }
+        $isRoot = "";
+        
+        if ($menu->getTitle() == "root") {
+            $isRoot ="isRoot";
+        }
 
-            $html .= '&nbsp;&nbsp;&nbsp; '.$node['id'] .'&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;';
-            $html .=  $menu->getTitle().' ('.$menu->getUrl().')';
-            $html .= '</div>';
+        $html = "";
+        $html .= '<li class="dd-item '.$isRoot.'"  data-id="'.$node['id'].'">';
+        $html .= '<div class="dd-handle">';
+        if ($node['status'] == 1 ) {
+            $html .= '<div class="feed-item pull-left">
+                        <div class="icon">
+                            <i class="fa fa-check color-green"></i>
+                        </div>
+                    </div>';
+        } else {
+            $html .= '<div class="feed-item pull-left">
+                        <div class="icon">
+                            <i class="fa fa-times color-red"></i>
+                        </div>
+                    </div>';
+        }
 
-            if($menu->getLevel() > 0) {
-                $html .= '<div class="dd-actions pull-right">
-                            <a href="/admin/playgroundcms/menu/edit/'.$node['id'].'" class="btn btn-xs btn-success">
-                                <i class="btn-icon-only fa fa-pencil"></i>                                       
-                            </a>
-                            <a href="/admin/playgroundcms/menu/delete/'.$node['id'].'" class="btn btn-xs btn-danger">
-                                <i class="btn-icon-only fa fa-times"></i>                                       
-                            </a>
-                        </div>';
-            }
+        $html .= '&nbsp;&nbsp;&nbsp; '.$node['id'] .'&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;';
+        $html .=  $menu->getTitle().' ('.$menu->getUrl().')';
+        $html .= '</div>';
 
-            $html .= '</li>';
-//        }
+        if($menu->getLevel() > 0) {
+            $html .= '<div class="dd-actions pull-right">
+                        <a href="/admin/playgroundcms/menu/edit/'.$node['id'].'" class="btn btn-xs btn-success">
+                            <i class="btn-icon-only fa fa-pencil"></i>                                       
+                        </a>
+                        <a href="/admin/playgroundcms/menu/delete/'.$node['id'].'" class="btn btn-xs btn-danger">
+                            <i class="btn-icon-only fa fa-times"></i>                                       
+                        </a>
+                    </div>';
+        }
+
+        $html .= '</li>';
 
         return $html; 
     }
