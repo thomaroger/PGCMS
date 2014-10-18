@@ -139,6 +139,11 @@ class Menu implements InputFilterAwareInterface
         return $this->parent;
     }
 
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
     /**
      * setTitle : Setter pour title
      * @param string $title 

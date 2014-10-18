@@ -169,27 +169,7 @@ class MenuController extends AbstractActionController
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
-            $repository = $this->getMenuService()->getMenuMapper()->getEntityRepository();
-            $menus = json_decode($data['data'], true);
-            foreach ($menus as $key => $menu) {
-                if(is_numeric($menu)){
-                    $menu = $this->getMenuService()->getMenuMapper()->findById($menu);
-                    $root = $this->getMenuService()->findOrCreateRoot();
-                    if($menu == $root) {
-                        continue;
-
-                    }
-                    $this->getMenuService()->getMenuMapper()->getEntityRepository()->persistAsFirstChild($root)->persistAsLastChildOf($menu, $root);
-                    $this->getMenuService()->getMenuMapper()->getEntityManager()->flush();
-                    $menuParent = $menu;
-                } else {
-                    $menu = str_replace('children-', '', $menu);
-                    $submenu = $this->getMenuService()->getMenuMapper()->findById($menu);
-                    $submenu->setParent($menuParent);
-                    $submenu = $this->getMenuService()->getMenuMapper()->persist($submenu);
-
-                }
-            }
+            $this->getMenuService()->updatePosition($data);
             $return['status'] = 0;
         }
         
@@ -211,6 +191,12 @@ class MenuController extends AbstractActionController
 
         $html = "";
         $html .= '<li class="dd-item '.$isRoot.'"  data-id="'.$node['id'].'">';
+        
+        if($menu->getChildren()->count() > 0) { 
+            $html .= '<button class="fa fa-minus subMenuCollapse">Collapse</button>';
+            $html .= '<button class="fa fa-plus subMenuExpand" style="display: none;">Expand&gt;</button>';
+        }
+
         $html .= '<div class="dd-handle">';
         if ($node['status'] == 1 ) {
             $html .= '<div class="feed-item pull-left">

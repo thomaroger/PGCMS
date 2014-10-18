@@ -130,6 +130,31 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
     }
 
 
+    public function updatePosition($data)
+    {
+        $menus = json_decode($data['data'], true);
+        foreach ($menus as $key => $menu) {
+            if(is_numeric($menu)){
+                $menu = $this->getMenuMapper()->findById($menu);
+                $root = $this->findOrCreateRoot();
+                if($menu == $root) {
+                    continue;
+
+                }
+                $this->getMenuMapper()->getEntityRepository()->persistAsFirstChild($root)->persistAsLastChildOf($menu, $root);
+                $this->getMenuMapper()->getEntityManager()->flush();
+            } else {
+                $menu = explode('-', $menu);
+                $submenu = $this->getMenuMapper()->findById($menu[2]);
+                $parentMenu = $this->getMenuMapper()->findById($menu[1]);
+                $submenu->setParent($parentMenu);
+                $submenu = $this->getMenuMapper()->persist($submenu);
+
+            }
+        }   
+    }
+
+
     public function checkMenu($data)
     {
         
@@ -179,7 +204,6 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
 
         return array('status' => 0, 'message' => '', 'data' => $data);
     }
-
 
     public function getRessourceMapper()
     {
