@@ -68,6 +68,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
      * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
      */
     protected $pollMapper;
+    
+    /**
+     * @var PlaygroundCMS\Mapper\BlockLayoutZone blockLayoutZoneMapper
+     */
+    protected $menuMapper;
 
     /**
      * getFeeds : Permet de recuperer les feeds
@@ -76,7 +81,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
     */
     public function getFeeds()
     {
-        list($blocks, $users, $pages, $layouts, $zones, $templates, $tags, $categories, $articles, $polls) = $this->getDataForFeeds();
+        list($blocks, $users, $pages, $layouts, $zones, $templates, $tags, $categories, $articles, $polls, $menus) = $this->getDataForFeeds();
         $feeds = array();
         foreach ($blocks as $block) {
             $feeds[$block->getCreatedAt()->getTimestamp().''.$block->getId().'b'] = $block;
@@ -108,9 +113,11 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         foreach ($polls as $poll) {
             $feeds[$poll->getCreatedAt()->getTimestamp().''.$poll->getId().'p'] = $poll;
         }
-
         foreach ($polls as $poll) {
             $feeds[$poll->getCreatedAt()->getTimestamp().''.$poll->getId().'p'] = $poll;
+        }
+        foreach ($menus as $menu) {
+            $feeds[$menu->getCreatedAt()->getTimestamp().''.$menu->getId().'m'] = $menu;
         }
 
         krsort($feeds);
@@ -136,6 +143,7 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         $data[] = $this->getCategoryMapper()->findAll();
         $data[] = $this->getArticleMapper()->findAll();
         $data[] = $this->getPollMapper()->findAll();
+        $data[] = $this->getMenuMapper()->findAll();
 
         return $data;
     }
@@ -391,6 +399,33 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
+     * getPageMapper : Getter pour pageMapper
+     *
+     * @return PlaygroundCMS\Mapper\Page $pageMapper
+     */
+    protected function getMenuMapper()
+    {
+        if (empty($this->menuMapper)) {
+            $this->setMenuMapper($this->getServiceManager()->get('playgroundcms_menu_mapper'));
+        }
+
+        return $this->menuMapper;
+    }
+
+    /**
+     * setPageMapper : Setter pour pageMapper
+     * @param PlaygroundCMS\Mapper\Page $pageMapper
+     *
+     * @return Feed $this
+     */
+    protected function setMenuMapper($menuMapper)
+    {
+        $this->menuMapper = $menuMapper;
+
+        return $this;
+    }
+
+    /**
      * getUserMapper
      *
      * @return UserMapperInterface
@@ -416,6 +451,8 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
 
         return $this;
     }
+
+
 
      /**
      * getServiceManager : Getter pour serviceManager
