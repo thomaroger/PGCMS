@@ -139,15 +139,15 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
                 $root = $this->findOrCreateRoot();
                 if($menu == $root) {
                     continue;
-
                 }
-                $this->getMenuMapper()->getEntityRepository()->persistAsFirstChild($root)->persistAsLastChildOf($menu, $root);
+                $this->getMenuMapper()->getEntityRepository()->persistAsLastChildOf($menu, $root);
                 $this->getMenuMapper()->getEntityManager()->flush();
             } else {
                 $menu = explode('-', $menu);
                 $submenu = $this->getMenuMapper()->findById($menu[2]);
                 $parentMenu = $this->getMenuMapper()->findById($menu[1]);
-                $submenu->setParent($parentMenu);
+                //$submenu->setParent($parentMenu);
+                $this->getMenuMapper()->getEntityRepository()->persistAsLastChildOf($submenu, $parentMenu);
                 $submenu = $this->getMenuMapper()->persist($submenu);
 
             }
