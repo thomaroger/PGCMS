@@ -172,6 +172,11 @@ class Module
                     return $form;
                 },
 
+                'playgroundcms-blocks-menu-form' => function  ($sm) {
+                    $form = new Form\MenuForm(null, $sm);
+
+                    return $form;
+                },
             ),
             'invokables' => array(
                 'playgroundcms_block_service'           => 'PlaygroundCMS\Service\Block',
