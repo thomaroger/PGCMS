@@ -49,10 +49,10 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
     * 
     * @return string $render
     */
-    public function render()
+    public function render($format="html")
     {
 
-        return $this->getRenderAction();
+        return $this->getRenderAction($format);
     }
 
     /**
@@ -60,10 +60,10 @@ class BlockRenderer extends EventProvider implements ServiceManagerAwareInterfac
     * 
     * @return string $render
     */
-    private function getRenderAction()
+    private function getRenderAction($format)
     {
         $block = $this->getBlock();
-        $blockResponse = $this->getServiceManager()->get('playgroundcms_block_generator')->generate($block);
+        $blockResponse = $this->getServiceManager()->get('playgroundcms_block_generator')->generate($block, $format);
         
         return sprintf('
     <!-- Render block -> %s : %d - %s -->

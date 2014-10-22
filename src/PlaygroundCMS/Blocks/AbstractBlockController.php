@@ -34,6 +34,8 @@ abstract class AbstractBlockController
     */
     protected $renderer;
 
+    protected $format;
+
     /**
     * @var ModuleOptions $cmsOptions
     */
@@ -65,6 +67,7 @@ abstract class AbstractBlockController
     public function renderAction($format, array $parameters)
     {
         $this->setHeaders();
+        $this->setFormat($format);
 
         return $this->renderBlock();
     }
@@ -127,12 +130,42 @@ abstract class AbstractBlockController
         $block = $this->getBlock();
         $templates = json_decode($block->getTemplateContext(), true);
 
-        
         $template = $templates['web'];
+
+        $format = $this->getFormat();
+
+       
+
+
+        if($format != 'html') {
+            $templateBackup = $template;
+            $template = explode('.', $template);
+            $template[count($template)-1] = $format;
+            $template = implode('.', $template);
+
+            $templatePath = $this->getTemplateFolder().$template;
+            if (!file_exists($templatePath)) {
+                //throw new \RuntimeException(sprintf('Template not found : "%s"', $template));
+                $template = $templateBackup;
+            }
+        }
         
 
         return $template;
     }  
+
+
+     /**
+        * @todo : refactore with module => cmsOptions
+        * Warning DIR TEMPLATE
+    */
+    const DIR_TEMPLATE = '/../../../../../../design';
+    public function getTemplateFolder()
+    {
+        $config = $this->getServiceManager()->get('Config');
+    
+        return __DIR__.self::DIR_TEMPLATE.'/frontend/'.$config['design']['frontend']['package'].'/'.$config['design']['frontend']['theme'].'/';
+    }
 
     /**
     * getResponse : Recuperation de la response
@@ -208,6 +241,18 @@ abstract class AbstractBlockController
                                ->addHeaderLine('User-Cache-Control', 'max-age='.'300')
                                ->addHeaderLine('Expires', gmdate("D, d M Y H:i:s", time() + 300))
                                ->addHeaderLine('Pragma', 'cache');*/
+    }
+
+    public function setFormat($format)
+    {
+        $this->format = $format;
+
+        return $this;
+    }
+
+    public function getFormat()
+    {
+        return $this->format;
     }
 
      /**

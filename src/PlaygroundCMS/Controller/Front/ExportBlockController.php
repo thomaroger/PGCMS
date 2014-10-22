@@ -25,6 +25,10 @@ class ExportBlockController extends AbstractActionController
     */
     protected $blockService;
 
+    protected $cmsOptions;
+
+    protected $ressourceService;
+
     /**
     * indexAction : Action index du controller de page
     *
@@ -35,8 +39,12 @@ class ExportBlockController extends AbstractActionController
         $response = $this->getResponse();
         $id = $this->getEvent()->getRouteMatch()->getParam('id', '0');
         $slug = $this->getEvent()->getRouteMatch()->getParam('slug', '');
+        $format = $this->getEvent()->getRouteMatch()->getParam('format', 'html');
         
         $block = $this->getBlockFromCache((string) $slug);
+
+        $ressource = $this->getRessourceService()->getRessourceMapper()->findBy(array('locale' => $this->getEvent()->getRouteMatch()->getParam('locale', 'en_US')));
+        $this->getCmsOptions()->setRessource($ressource[0]);
 
         if (!($block instanceof Block)) {
             $response->setStatusCode(404);
@@ -50,7 +58,8 @@ class ExportBlockController extends AbstractActionController
             return ;   
         }
 
-        if($block->getIsExportable() != $id) {
+
+        if(!$block->getIsExportable()) {
             $response->setStatusCode(404);
             
             return ;   
@@ -58,7 +67,7 @@ class ExportBlockController extends AbstractActionController
 
         $out = $this->getBlockRendererService()
                         ->setBlock($block)
-                        ->render();
+                        ->render($format);
 
         $response->setStatusCode(200);
         $response->setContent(utf8_decode($out)); 
@@ -133,5 +142,33 @@ class ExportBlockController extends AbstractActionController
         $this->blockRenderer = $blockRenderer;
 
         return $this;
+    }
+
+     /**
+     * getRessourceService : Getter pour le service de ressource
+     *
+     * @return Ressource $ressourceService
+     */
+    protected function getRessourceService()
+    {
+        if (!$this->ressourceService) {
+            $this->ressourceService = $this->getServiceLocator()->get('playgroundcms_ressource_service');
+        }
+
+        return $this->ressourceService;
+    }
+
+     /**
+     * getCMSOptions : Getter pour les options de playgroundcms
+     *
+     * @return ModuleOptions $cmsOptions
+     */
+    protected function getCMSOptions()
+    {
+        if (!$this->cmsOptions) {
+            $this->cmsOptions = $this->getServiceLocator()->get('playgroundcms_module_options');
+        }
+
+        return $this->cmsOptions;
     }
 }
