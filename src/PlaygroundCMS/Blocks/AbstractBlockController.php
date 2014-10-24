@@ -143,29 +143,18 @@ abstract class AbstractBlockController
             $template[count($template)-1] = $format;
             $template = implode('.', $template);
 
-            $templatePath = $this->getTemplateFolder().$template;
+            $templatePath = $this->getCmsOptions()->getTemplateFolder($this->getServiceManager()).$template;
             if (!file_exists($templatePath)) {
-                //throw new \RuntimeException(sprintf('Template not found : "%s"', $template));
-                $template = $templateBackup;
+                throw new \RuntimeException(sprintf('Template not found : "%s"', $template));
             }
+            $resolver = $this->getServiceManager()->get('playgroundcms_module_options')->getTemplateMapResolver();
+            $resolver->add($template, $templatePath);
+            $this->getServiceManager()->get('playgroundcms_module_options')->setTemplateMapResolver($resolver);
         }
         
 
         return $template;
     }  
-
-
-     /**
-        * @todo : refactore with module => cmsOptions
-        * Warning DIR TEMPLATE
-    */
-    const DIR_TEMPLATE = '/../../../../../../design';
-    public function getTemplateFolder()
-    {
-        $config = $this->getServiceManager()->get('Config');
-    
-        return __DIR__.self::DIR_TEMPLATE.'/frontend/'.$config['design']['frontend']['package'].'/'.$config['design']['frontend']['theme'].'/';
-    }
 
     /**
     * getResponse : Recuperation de la response

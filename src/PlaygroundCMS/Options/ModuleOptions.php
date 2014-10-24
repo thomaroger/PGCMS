@@ -18,6 +18,8 @@ use Zend\Mvc\I18n\Translator;
 
 class ModuleOptions extends AbstractOptions
 {
+    const DIR_TEMPLATE = '/../../../../../../design';
+
     /**
      * @var TemplateMapResolver $templateMapResolver 
      */
@@ -67,6 +69,14 @@ class ModuleOptions extends AbstractOptions
     * @var *\Entity\* $entity 
     */
     protected $entity;
+
+   
+    public function getTemplateFolder($serviceManager)
+    {
+        $config = $serviceManager->get('Config');
+
+        return __DIR__.self::DIR_TEMPLATE.'/frontend/'.$config['design']['frontend']['package'].'/'.$config['design']['frontend']['theme'].'/';
+    }
 
 
     /**

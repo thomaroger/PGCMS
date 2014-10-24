@@ -8,11 +8,6 @@ use Zend\View\Resolver\TemplateMapResolver;
 
 class Module
 {
-    /**
-    * @var string DIR_TEMPLATE : Directory du template 
-    */
-    const DIR_TEMPLATE = '/../../../../../design';
-
 
     /**
     * getTemplateFolder : Permet de recuperer le repertoire ou se trouve les templates
@@ -22,9 +17,8 @@ class Module
     */
     public function getTemplateFolder($serviceManager)
     {
-        $config = $serviceManager->get('Config');
-        
-        return __DIR__.self::DIR_TEMPLATE.'/frontend/'.$config['design']['frontend']['package'].'/'.$config['design']['frontend']['theme'].'/';
+
+        return $serviceManager->get('playgroundcms_module_options')->getTemplateFolder($serviceManager);        
     }
 
     
