@@ -61,6 +61,11 @@ class Block implements InputFilterAwareInterface
     protected $isGallery = 0;
 
     /**
+     * @ORM\Column(name="is_entity_detail", type="boolean", nullable=false)
+     */
+    protected $isEntityDetail = 0;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $slug;
@@ -224,6 +229,29 @@ class Block implements InputFilterAwareInterface
     public function getIsGallery()
     {
         return $this->isGallery;
+    }
+
+     /**
+     * setIsEntityDetail : Setter pour isEntityDetail 
+     * @param boolean $isEntityDetail 
+     *
+     * @return Block $block
+     */
+    public function setIsEntityDetail($isEntityDetail)
+    {
+        $this->isEntityDetail = (boolean) $isEntityDetail;
+
+        return $this;
+    }
+
+   /**
+     * getIsEntityDetail : Getter pour isEntityDetail
+     * 
+     * @return boolean $isEntityDetail 
+     */
+    public function getIsEntityDetail()
+    {
+        return $this->isEntityDetail;
     }
 
     /**

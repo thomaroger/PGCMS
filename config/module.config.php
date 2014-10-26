@@ -58,7 +58,7 @@ return array(
             'export-block' => array(
                 'type' => 'PlaygroundCore\Mvc\Router\Http\RegexSlash',
                 'options' => array(
-                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/export-block\/(?<slug>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
+                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/export-block\/(?<slug>([a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
                   'defaults' => array(
                     'controller' => 'PlaygroundCMS\Controller\Front\ExportBlock',
                     'action'     => 'index',
@@ -72,7 +72,7 @@ return array(
             'frontend' => array(
                 'type' => 'PlaygroundCMS\Router\Http\RegexSlash',
                 'options' => array(
-                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/(?<slugiverse>([\/a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
+                  'regex'    => '\/(?<locale>([a-z_]{5}+))\/(?<slugiverse>([a-z0-9-]+))-(?<id>([0-9]+)).(?<format>([xml|html|json]+))\/?',
                   'defaults' => array(
                     'controller' => 'PlaygroundCMS\Controller\Front\Page',
                     'action'     => 'index',

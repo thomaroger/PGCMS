@@ -146,6 +146,24 @@ class BlockForm extends ProvidesEventsForm
             ),
         ));
 
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Radio',
+            'name' => 'is_entity_detail',
+            'options' => array(
+                'label' => 'Block Detail of the Entity ?',
+                'label_attributes' => array(
+                    'class'  => 'control-label'
+                ),
+                'value_options' => array(
+                     '0' => 'No',
+                     '1' => 'Yes',
+                ),
+            ),
+            'attributes' => array(
+                'class' => "icheck form-control",
+            ),
+        ));
+
 
          $this->add(array(
             'type' => 'Zend\Form\Element\Select',
@@ -248,6 +266,7 @@ class BlockForm extends ProvidesEventsForm
             $this->get('name')->setValue($data->getName());
             $this->get('is_exportable')->setValue($data->getIsExportable());
             $this->get('is_gallery')->setValue($data->getIsGallery());
+            $this->get('is_entity_detail')->setValue($data->getIsEntityDetail());
             $templateContext = json_decode($data->getTemplateContext(), true);
             if(!empty($templateContext['web']))  {
                 $this->get('template_context[web]')->setValue($templateContext['web']);
@@ -266,6 +285,9 @@ class BlockForm extends ProvidesEventsForm
 
             if (!empty($data['is_gallery'])) {
                 $this->get('is_gallery')->setValue(array($data['is_gallery']));
+            }
+            if (!empty($data['is_entity_detail'])) {
+                $this->get('is_entity_detail')->setValue(array($data['is_entity_detail']));
             }    
         }
         

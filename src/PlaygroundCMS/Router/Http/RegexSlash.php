@@ -59,6 +59,13 @@ class RegexSlash extends \Zend\Mvc\Router\Http\Regex implements \Zend\Mvc\Router
             }
         }
 
+        /**
+        * Can export an entity in several format : One entity is represented by a html URL
+        */
+        $path = explode('.', $path);
+        $path[count($path)-1] = "html";
+        $path = implode('.', $path);
+
         $ressource = $this->getRessource($path);
 
         if(empty($ressource)){

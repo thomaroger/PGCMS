@@ -43,6 +43,7 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         $block->setType($data['type']);
         $block->setIsExportable($data['is_exportable']);
         $block->setIsGallery($data['is_gallery']);
+        $block->setIsEntityDetail($data['is_entity_detail']);
 
         $data = $form->decorateSpecificConfguration($data);
 
@@ -69,6 +70,7 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         $block->setType($data['type']);
         $block->setIsExportable($data['is_exportable']);
         $block->setIsGallery($data['is_gallery']);
+        $block->setIsEntityDetail($data['is_entity_detail']);
 
         $data = $form->decorateSpecificConfguration($data);
 

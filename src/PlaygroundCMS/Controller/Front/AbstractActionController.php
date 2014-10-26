@@ -9,6 +9,8 @@
 namespace PlaygroundCMS\Controller\Front;
 
 use Zend\Mvc\Controller\AbstractActionController as AbstractActionControllerParent;
+use PlaygroundCMS\Renderer\BlockRenderer;
+
 
 class AbstractActionController extends AbstractActionControllerParent
 {
@@ -18,9 +20,16 @@ class AbstractActionController extends AbstractActionControllerParent
     protected $ressourceService;
 
     /**
+    * @var Block $blockService
+    */
+    protected $blockService;
+
+    /**
     * @var ModuleOptions $cmsOptions
     */
     protected $cmsOptions;
+
+    protected $blockRenderer;
     
     /**
     * getRessource : permet de récuperer une ressource
@@ -106,6 +115,20 @@ class AbstractActionController extends AbstractActionControllerParent
         return $this->ressourceService;
     }
 
+    /**
+     * getBlockService : Getter pour le service de block
+     *
+     * @return Block $blockService
+     */
+    protected function getBlockService()
+    {
+        if (!$this->blockService) {
+            $this->blockService = $this->getServiceLocator()->get('playgroundcms_block_service');
+        }
+
+        return $this->blockService;
+    }
+
      /**
      * getCMSOptions : Getter pour les options de playgroundcms
      *
@@ -118,5 +141,32 @@ class AbstractActionController extends AbstractActionControllerParent
         }
 
         return $this->cmsOptions;
+    }
+
+    /**
+    * getBlockRendererService : Getter pour blockRenderer
+    *
+    * @return PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    */
+    protected function getBlockRendererService()
+    {
+        if (null === $this->blockRenderer) {
+            $this->setBlockRendererService($this->getServiceLocator()->get('playgroundcms_block_renderer'));
+        }
+
+        return $this->blockRenderer;
+    }
+
+    /**
+    * setBlockRendererService : Setter pour blockRenderer
+    * @param PlaygroundCMS\Renderer BlockRenderer $blockRenderer
+    *
+    * @return ExportBlockController $this  
+    */
+    protected function setBlockRendererService(BlockRenderer $blockRenderer)
+    {
+        $this->blockRenderer = $blockRenderer;
+
+        return $this;
     }
 }
