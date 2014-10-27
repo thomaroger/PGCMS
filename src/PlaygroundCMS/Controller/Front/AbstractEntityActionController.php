@@ -13,10 +13,11 @@ use Zend\View\Model\ViewModel;
 
 class AbstractEntityActionController extends AbstractActionController
 {
-    protected function renderEntityForExport($type)
+    protected function renderEntityForExport()
     {
         $format = $this->getEvent()->getRouteMatch()->getParam('format');
         $response = $this->getResponse();
+        $type = $this->getEntity()->getEntityBlockDetail();
 
         $block = $this->getBlockService()->getBlockMapper()->FindOneBy(array('type' => $type,
                                                                              'isEntityDetail' => true));
