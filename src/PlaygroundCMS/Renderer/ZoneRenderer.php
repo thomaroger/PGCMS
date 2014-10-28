@@ -94,7 +94,7 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
          $out = '';
 
         // For debug
-        $out .= "\n<!-- Render zone ".$this->getZone()->getName()."-->\n";
+        $out .= "\n<!-- Render Zone : ".$this->getZone()->getId()." - ".$this->getZone()->getName()."-->\n";
         $blocks = $this->getBlocks();
 
         if (!empty($blocks)) {
@@ -107,7 +107,7 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
             }
         }
         // For debug
-        $out .= "\n<!-- / Render zone ".$this->getZone()->getName()."-->\n";
+        $out .= "\n<!-- / Render Zone : ".$this->getZone()->getName()."-->\n";
 
         return $out;
     }
