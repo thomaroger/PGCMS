@@ -37,7 +37,8 @@ class PageController extends AbstractActionController
             return;
         }
 
-        $viewModel = new ViewModel(array('entity' => $entity));
+        $viewModel = new ViewModel(array('entity' => $entity,
+                                        'ressource' => $ressource));
         
         return $viewModel->setTemplate($this->getTemplate());
     }
