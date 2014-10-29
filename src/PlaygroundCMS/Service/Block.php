@@ -66,6 +66,8 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
     */
     public function update($block, $data, $form){
 
+        $this->getServiceManager()->get('playgroundcms_revision_service')->createRevision($block);
+
         $block->setName($data['name']);
         $block->setType($data['type']);
         $block->setIsExportable($data['is_exportable']);

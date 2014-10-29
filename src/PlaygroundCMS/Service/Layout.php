@@ -73,6 +73,9 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
     public function edit($data)
     {
         $layout = $this->getLayoutMapper()->findById($data['layout']['id']);
+
+        $this->getServiceManager()->get('playgroundcms_revision_service')->createRevision($layout);
+
         
         $layout->setName($data['layout']['name']);
         $layout->setFile($data['layout']['file']);

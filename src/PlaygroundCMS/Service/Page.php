@@ -103,6 +103,8 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
     public function edit($data){
 
         $page = $this->getPageMapper()->findById($data['page']['id']);
+        $this->getServiceManager()->get('playgroundcms_revision_service')->createRevision($page);
+
 
         $layoutContext = array();
 

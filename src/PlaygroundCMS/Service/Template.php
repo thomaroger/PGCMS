@@ -69,6 +69,9 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
     public function edit($data)
     {
         $template = $this->getTemplateMapper()->findById($data['template']['id']);
+        $this->getServiceManager()->get('playgroundcms_revision_service')->createRevision($template);
+
+
         $template->setName($data['template']['name']);
         $template->setFile($data['template']['file']);
         $template->setDescription($data['template']['description']);

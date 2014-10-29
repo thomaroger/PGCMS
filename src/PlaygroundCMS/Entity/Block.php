@@ -481,4 +481,14 @@ class Block implements InputFilterAwareInterface
 
         return '/fr_fr/export-block/'.$this->getSlug().'-'.$this->getId().'.html';
     }
+
+    /**
+    * allowRevision : permet d'activer les revisions pour cette objet
+    *
+    * @return boolean true / false
+    */
+    public function allowRevision(){
+
+        return true;
+    }
 }
