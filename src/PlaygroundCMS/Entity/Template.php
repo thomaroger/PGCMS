@@ -339,4 +339,14 @@ class Template implements InputFilterAwareInterface
     {
         $this->updated_at = new \DateTime("now");
     }
+
+    /**
+    * allowRevision : permet d'activer les revisions pour cette objet
+    *
+    * @return boolean true / false
+    */
+    public function allowRevision(){
+
+        return true;
+    }
 }
