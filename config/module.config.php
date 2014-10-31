@@ -414,6 +414,17 @@ return array(
                                     ),
                                 ),    
                             ),
+
+                            'revision' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/revisions[/:filter][/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Revision',
+                                        'action'     => 'list',
+                                    ),
+                                ),    
+                            ),
                         ),
                     ),
                 ),
@@ -437,6 +448,7 @@ return array(
             'PlaygroundCMS\Controller\Back\Menu'      => 'PlaygroundCMS\Controller\Back\MenuController',
             'PlaygroundCMS\Controller\Back\Page'      => 'PlaygroundCMS\Controller\Back\PageController',
             'PlaygroundCMS\Controller\Back\Layout'    => 'PlaygroundCMS\Controller\Back\LayoutController',
+            'PlaygroundCMS\Controller\Back\Revision'  => 'PlaygroundCMS\Controller\Back\RevisionController',
             'PlaygroundCMS\Controller\Back\Template'  => 'PlaygroundCMS\Controller\Back\TemplateController',
             'PlaygroundCMS\Controller\Back\Zone'      => 'PlaygroundCMS\Controller\Back\ZoneController',
         ),
