@@ -48,7 +48,7 @@ class Revision extends EventProvider implements ServiceManagerAwareInterface
 
         $filters = array('type'=>get_class($object), 'objectId' =>$object->getId());
 
-        $revisions = $this->getRevisionMapper()->findBy($filters,array('id' => 'DESC'));
+        $revisions = $this->getRevisionMapper()->findByAndOrderBy($filters, array('id' => 'DESC'));
         $count = count($revisions) + 1;
 
         $revision = new RevisionEntity();

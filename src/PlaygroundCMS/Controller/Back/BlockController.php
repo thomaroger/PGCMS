@@ -29,6 +29,10 @@ class BlockController extends AbstractActionController
     * @var BlockLayoutZone blockLayoutZoneService  Service de BlockLayoutZone
     */
     protected $blockLayoutZoneService;
+    /**
+    * @var RevisionService revisionService  Service de Revision
+    */
+    protected $revisionService;
     
     /**
     * listAction : Liste des blocs
@@ -154,7 +158,16 @@ class BlockController extends AbstractActionController
         
         $blockId = $this->getEvent()->getRouteMatch()->getParam('id');
         $layoutId = $this->getEvent()->getRouteMatch()->getParam('layoutId', 0);
+        $revisionId = $this->getEvent()->getRouteMatch()->getParam('revisionId', 0);
         $block = $this->getBlockService()->getBlockMapper()->findById($blockId);
+
+        $filters = array('type' => get_class($block), 'objectId' => $block->getId());
+        $revisions = $this->getRevisionService()->getRevisionMapper()->findByAndOrderBy($filters, array('id' => 'DESC'));
+
+        if(!empty($revisionId)){
+            $revision = $this->getRevisionService()->getRevisionMapper()->findById($revisionId);
+            $block = unserialize($revision->getObject());
+        }
 
         $slugify = new Slugify;
         $type = strtolower(str_replace('controller', '-form', $slugify->filter($block->getType())));
@@ -167,6 +180,11 @@ class BlockController extends AbstractActionController
         $data = array();
         $request = $this->getRequest();
         if ($request->isPost()) {
+            
+            if(!empty($revisionId)){
+                $block = $this->getBlockService()->getBlockMapper()->findById($blockId);
+            }
+
             $data = array_merge(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
@@ -198,6 +216,7 @@ class BlockController extends AbstractActionController
 
         return new ViewModel(array('form'   => $form,
                                    'block'  => $block,
+                                   'revisions'  => $revisions,
                                    'data'   => $data,
                                    'return' => $return));
     }
@@ -249,6 +268,33 @@ class BlockController extends AbstractActionController
         }
 
         return $this->blockLayoutZoneService;
+    }
+
+    /**
+     * getRevisionService : Recuperation du service de revision
+     *
+     * @return RevisionService $revisionService : revisionService
+     */
+    private function getRevisionService()
+    {
+        if (null === $this->revisionService) {
+            $this->setRevisionService($this->getServiceLocator()->get('playgroundcms_revision_service'));
+        }
+
+        return $this->revisionService;
+    }
+
+    /**
+     * setRevisionService : Setter du service de revision
+     * @param  Feed $revisionService
+     *
+     * @return BlockController $this
+     */
+    private function setRevisionService($revisionService)
+    {
+        $this->revisionService = $revisionService;
+
+        return $this;
     }
 }
 

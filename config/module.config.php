@@ -308,6 +308,21 @@ return array(
                                 ), 
                             ),
 
+                            'block_edit_revision'  => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/block/edit/:id[/revision/:revisionId]',
+                                    'defaults' => array(
+                                        'controller' => 'PlaygroundCMS\Controller\Back\Block',
+                                        'action'     => 'edit',
+                                    ),
+                                    'constraints' => array(
+                                        'id'       => '[0-9]+',
+                                        'layoutId' => '[0-9]+',
+                                    ),
+                                ), 
+                            ),
+
                             'block_remove'  => array(
                                 'type' => 'Segment',
                                 'options' => array(

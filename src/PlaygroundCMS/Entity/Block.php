@@ -487,8 +487,15 @@ class Block implements InputFilterAwareInterface
     *
     * @return boolean true / false
     */
-    public function allowRevision(){
+    public function allowRevision()
+    {
 
         return true;
+    }
+
+    public function __toString()
+    {
+
+        return $this->getName();
     }
 }

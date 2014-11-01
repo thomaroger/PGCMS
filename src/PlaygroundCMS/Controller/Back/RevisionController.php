@@ -58,7 +58,7 @@ class RevisionController extends AbstractActionController
            
     }  
 
-     /**
+    /**
      * getFeedService : Recuperation du service de feed
      *
      * @return Feed $feedService : feedService
@@ -71,6 +71,7 @@ class RevisionController extends AbstractActionController
 
         return $this->revisionService;
     }
+    
     /**
      * setFeedService : Setter du service de feed
      * @param  Feed $feedService
