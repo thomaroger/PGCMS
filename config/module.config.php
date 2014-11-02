@@ -395,7 +395,7 @@ return array(
                             'menu_edit' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/menu/edit/:id',
+                                    'route' => '/menu/edit/:id[/revision/:revisionId]',
                                     'defaults' => array(
                                         'controller' => 'PlaygroundCMS\Controller\Back\Menu',
                                         'action'     => 'edit',

@@ -286,7 +286,7 @@ class BlockController extends AbstractActionController
 
     /**
      * setRevisionService : Setter du service de revision
-     * @param  Feed $revisionService
+     * @param  RevisionService $revisionService
      *
      * @return BlockController $this
      */

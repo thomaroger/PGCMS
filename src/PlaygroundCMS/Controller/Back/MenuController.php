@@ -23,6 +23,10 @@ class MenuController extends AbstractActionController
     protected $localeService;
 
     protected $ressourceService;
+    /**
+    * @var RevisionService revisionService  Service de Revision
+    */
+    protected $revisionService;
     
     /**
     * indexAction : Liste des feeds
@@ -106,10 +110,21 @@ class MenuController extends AbstractActionController
         $request = $this->getRequest();
 
         $menuId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $revisionId = $this->getEvent()->getRouteMatch()->getParam('revisionId', 0);
+        
         $menu = $this->getMenuService()->getMenuMapper()->findById($menuId);
+
+        $filters = array('type' => get_class($menu), 'objectId' => $menu->getId());
+        $revisions = $this->getRevisionService()->getRevisionMapper()->findByAndOrderBy($filters, array('id' => 'DESC'));
+
 
         $translations = $this->getMenuService()->getMenuMapper()->getEntityRepositoryForEntity($menu->getTranslationRepository())->findTranslations($menu);
         $menu->setTranslations($translations);
+
+        if(!empty($revisionId)){
+            $revision = $this->getRevisionService()->getRevisionMapper()->findById($revisionId);
+            $menu = unserialize($revision->getObject());
+        }
 
         if(empty($menu)){
 
@@ -121,6 +136,10 @@ class MenuController extends AbstractActionController
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
+
+            if(!empty($revisionId)){
+                $menu = $this->getMenuService()->getMenuMapper()->findById($menuId);
+            }
 
             $return = $this->getMenuService()->checkMenu($data);
             $data = $return["data"];
@@ -136,8 +155,9 @@ class MenuController extends AbstractActionController
 
 
         return new ViewModel(array('menu' => $menu,
-                                   "ressources" => $ressources,
-                                   "locales" => $locales));
+                                   'ressources' => $ressources,
+                                   'revisions'  => $revisions,
+                                   'locales' => $locales));
     }
 
     public function removeAction()
@@ -284,5 +304,32 @@ class MenuController extends AbstractActionController
         }
 
         return $this->ressourceService;
+    }
+
+    /**
+     * getRevisionService : Recuperation du service de revision
+     *
+     * @return RevisionService $revisionService : revisionService
+     */
+    private function getRevisionService()
+    {
+        if (null === $this->revisionService) {
+            $this->setRevisionService($this->getServiceLocator()->get('playgroundcms_revision_service'));
+        }
+
+        return $this->revisionService;
+    }
+
+    /**
+     * setRevisionService : Setter du service de revision
+     * @param  RevisionService $revisionService
+     *
+     * @return MenuController $this
+     */
+    private function setRevisionService($revisionService)
+    {
+        $this->revisionService = $revisionService;
+
+        return $this;
     }
 }
