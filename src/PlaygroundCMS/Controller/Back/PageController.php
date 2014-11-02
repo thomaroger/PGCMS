@@ -47,6 +47,11 @@ class PageController extends AbstractActionController
     protected $cmsOptions;
 
     /**
+    * @var RevisionService revisionService  Service de Revision
+    */
+    protected $revisionService;
+
+    /**
     * indexAction : Liste des pages
     *
     * @return ViewModel $viewModel 
@@ -149,7 +154,12 @@ class PageController extends AbstractActionController
         $request = $this->getRequest();
 
         $pageId = $this->getEvent()->getRouteMatch()->getParam('id');
+        $revisionId = $this->getEvent()->getRouteMatch()->getParam('revisionId', 0);
+
         $page = $this->getPageService()->getPageMapper()->findById($pageId);
+
+        $filters = array('type' => get_class($page), 'objectId' => $page->getId());
+        $revisions = $this->getRevisionService()->getRevisionMapper()->findByAndOrderBy($filters, array('id' => 'DESC'));
 
         if(empty($page)){
 
@@ -159,6 +169,11 @@ class PageController extends AbstractActionController
         $translations = $this->getPageService()->getPageMapper()->getEntityRepositoryForEntity($page->getTranslationRepository())->findTranslations($page);
         $page->setTranslations($translations);
 
+        if(!empty($revisionId)){
+            $revision = $this->getRevisionService()->getRevisionMapper()->findById($revisionId);
+            $page = unserialize($revision->getObject());
+        }
+
         $ressources = $this->getRessourceService()->getRessourceMapper()->findBy(array('model' => 'PlaygroundCMS\Entity\Page', 'recordId' => $pageId));
         
         if ($request->isPost()) {
@@ -166,6 +181,7 @@ class PageController extends AbstractActionController
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
+
             $return = $this->getPageService()->checkPage($data);
             $data = $return["data"];
             unset($return["data"]);
@@ -187,7 +203,8 @@ class PageController extends AbstractActionController
                                    'layouts'       => $layouts,
                                    'locales'       => $locales,
                                    'page'          => $page,
-                                   'ressources'     => $ressources,
+                                   'ressources'    => $ressources,
+                                   'revisions'     => $revisions,
                                    'return'        => $return));
     }
 
@@ -287,5 +304,32 @@ class PageController extends AbstractActionController
         }
 
         return $this->cmsOptions;
+    }
+
+    /**
+     * getRevisionService : Recuperation du service de revision
+     *
+     * @return RevisionService $revisionService : revisionService
+     */
+    private function getRevisionService()
+    {
+        if (null === $this->revisionService) {
+            $this->setRevisionService($this->getServiceLocator()->get('playgroundcms_revision_service'));
+        }
+
+        return $this->revisionService;
+    }
+
+    /**
+     * setRevisionService : Setter du service de revision
+     * @param  RevisionService $revisionService
+     *
+     * @return BlockController $this
+     */
+    private function setRevisionService($revisionService)
+    {
+        $this->revisionService = $revisionService;
+
+        return $this;
     }
 }

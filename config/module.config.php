@@ -117,7 +117,7 @@ return array(
                             'page_edit' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/page/edit/:id',
+                                    'route' => '/page/edit/:id[/revision/:revisionId]',
                                     'defaults' => array(
                                         'controller' => 'PlaygroundCMS\Controller\Back\Page',
                                         'action'     => 'edit',
