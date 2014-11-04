@@ -37,7 +37,7 @@ class RevisionController extends AbstractActionController
         $this->layout()->setVariable('nav', "revisions");
         $p = $this->getRequest()->getQuery('page', 1);
 
-        $revisions = $this->getRevisionService()->getRevisionMapper()->findAll();
+        $revisions = $this->getRevisionService()->getRevisionMapper()->findByAndOrderBy(array(), array('id' => 'desc'));
         
         $nbRevision = count($revisions);
 
