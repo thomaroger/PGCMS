@@ -324,7 +324,7 @@ class PageController extends AbstractActionController
      * setRevisionService : Setter du service de revision
      * @param  RevisionService $revisionService
      *
-     * @return BlockController $this
+     * @return PageController $this
      */
     private function setRevisionService($revisionService)
     {

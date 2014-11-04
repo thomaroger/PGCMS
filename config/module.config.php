@@ -124,6 +124,7 @@ return array(
                                     ),
                                     'constraints' => array(
                                         'id' => '[0-9]+',
+                                        'revisionId' => '[0-9]+',
                                     ),
                                 ), 
                             ),
@@ -318,7 +319,7 @@ return array(
                                     ),
                                     'constraints' => array(
                                         'id'       => '[0-9]+',
-                                        'layoutId' => '[0-9]+',
+                                        'revisionId' => '[0-9]+',
                                     ),
                                 ), 
                             ),
@@ -402,6 +403,7 @@ return array(
                                     ),
                                     'constraints' => array(
                                         'id' => '[0-9]+',
+                                        'revisionId' => '[0-9]+',
                                     )
                                 ),    
                             ),
