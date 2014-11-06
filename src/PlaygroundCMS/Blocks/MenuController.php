@@ -11,6 +11,8 @@
 namespace PlaygroundCMS\Blocks;
 
 use Zend\View\Model\ViewModel;
+use PlaygroundCMS\Entity\Menu;
+
 
 class MenuController extends AbstractBlockController
 {
@@ -44,7 +46,6 @@ class MenuController extends AbstractBlockController
 
         $params['htmlTree'] = $repository->childrenHierarchy($menu, false, $options);
 
-
         $model = new ViewModel($params);
         
         return $this->render($model);
@@ -58,22 +59,25 @@ class MenuController extends AbstractBlockController
 
         $html = "";
         
-        if($menu->getChildren()->count() > 0) { 
+        if($menu->getChildren()->count() > 0 && $menu->getStatus() == Menu::MENU_PUBLISHED) { 
             $html .= '<li class="dropdown">';
             $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$menu->getTitle().' <span class="caret"></span></a>';
             $html .= '<ul class="dropdown-menu" role="menu">';
             foreach ($menu->getChildren() as $submenu) {
-                $html .= '<li class=""><a href="'.$submenu->getUrl().'">'.$submenu->getTitle().'</a></li>';
+                if($submenu->getStatus() == Menu::MENU_PUBLISHED) {
+                    $html .= '<li class=""><a href="'.$submenu->getUrl().'">'.$submenu->getTitle().'</a></li>';
+                }
             }
             $html .= '</ul>';
             $html .= '</li>';
         }else {
             if($menu->getLevel() <= 2) {
-                $html .= '<li class=""><a href="'.$menu->getUrl().'">'.$menu->getTitle().'</a></li>';
+                if($menu->getStatus() == Menu::MENU_PUBLISHED) {
+                    $html .= '<li class=""><a href="'.$menu->getUrl().'">'.$menu->getTitle().'</a></li>';
+                }
             }
         }
 
-        
         return $html; 
     }
 
