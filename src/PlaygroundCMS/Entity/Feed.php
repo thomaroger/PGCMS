@@ -54,6 +54,15 @@ class Feed implements InputFilterAwareInterface
      */
     protected $text;
 
+  
+    /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundUser\Entity\User", inversedBy="user")
+     * @ORM\JoinColumns({
+     *  @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     */
+    protected $user;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -159,8 +168,8 @@ class Feed implements InputFilterAwareInterface
 
 
    /**
-     * setLocale : Setter pour locale
-     * @param string $locale 
+     * setText : Setter pour text
+     * @param string $text 
      *
      * @return Feed $feed
      */
@@ -172,13 +181,37 @@ class Feed implements InputFilterAwareInterface
     }
 
     /**
-     * getLocale : Getter pour locale
+     * getText : Getter pour text
      *
-     * @return string $locale
+     * @return string $text
      */
     public function getText()
     {
         return $this->text;
+    }
+
+
+     /**
+     * setUser : Setter pour user
+     * @param User $user 
+     *
+     * @return Feed $feed
+     */
+    public function setUser($user)
+    {
+        $this->user = (string) $user;
+
+        return $this;
+    }
+
+    /**
+     * getUser : Getter pour user
+     *
+     * @return User $locale
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**
