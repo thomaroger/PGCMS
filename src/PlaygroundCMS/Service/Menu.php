@@ -89,6 +89,9 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
         $menu->setParent($root);
 
         $menu = $this->getMenuMapper()->persist($menu);
+
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($menu, $menu->getTitle(), 'New Menu');
+
     }
 
     public function edit($data)
@@ -129,6 +132,8 @@ class Menu extends EventProvider implements ServiceManagerAwareInterface
         }
 
         $menu = $this->getMenuMapper()->update($menu);
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($menu, $menu->getTitle(), 'Edit Menu');
+
     }
 
 

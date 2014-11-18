@@ -59,6 +59,8 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         // upload File
         $template = $this->uploadImage($template, $data);
 
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($template, $template->getName(), 'New Template');
+
     }
 
     /**
@@ -88,6 +90,8 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
         if(!empty($data['files']['name'])) {
             $template = $this->uploadImage($template, $data);
         }
+
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($template, $template->getName(), 'Edit Template');+
 
     }
 

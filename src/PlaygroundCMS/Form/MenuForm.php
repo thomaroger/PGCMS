@@ -95,7 +95,7 @@ class MenuForm extends BlockForm
     private function getMenus() 
     {
         $menusArray = array();
-        $menus = $this->getServiceManager()->get('playgroundcms_menu_mapper')->findBy();
+        $menus = $this->getServiceManager()->get('playgroundcms_menu_mapper')->findAll();
         foreach ($menus as $menu) {
             $menusArray[$menu->getId()] = $menu->getTitle();
         }

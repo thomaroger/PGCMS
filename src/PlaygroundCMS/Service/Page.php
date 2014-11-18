@@ -94,6 +94,9 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page = $this->getPageMapper()->findById($page->getId());
         
         $page->createRessource($this->getPageMapper(), $locales);
+
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($page, $page->getTitle(), 'New Page');
+
     }
 
     /**
@@ -156,6 +159,9 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $page = $this->getPageMapper()->findById($page->getId());
 
         $page->editRessource($this->getPageMapper(), $locales);
+
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($page, $page->getTitle(), 'Edit Page');
+
     }
 
     /**

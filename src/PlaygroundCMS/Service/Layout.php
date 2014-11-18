@@ -64,6 +64,9 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
 
         $layout = $this->getLayoutMapper()->update($layout);
 
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($layout, $layout->getName(), 'New Layout');
+
+
     }
 
     /**
@@ -96,6 +99,8 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         }
         
         $layout = $this->getLayoutMapper()->update($layout);
+        
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($layout, $layout->getName(), 'Edit Layout');
 
     }
 

@@ -199,7 +199,7 @@ class Feed implements InputFilterAwareInterface
      */
     public function setUser($user)
     {
-        $this->user = (string) $user;
+        $this->user = $user;
 
         return $this;
     }
