@@ -42,7 +42,7 @@ class Zone extends EventProvider implements ServiceManagerAwareInterface
             $zone->setName($name);
             $zone = $this->getZoneMapper()->insert($zone);
 
-            $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($zone, $zone->getZone(), 'New Zone');
+            $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($zone, $zone->getName(), 'New Zone');
 
         }
          

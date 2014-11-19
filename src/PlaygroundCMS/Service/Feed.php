@@ -16,9 +16,6 @@ use PlaygroundCMS\Entity\Feed as FeedEntity;
 class Feed extends EventProvider implements ServiceManagerAwareInterface
 {
 
-
-
-
     /**
      * @var PlaygroundCMS\Mapper\Feed FeedMapper
      */
@@ -49,6 +46,17 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
         return $feed;
     }
 
+    /**
+     * getFeeds : Permet de recuperer les feeds
+     *
+     * @return array $feeds
+    */
+    public function getFeeds()
+    {
+
+        return $this->getFeedMapper()->findByAndOrderBy(array(), array('updated_at' => 'DESC'));
+    }
+    
      /**
      * getBlockMapper : Getter pour Block
      *
@@ -75,26 +83,6 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
 
         return $this;
     }
-
-
-    /**
-     * getFeeds : Permet de recuperer les feeds
-     *
-     * @return array $feeds
-    */
-    public function getFeeds()
-    {
-
-        /*
-            $data[] = $this->getTagMapper()->findAll();
-            $data[] = $this->getCategoryMapper()->findAll();
-            $data[] = $this->getArticleMapper()->findAll();
-            $data[] = $this->getPollMapper()->findAll();
-        */
-        $feeds = array();
-        return $feeds;
-    }
-
 
      /**
      * getServiceManager : Getter pour serviceManager
