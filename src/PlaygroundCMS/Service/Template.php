@@ -91,7 +91,7 @@ class Template extends EventProvider implements ServiceManagerAwareInterface
             $template = $this->uploadImage($template, $data);
         }
 
-        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($template, $template->getName(), 'Edit Template');+
+        $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($template, $template->getName(), 'Edit Template');
 
     }
 
