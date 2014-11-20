@@ -1,0 +1,168 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Menus</li>
+            </ol>
+        </section>
+    </div>
+</div>
+
+<section class="widget">
+    <header>
+        <h4>
+            <i class="fa fa-tree"></i>
+            Menus list (<?php echo count($this->menus);?>)
+        </h4>
+    </header>
+    <div class="pull-right margin-right30">
+        <a href="javascript:;" data-toggle="modal" data-target="#myModal_create">
+            <button type="button" class="btn btn-success btn-lg" data-placement="top" data-original-title=".btn .btn-success .btn-lg">
+                Add a menu
+            </button>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    
+    <div class="body">
+        <div class="dd" id="nestableMenu">
+            <?php echo $htmlTree; ?>
+        </div>
+        <div class="clearfix"></div>
+
+    </div> 
+    
+    <div class="divider"></div>
+    <div class="clearfix"></div>
+    <div class="pull-right margin-right30">
+        <a href="javascript:;" data-toggle="modal" data-target="#myModal_create">
+            <button type="button" class="btn btn-success btn-lg" data-placement="top" data-original-title=".btn .btn-success .btn-lg">
+                Add a Menu
+            </button>
+        </a>
+    </div>
+
+    <div class="clearfix"></div>
+</section>
+
+<div id="myModal_create" class="modal fade bs-example-modal-lg  in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-block">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Add a new menu ?</h4>
+            </div>
+            <div class="modal-body">
+                <?php if(!empty($return) && $return['status'] != 0) : ?>
+                    <div class="row">
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="fa fa-ban"></i> <strong><?php echo $return['message'];?>!</strong></h4>
+                        </div>
+                    </div>
+                    <script>
+                    $('#myModal_create').modal('show');
+                    </script>
+                <?php endif; ?>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="widget">
+                                <header>
+                                    <h4> Menu informations</h4>
+                                </header>
+                                <div class="body form-horizontal form-condensed label-left">
+                                    <fieldset>
+                                        <div class="control-group">
+                                            <label for="text" class="control-label">Published ? <span class="required">*</span></label>
+                                            <div class="controls form-group">
+                                                <div class="btn-group" data-toggle="buttons">
+                                                    <label class="radio control-label">
+                                                    <input type="radio" class="icheck" name="menu[published]" value="1" <?php echo @$this->data['menu']['published']=="1"?'checked':'';?>>
+                                                        Yes
+                                                    </label>
+                                                    <label class="radio control-label">
+                                                        <input type="radio" class="icheck" name="menu[published]" value="0" <?php echo empty($this->data['menu']['published'])?'checked':'';?>>
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </section>
+
+                            <section class="widget widget-tabs large">
+                                <header>
+                                    <ul class="nav nav-tabs">
+                                        <?php $cpt = 0; ?>
+                                        <?php foreach ($this->locales as $locale) : ?>
+                                            <li class="<?php echo $cpt==0?'active':'';?>">
+                                                <?php $locales = explode('_', $locale->getLocale()); ?>
+                                                <a href="#<?php echo $locale->getLocale(); ?>" data-toggle="tab"> <img src="blank.gif" class="flag flag-<?php echo strtolower($locales[1]);?>" alt="<?php echo $locale->getLocale(); ?>" /> <?php echo $locale->getName(); ?></a>
+                                            </li>
+                                            <?php $cpt ++; ?>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </header>
+                                <div class="body tab-content">
+                                    <?php $cpt = 0; ?>
+                                    <?php foreach ($this->locales as $locale) : ?>
+                                        <?php $locales = explode('_', $locale->getLocale()); ?>
+                                        <div id="<?php echo $locale->getLocale(); ?>" class="tab-pane clearfix <?php echo $cpt==0?'active':'';?>" style="height:315px">
+                                            <fieldset>
+                                                <legend class="section"><img src="blank.gif" class="flag flag-<?php echo strtolower($locales[1]);?>" alt="<?php echo $locale->getLocale(); ?>" /> <?php echo $locale->getName(); ?></legend>
+                                                <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                                                    <div class="control-group">
+                                                        <label for="name" class="control-label">Name <span class="required">*</span></label>
+                                                        <div class="controls form-group">
+                                                            <input type="text" id="name" name="menu[<?php echo $locale->getLocale(); ?>][name]" class="form-control" value="<?php echo @$this->data['menu'][$locale->getLocale()]['name'];?>" >
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="control-group">
+                                                        <label for="int_page" class="control-label">Internal Page</label>
+                                                        <div class="controls form-group">
+                                                            <select id="int_page" class="selectpicker show-tick"  name="menu[<?php echo $locale->getLocale(); ?>][int_page]" data-live-search="true" data-size="5" data-width="100%">
+                                                                <option value="" data-content="">Choose the internal page</option>
+                                                                <?php foreach ($ressources[$locale->getLocale()] as $ressource) : ?>
+                                                                    <option value="<?php echo $ressource->getId(); ?>" <?php echo @$this->data['menu'][$locale->getLocale()]['int_page']==$ressource->getId()?'selected':'';?>><?php echo $ressource->getUrl(); ?></option>
+                                                                <?php endforeach; ?>
+                                                          </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="control-group">
+                                                        <label for="ext_page" class="control-label">External Page</label>
+                                                        <div class="controls form-group">
+                                                            <textarea id="ext_page" rows="5" name="menu[<?php echo $locale->getLocale(); ?>][ext_page]" class="form-control"><?php echo @$this->data['menu'][$locale->getLocale()]['ext_page'];?></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <?php $cpt ++; ?>
+                                    <?php endforeach; ?> 
+                                </div>
+                            </section>
+
+                            <section class="widget">
+                                <header>
+                                    <h4><i class="fa fa-plus"></i> Actions</h4>
+                                </header>
+                                <div class="body">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success pull-right">Submit</button>
+                                    <div class="clearfix">&nbsp;</div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

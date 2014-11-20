@@ -1,0 +1,113 @@
+.margin-left10 {
+    margin-left: 10px;
+}
+
+.margin-left20 {
+    margin-left: 20px;
+}
+.margin-left30 {
+    margin-left: 30px;
+}
+
+.margin-right10 {
+    margin-right: 10px;
+}
+
+.margin-right25 {
+    margin-right: 25px;
+}
+
+.margin-right30 {
+    margin-right: 30px;
+}
+
+.color-white {
+    color : #FFFFFF;
+}
+
+.color-white-underline {
+    color : #FFFFFF;
+}
+
+.color-white:hover {
+    color : #FFFFFF;
+    text-decoration: none;
+}
+
+.color-white-underline:hover {
+    color : #FFFFFF;
+    text-decoration: underline;
+}
+
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.widget.large, .widget.large .body {
+    height:  auto;
+}
+
+.layout .thumbnail img {
+    width: 50%;
+}
+
+div.modal-content-block{
+    -webkit-backface-visibility: hidden;
+    -webkit-background-clip: border-box, border-box;
+    -webkit-background-origin: padding-box, padding-box;
+    -webkit-background-size: auto, auto;
+    background-attachment: scroll, scroll;
+    background-clip: border-box, border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: -webkit-radial-gradient(10% 0px, ellipse farthest-side, rgba(102, 105, 104, 0.901961), rgba(93, 112, 119, 0.890196), rgba(160, 174, 150, 0.901961)), url(http://dev.pgcms.fr/zfcadmin/img/bgnoise_lg_dark.png);
+    background-origin: padding-box, padding-box;
+}
+
+
+.modal-content-block h1, .modal-content-block h2, .modal-content-block h3, .modal-content-block h4, .modal-content-block h5, .modal-content-block h6 {
+    color: #fff; 
+}
+
+.modal-content-block section:last-child {
+   margin-bottom: 0px;
+}
+
+.dd {
+    max-width: 100%;
+}
+
+.dd-handle {
+    width: 100%; 
+    height: 45px;
+    line-height: 30px;
+}
+
+.dd-item button {
+    margin : 0;
+    height: 45px;
+    font-size: 15px;
+}
+
+.dd-item .dd-actions {
+    width: 10%;
+    margin-top :-50px;
+    padding-top : 10px;
+    padding-right : 10px;
+    height: 45px;
+    text-align: right;
+}
+
+.dd .dd-item button.fa-plus:before {
+    content: "\f067";
+}
+
+.dd .dd-item button.fa-minus:before {
+    content: "\f068";
+}
+
+.highlight {
+    background-color: #FFFF88;
+}

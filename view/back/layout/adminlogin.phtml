@@ -1,0 +1,32 @@
+<?php
+$children = $this->viewModel()
+->getCurrent()
+->getChildren();
+if(isset($children[0])){
+    $ourView  = $children[0];
+}
+
+?>
+<?php echo $this->doctype(); ?>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<?php 
+    echo $this->headTitle('Playground CMS - Admin')->setSeparator(' - ')->setAutoEscape(false);
+    echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
+	echo $this->plugin('HeadLink');
+    echo $this->plugin('HeadStyle');
+    echo $this->plugin('HeadScript');
+?>
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet" />
+
+</head>
+
+<body class="background-dark">
+    <?php echo $this->content; ?>
+     
+	<!-- /container -->
+	<?php echo $this->inlineScript() ?>
+</body>
+</html>

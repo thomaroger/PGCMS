@@ -1,0 +1,47 @@
+<?php
+echo $this->doctype();
+$translation = $this->entity->getTranslations();
+?>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle($translation["titleMeta"])->setSeparator(' - ')->setAutoEscape(false) ?>
+        <meta name="description" content="<?php echo $translation["descriptionMeta"] ?>"/>
+        <meta name="keywords" content="<?php echo $translation["keywordMeta"] ?>"/>
+        
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="http://getbootstrap.com/assets/css/docs.min.css">
+
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet" />
+
+        <?php echo $this->plugin('HeadLink'); ?>
+    </head>
+    <body>    
+        <!-- Render Entity Page -> <?php echo get_class($this->entity); ?> : <?php echo $this->entity->getId()." - ".$translation["title"]; ?> - <?php echo $this->ressource->getLayoutContext() ;?>-->
+        <?php $this->getZone('home_header'); ?>
+        <div class="clearfix">&nbsp;</div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <?php $this->getZone('home_content'); ?>
+                </div>
+                <div class="col-md-4">
+                    <?php $this->getZone('home_right_menu'); ?>
+                </div>
+            </div>
+        </div>
+        <?php $this->getZone('home_footer'); ?>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <?php
+            echo $this->headScript();
+            echo $this->inlineScript();
+        ?>
+    </body> 
+</html>

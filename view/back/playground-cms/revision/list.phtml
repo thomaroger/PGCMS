@@ -1,0 +1,179 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Revisions</li>
+            </ol>
+        </section>
+    </div>
+</div>
+<section class="widget">
+    <header>
+        <h4><i class="fa fa-search"></i> Filters</h4>
+    </header>
+    <div class="clearfix"></div>
+    <div class="body">
+        <div class="col-md-12">
+            <div class="control-group">
+                <label for="description" class="control-label">Type</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" data-live-search="true" name="filters[type]" data-size="6" data-width="100%">
+                        <option value="" data-content="">Choose a type</option>
+                        <?php foreach ($this->filtersType as $type) : ?>
+                            <option value="<?php echo $type ?>"><?php echo $type; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </diV>
+    <div class="clearfix"></div>
+</section>
+
+<section class="widget">
+    <header>
+        <h4>
+            <i class="fa fa-archive"></i>
+            Revisions list (<?php echo $this->nbRevision;?>)
+        </h4>
+    </header>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div class="body">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Object Id</th>
+                    <th>Revisions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $count = 0; ?>
+                <?php foreach ($this->revisionsPaginator as $k => $revisions) : ?>
+                    <?php $k = explode('-', $k); ?>
+                        
+                    <?php if (($k[0]) == 'PlaygroundCMS\Entity\Page') : ?>
+                        <?php $type = 'desktop'; ?>
+                        <?php $url = 'admin/playgroundcmsadmin/page_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundCMS\Entity\Block') : ?>
+                        <?php $type = 'code'; ?>
+                        <?php $url = 'admin/playgroundcmsadmin/block_edit_revision'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundCMS\Entity\Layout') : ?>
+                        <?php $type = 'windows'; ?>
+                        <?php $url = 'admin/playgroundcmsadmin/layout_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundCMS\Entity\Zone') : ?>
+                        <?php $type = 'th-large'; ?>
+                        <?php $url = 'admin/playgroundcmsadmin/zone_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundCMS\Entity\Template') : ?>
+                        <?php $type = 'align-justify'; ?>
+                        <?php $url = 'admin/playgroundcmsadmin/template_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundPublishing\Entity\Tag') : ?>
+                        <?php $type = 'tag'; ?>
+                        <?php $url = 'admin/playgroundpublishingadmin/tag_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundPublishing\Entity\Category') : ?>
+                        <?php $type = 'book'; ?>
+                        <?php $url = 'admin/playgroundpublishingadmin/category_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundPublishing\Entity\Article') : ?>
+                        <?php $type = 'edit'; ?>
+                        <?php $url = 'admin/playgroundpublishingadmin/article_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundPublishing\Entity\Poll') : ?>
+                        <?php $type = 'question'; ?>
+                        <?php $url = 'admin/playgroundpublishingadmin/poll_edit'; ?>
+                    <?php endif; ?>
+                    <?php if (($k[0]) == 'PlaygroundCMS\Entity\Menu') : ?>
+                        <?php $type = 'tree'; ?>
+                        <?php $url = 'admin/playgroundcmsadmin/menu_edit'; ?>
+                    <?php endif; ?>
+                        <tr>
+                            <td>
+                                <div class="icon pull-left">
+                                    <i class="fa fa-<?php echo $type; ?>"></i> &nbsp;
+                                </div>
+                                <a class="accordion-toggle color-white-underline" data-toggle="collapse" data-parent="#accordion<?php echo $count; ?>" href="#collapse<?php echo $count; ?>">
+                                    <?php echo $k[0]; ?>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="accordion-toggle color-white-underline" data-toggle="collapse" data-parent="#accordion<?php echo $count; ?>" href="#collapse<?php echo $count; ?>">
+                                    <?php echo $k[1]; ?>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="accordion-toggle color-white-underline" data-toggle="collapse" data-parent="#accordion<?php echo $count; ?>" href="#collapse<?php echo $count; ?>">
+                                <?php echo count($revisions); ?>  revisions associated
+                                </a>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div id="collapse<?php echo $count; ?>" class="panel-collapse collapse" style="height: auto;">
+                                <div class="panel-body">
+                                    <h4>Revisions associated to this object : </h4>
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Object Id</th>
+                                                    <th>Revisions</th>
+                                                    <th>Created date</th>
+                                                    <th class="td-actions">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                        <?php foreach ($revisions as $revision) : ?>
+                                             <tr>
+                                                <td>
+                                                    <div class="icon pull-left">
+                                                        <i class="fa fa-<?php echo $type; ?>"></i> &nbsp;
+                                                    </div>
+                                                    <?php echo $revision->getType(); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $revision->getObjectId(); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $revision->getRevision(); ?> 
+                                                </td>
+                                                <td>
+                                                    <?php echo $revision->getCreatedAt()->format('d/m/Y H:i:s'); ?> 
+                                                </td>
+                                                <td class="td-actions">
+                                                <a href="<?php echo $this->url($url, array('id' => $revision->getObjectId(), 'revisionId' => $revision->getId()));?>" class="btn btn-xs btn-danger">
+                                                    <i class="btn-icon-only fa fa-save"></i>                                       
+                                                </a>                                    
+                                                </a>
+                                            </td>
+                                            </tr>   
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr> 
+                    <?php $count ++; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div> 
+    <?php $paginator =  $this->paginationControl($this->revisionsPaginator , 'Sliding', 'playground-cms/partial/pagination.phtml', array('uri' => $this->url('admin/playgroundcmsadmin/revision'), "countResults" => $this->nbRevision)); ?> 
+    <?php if(strlen($paginator) > 10) :?>
+            <div class="divider"></div>
+            <?php echo $paginator; ?>
+    <?php endif; ?>
+    <div class="clearfix"></div>
+    <div class="clearfix"></div>
+</section>
+
+
+

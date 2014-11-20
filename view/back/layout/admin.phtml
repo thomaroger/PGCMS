@@ -1,0 +1,117 @@
+<?php
+$children = $this->viewModel()
+->getCurrent()
+->getChildren();
+if(isset($children[0])){
+    $ourView  = $children[0];
+}
+
+?>
+<?php echo $this->doctype(); ?>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<?php 
+    echo $this->headTitle('Playground CMS - Admin')->setSeparator(' - ')->setAutoEscape(false);
+    echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0');
+    echo $this->plugin('HeadLink');
+    echo $this->plugin('HeadStyle');
+    echo $this->inlineScript();
+    echo $this->plugin('HeadScript');
+?>
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet" />
+
+</head>
+<body class="background-dark">
+    <div class="logo">
+        <h4><a href="<?php echo $this->url('admin'); ?>">Playground CMS</a></h4>
+    </div>
+    <nav id="sidebar" class="sidebar nav-collapse collapse">
+        <ul id="side-nav" class="side-nav">
+            <li class="<?php echo $this->nav =="dashboard"?'active':''; ?>">
+                <a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> <span class="name">Dashboard</span></a>
+            </li>
+            <li class="<?php echo $this->nav =="feeds"?'active':''; ?>">
+                <a href="<?php echo $this->url('admin/playgroundcmsadmin/feed'); ?>"><i class="fa fa-share"></i> <span class="name">Feeds</span></a>
+            </li>
+            <li class="<?php echo $this->nav =="archive"?'active':''; ?>">
+                <a href="<?php echo $this->url('admin/playgroundcmsadmin/revision'); ?>"><i class="fa fa-archive"></i> <span class="name">Revisions</span></a>
+            </li>
+            <li class="panel <?php echo $this->nav =="cms"?'active':''; ?>">
+                <a class="accordion-toggle <?php echo $this->nav =="cms"?'':'collapsed'; ?>" data-toggle="collapse" data-parent="#side-nav" href="#forms-collapse"><i class="fa fa-cog"></i> <span class="name">CMS</span></a>
+                <ul id="forms-collapse" class="panel-collapse collapsed <?php echo $this->nav =="cms"?'open in':'collapse'; ?>">
+                    <li class="<?php echo $this->subNav =="block"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundcmsadmin/block'); ?>">Block</a></li>
+                    <li class="<?php echo $this->subNav =="layout"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundcmsadmin/layout'); ?>">Layout</a></li>
+                    <li class="<?php echo $this->subNav =="menu"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundcmsadmin/menu'); ?>">Menu</a></li>
+                    <li class="<?php echo $this->subNav =="page"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundcmsadmin/page'); ?>">Page</a></li>
+                    <li class="<?php echo $this->subNav =="template"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundcmsadmin/template'); ?>">Template</a></li>
+                    <li class="<?php echo $this->subNav =="zone"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundcmsadmin/zone'); ?>">Zone</a></li>
+                </ul>
+            </li>
+            <li class="panel <?php echo $this->nav =="content"?'active':''; ?>">
+                <a class="accordion-toggle <?php echo $this->nav =="content"?'':'collapsed'; ?>" data-toggle="collapse" data-parent="#side-nav" href="#content-collapse"><i class="fa fa-book"></i> <span class="name">Content</span></a>
+                <ul id="content-collapse" class="panel-collapse collapsed <?php echo $this->nav =="content"?'open in':'collapse'; ?>">
+                    <li class="<?php echo $this->subNav =="article"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundpublishingadmin/articles'); ?>">Article</a></li>
+                    <li class="<?php echo $this->subNav =="category"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundpublishingadmin/categories'); ?>">Category</a></li>
+                    <li class="<?php echo $this->subNav =="comment"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundpublishingadmin/comments'); ?>">Comment</a></li>
+                    <li class="<?php echo $this->subNav =="poll"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundpublishingadmin/polls'); ?>">Poll</a></li>
+                    <li class="<?php echo $this->subNav =="tag"?'active':''; ?>"><a href="<?php echo $this->url('admin/playgroundpublishingadmin/tags'); ?>">Tag</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="wrap">
+        <header class="page-header">
+            <div class="navbar">
+                    <ul class="nav navbar-nav navbar-right pull-right">
+                        <li class="visible-phone-landscape">
+                            <a href="#" id="search-toggle">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="hidden-xs dropdown">
+                            <a href="#" title="Account" id="account" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <ul id="account-menu" class="dropdown-menu account" role="menu">
+                                <li role="presentation" class="account-picture">
+                                    <img src="<?php echo "http://www.gravatar.com/avatar/".md5(strtolower(trim($this->zfcUserIdentity()->getEmail())));?>" alt="">
+                                    <?php echo $this->zfcUserIdentity()->getFirstname(); ?> <?php echo $this->zfcUserIdentity()->getLastname(); ?>
+                                </li>
+                                <li class="divider"></li>
+                                 <li role="presentation">
+                                    <a href="/" class="link">
+                                        <i class="fa fa-chevron-right"></i>
+                                        Acces to frontend
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#" class="link">
+                                        <i class="fa fa-question"></i>
+                                        Aide
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="visible-xs">
+                            <a href="#" class="btn-navbar" data-toggle="collapse" data-target=".sidebar" title="">
+                                <i class="fa fa-bars"></i>
+                            </a>
+                        </li>
+                        <?php $urlLogout =  trim($this->url('frontend/zfcuser/logout', array('channel' => $this->channel))."?redirect=".$this->url('admin', array('channel' => $this->channel)),'/'); ?>
+                        <li class="hidden-xs"><a href="/<?php echo $urlLogout; ?>"><i class="fa fa-sign-out"></i></a></li>
+                    </ul>
+                    <form id="search-form" class="navbar-form pull-right" role="search" method="GET" action="/admin/playgroundpublishing/search">
+                        <input type="search" name="q" class="search-query" placeholder="Search...">
+                    </form>
+            </div>
+        </header>
+        <div class="content container">
+            <?php echo $this->content; ?>
+        </div>
+    </div>
+</body>
+</html>

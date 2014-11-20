@@ -1,0 +1,18 @@
+body { padding-bottom: 50px; }
+
+#debug {
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+    z-index: 999;
+    font-size: 20px;
+    line-height: 10px;
+}
+
+#debug_pgcms {
+    position: absolute;
+    bottom: 60px;
+    right: 0px;
+    z-index: 998;
+    display: none;
+}

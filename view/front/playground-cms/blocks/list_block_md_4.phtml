@@ -1,0 +1,13 @@
+<div class="col-md-4">
+    <h2><?php echo $this->block->getName(); ?></h2>
+    <div>
+        <ul>
+            <?php foreach ($this->results as $result) : ?>
+                 <li><?php echo $result->getName(); ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <?php if($this->block->getParam('pagination')) : ?>
+            <?php echo $this->paginationControl($this->results , 'Sliding', 'playground-cms/partial/pagination.phtml', array('uri' => $this->uri, "countResults" => $this->countResults)); ?>
+        <?php endif; ?>
+    </div>
+</div>

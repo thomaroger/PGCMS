@@ -1,0 +1,54 @@
+<?php
+echo $this->doctype();
+$translation = $this->entity->getTranslations();
+?>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle($translation["titleMeta"])->setSeparator(' - ')->setAutoEscape(false) ?>
+        <meta name="description" content="<?php echo $translation["descriptionMeta"] ?>"/>
+        <meta name="keywords" content="<?php echo $translation["keywordMeta"] ?>"/>
+        
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+        
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet" />
+
+        <?php echo $this->plugin('HeadLink'); ?>
+    </head>
+    <body>    
+
+      <!-- Render Entity Page -> <?php echo get_class($this->entity); ?> : <?php echo $this->entity->getId()." - ".$translation["title"]; ?> - <?php echo $this->ressource->getLayoutContext() ;?>-->
+      
+      <?php $this->getBlock('block-html-header'); ?>
+  
+      <div class="jumbotron">
+        <div class="container">
+          <?php $this->getBlock('block-html-hello-world'); ?>
+          <?php $this->getBlock('block-html-content-1'); ?>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <?php $this->getBlock('block-html-content-2'); ?>
+          <?php $this->getBlock('block-html-content-2'); ?>
+          <?php $this->getBlock('block-html-content-2'); ?>
+          <?php $this->getBlock('block-list-block'); ?>
+          <?php $this->getBlock('block-list-block-filters'); ?>
+          <?php $this->getBlock('block-list-block-sort'); ?>
+          <?php $this->getBlock('block-list-block-filters-sorts-pagers'); ?>
+        </div>
+        <hr />
+      </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <?php
+            echo $this->headScript();
+            echo $this->inlineScript();
+        ?>
+    </body> 
+</html>

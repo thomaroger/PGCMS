@@ -1,0 +1,107 @@
+<?php $return = $this->return; ?>
+<?php $layout = $this->layout; ?>
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="<?php echo $this->url('admin/playgroundcmsadmin/layout'); ?>"><i class="fa fa-windows"></i> Layouts</a></li>
+                <li class="active">Edit a layout : <?php echo $layout->getName(); ?></li>
+            </ol>
+        </section>
+        <h2 class="page-title"><i class="fa fa-windows"></i> Edit a layout : <?php echo $layout->getName(); ?></h2>
+    </div>
+</div>
+<form method="POST" ENCTYPE="multipart/form-data">
+    <input type="text" id="layoutId" name="layout[id]" class="form-control hide" value="<?php echo $layout->getId()?>" >
+<?php if(!empty($return) && $return['status'] != 0) : ?>
+    <div class="row">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="fa fa-ban"></i> <strong><?php echo $return['message'];?>!</strong></h4>
+        </div>
+    </div>
+<?php endif; ?>
+<div class="row layout">
+    <div class="col-md-6">
+        <section class="widget">
+            <header>
+                <h4>Layout informations</h4>
+            </header>
+            <div class="body">
+                <div id="page-options" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                            <div class="control-group">
+                                <label for="description" class="control-label">Name <span class="required">*</span></label>
+                                <div class="controls form-group">
+                                    <input type="text" id="first-name" name="layout[name]" class="form-control" value="<?php echo $layout->getName();?>" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="description" class="control-label">Description</label>
+                                <div class="controls form-group">
+                                    <textarea id="description" rows="3" name="layout[description]" class="form-control"><?php echo $layout->getDescription();?></textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="description" class="control-label">Layout File <span class="required">*</span></label>
+                                <div class="controls form-group">
+                                    <select class="selectpicker show-tick"  name="layout[file]" data-live-search="true" data-size="6" data-width="100%">
+                                        <option value="" data-content="">Choose the layout</option>
+                                        <?php foreach ($this->files as $file) : ?>
+                                            <option value="<?php echo $file ?>" <?php echo $layout->getFile()==$file?'selected':'';?>><?php echo $file; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                  <span class="help-block">All .phtml templates in active frontend theme</span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-6">
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-picture-o"></i> Picture</h4>
+            </header>
+            <div class="body">
+                <div id="page-options" class="form-horizontal form-condensed label-left">
+                    <div class="thumbnail">
+                        <?php $image = $layout->getImage(); ?>
+                        <?php if(!empty($image)) : ?>
+                            <img src="<?php echo $image; ?>" alt="<?php echo $layout->getName(); ?>">
+                        <?php endif; ?>
+                        <div class="caption">
+
+                            <p><?php echo $layout->getImage(); ?></p>
+                            <p>
+                                <div class="control-group">
+                                    <div class="input-group">
+                                        <span class="btn btn-sm btn-default fileinput-button">
+                                            <i class="fa fa-plus"></i>
+                                            <span>Add a media</span>
+                                            <input type="file" name="files" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-plus"></i> Actions</h4>
+            </header>
+            <div class="body">
+                <button type="submit" class="btn btn-success pull-right">Submit</button>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </section>
+    </div>
+</div>
+</form>

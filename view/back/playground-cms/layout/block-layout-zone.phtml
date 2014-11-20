@@ -1,0 +1,143 @@
+<?php $return = $this->return; ?>
+<?php $layout = $this->layout; ?>
+<?php $zones = $this->zones; ?>
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="<?php echo $this->url('admin/playgroundcmsadmin/layout'); ?>"><i class="fa fa-windows"></i> Layouts</a></li>
+                <li class="active">Edit blocks for the layout : <?php echo $layout->getName(); ?></li>
+            </ol>
+        </section>
+        <h2 class="page-title"><i class="fa fa-windows"></i> Edit blocks for the layout : <?php echo $layout->getName(); ?></h2>
+    </div>
+</div>
+<?php if(!empty($return) && $return['status'] != 0) : ?>
+    <div class="row">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="fa fa-ban"></i> <strong><?php echo $return['message'];?>!</strong></h4>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if(count($zones) == 0 ) :?>
+    <div class="row">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="fa fa-ban"></i> <strong>No zone for this layout !</strong></h4>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if(count($zones) > 0 ) :?>
+    <div class="row layout">
+        <div class="col-md-12">
+            <form method="POST">
+                <input type="hidden" name="layout[zone]" id="layoutZone" />
+                <input type="text" id="layoutId" name="layout[id]" id="layoutId" class="form-control hide" value="<?php echo $layout->getId()?>" >
+                <section class="widget">
+                    <header>
+                        <h5>
+                            <i class="fa fa-plus"></i>
+                            Add a block
+                        </h5>
+                    </header>
+                    <div class="body">
+                        <div class="col-md-6">
+                            <div class="control-group">
+                                <label for="description" class="control-label">Add a new block</label>
+                                <div class="controls form-group">
+                                    <select class="selectpicker show-tick newBlock"  name="layout[blockType]" data-live-search="true" data-size="6" data-width="100%">
+                                        <option value="" data-content="">Choose the type of the block</option>
+                                        <?php foreach ($this->blockTypes as $key => $blockType) : ?>
+                                            <option value="<?php echo $key ?>"><?php echo $blockType; ?></option>
+                                        <?php endforeach; ?>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="control-group">
+                                <label for="description" class="control-label">Or Add an existing block from gallery </label>
+                                <div class="controls form-group">
+                                    <select class="selectpicker show-tick"  name="layout[block]" data-live-search="true" data-size="6" data-width="100%" onChange='this.form.submit();'>
+                                        <option value="" data-content="">Choose a block</option>
+                                        <?php foreach ($this->blocksGallery as $blockGallery) : ?>
+                                            <option value="<?php echo $blockGallery->getId() ?>"><?php echo $blockGallery->getName(); ?></option>
+                                        <?php endforeach; ?>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix">&nbsp;</div>
+                    </div>
+                </section>
+            </form>
+
+
+            <section class="widget">
+                <header>
+                    <h5>
+                        <i class="fa fa-code"></i>
+                        Modify position, configure and delete a block in a zone
+                    </h5>
+                </header>
+                <div class="body">
+                    <div class="tabbable tabs-right">
+                        <ul id="tabZone" class="nav nav-tabs">
+                            <?php $cpt = 0; ?>
+                            <?php foreach ($zones as $zone) : ?>
+                                <li class="<?php echo $cpt==0?'active':'' ?>"><a href="#zone-<?php echo $zone['zone']->getId()?>" data-toggle="tab" data-zone-id="<?php echo $zone['zone']->getId()?>"><?php echo $zone['zone']->getName(); ?></a></li>
+                            <?php $cpt++; ?>        
+                            <?php endforeach; ?>
+                        </ul>
+                        <div id="myTabContentright" class="tab-content">
+                            <?php $cpt = 0; ?>
+                            <?php foreach ($zones as $zone) : ?>
+                                <div class="tab-pane <?php echo $cpt==0?'active':'fade' ?>" id="zone-<?php echo $zone['zone']->getId()?>">
+                                    <?php $blocks = $zone['blocks']; ?>
+                                    <ol class="list-group list-group-outer sortable ui-sortable">
+                                    <?php foreach ($blocks as $key => $block) : ?>
+                                        <li class="list-group-item" data-block-layout-zone="<?php echo $key; ?>" >
+                                            <i class="fa fa-sort"></i>                                        
+                                            &nbsp;&nbsp;&nbsp; <?php echo $block->getId(); ?> &nbsp;&nbsp;&nbsp;
+                                            <?php echo $block->getName(); ?>
+
+                                            <div class="pull-right">
+                                                <a href="<?php echo $this->url('admin/playgroundcmsadmin/block_edit', array('id' => $block->getId(), 'layoutId' => $layout->getId())); ?>" class="btn btn-xs btn-success">
+                                                    <i class="btn-icon-only fa fa-pencil"></i>                                       
+                                                </a>
+
+                                                <a href="<?php echo $this->url('admin/playgroundcmsadmin/blocklayoutzone_remove', array('id' => $layout->getId(), 'blocklayoutZoneId' => $key)); ?>" class="btn btn-xs btn-danger">
+                                                    <i class="btn-icon-only fa fa-times"></i>                                       
+                                                </a>
+                                            </div>
+                                        </li>
+                                    <?php $cpt++; ?>        
+                                    <?php endforeach; ?>
+                                    </ol>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+
+<div id="formBlock" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content-block">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">Add a new block</h4>
+        </div>
+        <div id="contentForm"></div>
+    </div>
+  </div>
+</div>

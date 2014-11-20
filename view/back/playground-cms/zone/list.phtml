@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Zones</li>
+            </ol>
+        </section>
+    </div>
+</div>
+<section class="widget">
+    <header>
+        <h4>
+            <i class="fa fa-th-large"></i>
+            Zones list (<?php echo $this->nbZones;?>)
+        </h4>
+    </header>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div class="body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Layout associated</th>
+                    <th>Created date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->zonesPaginator as $zone) : ?>
+                    <tr id="accordion<?php echo $zone->getId(); ?>">
+                        <td>
+                            <a class="accordion-toggle color-white-underline" data-toggle="collapse" data-parent="#accordion<?php echo $zone->getId(); ?>" href="#collapse<?php echo $zone->getId(); ?>">
+                                <?php echo $zone->getName(); ?>
+                            </a>
+                        </td>
+                        <td>
+                            <?php if(!empty($layouts[$zone->getId()])) : ?>
+                                <?php echo count($layouts[$zone->getId()]); ?> layouts associated
+                            <?php else : ?>
+                                0 layout associated
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php echo $zone->getCreatedAt()->format('d/m/Y H:i:s'); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="collapse<?php echo $zone->getId(); ?>" class="panel-collapse collapse" style="height: auto;">
+                                <div class="panel-body">
+                                    <h4>Layouts list that use this zone : </h4>
+                                    <ul>
+                                        <?php if(!empty($layouts[$zone->getId()])) : ?>
+                                            <?php foreach ($layouts[$zone->getId()] as $layout) : ?>
+                                               <li><a class="color-white-underline" href="<?php echo $this->url('admin/playgroundcmsadmin/layout_edit', array('id' => $layout->getId())); ?>"><?php echo $layout->getName(); ?></a></li>
+                                            <?php endforeach; ?>
+                                        <?php else:  ?>
+                                            <li>No layout for this zone</li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>    
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div> 
+    <?php $paginator =  $this->paginationControl($this->zonesPaginator , 'Sliding', 'playground-cms/partial/pagination.phtml', array('uri' => $this->url('admin/playgroundcmsadmin/zone'), "countResults" => $this->nbZones)); ?> 
+    <?php if(strlen($paginator) > 10) :?>
+            <div class="divider"></div>
+            <?php echo $paginator; ?>
+    <?php endif; ?>
+    <div class="clearfix"></div>
+</section>
+
+
+

@@ -1,0 +1,199 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Templates</li>
+            </ol>
+        </section>
+    </div>
+</div>
+
+<section class="widget">
+    <header>
+        <h4><i class="fa fa-search"></i> Filters</h4>
+    </header>
+    <div class="clearfix"></div>
+    <div class="body">
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Title</label>
+                <div class="controls form-group">
+                    <input type="text" id="first-name" name="filters[title]" class="form-control" value="">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Layout</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" data-live-search="true" name="filters[layout]" data-size="6" data-width="100%">
+                       <option value="" data-content="">Choose a file</option>
+                        <?php foreach ($this->files as $file) : ?>
+                            <option value="<?php echo $file ?>"><?php echo $file; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Type</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" data-live-search="true" name="filters[blockType]" data-size="3" data-width="100%">
+                        <option value="" data-content="">Choose a type of block</option>
+                        <?php foreach ($this->blockTypes as $blockType) : ?>
+                            <option value="<?php echo $blockType ?>"><?php echo $blockType; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">System</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" name="filters[system]" data-live-search="true" data-size="6" data-width="100%">
+                        <option value="2" data-content="<span class='label label-default'>Yes / No</span>">Yes / No</option>
+                        <option value="1" data-content="<span class='label label-success'>Yes</span>">Yes</option>
+                        <option value="0" data-content="<span class='label label-danger'>No</span>">No</option>
+                  </select>
+                </div>
+            </div>
+        </div>
+    </diV>
+    <div class="clearfix"></div>
+</section>
+
+<section class="widget">
+    <header>
+        <h4>
+            <i class="fa fa-align-justify"></i>
+            Templates list (<?php echo $this->nbTemplates;?>)
+        </h4>
+    </header>
+    <div class="pull-right margin-right30">
+        <a href="<?php echo $this->url("admin/playgroundcmsadmin/template_create");?>">
+            <button type="button" class="btn btn-success btn-lg" data-placement="top" data-original-title=".btn .btn-success .btn-lg">
+                Add a template
+            </button>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div class="body">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>File</th>
+                    <th>BlockType</th>
+                    <th>System</th>
+                    <th>Created date</th>
+                    <th class="td-actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->templatesPaginator as $template) : ?>
+                    <?php $templateSystem = $template->getIsSystem(); ?>
+                    <tr>
+                        <td>
+                            <?php $image = $template->getImage(); ?>
+                            <?php if(!empty($image)) : ?>
+                                <img src="<?php echo $image; ?>" alt="<?php echo $template->getName(); ?>"  height="60px">
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php echo $template->getName(); ?>
+                        </td>
+                        <td>
+                            <?php echo $template->getFile(); ?>
+                        </td>
+                        <td>
+                            <?php echo  $template->getBlockType(); ?>
+                        </td>
+                         <td>
+                            <?php 
+                            $system = $template->getIsSystem(); 
+                            if($system) : 
+                            ?>
+                                <div class="feed-item">
+                                    <div class="icon">
+                                        <i class="fa fa-check color-green"></i>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="feed-item">
+                                    <div class="icon">
+                                        <i class="fa fa-times color-red"></i>
+                                    </div>
+                                </div>
+                            <?php endif;  ?>
+                        </td>
+                        <td><?php echo $template->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                        <td class="td-actions">
+                            <a href="<?php echo $this->url('admin/playgroundcmsadmin/template_edit', array('id' => $template->getId()));?>" class="btn btn-xs btn-success">
+                                <i class="btn-icon-only fa fa-pencil"></i>                                       
+                            </a>
+                            <?php // Si un template n'est pas relié à une entité ou un bloc, alors c'est que c'est un template systeme
+                                  // Partial Pagination : playground-cms/partial/pagination.phtml 
+                            ?>
+                            <?php if(!$templateSystem): ?>
+                                <a href="javascript:;" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal_<?php echo $template->getId(); ?>">
+                                    <i class="btn-icon-only fa fa-times"></i>                                       
+                                </a>
+                            <?php endif; ?>
+                        </td>
+                        <?php if(!$templateSystem) : ?>
+                            <div id="myModal_<?php echo $template->getId(); ?>" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Confirm the deletion of the template ?</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4><?php echo $template->getName(); ?></h4>
+                                            <h5>File : <?php echo $template->getFile(); ?></h5>
+                                            <h5>Description :</h5>
+                                            <p>
+                                                <?php echo $template->getDescription(); ?>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <a href="<?php echo $this->url('admin/playgroundcmsadmin/template_remove', array('id' => $template->getId()));?>">
+                                                <button type="button" class="btn btn-danger">Remove</button>
+                                            </a>
+                                        </div>
+
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div> 
+    <?php $paginator =  $this->paginationControl($this->templatesPaginator , 'Sliding', 'playground-cms/partial/pagination.phtml', array('uri' => $this->url('admin/playgroundcmsadmin/template'), "countResults" => $this->nbTemplates)); ?> 
+    <?php if(strlen($paginator) > 10) :?>
+            <div class="divider"></div>
+            <?php echo $paginator; ?>
+    <?php endif; ?>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div class="pull-right margin-right30">
+        <a href="<?php echo $this->url("admin/playgroundcmsadmin/template_create");?>">
+            <button type="button" class="btn btn-success btn-lg" data-placement="top" data-original-title=".btn .btn-success .btn-lg">
+                Add a Template
+            </button>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+</section>
+
+
+

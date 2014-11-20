@@ -1,0 +1,227 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Blocks</li>
+            </ol>
+        </section>
+    </div>
+</div>
+
+<section class="widget">
+    <header>
+        <h4><i class="fa fa-search"></i> Filters</h4>
+    </header>
+    <div class="clearfix"></div>
+    <div class="body">
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Name</label>
+                <div class="controls form-group">
+                    <input type="text" id="first-name" name="filters[name]" class="form-control" value="">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Type</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" data-live-search="true" name="filters[blockType]" data-size="3" data-width="100%">
+                        <option value="" data-content="">Choose a type of block</option>
+                        <?php foreach ($this->blockTypes as $key => $blockType) : ?>
+                            <option value="<?php echo $key ?>"><?php echo $blockType; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Exportable</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick"  name="filters[exportable]" data-size="3" data-width="100%">
+                        <option value="2" data-content="<span class='label label-default'>Yes / No</span>">Yes / No</option>
+                        <option value="1" data-content="<span class='label label-success'>Yes</span>">Yes</option>
+                        <option value="0" data-content="<span class='label label-danger'>No</span>">No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Gallery</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" name="filters[gallery]" data-live-search="true" data-size="6" data-width="100%">
+                        <option value="2" data-content="<span class='label label-default'>Yes / No</span>">Yes / No</option>
+                        <option value="1" data-content="<span class='label label-success'>Yes</span>">Yes</option>
+                        <option value="0" data-content="<span class='label label-danger'>No</span>">No</option>
+                  </select>
+                </div>
+            </div>
+        </div>
+    </diV>
+    <div class="clearfix"></div>
+</section>
+
+
+<section class="widget">
+    <header>
+        <h4>
+            <i class="fa fa-code"></i>
+            Blocks list (<?php echo $this->nbBlock;?>)
+        </h4>
+    </header>
+    <div>
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <div class="col-md-12">
+                <select class="selectpicker show-tick blockType" data-live-search="true" name="filters[blockType]" data-size="10" data-width="100%">
+                    <option value="" data-content="">Choose a type of block to add</option>
+                    <?php foreach ($this->blockTypes as $key => $blockType) : ?>
+                        <option value="<?php echo $key ?>"><?php echo $blockType; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div class="body">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Type</th>
+                    <th>Exportable</th>
+                    <th>Gallery</th>
+                    <th>Template</th>
+                    <th>Created date</th>
+                    <th class="td-actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->blocksPaginator as $block) : ?>
+                    <tr>
+                        <td>
+                            <?php echo $block->getName(); ?>
+                        </td>
+                        <td>
+                            <?php echo $block->getSlug(); ?>
+                        </td>
+                        <td>
+                            <?php echo $block->getType(); ?>
+                        </td>
+                        <td>
+                            <?php 
+                            $isExportable = $block->getIsExportable(); 
+                            if($isExportable) : 
+                            ?>
+                                <a href="<?php echo $block->getUrlForExport();?>" target="_blank">
+                                    <div class="feed-item">
+                                        <div class="icon">
+                                            <i class="fa fa-check color-green"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            <?php else: ?>
+                                <div class="feed-item">
+                                    <div class="icon">
+                                        <i class="fa fa-times color-red"></i>
+                                    </div>
+                                </div>
+                            <?php endif;  ?>
+                        </td>
+                        <td>
+                        <?php 
+                            $isGallery = $block->getIsGallery(); 
+                            if($isGallery) : 
+                            ?>
+                                <div class="feed-item">
+                                    <div class="icon">
+                                        <i class="fa fa-check color-green"></i>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="feed-item">
+                                    <div class="icon">
+                                        <i class="fa fa-times color-red"></i>
+                                    </div>
+                                </div>
+                            <?php endif;  ?>
+                        </td>
+                        <td>
+                            <?php $templates = json_decode($block->getTemplateContext(), true); ?>
+                            <?php foreach ($templates as $key => $value) : ?>
+                                <?php echo $key." : ".$value."<br />"; ?>
+                            <?php endforeach; ?>
+                        </td>
+                        <td><?php echo $block->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                        <td class="td-actions">
+                            <a href="<?php echo $this->url('admin/playgroundcmsadmin/block_edit', array('id' => $block->getId()));?>" class="btn btn-xs btn-success">
+                                <i class="btn-icon-only fa fa-pencil"></i>                                       
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-danger" <?php echo $nbUseBlocks[$block->getId()] > 0 ?'disabled="disabled"':'' ?> data-toggle="modal" data-target="#myModal_<?php echo $block->getId(); ?>">
+                                <i class="btn-icon-only fa fa-times"></i>                                       
+                            </a>
+                        </td>
+                        <div id="myModal_<?php echo $block->getId(); ?>" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="myModalLabel">Confirm the deletion of the block ?</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4><?php echo $block->getName(); ?></h4>
+                                        <h5>Type :</h5>
+                                        <p> <?php echo $block->getType(); ?>
+                                        <h5>Templates :</h5>
+                                        <p>
+                                            <?php foreach ($templates as $key => $value) : ?>
+                                                <?php echo $key." : ".$value."<br />"; ?>
+                                            <?php endforeach; ?>
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <a href="<?php echo $this->url('admin/playgroundcmsadmin/block_remove', array('id' => $block->getId()));?>">
+                                            <button type="button" class="btn btn-danger">Remove</button>
+                                        </a>
+                                    </div>
+
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div> 
+    <?php $paginator =  $this->paginationControl($this->blocksPaginator , 'Sliding', 'playground-cms/partial/pagination.phtml', array('uri' => $this->url('admin/playgroundcmsadmin/block'), "countResults" => $this->nbBlock)); ?> 
+    <?php if(strlen($paginator) > 10) :?>
+            <div class="divider"></div>
+            <?php echo $paginator; ?>
+    <?php endif; ?>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div>
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <div class="col-md-12">
+                <select class="selectpicker show-tick blockType" data-live-search="true" name="filters[blockType]" data-size="3" data-width="100%">
+                    <option value="" data-content="">Choose a type of block to add</option>
+                    <?php foreach ($this->blockTypes as $key => $blockType) : ?>
+                        <option value="<?php echo $key ?>"><?php echo $blockType; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</section>
+
+
+

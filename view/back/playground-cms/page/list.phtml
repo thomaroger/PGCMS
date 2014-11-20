@@ -1,0 +1,219 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Pages</li>
+            </ol>
+        </section>
+    </div>
+</div>
+
+<section class="widget">
+    <header>
+        <h4><i class="fa fa-search"></i> Filters</h4>
+    </header>
+    <div class="clearfix"></div>
+    <div class="body">
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Title</label>
+                <div class="controls form-group">
+                    <input type="text" id="first-name" name="filters[title]" class="form-control" value="">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Layout</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" data-live-search="true" name="filters[layout]" data-size="6" data-width="100%">
+                       <option value="" data-content="">Choose a file</option>
+                        <?php foreach ($this->files as $file) : ?>
+                            <option value="<?php echo $file ?>"><?php echo $file; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">State</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" name="filters[status]" data-live-search="true" data-size="6" data-width="100%">
+                        <option value="-1" data-content="" selected>Choose the status</option>
+                        <?php foreach ($pagesStatuses as $key => $value) : ?>
+                        <?php $labelType = "info" ?>
+                        <?php if($key == 1 ) $labelType = "success"; ?>
+                        <?php if($key == 2 ) $labelType = "warning"; ?>
+                        <?php if($key == 3 ) $labelType = "important"; ?>
+                            <option value="<?php echo $key; ?>" data-content="<span class='label label-<?php echo $labelType; ?>'><?php echo $value; ?></span>" <?php echo @$this->data['page']["status"]===$key?'selected':'';?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                  </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="control-group">
+                <label for="description" class="control-label">Visibility</label>
+                <div class="controls form-group">
+                    <select class="selectpicker show-tick" name="filters[visibility]" data-live-search="true" data-size="6" data-width="100%">
+                         <option value="" data-content="">Choose the visibility</option>
+                        <?php foreach ($credentials as $key => $value) : ?>
+                            <option value="<?php echo $value; ?>" data-content="<span class='label label-<?php echo $key; ?>'><?php echo $value; ?></span>" <?php echo @$this->data['page']["visibility"]==$value?'selected':'';?>><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                  </select>
+                </div>
+            </div>
+        </div>
+    </diV>
+    <div class="clearfix"></div>
+</section>
+
+<section class="widget">
+    <header>
+        <h4>
+            <i class="fa fa-desktop"></i>
+            Pages list (<?php echo $this->nbPage;?>)
+        </h4>
+    </header>
+    <div class="pull-right margin-right30">
+        <a href="<?php echo $this->url("admin/playgroundcmsadmin/page_create");?>">
+            <button type="button" class="btn btn-success btn-lg" data-placement="top" data-original-title=".btn .btn-success .btn-lg">
+                Add a page
+            </button>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div class="body">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>State</th>
+                    <th>Start date of publication</th>
+                    <th>End Date of publication</th>
+                    <th>Urls</th>
+                    <th>Layout</th>
+                    <th>Created date</th>
+                    <th class="td-actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->pagesPaginator as $page) : ?>
+                    <tr>
+                        <td>
+                            <?php echo $page->getTitle(); ?>
+                        </td>
+                        <td>
+                            <?php 
+                            $visible = $page->checkVisibility(); 
+                            if($visible) : 
+                            ?>
+                                <div class="feed-item">
+                                    <div class="icon">
+                                        <i class="fa fa-check color-green"></i>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="feed-item">
+                                    <div class="icon">
+                                        <i class="fa fa-times color-red"></i>
+                                    </div>
+                                </div>
+                            <?php endif;  ?>
+                        </td>
+                        <td>
+                            <?php $labelType = "info" ?>
+                            <?php if($page->getStatus() == 1 ) $labelType = "success"; ?>
+                            <?php if($page->getStatus() == 2 ) $labelType = "warning"; ?>
+                            <?php if($page->getStatus() == 3 ) $labelType = "important"; ?>
+                            <span class="label label-<?php echo $labelType; ?>"><?php echo $page->getStatusName(); ?></span>
+                            
+                        </td>
+                        <td><?php echo $page->getStartDate()->format('d/m/Y H:i:s'); ?></td>
+                        <td><?php echo $page->getEndDate()->format('d/m/Y H:i:s'); ?></td>
+                        <td>
+                            <ul>
+                            <?php $ressources = $this->ressourcesCollection[$page->getId()]; ?>
+                            <?php foreach ($ressources as $key => $ressource) : ?>
+                                <li><a class="color-white" href="<?php echo $ressource->getUrl();?>" target="_blank">
+                                    <?php echo $ressource->getUrl();?> 
+                                </a> </li>
+                            <?php endforeach; ?>
+                            </ul>
+                        </td>
+                        <td>
+                            <?php $layouts = json_decode($ressources['fr_FR']->getLayoutContext(), true); ?>
+                            <?php foreach ($layouts as $key => $value) : ?>
+                                <?php echo $key." : ".$value."<br />"; ?>
+                            <?php endforeach; ?>
+                        </td>
+                        <td><?php echo $page->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                        <td class="td-actions">
+                            <a href="<?php echo $this->url('admin/playgroundcmsadmin/page_edit', array('id' => $page->getId()));?>" class="btn btn-xs btn-success">
+                                <i class="btn-icon-only fa fa-pencil"></i>                                       
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal_<?php echo $page->getId(); ?>">
+                                <i class="btn-icon-only fa fa-times"></i>                                       
+                            </a>
+                        </td>
+                        <div id="myModal_<?php echo $page->getId(); ?>" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="myModalLabel">Confirm the deletion of the page ?</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4><?php echo $page->getTitle(); ?></h4>
+                                        <h5>URL :</h5>
+                                        <p>
+                                            <?php foreach ($ressources as $key => $ressource) : ?>
+                                                <?php echo $ressource->getUrl()."<br />"; ?>
+                                            <?php endforeach; ?>
+                                        </p>
+                                        <h5>Layout :</h5>
+                                        <p>
+                                            <?php foreach ($layouts as $key => $value) : ?>
+                                                <?php echo "<strong>".$key."</strong> : ".$value."<br />"; ?>
+                                            <?php endforeach; ?>
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <a href="<?php echo $this->url('admin/playgroundcmsadmin/page_remove', array('id' => $page->getId()));?>">
+                                            <button type="button" class="btn btn-danger">Remove</button>
+                                        </a>
+                                    </div>
+
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div> 
+    <?php $paginator =  $this->paginationControl($this->pagesPaginator , 'Sliding', 'playground-cms/partial/pagination.phtml', array('uri' => $this->url('admin/playgroundcmsadmin/page'), "countResults" => $this->nbPage)); ?> 
+    <?php if(strlen($paginator) > 10) :?>
+            <div class="divider"></div>
+            <?php echo $paginator; ?>
+    <?php endif; ?>
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+    <div class="pull-right margin-right30">
+        <a href="<?php echo $this->url("admin/playgroundcmsadmin/page_create");?>">
+            <button type="button" class="btn btn-success btn-lg" data-placement="top" data-original-title=".btn .btn-success .btn-lg">
+                Add a page
+            </button>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+</section>
+
+
+

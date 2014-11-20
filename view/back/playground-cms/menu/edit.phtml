@@ -1,0 +1,185 @@
+<?php $return = $this->return; ?>
+<?php $menu = $this->menu; ?>
+<?php $translations = $menu->getTranslations(); ?>
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="<?php echo $this->url('admin/playgroundcmsadmin/menu'); ?>"><i class="fa fa-tree"></i> Menus</a></li>
+                <li class="active">Edit a menu : <?php echo $menu->getTitle(); ?></li>
+            </ol>
+        </section>
+        <h2 class="page-title"><i class="fa fa-tree"></i> Edit a menu : <?php echo $menu->getTitle(); ?></h2>
+    </div>
+</div>
+<form method="POST" ENCTYPE="multipart/form-data">
+    <input type="text" id="layoutId" name="id" class="form-control hide" value="<?php echo $menu->getId()?>" >
+<?php if(!empty($return) && $return['status'] != 0) : ?>
+    <div class="row">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="fa fa-ban"></i> <strong><?php echo $return['message'];?>!</strong></h4>
+        </div>
+    </div>
+<?php endif; ?>
+  <div class="row menu">
+    <div class="col-md-8">
+        <section class="widget">
+            <header>
+                <h4>Content informations</h4>
+            </header>
+            <div class="body">
+                <section class="widget widget-tabs large">
+                    <header>
+                        <ul class="nav nav-tabs">
+                            <?php $cpt = 0; ?>
+                            <?php foreach ($this->locales as $locale) : ?>
+                                <li class="<?php echo $cpt==0?'active':'';?>">
+                                    <?php $locales = explode('_', $locale->getLocale()); ?>
+                                    <a href="#<?php echo $locale->getLocale(); ?>" data-toggle="tab"> <img src="blank.gif" class="flag flag-<?php echo strtolower($locales[1]);?>" alt="<?php echo $locale->getLocale(); ?>" /> <?php echo $locale->getName(); ?></a>
+                                </li>
+                                <?php $cpt ++; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </header>
+                    <div class="body tab-content">
+                        <?php $cpt = 0; ?>
+                        <?php foreach ($this->locales as $locale) : ?>
+                            <?php $isIntern = false; ?>
+                            <?php $locales = explode('_', $locale->getLocale()); ?>
+                            <div id="<?php echo $locale->getLocale(); ?>" class="tab-pane clearfix <?php echo $cpt==0?'active':'';?>">
+                                <fieldset>
+                                    <legend class="section"><img src="blank.gif" class="flag flag-<?php echo strtolower($locales[1]);?>" alt="<?php echo $locale->getLocale(); ?>" /> <?php echo $locale->getName(); ?></legend>
+                                    <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                                         <div class="control-group">
+                                            <label for="name" class="control-label">Name <span class="required">*</span></label>
+                                            <div class="controls form-group">
+                                                <input type="text" id="name" name="menu[<?php echo $locale->getLocale(); ?>][name]" class="form-control" value="<?php echo @$translations[$locale->getLocale()]['title'];?>" >
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="slug" class="control-label">Slug <span class="required">*</span></label>
+                                            <div class="controls form-group">
+                                                <input type="text" id="slug" disabled name="menu[<?php echo $locale->getLocale(); ?>][slug]" class="form-control" value="<?php echo @$translations[$locale->getLocale()]['slug'];?>" >
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <label for="int_page" class="control-label">Internal Page</label>
+                                            <div class="controls form-group">
+                                                <select id="int_page" class="selectpicker show-tick"  name="menu[<?php echo $locale->getLocale(); ?>][int_page]" data-live-search="true" data-size="5" data-width="100%">
+                                                    <option value="" data-content="">Choose the internal page</option>
+                                                    <?php foreach ($ressources[$locale->getLocale()] as $ressource) : ?>
+                                                        <option value="<?php echo $ressource->getId(); ?>" <?php echo @$translations[$locale->getLocale()]['url']==$ressource->getUrl()?'selected':'';?>><?php echo $ressource->getUrl(); ?></option>
+                                                        <?php if(@$translations[$locale->getLocale()]['url']==$ressource->getUrl()) : ?>
+                                                            <?php $isIntern = true; ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                              </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <label for="ext_page" class="control-label">External Page</label>
+                                            <div class="controls form-group">
+                                                <textarea id="ext_page" rows="5" name="menu[<?php echo $locale->getLocale(); ?>][ext_page]" class="form-control"><?php echo $isIntern?'':@$translations[$locale->getLocale()]['url'];?></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <?php $cpt ++; ?>
+                        <?php endforeach; ?> 
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-cog"></i> Options</h4>
+            </header>
+            <?php $status = $menu->getStatus(); ?>
+            <div class="body">
+                <div id="menu-options" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <div class="control-group">
+                            <label for="text" class="control-label">Published ? <span class="required">*</span></label>
+                            <div class="controls form-group">
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="radio control-label">
+                                    <input type="radio" class="icheck" name="menu[published]" value="1" <?php echo $status=="1"?'checked':'';?>>
+                                        Yes
+                                    </label>
+                                    <label class="radio control-label">
+                                        <input type="radio" class="icheck" name="menu[published]" value="0" <?php echo empty($status)?'checked':'';?>>
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-plus"></i> Actions</h4>
+            </header>
+            <div class="body">
+                <button type="submit" class="btn btn-success pull-right">Submit</button>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </section>
+        <section class="widget large">
+            <header>
+                <h4>
+                    <i class="fa fa-archives"></i>
+                    Revisions (<?php echo count($this->revisions); ?>)
+                </h4>
+                
+            </header>
+            <div class="body">
+                <div class="" style="position: relative; overflow: hidden; width: auto; height: auto;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: auto;">
+                    <div class="wrapper">
+                        <div class="vertical-line"></div>
+                        <section class="feed-item">
+                            <div class="icon pull-left">
+                                <i class="fa fa-tree"></i>
+                            </div>
+                            <div class="feed-item-body">
+                                <div class="text">
+                                    Current Revision
+                                </div>
+                                <div class="time pull-left">
+                                    <?php if(empty($revisions[0])) : ?>
+                                        <?php $revisions[0] = $menu; ?>
+                                    <?php endif; ?>
+                                    Online since <?php echo $revisions[0]->getCreatedAt()->format('d M Y, H:i:s'); ?>
+                                </div>
+                            </div>
+                        </section>
+                        <?php foreach ($this->revisions as $revision) : ?>
+                            <section class="feed-item">
+                                <div class="icon pull-left">
+                                    <i class="fa fa-tree"></i>
+                                </div>
+                                <div class="feed-item-body">
+                                    <div class="text">
+                                        <a href="<?php echo $this->url('admin/playgroundcmsadmin/menu_edit', array('id' => $revision->getObjectId(), 'revisionId' => $revision->getId())) ?>">Revision <?php echo $revision->getRevision(); ?></a>
+                                    </div>
+                                    <div class="time pull-left">
+                                        Online until <?php echo $revision->getCreatedAt()->format('d M Y, H:i:s'); ?>
+                                    </div>
+                                </div>
+                            </section>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</form>

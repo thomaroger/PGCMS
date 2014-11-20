@@ -1,0 +1,134 @@
+<?php echo $this->form()->openTag($form) ?>
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <header>
+                <h4> Block informations</h4>
+            </header>
+            <div class="body">
+                <div id="block-information" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                            <div class="control-group">
+                               <?php echo $this->formLabel($form->get('name')); ?>
+                                <div class="controls form-group">
+                                    <?php echo $this->formInput($form->get('name')); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                               <?php echo $this->formLabel($form->get('slug')); ?>
+                                <div class="controls form-group">
+                                    <?php echo $this->formInput($form->get('slug')); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                               <?php echo $this->formLabel($form->get('type')); ?>
+                                <div class="controls form-group">
+                                    <?php echo $this->formInput($form->get('type')); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="section"><i class="fa fa-desktop"></i> Web</legend>
+                        <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                            <div class="control-group">
+                               <?php echo $this->formLabel($form->get('template_context[web]')); ?>
+                                <div class="controls form-group">
+                                    <?php echo $this->formSelect($form->get('template_context[web]')); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="section"><i class="fa fa-mobile"></i>  Mobile</legend>
+                         <div class="control-group">
+                           <?php echo $this->formLabel($form->get('template_context[mobile]')); ?>
+                            <div class="controls form-group">
+                                <?php echo $this->formSelect($form->get('template_context[mobile]')); ?>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend class="section"> Options</legend>
+                        <div class="control-group">
+                            <?php echo $this->formLabel($form->get('is_exportable')); ?>
+                            <div class="controls form-group">
+                                <?php echo $this->formRadio($form->get('is_exportable')); ?>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <?php echo $this->formLabel($form->get('is_gallery')); ?>
+                            <div class="controls form-group">
+                                <?php echo $this->formRadio($form->get('is_gallery')); ?>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+
+        <section class="widget">
+            <header>
+                <h4> Block Configurations</h4>
+            </header>
+            <div class="body">
+                <div id="block-configuration" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                            <?php foreach ($form->getConfiguration() as $configuration) : ?>
+                                <div class="control-group">
+                                   <?php echo $this->formLabel($form->get($configuration)); ?>
+                                    <div class="controls form-group">
+                                        <?php if(get_class($form->get($configuration)) == 'Zend\Form\Element\Select') : ?>
+                                            <?php echo $this->formSelect($form->get($configuration)); ?>
+                                        <?php endif; ?>
+                                        <?php if(get_class($form->get($configuration)) == 'Zend\Form\Element\Textarea') : ?>
+                                            <?php echo $this->formTextArea($form->get($configuration)); ?>
+                                        <?php endif; ?>
+                                        <?php if(get_class($form->get($configuration)) == 'Zend\Form\Element\Text') : ?>
+                                            <?php echo $this->formInput($form->get($configuration)); ?>
+                                        <?php endif; ?>
+                                        <?php if(get_class($form->get($configuration)) == 'Zend\Form\Element\Radio') : ?>
+                                            <?php echo $this->formRadio($form->get($configuration)); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </fieldset>
+                </div>  
+            </div>
+        </section>
+
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-plus"></i> Actions</h4>
+            </header>
+            <div class="body">
+                <input type="hidden" name="layoutZoneId" id="layoutZoneId" value="0"  />
+                <button type="submit" class="btn btn-success pull-right">Submit</button>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </section>
+
+        <?php echo $this->form()->closeTag() ?>
+    </div>
+</div>
+
+
+<script>
+jQuery(function($){
+  $('.selectpicker').selectpicker();
+    $('.textareahtml').wysihtml5();
+    $('.datepicker').datepicker({autoclose: true})
+    $("#start-publish-time").mask("99:99:99");
+    $("#end-publish-time").mask("99:99:99");
+    $(".icheck").iCheck({
+        checkboxClass: 'icheckbox_square-grey',
+        radioClass: 'iradio_square-grey'
+    });
+});
+</script>

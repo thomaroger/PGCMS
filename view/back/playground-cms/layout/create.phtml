@@ -1,0 +1,95 @@
+<?php $return = $this->return; ?>
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="<?php echo $this->url('admin/playgroundcmsadmin/layout'); ?>"><i class="fa fa-windows"></i> Layouts</a></li>
+                <li class="active">Create a new layout</li>
+            </ol>
+        </section>
+        <h2 class="page-title"><i class="fa fa-windows"></i> Create a new layout</h2>
+    </div>
+</div>
+<form method="POST" ENCTYPE="multipart/form-data">
+<?php if(!empty($return) && $return['status'] != 0) : ?>
+    <div class="row">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="fa fa-ban"></i> <strong><?php echo $return['message'];?>!</strong></h4>
+        </div>
+    </div>
+<?php endif; ?>
+<div class="row">
+    <div class="col-md-6">
+        <section class="widget">
+            <header>
+                <h4>Layout informations</h4>
+            </header>
+            <div class="body">
+                <div id="page-options" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                            <div class="control-group">
+                                <label for="description" class="control-label">Name <span class="required">*</span></label>
+                                <div class="controls form-group">
+                                    <input type="text" id="first-name" name="layout[name]" class="form-control" value="<?php echo @$this->data['layout']['name']; ?>" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="description" class="control-label">Description</label>
+                                <div class="controls form-group">
+                                    <textarea id="description" rows="3" name="layout[description]" class="form-control"><?php echo @$this->data['layout']['description'];?></textarea>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="description" class="control-label">Layout File <span class="required">*</span></label>
+                                <div class="controls form-group">
+                                    <select class="selectpicker show-tick"  name="layout[file]" data-live-search="true" data-size="6" data-width="100%">
+                                        <option value="" data-content="">Choose the layout</option>
+                                        <?php foreach ($this->files as $file) : ?>
+                                            <option value="<?php echo $file ?>" <?php echo @$this->data['layout']["file"]==$file?'selected':'';?>><?php echo $file; ?></option>
+                                        <?php endforeach; ?>
+                                  </select>
+                                  <span class="help-block">All .phtml templates in active frontend theme</span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-6">
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-picture-o"></i> Picture</h4>
+            </header>
+            <div class="body">
+                <div id="page-options" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <div class="control-group">
+                            <div class="input-group">
+                                <span class="btn btn-sm btn-default fileinput-button">
+                                    <i class="fa fa-plus"></i>
+                                    <span>Add a media</span>
+                                    <input type="file" name="files" />
+                                </span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-plus"></i> Actions</h4>
+            </header>
+            <div class="body">
+                <button type="submit" class="btn btn-success pull-right">Submit</button>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </section>
+    </div>
+</div>
+</form>

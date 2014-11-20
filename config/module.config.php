@@ -488,6 +488,7 @@ return array(
             ),
         ),
     ),
+
     'translator' => array(
         'locale' => 'fr_FR',
         'translation_file_patterns' => array(

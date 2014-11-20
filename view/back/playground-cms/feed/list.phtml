@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active">Feeds</li>
+            </ol>
+        </section>
+    </div>
+</div>
+
+<section class="widget">
+    <header>
+        <h4>
+            <i class="fa fa-tree"></i>
+            Feeds list (<?php echo count($this->feeds);?>)
+        </h4>
+    </header>
+    <div class="clearfix">&nbsp;</div>
+    <div class="body">
+        <div class="" style="position: relative; overflow: hidden; width: auto; height: auto;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: auto;">
+            <div class="wrapper">
+                <div class="vertical-line"></div>
+                <?php foreach ($feedsPaginator as $feed) : ?>
+                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Page') : ?>
+                        <?php $type = 'desktop'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/page_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Block') : ?>
+                        <?php $type = 'code'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/block_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Layout') : ?>
+                        <?php $type = 'windows'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/layout_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Zone') : ?>
+                        <?php $type = 'th-large'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/zone').'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Template') : ?>
+                        <?php $type = 'align-justify'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/template_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Tag') : ?>
+                        <?php $type = 'tag'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/tag_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Category') : ?>
+                        <?php $type = 'book'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/category_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Article') : ?>
+                        <?php $type = 'edit'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/article_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Poll') : ?>
+                        <?php $type = 'question'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/poll_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Menu') : ?>
+                        <?php $type = 'tree'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/menu_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Comment') : ?>
+                        <?php $type = 'comments'; ?>
+                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/comments').'" >'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                    <?php endif; ?>
+                    <section class="feed-item">
+                        <div class="icon pull-left">
+                            <i class="fa fa-<?php echo $type; ?>"></i>
+                        </div>
+                        <div class="feed-item-body">
+                            <div class="text">
+                                <?php echo $message; ?>
+                            </div>
+                            <div class="time pull-left">
+                                Created at <?php echo $feed->getCreatedAt()->format('d M Y, H:i'); ?>
+                            </div>
+                        </div>
+                    </section>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <?php $paginator =  $this->paginationControl($this->feedsPaginator , 'Sliding', 'playground-cms/partial/pagination.phtml', array('uri' => $this->url('admin/playgroundcmsadmin/feed'), "countResults" => count($feeds))); ?> 
+    <?php if(strlen($paginator) > 10) :?>
+            <div class="divider"></div>
+            <?php echo $paginator; ?>
+    <?php endif; ?>
+</section>

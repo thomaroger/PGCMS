@@ -1,0 +1,17 @@
+<?php $this->plugin('cmstranslate')->setTranslatorTextDomain('playgroundcms'); ?>
+<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+    <div class="container">
+        <div class="col-md-12">
+            <ul class="nav navbar-nav">
+                <?php foreach($this->locales as $key => $locale ): ?>
+                    <li>
+                        <a href="<?php echo $locale['url']; ?>">
+                            <img src="/lib/images/flag/<?php echo $locale['countryCode']; ?>.png" /> 
+                            <?php echo $this->cmsTranslate($locale['name']); ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+ </nav>   

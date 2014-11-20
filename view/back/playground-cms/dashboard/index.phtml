@@ -1,0 +1,336 @@
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="page-title">Dashboard</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="row">
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <a href="<?php echo $this->url('admin/playgroundcmsadmin/page'); ?>" class="color-white">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-desktop"></i>
+                        </div>
+                        <div class="description">
+                            <strong><?php echo count($this->pages); ?></strong> page<?php echo count($this->pages)>1?"s":""; ?>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <a href="<?php echo $this->url('admin/playgroundpublishingadmin/articles'); ?>" class="color-white">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-bold"></i>
+                        </div>
+                        <div class="description">
+                            <strong><?php echo count($this->articles); ?></strong> Article<?php echo count($this->articles)>1?"s":""; ?>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <a href="<?php echo $this->url('admin/playgroundpublishingadmin/polls'); ?>" class="color-white">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-question"></i>
+                        </div>
+                        <div class="description">
+                            <strong><?php echo count($this->polls); ?></strong> poll<?php echo count($this->polls)>1?"s":""; ?>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <a href="<?php echo $this->url('admin/playgroundpublishingadmin/comments'); ?>" class="color-white">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-comments"></i>
+                        </div>
+                        <div class="description">
+                            <strong><?php echo count($this->comments); ?></strong> comment<?php echo count($this->comments)>1?"s":""; ?>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <a href="<?php echo $this->url('admin/playgroundcmsadmin/block'); ?>" class="color-white">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-code"></i>
+                        </div>
+                        <div class="description">
+                            <strong><?php echo count($this->blocks); ?></strong> block<?php echo count($this->blocks)>1?"s":""; ?>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+               <!-- <a href="<?php echo $this->url('admin/playgrounduser/list'); ?>" class="color-white">-->
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <div class="description">
+                            <strong><?php echo count($this->users); ?></strong> user<?php echo count($this->users)>1?"s":""; ?>
+                        </div>
+                    </div>
+                <!-- </a> -->
+            </div>
+        </div>
+            <div class="col-md-8">
+                <section class="widget widget-tabs large">
+                    <header>
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#stats" data-toggle="tab">Users (<?php echo count($this->users); ?>)</a>
+                            </li>
+                            <li>
+                                <a href="#report" data-toggle="tab">Pages (<?php echo count($this->pages); ?>)</a>
+                            </li>
+                            <li>
+                                <a href="#dropdown1" data-toggle="tab">Blocks  (<?php echo count($this->blocks); ?>)</a>
+                            </li>
+                        </ul>
+                    </header>
+                    <div class="body tab-content">
+                        <div id="stats" class="tab-pane active clearfix">
+                            <h5 class="tab-header"><i class="fa fa-group"></i> Last created users </h5>
+                            <?php $users = array_reverse(array_slice($this->users, -10, 10)); ?>
+                            <ul class="news-list">
+                                <?php foreach ($users as $user) : ?>
+                                    <li>
+                                        <img src="<?php echo "http://www.gravatar.com/avatar/".md5(strtolower(trim($user->getEmail())));?>" alt="" class="pull-left img-circle">
+                                        <div class="news-item-info">
+                                            <div class="name"><a href="#"><?php echo ucfirst($user->getFirstname()); ?> <?php echo strtoupper($user->getLastname()); ?></a></div>
+                                            <div class="position"><?php echo $user->getEmail(); ?></div>
+                                            <div class="time">Created at <?php echo $user->getCreatedAt()->format('d M Y, H:i'); ?></div>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <div id="report" class="tab-pane">
+                            <h5 class="tab-header"><i class="fa fa-desktop"></i> Last pages</h5>
+                            <?php $pages = array_reverse(array_slice($this->pages, -10, 10)); ?>
+                            <ul class="news-list">
+                                <?php foreach ($pages as $page) : ?>
+                                    <li>
+                                        <section class="feed-item">
+                                            <div class="icon pull-left">
+                                                <?php $color = "red";  ?>
+                                                <?php if($page->checkVisibility()) $color="green"; ?>
+                                                <i class="fa fa-check color-<?php echo $color; ?>"></i>
+                                            </div>
+                                            <div class="feed-item-body">
+                                                <div class="text">
+                                                    <a href="<?php echo $this->url('admin/playgroundcmsadmin/page_edit', array('id' => $page->getId()));?>"><?php echo $page->getTitle(); ?></a>
+                                                </div>
+                                                <div class="time pull-left">
+                                                    Created at <?php echo $page->getCreatedAt()->format('d M Y, H:i'); ?>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <div id="dropdown1" class="tab-pane">
+                            <h5 class="tab-header"><i class="fa fa-code"></i> Last Block</h5>
+                            <?php $blocks = array_reverse(array_slice($this->blocks, -10, 10)); ?>
+                            <ul class="news-list">
+                                <?php foreach ($blocks as $block) : ?>
+                                <li>
+                                    <div class="icon pull-left">
+                                        <i class="fa fa-code"></i>
+                                    </div>
+                                    <div class="news-item-info">
+                                        <div class="name"><a href="<?php echo $this->url('admin/playgroundcmsadmin/block_edit', array('id' => $block->getId())) ?>"><?php echo $block->getName(); ?></a></div>
+                                        <div class="comment">
+                                            <?php echo $block->getType(); ?>
+                                        </div>
+                                        <div class="time pull-left">
+                                            Created at <?php echo $block->getCreatedAt()->format('d M Y, H:i'); ?>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                <section class="widget large">
+                    <header>
+                        <h4>
+                            <i class="fa fa-comments"></i>
+                            Comments (<?php echo count($this->comments); ?>)
+                        </h4>
+                        <div class="actions">
+                            <a href="<?php echo $this->url('admin/playgroundpublishingadmin/comments'); ?>"><button class="btn btn-transparent btn-xs">Show All <i class="fa fa-arrow-down"></i></button></a>
+                        </div>
+                    </header>
+                    <div class="body">
+                        <div id="chat" class="chat">
+                            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: auto;"><div id="chat-messages" class="chat-messages" style="overflow: hidden; width: auto; height: auto;">
+                                <?php $comments = array_reverse(array_slice($this->comments, -10, 10)); ?> 
+                                <?php $cpt = 0; ?>
+                                <?php foreach ($comments as $comment) : ?>
+                                    <?php  if($cpt%2 == 0) : ?>
+                                        <?php $sender = "pull-left"; ?>
+                                        <?php $message = ""; ?>
+                                        <?php $dir = "left"; ?>
+                                        <?php $dirExt = "right"; ?>
+                                    <?php else : ?>
+                                        <?php $sender = "pull-right"; ?>
+                                        <?php $message = "on-left"; ?>
+                                        <?php $dir = "right"; ?>
+                                        <?php $dirExt = "left"; ?>
+                                    <?php endif; ?>
+                                    <?php $state = "orange"; ?>
+                                    <?php if($comment->getStatus() == 1) : ?>
+                                        <?php $state = "green"; ?>
+                                    <?php endif; ?>
+                                    <?php if($comment->getStatus() == 2) : ?>
+                                        <?php $state = "red"; ?>
+                                    <?php endif; ?>
+                                    <div class="chat-message">
+                                    <div class="sender <?php echo $sender; ?>">
+                                        <div class="icon">
+                                            <img src="<?php echo "http://www.gravatar.com/avatar/".md5(strtolower(trim($comment->getEmail())));?>" class="img-circle" alt="">
+                                        </div>
+                                        <div class="time">
+                                            <?php echo $comment->getCreatedAt()->format("d/m H:i"); ?>
+                                        </div>
+                                    </div>
+                                    <div class="chat-message-body <?php echo $message; ?>" style="border-<?php echo $dir; ?>: 2px solid <?php echo $state; ?>;">
+                                        <span class="arrow" style="border-<?php echo $dirExt; ?>: 5px solid <?php echo $state; ?>;"></span>
+                                        <div class="sender"><a href="#"><?php echo $comment->getName(); ?></a></div>
+                                        <div class="text">
+                                            <?php echo $comment->getComment(); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php $cpt ++; ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="widget large">
+                    <header>
+                        <h4>
+                            <i class="fa fa-share"></i>
+                            Feeds (<?php echo count($this->feeds); ?>)
+                        </h4>
+                        <div class="actions">
+                            <a href="<?php echo $this->url('admin/playgroundcmsadmin/feed'); ?>"><button class="btn btn-transparent btn-xs">Show All <i class="fa fa-arrow-down"></i></button></a>
+                        </div>
+                    </header>
+                    <div class="body">
+                        <div class="" style="position: relative; overflow: hidden; width: auto; height: auto;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: auto;">
+                            <div class="wrapper">
+                                <div class="vertical-line"></div>
+                                <?php $feeds = array_slice($this->feeds, 0, 10); ?>
+                                <?php foreach ($feeds as $feed) : ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Page') : ?>
+                                        <?php $type = 'desktop'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/page_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Block') : ?>
+                                        <?php $type = 'code'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/block_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Layout') : ?>
+                                        <?php $type = 'windows'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/layout_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Zone') : ?>
+                                        <?php $type = 'th-large'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/zone').'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Template') : ?>
+                                        <?php $type = 'align-justify'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/template_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Tag') : ?>
+                                        <?php $type = 'tag'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/tag_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Category') : ?>
+                                        <?php $type = 'book'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/category_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Article') : ?>
+                                        <?php $type = 'edit'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/article_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Poll') : ?>
+                                        <?php $type = 'question'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/poll_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundCMS\Entity\Menu') : ?>
+                                        <?php $type = 'tree'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundcmsadmin/menu_edit', array('id' => $feed->getId())).'">'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <?php if ($feed->getModel() == 'PlaygroundPublishing\Entity\Comment') : ?>
+                                        <?php $type = 'comments'; ?>
+                                        <?php $message = $feed->getText().' <a href="'.$this->url('admin/playgroundpublishingadmin/comments').'" >'.$feed->getName().'</a> by '.$feed->getUser()->getFirstname().' '.$feed->getUser()->getLastname().'.'; ?>
+                                    <?php endif; ?>
+                                    <section class="feed-item">
+                                        <div class="icon pull-left">
+                                            <i class="fa fa-<?php echo $type; ?>"></i>
+                                        </div>
+                                        <div class="feed-item-body">
+                                            <div class="text">
+                                                <?php echo $message; ?>
+                                            </div>
+                                            <div class="time pull-left">
+                                                Created at <?php echo $feed->getCreatedAt()->format('d M Y, H:i'); ?>
+                                            </div>
+                                        </div>
+                                    </section>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="widget large">
+                    <header>
+                        <h4>
+                            <i class="fa fa-bold"></i>
+                            Articles (<?php echo count($this->articles); ?>)
+                        </h4>
+                        <div class="actions">
+                            <a href="<?php echo $this->url('admin/playgroundpublishingadmin/articles'); ?>"><button class="btn btn-transparent btn-xs">Show All <i class="fa fa-arrow-down"></i></button></a>
+                        </div>
+                    </header>
+                    <div class="body">
+                        <div class="" style="position: relative; overflow: hidden; width: auto; height: auto;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: auto;">
+                            <div class="wrapper">
+                                <div class="vertical-line"></div>
+                                <?php $articles = array_reverse(array_slice($this->articles, -10, 10)); ?> 
+                                <?php foreach ($articles as $article) : ?>
+                                    <section class="feed-item">
+                                        <div class="icon pull-left">
+                                            <?php $color = "red";  ?>
+                                            <?php if($article->checkVisibility()) $color="green"; ?>
+                                            <i class="fa fa-check color-<?php echo $color; ?>"></i>
+                                        </div>
+                                        <div class="feed-item-body">
+                                            <div class="text">
+                                                <a href="<?php echo $this->url('admin/playgroundpublishingadmin/article_edit', array('id' => $article->getId())) ?>"><?php echo $article->getTitle(); ?></a>
+                                            </div>
+                                            <div class="time pull-left">
+                                                Created at <?php echo $article->getCreatedAt()->format('d M Y, H:i'); ?>
+                                            </div>
+                                        </div>
+                                    </section>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>

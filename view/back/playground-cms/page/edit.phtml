@@ -1,0 +1,302 @@
+<?php $return = $this->return; ?>
+<?php $page = $this->page; ?>
+<?php $translations = $page->getTranslations(); ?>
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <ol class="breadcrumb">
+                <li><a href="<?php echo $this->url('admin'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li><a href="<?php echo $this->url('admin/playgroundcmsadmin/page'); ?>"><i class="fa fa-desktop"></i> Pages</a></li>
+                <li class="active">Edit a page : <?php echo $this->page->getTitle(); ?></li>
+            </ol>
+        </section>
+        <h2 class="page-title"><i class="fa fa-desktop"></i> Edit a page : <?php echo $this->page->getTitle(); ?></h2>
+    </div>
+</div>
+<form method="POST">
+    <input type="text" id="pageId" name="page[id]" class="form-control hide" value="<?php echo $page->getId()?>" >
+<?php if(!empty($return) && $return['status'] != 0) : ?>
+    <div class="row">
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="fa fa-ban"></i> <strong><?php echo $return['message'];?>!</strong></h4>
+        </div>
+    </div>
+<?php endif; ?>
+<div class="row">
+    <div class="col-md-8">
+        <section class="widget">
+            <header>
+                <h4>Content informations</h4>
+            </header>
+            <div class="body">
+                <section class="widget widget-tabs large">
+                    <header>
+                        <ul class="nav nav-tabs">
+                            <?php $cpt = 0; ?>
+                            <?php foreach ($this->locales as $locale) : ?>
+                                <li class="<?php echo $cpt==0?'active':'';?>">
+                                    <?php $locales = explode('_', $locale->getLocale()); ?>
+                                    <a href="#<?php echo $locale->getLocale(); ?>" data-toggle="tab"> <img src="blank.gif" class="flag flag-<?php echo strtolower($locales[1]);?>" alt="<?php echo $locale->getLocale(); ?>" /> <?php echo $locale->getName(); ?></a>
+                                </li>
+                                <?php $cpt ++; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </header>
+                    <div class="body tab-content">
+                        <?php $cpt = 0; ?>
+                        <?php foreach ($this->locales as $locale) : ?>
+                            <?php $locales = explode('_', $locale->getLocale()); ?>
+                            <?php 
+                                foreach ($this->ressources as $ressourceLocale) :
+                                    if($ressourceLocale->getLocale() == $locale->getLocale()) :
+                                        $ressource = $ressourceLocale;
+                                    endif;
+                                endforeach; 
+                            ?>
+                            <div id="<?php echo $locale->getLocale(); ?>" class="tab-pane clearfix <?php echo $cpt==0?'active':'';?>">
+                                <fieldset>
+                                    <legend class="section"><img src="blank.gif" class="flag flag-<?php echo strtolower($locales[1]);?>" alt="<?php echo $locale->getLocale(); ?>" /> <?php echo $locale->getName(); ?></legend>
+                                    <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                                         <div class="control-group">
+                                            <label for="description" class="control-label">Title <span class="required">*</span></label>
+                                            <div class="controls form-group">
+                                                <input type="text" id="first-name" name="page[<?php echo $locale->getLocale(); ?>][title]" class="form-control" value="<?php echo @$translations[$locale->getLocale()]['title'];?>" >
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="description" class="control-label">Meta Title</label>
+                                            <div class="controls form-group">
+                                                <input type="text" id="first-name" name="page[<?php echo $locale->getLocale(); ?>][title_seo]" class="form-control" value="<?php echo @$translations[$locale->getLocale()]['titleMeta'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="description" class="control-label">Meta Keyword</label>
+                                            <div class="controls form-group">
+                                                <textarea id="description" rows="2" name="page[<?php echo $locale->getLocale(); ?>][keyword_seo]" class="form-control"><?php echo @$translations[$locale->getLocale()]['keywordMeta'];?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="description" class="control-label">Meta Description</label>
+                                            <div class="controls form-group">
+                                                <textarea id="description" rows="2" name="page[<?php echo $locale->getLocale(); ?>][description_seo]" class="form-control"><?php echo @$translations[$locale->getLocale()]['descriptionMeta'];?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="description" class="control-label">Slug</label>
+                                            <div class="controls form-group">
+                                                <input type="text" id="first-name" name="page[<?php echo $locale->getLocale(); ?>][slug]" class="form-control" disabled value="<?php echo @$translations[$locale->getLocale()]['slug'];?>">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="description" class="control-label">URL</label>
+                                            <div class="controls form-group">
+                                                <input type="text" id="first-name" name="page[<?php echo $locale->getLocale(); ?>][url]" class="form-control" value="<?php echo $ressource->getUrl();?>"disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <?php $cpt ++; ?>
+                        <?php endforeach; ?> 
+                    </div>
+                </section>
+            </div>
+        </section>
+        <section class="widget">
+            <header>
+                <h4>Platform informations</h4>
+            </header>
+            <?php $layoutContext = json_decode($ressources[0]->getLayoutContext(), true); ?>
+            <div class="body">
+                <div id="page-options" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <legend class="section"><i class="fa fa-desktop"></i> Web</legend>
+                        <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                             <div class="control-group">
+                                <label for="text" class="control-label">Active ? <span class="required">*</span></label>
+                                <div class="controls form-group">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="radio">
+                                        <input type="radio" class="icheck" name="page[web][active]" value="1" <?php echo $page->getIsWeb()=="1"?'checked="checked"':'';?>>
+                                        Yes
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" class="icheck" name="page[web][active]" value="0" <?php echo $page->getIsWeb()=="0"?'checked="checked"':'';?>>
+                                        No
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="description" class="control-label">Layout</label>
+                                <div class="controls form-group">
+                                    <select class="selectpicker show-tick"  name="page[web][layout]" data-live-search="true" data-size="6" data-width="100%">
+
+                                        <option value="" data-content="">Choose the layout for the web</option>
+                                        <?php foreach ($layouts as $layout) : ?>
+                                            <option value="<?php echo $layout->getFile(); ?>" <?php echo !empty($layoutContext['web']) && ($layoutContext['web']==$layout->getFile())?'selected':'';?>><?php echo $layout->getName().' - '.$layout->getFile(); ?></option>
+                                        <?php endforeach; ?>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="section"><i class="fa fa-mobile"></i>  Mobile</legend>
+                        <div class="form-horizontal" method="post" novalidate="novalidate" data-validate="parsley">
+                              <div class="control-group">
+                                <label for="text" class="control-label">Active ? <span class="required">*</span></label>
+                                <div class="controls form-group">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="radio">
+                                        <input type="radio" class="icheck" name="page[mobile][active]" value="1" <?php echo $page->getIsMobile()=="1"?'checked="checked"':'';?>>
+                                        Yes
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" class="icheck" name="page[mobile][active]" value="0" <?php echo $page->getIsMobile()=="0"?'checked="checked"':'';?>>
+                                        No
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="description" class="control-label">Layout</label>
+                                <div class="controls form-group">
+                                    <select class="selectpicker show-tick"  name="page[mobile][layout]" data-live-search="true"  data-size="6" data-width="100%">
+                                        <option value="" data-content="">Choose the layout for the mobile</option>
+                                        <?php foreach ($layouts as $layout) : ?>
+                                            <option value="<?php echo $layout->getFile(); ?>" <?php echo (!empty($layoutContext['mobile']) && ($layoutContext['mobile'])==$layout->getFile())?'selected':'';?>><?php echo $layout->getName().' - '.$layout->getFile(); ?></option>
+                                        <?php endforeach; ?>z
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-cog"></i> Options</h4>
+            </header>
+            <div class="body">
+                <div id="page-options" class="form-horizontal form-condensed label-left">
+                    <fieldset>
+                        <legend class="section"><i class="fa fa-key"></i> Access</legend>
+                        <div class="control-group">
+                            <label for="description" class="control-label">Visibility <span class="required">*</span></label>
+                            <div class="controls form-group">
+                               <select class="selectpicker show-tick" name="page[visibility]" data-live-search="true" data-size="6" data-width="100%">
+                                    <option value="" data-content="">Choose the visibility</option>
+                                    <?php foreach ($credentials as $key => $value) : ?>
+                                        <option value="<?php echo $value; ?>" data-content="<span class='label label-<?php echo $key; ?>'><?php echo $value; ?></span>" <?php echo $this->ressources[0]->getSecurityContext()==$value?'selected':'';?>><?php echo $value; ?></option>
+                                    <?php endforeach; ?>
+                              </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="section"><i class="fa fa-calendar"></i> Publishing</legend>
+                        <div class="control-group">
+                            <label for="article-status" class="control-label">Status <span class="required">*</span></label>
+                            <div class="controls form-group">
+                                <select class="selectpicker show-tick" name="page[status]" data-live-search="true" data-size="5" data-width="100%">
+                                    <option value="-1" data-content="" selected>Choose the status</option>
+                                    <?php foreach ($pagesStatuses as $key => $value) : ?>
+                                    <?php $labelType = "info" ?>
+                                    <?php if($key == 1 ) $labelType = "success"; ?>
+                                    <?php if($key == 2 ) $labelType = "warning"; ?>
+                                    <?php if($key == 3 ) $labelType = "important"; ?>
+                                        <option value="<?php echo $key; ?>" data-content="<span class='label label-<?php echo $labelType; ?>'><?php echo $value; ?></span>" <?php echo $page->getStatus()===$key?'selected':'';?>><?php echo $value; ?></option>
+                                    <?php endforeach; ?>
+                              </select>
+                            </div>
+                        </div>
+                        <?php $startDate = $page->getStartDate(); ?>
+                        <div class="control-group">
+                            <label for="publish-date" class="control-label">Start Date <span class="required">*</span></label>
+                            <div class="controls form-group">
+                                <input type="text" id="publish-date" name="page[start_date][date]" value="<?php echo $startDate->format('m/d/Y');?>" class="form-control datepicker">
+                            </div>
+                            <div class="controls form-group">
+                                <input type="text" id="start-publish-time" name="page[start_date][time]" value="<?php echo $startDate->format('H:i:s');?>" class="form-control">
+                                <span class="help-block">Start datetime of the page</span>
+                            </div>
+                        </div>
+                        <?php $endStart = $page->getEndDate(); ?>
+                        <div class="control-group">
+                            <label for="publish-date" class="control-label">End Date</label>
+                            <div class="controls form-group">
+                                <input type="text" id="publish-date" name="page[end_start][date]" value="<?php echo $endStart->format('m/d/Y');?>" class="form-control datepicker">
+                            </div>
+                            <div class="controls form-group">
+                                <input type="text" id="end-publish-time" name="page[end_start][time]" value="<?php echo $endStart->format('H:i:s');?>" class="form-control">
+                                <span class="help-block">End datetime of the page</span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+        <section class="widget">
+            <header>
+                <h4><i class="fa fa-plus"></i> Actions</h4>
+            </header>
+            <div class="body">
+                <button type="submit" class="btn btn-success pull-right">Submit</button>
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </section>
+        <section class="widget large">
+            <header>
+                <h4>
+                    <i class="fa fa-archives"></i>
+                    Revisions (<?php echo count($this->revisions); ?>)
+                </h4>
+                
+            </header>
+            <div class="body">
+                <div class="" style="position: relative; overflow: hidden; width: auto; height: auto;"><div id="feed" class="feed" style="overflow: hidden; width: auto; height: auto;">
+                    <div class="wrapper">
+                        <div class="vertical-line"></div>
+                        <section class="feed-item">
+                            <div class="icon pull-left">
+                                <i class="fa fa-desktop"></i>
+                            </div>
+                            <div class="feed-item-body">
+                                <div class="text">
+                                    Current Revision
+                                </div>
+                                <div class="time pull-left">
+                                    <?php if(empty($revisions[0])) : ?>
+                                        <?php $revisions[0] = $page; ?>
+                                    <?php endif; ?>
+                                    Online since <?php echo $revisions[0]->getCreatedAt()->format('d M Y, H:i:s'); ?>
+                                </div>
+                            </div>
+                        </section>
+                        <?php foreach ($this->revisions as $revision) : ?>
+                            <section class="feed-item">
+                                <div class="icon pull-left">
+                                    <i class="fa fa-desktop"></i>
+                                </div>
+                                <div class="feed-item-body">
+                                    <div class="text">
+                                        <a href="<?php echo $this->url('admin/playgroundcmsadmin/page_edit', array('id' => $revision->getObjectId(), 'revisionId' => $revision->getId())) ?>">Revision <?php echo $revision->getRevision(); ?></a>
+                                    </div>
+                                    <div class="time pull-left">
+                                        Online until <?php echo $revision->getCreatedAt()->format('d M Y, H:i:s'); ?>
+                                    </div>
+                                </div>
+                            </section>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</form>
