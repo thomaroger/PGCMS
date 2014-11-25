@@ -61,10 +61,18 @@ Exemple : Une entité article affichera des blocs et son article qui sera rentr�
 
 ##Ressource##
 
+Une `ressource` est associée à une entité. La ressource portera l'url de celle-ci et sa locale. Elle déterminera aussi comment l'entité devra être rendu, via le layout.
+
 ##Menu##
+
+Le `menu` permet de définir un ensemble de lien, qu'il soit interne au CMF, ou externe.
 
 ##Feed##
 
-##Revision##
+Chaque action dans le Backoffice sera tracée, afin de savoir qui a fait quoi et quand. L'ensemble de ces actions seront alors listées dans les `feeds`.
+
+##Révision##
+
+On pourra `versionner` l'ensemble des objets du CMF. Ainsi nous allons pouvoir revenir en arrière sur le contenu d'un objet.
 
 
