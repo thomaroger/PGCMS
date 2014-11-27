@@ -16,26 +16,21 @@ L'ORM de notre **CMF** est Doctrine.
 
 ## Fonctionnalité ##
 
-1. Notions
-2. Généralité
-3. Création de blocs
-4. Export de blocs
-5. Création d'entité
-6. Export des entités
-7. Internationalisation
-8. Router - Ressource
-9. Debug Bar
-10. Versionning
-11. Tracking
+1. [Notions](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/1_notions.md)
+2. [Généralité](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/2_generalite.md)
+3. [Création de blocs](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/3_creation_blocs.md)
+4. [Export de blocs](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/4_export_blocs.md)
+5. [Création d'entité](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/5_creation_entite.md)
+6. [Export des entités](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/6_export_entite.md)
+7. [Internationalisation](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/7_internationalisation.md)
+8. [Router - Ressource](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/8_router.md)
+9. [Debug Bar](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/9_debug.md)
+10. [Versionning](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/10_versionning.md)
+11. [Tracking](https://github.com/thomaroger/PGCMS/blob/develop/doc/features/11_tracking.md)
 
 
 ## Présentation de l'existant ##
 
-1. Présentation des blocs présents
-2. Présentation des entités 
-    - Page
-    - Article
-    - Category
-    - Tag
-    - Sondage
-3. Menu
+1. [Présentation des blocs présents](https://github.com/thomaroger/PGCMS/blob/develop/doc/existing/1_blocs.md)
+2. [Présentation des entités](https://github.com/thomaroger/PGCMS/blob/develop/doc/existing/2_entites.md)
+3. [Menu](https://github.com/thomaroger/PGCMS/blob/develop/doc/existing/3_menu.md)
