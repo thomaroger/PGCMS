@@ -478,9 +478,39 @@ return array(
                 'resource' => 'cms',
                 'privilege' => 'admin',
                 'pages' => array(
-                    'list' => array(
-                        'label' => 'Gestion des pages',
+                    'blocks' => array(
+                        'label' => 'Blocks',
+                        'route' => 'admin/playgroundcmsadmin/block',
+                        'resource' => 'cms',
+                        'privilege' => 'admin',
+                    ),
+                    'layouts' => array(
+                        'label' => 'Layouts',
+                        'route' => 'admin/playgroundcmsadmin/layout',
+                        'resource' => 'cms',
+                        'privilege' => 'admin',
+                    ),
+                    'menus' => array(
+                        'label' => 'Menus',
+                        'route' => 'admin/playgroundcmsadmin/menu',
+                        'resource' => 'cms',
+                        'privilege' => 'admin',
+                    ),
+                    'pages' => array(
+                        'label' => 'Pages',
                         'route' => 'admin/playgroundcmsadmin/page',
+                        'resource' => 'cms',
+                        'privilege' => 'admin',
+                    ),
+                    'templates' => array(
+                        'label' => 'Templates',
+                        'route' => 'admin/playgroundcmsadmin/template',
+                        'resource' => 'cms',
+                        'privilege' => 'admin',
+                    ),
+                    'zones' => array(
+                        'label' => 'Zones',
+                        'route' => 'admin/playgroundcmsadmin/zone',
                         'resource' => 'cms',
                         'privilege' => 'admin',
                     ),

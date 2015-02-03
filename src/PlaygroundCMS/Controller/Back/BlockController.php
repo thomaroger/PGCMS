@@ -44,7 +44,7 @@ class BlockController extends AbstractActionController
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "block");
         $p = $this->getRequest()->getQuery('page', 1);
-        $nbUseBlock = array();
+        $nbUseBlocks = array();
 
         $blocks = $this->getBlockService()->getBlockMapper()->findAll();
         
