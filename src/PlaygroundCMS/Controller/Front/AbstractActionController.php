@@ -23,6 +23,7 @@ class AbstractActionController extends AbstractActionControllerParent
     * @var Block $blockService
     */
     protected $blockService;
+    protected $layoutService;
 
     /**
     * @var ModuleOptions $cmsOptions
