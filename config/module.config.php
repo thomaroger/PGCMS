@@ -533,4 +533,6 @@ return array(
     'blocksType' => array(
         'cms' => __DIR__.'/../src/PlaygroundCMS/Blocks', 
     ),
+
+    'feed' => true,
 );

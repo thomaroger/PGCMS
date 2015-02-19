@@ -76,9 +76,10 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
         $locales = $this->getLocaleMapper()->findBy(array('active_front' => 1));
 
         $repository = $this->getPageMapper()->getEntityManager()->getRepository($page->getTranslationRepository());
-
+        $setLocale = false;
         foreach ($locales as $locale) {
-            if(!empty($data['page'][$locale->getLocale()])) {
+            if(!empty($data['page'][$locale->getLocale()]['title'])) {
+                
                 $slug = $slugify->filter($data['page'][$locale->getLocale()]['title']);
                 $repository->translate($page, 'title', $locale->getLocale(), $data['page'][$locale->getLocale()]['title'])
                         ->translate($page, 'slug', $locale->getLocale(), $slug)
@@ -89,6 +90,7 @@ class Page extends EventProvider implements ServiceManagerAwareInterface
             }
             
         }
+
 
         $page = $this->getPageMapper()->persist($page);
         $page = $this->getPageMapper()->findById($page->getId());

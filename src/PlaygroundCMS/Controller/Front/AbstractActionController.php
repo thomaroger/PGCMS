@@ -96,6 +96,11 @@ class AbstractActionController extends AbstractActionControllerParent
         $templates = json_decode($ressource->getLayoutContext(), true);
         $template = $templates['web'];
 
+        if (is_numeric($template)) {
+            $template = $this->getLayoutService()->getLayoutMapper()->findById($template);
+            $template = $template->getFile();
+        }
+
         $this->getServiceLocator()->get('playgroundcms_module_options')->setCurrentLayout($template);
         
         return $template;
@@ -127,6 +132,20 @@ class AbstractActionController extends AbstractActionControllerParent
         }
 
         return $this->blockService;
+    }
+
+     /**
+     * getBlockService : Getter pour le service de block
+     *
+     * @return Block $blockService
+     */
+    protected function getLayoutService()
+    {
+        if (!$this->layoutService) {
+            $this->layoutService = $this->getServiceLocator()->get('playgroundcms_layout_service');
+        }
+
+        return $this->layoutService;
     }
 
      /**

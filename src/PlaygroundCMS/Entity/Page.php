@@ -60,7 +60,7 @@ class Page implements InputFilterAwareInterface
      * Used locale to override Translation listener`s locale
      * this is not a mapped field of entity metadata, just a simple property
      */
-    protected $locale = 'en_US';
+    protected $locale = 'fr_FR';
 
     /**
      * @ORM\Id
@@ -106,31 +106,31 @@ class Page implements InputFilterAwareInterface
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title;
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $slug;
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(name="title_meta", type="string", length=255, nullable=false)
+     * @ORM\Column(name="title_meta", type="string", length=255, nullable=true)
      */
     protected $titleMeta;
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(name="description_meta", type="string", length=255, nullable=false)
+     * @ORM\Column(name="description_meta", type="string", length=255, nullable=true)
      */
     protected $descriptionMeta;
 
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(name="keyword_meta", type="string", length=255, nullable=false)
+     * @ORM\Column(name="keyword_meta", type="string", length=255, nullable=true)
      */
     protected $keywordMeta;
 
@@ -561,6 +561,11 @@ class Page implements InputFilterAwareInterface
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    public function setLocale($locale)
+    {
+        return $this->locale = $locale;
     }
 
     /**

@@ -24,6 +24,13 @@ class Feed extends EventProvider implements ServiceManagerAwareInterface
 
     public function createFeed($object, $title, $text = "")
     {   
+        $config = $this->getServiceManager()->get('config');
+        
+        if(empty($config['feed']) || $config['feed'] == false) {
+         
+            return false;
+        }
+
         $auth = $this->getServiceManager()->get('zfcuser_auth_service');
         
         if (!$auth->hasIdentity()) {
