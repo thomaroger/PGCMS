@@ -96,11 +96,9 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
         // For debug
         $out .= "\n<!-- Render Zone : ".$this->getZone()->getId()." - ".$this->getZone()->getName()."-->\n";
         $blocks = $this->getBlocks();
-
         if (!empty($blocks)) {
             foreach ($blocks as $slug) {
                 $block = $this->getBlocksCached()->findBlockBySlug($slug);
-
                 if($block instanceOf Block) {
                     $out .= $this->getBlockRendererService()->setBlock($block)->render();
                 }
@@ -132,7 +130,12 @@ class ZoneRenderer extends EventProvider implements ServiceManagerAwareInterface
     {
         $blocks = array();
         $currentLayout = $this->getCmsOptions()->getCurrentLayout();
-        $layoutId = $this->getLayoutsCached()->findLayoutByFile($currentLayout);
+        if(is_numeric($currentLayout)) {
+            $layoutId = $currentLayout;
+        } else {
+            $layoutId = $this->getLayoutsCached()->findLayoutByFile($currentLayout);
+        }
+
         $layoutZone = $this->getLayoutsZonesCached()->findLayoutZoneByLayoutAndZone($layoutId, $this->getZone()->getId());
      
         return $this->getBlocksLayoutsZonesCached()->findBlocksByLayoutZone($layoutZone);
