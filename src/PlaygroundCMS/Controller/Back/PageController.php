@@ -109,7 +109,7 @@ class PageController extends AbstractActionController
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
@@ -177,7 +177,7 @@ class PageController extends AbstractActionController
         $ressources = $this->getRessourceService()->getRessourceMapper()->findBy(array('model' => 'PlaygroundCMS\Entity\Page', 'recordId' => $pageId));
         
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );

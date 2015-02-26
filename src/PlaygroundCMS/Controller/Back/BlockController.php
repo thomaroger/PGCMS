@@ -93,7 +93,7 @@ class BlockController extends AbstractActionController
         $data = array();
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive (
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
@@ -185,11 +185,10 @@ class BlockController extends AbstractActionController
                 $block = $this->getBlockService()->getBlockMapper()->findById($blockId);
             }
 
-            $data = array_merge(
+            $data = array_merge_recursive (
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
-
 
             $return = $this->getBlockService()->checkBlock($data);
 

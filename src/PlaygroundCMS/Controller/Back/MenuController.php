@@ -51,7 +51,7 @@ class MenuController extends AbstractActionController
         $menus = $this->getMenuService()->getMenuMapper()->findBy(array());   
 
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
@@ -132,7 +132,7 @@ class MenuController extends AbstractActionController
         }
 
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
@@ -185,7 +185,7 @@ class MenuController extends AbstractActionController
 
 
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );

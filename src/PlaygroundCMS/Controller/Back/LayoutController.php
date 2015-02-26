@@ -90,7 +90,7 @@ class LayoutController extends AbstractActionController
         $request = $this->getRequest();
 
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
@@ -137,7 +137,7 @@ class LayoutController extends AbstractActionController
         }
 
         if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
@@ -211,7 +211,7 @@ class LayoutController extends AbstractActionController
         }
 
          if ($request->isPost()) {
-            $data = array_merge(
+            $data = array_merge_recursive(
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
