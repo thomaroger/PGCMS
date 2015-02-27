@@ -133,6 +133,7 @@ class PageController extends AbstractActionController
                                    'pagesStatuses' => $pagesStatuses,
                                    'layouts'       => $layouts,
                                    'locales'       => $locales,
+                                   'user'          => $this->zfcUserAuthentication()->getIdentity(),
                                    'data'          => $data,
                                    'return'        => $return));
     }
@@ -203,6 +204,7 @@ class PageController extends AbstractActionController
                                    'layouts'       => $layouts,
                                    'locales'       => $locales,
                                    'page'          => $page,
+                                   'user'          => $this->zfcUserAuthentication()->getIdentity(),
                                    'ressources'    => $ressources,
                                    'revisions'     => $revisions,
                                    'return'        => $return));
