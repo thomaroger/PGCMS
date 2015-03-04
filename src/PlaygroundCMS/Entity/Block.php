@@ -124,7 +124,7 @@ class Block implements InputFilterAwareInterface
         $this->name = (string) $name;
 
         $slugify = new Slugify;
-        $this->setSlug($slugify->filter($name));
+        $this->setSlug($this->getId().'-'.$slugify->filter($name));
 
         return $this;
     }

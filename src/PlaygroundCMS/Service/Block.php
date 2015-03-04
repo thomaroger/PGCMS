@@ -51,6 +51,8 @@ class Block extends EventProvider implements ServiceManagerAwareInterface
         $block->setTemplateContext(json_encode($data['template_context']));
 
         $block = $this->getBlockMapper()->insert($block);
+        $block->setName($data['name']);
+        $block = $this->getBlockMapper()->update($block);
         $this->getServiceManager()->get('playgroundcms_feed_service')->createFeed($block, $block->getName(), 'New Block');
 
         return $block;
