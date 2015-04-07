@@ -216,6 +216,7 @@ class LayoutController extends AbstractActionController
                     $request->getFiles()->toArray()
             );
 
+
             if(!empty($data['layout'])) {
                 $return = $this->getBlockLayoutZoneService()->checkData($data);
                 $data = $return["data"];
@@ -233,7 +234,6 @@ class LayoutController extends AbstractActionController
                 $form = $this->getServiceLocator()->get($type);
 
                 $return = $this->getBlockService()->checkBlock($data);
-
                 $data = $return["data"];
                 unset($return["data"]);
 

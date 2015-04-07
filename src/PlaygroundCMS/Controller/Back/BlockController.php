@@ -41,12 +41,26 @@ class BlockController extends AbstractActionController
     */
     public function listAction()
     {
+        $request = $this->getRequest();
         $this->layout()->setVariable('nav', "cms");
         $this->layout()->setVariable('subNav', "block");
-        $p = $this->getRequest()->getQuery('page', 1);
-        $nbUseBlocks = array();
+        $p = $request->getQuery('page', 1);
 
-        $blocks = $this->getBlockService()->getBlockMapper()->findAll();
+        $nbUseBlocks = array();
+        $filters = array();
+
+        if ($request->isPost()) {
+            $data = array_merge_recursive (
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+            );
+            if(!empty($data['filters']['name'])){
+                $filters['name'] = $data['filters']['name'];
+            }   
+           
+        }
+
+        $blocks = $this->getBlockService()->getBlockMapper()->findBy($filters);
         
         $nbBlock = count($blocks);
 
@@ -65,6 +79,7 @@ class BlockController extends AbstractActionController
                                    'blocksPaginator'       => $blocksPaginator,
                                    'blockTypes'            => $blockTypes,
                                    'nbUseBlocks'           => $nbUseBlocks,
+                                   'filters'               => $filters,
                                    'nbBlock'               => $nbBlock));
     }
 
@@ -97,8 +112,7 @@ class BlockController extends AbstractActionController
                     $request->getPost()->toArray(),
                     $request->getFiles()->toArray()
             );
-
-
+            
             $return = $this->getBlockService()->checkBlock($data);
 
             $data = $return["data"];
