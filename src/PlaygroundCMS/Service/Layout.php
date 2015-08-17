@@ -27,6 +27,11 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
      * @var PlaygroundCMS\Mapper\Layout layoutMapper
      */
     protected $layoutZoneService;
+
+    /**
+     * @var PlaygroundCMS\Mapper\Layout blocklayoutMapper
+     */
+    protected $blockLayoutZoneService;
     
     /**
      * @var PlaygroundCMS\Mapper\Layout layoutMapper
@@ -126,6 +131,9 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
     }
 
 
+
+
+
     /**
     * removeLayoutZone : Remove les zones à un layout
     * @param Layout $layout : layout concerné
@@ -136,7 +144,11 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
     {
         $layoutZones = $this->getLayoutZoneService()->getLayoutZoneMapper()->findBy(array('layout' => $layout));
         foreach ($layoutZones as $layoutZone) {
-           $this->getLayoutZoneService()->getLayoutZoneMapper()->remove($layoutZone);
+            $blockLayoutZones = $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->findBy(array('layoutZone' => $layoutZone));
+            foreach ($blockLayoutZones as $blockLayoutZone) {
+               $this->getBlockLayoutZoneService()->getBlockLayoutZoneMapper()->remove($blockLayoutZone);
+            }
+            $this->getLayoutZoneService()->getLayoutZoneMapper()->remove($layoutZone);
         }
 
         return true;
@@ -276,6 +288,21 @@ class Layout extends EventProvider implements ServiceManagerAwareInterface
         }
 
         return $this->layoutZoneService;
+    }
+
+
+     /**
+     * getLayoutZoneService : Getter pour layoutZoneService
+     *
+     * @return PlaygroundCMS\Mapper\LayoutZone $layoutZoneService
+     */
+    public function getBlockLayoutZoneService()
+    {
+        if (null === $this->blockLayoutZoneService) {
+            $this->blockLayoutZoneService = $this->getServiceManager()->get('playgroundcms_blocklayoutZone_service');
+        }
+
+        return $this->blockLayoutZoneService;
     }
 
      /**
